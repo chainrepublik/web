@@ -1,0 +1,57 @@
+[06-Jul-2015 12:51:00 Europe/Helsinki] PHP Fatal error:  Call to undefined method CProdTypes::showProdTypes() in /home/pipstycoon/public_html/pages/setup/setup/CProdTypes.php on line 350
+[06-Jul-2015 13:05:49 Europe/Helsinki] PHP Fatal error:  Call to undefined method CProdTypes::showProdTypes() in /home/pipstycoon/public_html/pages/setup/setup/CProdTypes.php on line 350
+[28-Aug-2015 20:58:10 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:93
+Stack trace:
+#0 /home/pipstycoon/public_html/kernel/CAccountant.php(1049): db->execute('UPDATE bank_acc...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/CDonate.php(130): CAccountant->finTransaction('ID_CIT', '3226', '8,29', 'USD', 'Direct deposit ...')
+#2 /home/pipstycoon/public_html/pages/setup/setup/donate.php(51): CDonate->donate('fer32p', '8,29', 'sile444')
+#3 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 93
+[08-Sep-2015 16:05:41 Europe/Helsinki] PHP Fatal error:  Class 'SMS' not found in /home/pipstycoon/public_html/kernel/db.php on line 129
+[21-Sep-2015 15:23:58 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CArticles.php on line 146
+[21-Sep-2015 21:18:27 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:124
+Stack trace:
+#0 /home/pipstycoon/public_html/pages/setup/setup/CPics.php(180): db->execute('UPDATE profiles...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/get_page.php(20): CPics->aprove('4f2961dd4d')
+#2 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 124
+[21-Sep-2015 21:25:34 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[21-Sep-2015 21:26:10 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[22-Sep-2015 13:33:06 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[22-Sep-2015 23:54:40 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[22-Sep-2015 23:54:43 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[23-Sep-2015 00:53:57 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[23-Sep-2015 01:02:09 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[23-Sep-2015 01:04:25 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[23-Sep-2015 01:04:47 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[23-Sep-2015 01:05:13 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:124
+Stack trace:
+#0 /home/pipstycoon/public_html/pages/setup/setup/CPics.php(180): db->execute('UPDATE profiles...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/get_page.php(20): CPics->aprove('1cd70f5d2a')
+#2 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 124
+[24-Sep-2015 15:31:41 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:124
+Stack trace:
+#0 /home/pipstycoon/public_html/pages/setup/setup/CPics.php(180): db->execute('UPDATE profiles...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/get_page.php(20): CPics->aprove('cb680c5b57')
+#2 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 124
+[15-Oct-2015 07:08:55 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[15-Oct-2015 07:08:59 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[15-Oct-2015 07:09:15 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[15-Oct-2015 07:09:20 Europe/Helsinki] PHP Fatal error:  Call to a member function showErr() on a non-object in /home/pipstycoon/public_html/pages/setup/setup/CPics.php on line 247
+[15-Oct-2015 19:03:58 Europe/Helsinki] PHP Fatal error:  Call to undefined method CProdTypes::showProdTypes() in /home/pipstycoon/public_html/pages/setup/setup/CProdTypes.php on line 350
+[15-Oct-2015 19:05:42 Europe/Helsinki] PHP Fatal error:  Call to undefined method CProdTypes::showProdTypes() in /home/pipstycoon/public_html/pages/setup/setup/CProdTypes.php on line 350
+[15-Oct-2015 19:07:28 Europe/Helsinki] PHP Fatal error:  Call to undefined method CProdTypes::showProdTypes() in /home/pipstycoon/public_html/pages/setup/setup/CProdTypes.php on line 350
+[16-Oct-2015 01:43:58 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:124
+Stack trace:
+#0 /home/pipstycoon/public_html/pages/setup/setup/CTaxes.php(47): db->execute('SELECT * FROM t...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/taxes.php(50): CTaxes->showTaxes(NULL)
+#2 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 124
+[16-Oct-2015 01:44:02 Europe/Helsinki] PHP Fatal error:  Uncaught exception 'Exception' with message 'Invalid query' in /home/pipstycoon/public_html/kernel/db.php:124
+Stack trace:
+#0 /home/pipstycoon/public_html/pages/setup/setup/CTaxes.php(47): db->execute('SELECT * FROM t...')
+#1 /home/pipstycoon/public_html/pages/setup/setup/taxes.php(50): CTaxes->showTaxes(NULL)
+#2 {main}
+  thrown in /home/pipstycoon/public_html/kernel/db.php on line 124

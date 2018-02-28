@@ -7,7 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../../../kernel/CAssetsMkt.php";
-  include "../../../kernel/CAds.php";
   include "../CMarket.php";
   include "CJewelry.php";
   
@@ -32,13 +31,13 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="../../../utils.js"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -71,17 +70,19 @@
             
             
 			<?
-			    $template->showHelp("Below are displayed the available jewelry offerts. You can own an unlimited number of jewelry. Jewelry expire after 60 days and can increase your energy up to 18 points / day. Cars can also be rented to other players.", 70, 70);
+			    $template->showHelp("Below are displayed the available jewelry offerts. All jewelry last for <strong>60 days</strong>. Jewelry can bring you up to <strong>25 points of energy</strong> a day for tow months. You can own an <strong>unlimited</strong> number of jewelry items but you can wear only one item type at a time. You can also <strong>rent jewelry</strong> to other users.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 
-				   $_REQUEST['trade_prod']="ID_INEL_Q1";
-				   
+				   $_REQUEST['trade_prod']="ID_INEL_Q1"; 
+				
 				// Menu
 				$jewelry->showSelectMenu($_REQUEST['trade_prod']);
 				   
 				// Show Market
-				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), false, "user");
+				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), 
+										false, 
+										"user");
 			?>
             
             
@@ -112,7 +113,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

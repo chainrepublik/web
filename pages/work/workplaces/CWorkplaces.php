@@ -182,7 +182,7 @@ class CWorkplaces
 	
 	
 	
-	function showWorkplaces($tip)
+	function showWorkplaces()
 	{
 		// Query
 		$query="SELECT wp.*, 
@@ -1267,6 +1267,10 @@ class CWorkplaces
 	
 	function showWorking()
 	{
+		// Logged in ?
+		if ($this->kern->isLoggedIn()==false)
+			return false;
+			
 		// Working ?
 		$query="SELECT * 
 		          FROM work_procs 

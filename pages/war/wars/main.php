@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $mkt=new CAMarket($db, $acc, $template);
-  $war=new CWar($db, $template);
+  $war=new CWar($db, $acc, $template);
   $wars=new CWars($db, $template, $acc);
 ?>
 
@@ -32,7 +32,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -68,9 +68,10 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			   $template->showHelp("Only 100.000 gold will ever be created in chainrepublik. Gold is a limited resource and the most important aspect of the game. Gold can be traded for USD. From this page you can trade gold for USD. The minimum sell qty is 1 GOLD. Minimum buy qty is 0.01 GOLD. All transfers are taxed 1%.");
+			   $template->showHelp("Wars between countries are <strong>started by governemnts</strong>. Wars <strong>take 24 hours</strong> during wich time you can actively participate in the battle. Governments may also participate using <strong>air strikes, artillery, or navy attacks</strong>. When you fight, your military influence increases and you can advance in rank faster. To be able to participate in a war you have to move to the attacked country. Below are listed active / ended wars.");
                
-			  
+			   // WIP
+			   $template->showWIP("April");
 			?>
             
            
@@ -104,7 +105,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

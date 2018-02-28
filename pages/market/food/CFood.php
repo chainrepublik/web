@@ -1,12 +1,11 @@
 <?
 class CFood
 {
-	function CFood($db, $acc, $template, $market)
+	function CFood($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->market=$market;
 	}
 	
 	function showSelectMenu($prod)

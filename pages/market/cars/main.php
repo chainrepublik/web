@@ -6,8 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CAMarket.php";
-  include "../../../kernel/CAds.php";
+  include "../../../kernel/CAssetsMkt.php";
   include "../CMarket.php";
   include "CCars.php";
   
@@ -16,7 +15,7 @@
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $mkt=new CAMarket($db, $acc, $template);
+  $asset_mkts=new CAssetsMkt($db, $acc, $template);
   $market=new CMarket($db, $acc, $template);
   $cars=new CCars($db, $acc, $template);
 ?>
@@ -32,13 +31,13 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="../../../utils.js"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -69,31 +68,17 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Below are displayed the available cars offerts. You can own an unlimited number of cars. Cars expire after 90 days and can increase your energy up to 18 points / day. Cars can also be rented to other players.", 70, 70);
+			    $template->showHelp("Below are displayed the available cars offerts. All cars last for <strong>90 days</strong>. Cars can bring you up to <strong>15 points of energy</strong> a day for three months. You can own an <strong>unlimited</strong> number of cars but you can use only one car at a time. You can also <strong>rent cars</strong> to other users.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 
 				   $_REQUEST['trade_prod']="ID_CAR_Q1";
 				   
-				if ($_REQUEST['act']=="trade")
-				   $mkt->trade("ID_CIT", 
-				               $_REQUEST['ud']['ID'], 
-							   "ID_PROD",
-				               $_REQUEST['trade_prod'], 
-				               $_REQUEST['trade_type'], 
-							   $_REQUEST['txt_trade_qty']);
-				
 				// Menu
-			    $cars->showSelectMenu($_REQUEST['trade_prod']);
-				
-				// Sub menu
-			    $market->showSubMenu();
-				
-				// Market
-				if ($_REQUEST['target']=="ID_BUY")
-				    $mkt->showMarket($_REQUEST['trade_prod'], "ID_BUY");
-				else
-				   $market->showItems($_REQUEST['trade_prod'], "ID_RENT", 0, true);
+				$cars->showSelectMenu($_REQUEST['trade_prod']);
+				   
+				// Show Market
+				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), false, "user");
 			?>
             
             
@@ -124,7 +109,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

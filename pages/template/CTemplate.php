@@ -7,6 +7,107 @@ class CTemplate
 		$this->acc=new CAccountant($this->kern, $this);
 	}
 	
+	function trust($asset, $days)
+	{
+		// Standard checks
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+								    0.0001*$days, 
+								    $this->template, 
+								    $this->acc)==false)
+		   return false;
+		
+		// Asset exist ?
+		if ($this->kern->isAsset($asset)==false)
+		{
+			$this->template->showErr("Asset doesn't exist");
+			return false;
+		}
+		
+		// Already trusted ?
+		$query="SELECT * 
+		          FROM adr_attr 
+				 WHERE adr=?
+				   AND attr=?
+				   AND s1=?";
+		
+		$result=$this->kern->execute($query, 
+									 "sss", 
+									 $_REQUEST['ud']['adr'], 
+									 "ID_TRUST_ASSET", 
+									 $asset);	
+		
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already trust this asset");
+			return false;
+		}
+		
+		// Days
+		if ($days<30)
+		{
+			$this->template->showErr("Minimum days is 30");
+			return false;
+		}
+		
+		// Energy
+		if ($_REQUEST['ud']['energy']<0.1)
+		{
+			$this->template->showErr("Insuficient energy");
+			return false;
+		}
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Trust an asset - ".$asset);
+		   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								par_2=?,
+								days=?,
+								status=?, 
+								tstamp=?";  
+			
+	       $this->kern->execute($query, 
+		                        "ssssssisi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_ADD_ATTR", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								"ID_TRUST_ASSET", 
+								$asset, 
+								$days, 
+								"ID_PENDING", 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
+	
 	
 	function newComment($target_type,
 						$targetID,
@@ -775,30 +876,7 @@ class CTemplate
             <img src="../../template/GIF/logo.png" width="200" alt=""/>
             </a>
             </td>
-            <td width="200" align="right">
-            <table width="150" border="0" id="tab_price" cellspacing="0" cellpadding="0" data-content="This is the live price of ChainRepublik Coin (CRC). You can trade CRC using external exchanges. " rel="popover" data-placement="bottom" data-original-title="CRC Price">
-              <tbody>
-                <tr>
-                  <td height="50" align="center" background="../../template/GIF/crc_window.png" >
-                  <table>
-                  <tr>
-                  <td width="45px">&nbsp;</td>
-                  <td>
-                  <span class="bold_shadow_white_18">
-				  <? 
-				       if ($_REQUEST['sd']['coin_price']>1)
-				          print "$".round($_REQUEST['sd']['coin_price'], 2);
-					   else
-					      print "$".round($_REQUEST['sd']['coin_price'], 4);
-				  ?>
-                  </span></td>
-                  </tr>
-                  </table>
-                  
-                  </td>
-                </tr>
-              </tbody>
-            </table></td>
+				<td width="200" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
             <td width="160" align="right">&nbsp;</td>
             <td width="227" align="right">
 			<?
@@ -1477,7 +1555,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 						      </span></td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><? print "+".$_REQUEST['ud']['energy_block']." / hour"; ?></span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><? print round($_REQUEST['ud']['energy_block']-$_REQUEST['ud']['energy']*0.0008, 4)." / minute"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -1531,7 +1609,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_pol_inf" name="span_template_pol_inf">
-							  <? print $_REQUEST['ud']['pol_inf']; ?></span></td>
+							  <? print $this->kern->split($_REQUEST['ud']['pol_inf'], 2, 40, 18); ?></span></td>
                             </tr>
                             <tr>
                               <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_inf">points</span></td>
@@ -1578,7 +1656,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				  
 				  <tr>
                   <td align="center">
-                  <table width="95%" border="0" cellspacing="0" cellpadding="0" id="tab_template_mil_points" name="tab_template_mil_points" data-content="When you fight in wars, your war points increase depending on how much you fight. Based on war points you will get a military rank. Players are rewarded by network every 24 hours based on their military ranks." rel="popover" data-placement="left" data-original-title="War Points" onMouseOver="$('#img_template_mil_points').attr('src', '../../template/GIF/mil_points_on.png');    $('#span_template_mil_points').css('color', '#ffffff'); $('#mil_points').css('color', '#ffffff');" onMouseOut="$('#img_template_mil_points').attr('src', '../../template/GIF/mil_points_off.png'); $('#span_template_mil_points').css('color', '#2b323a'); $('#how_to_mil_points').css('color', '#2b323a');">
+                  <table width="95%" border="0" cellspacing="0" cellpadding="0" id="tab_template_mil_points" name="tab_template_mil_points" data-content="When you fight in wars, your military influence increase depending on how much you fight. Based on military influence you will get a military rank. Players are rewarded by network every 24 hours based on their military ranks." rel="popover" data-placement="left" data-original-title="Military Influence" onMouseOver="$('#img_template_mil_points').attr('src', '../../template/GIF/mil_points_on.png');    $('#span_template_mil_points').css('color', '#ffffff'); $('#mil_points').css('color', '#ffffff');" onMouseOut="$('#img_template_mil_points').attr('src', '../../template/GIF/mil_points_off.png'); $('#span_template_mil_points').css('color', '#2b323a'); $('#how_to_mil_points').css('color', '#2b323a');">
                     <tbody>
                       <tr>
                         <td width="37%"><img src="../../template/GIF/mil_points_off.png" width="65" id="img_template_mil_points" name="img_template_mil_points"/></td>
@@ -1765,6 +1843,29 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     </tbody>
                   </table></td>
                 </tr>
+                <tr>
+                  <td height="0" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top" height="350">
+			       <table border="0" cellspacing="0" cellpadding="0" width="180">
+                    <tbody>
+                      <tr>
+                        <td height="350" align="center" valign="top" background="../../template/GIF/testers_off.png" id="td_test_back" name="td_test_back" data-content="When the official network will be launched, 100.000 real coins will be distributed to testers depending on their test coins balance. All you have to do is get as many test coins as you can. If you need help, you can buy test coins for only $0.25 / coin. Click for more details." data-original-title="Testers are rewarded">
+						<table width="160" border="0" cellspacing="0" cellpadding="0">
+                          <tbody>
+                            <tr>
+                              <td height="290" align="center">&nbsp;</td>
+                            </tr>
+                            <tr>
+								<td align="center"><a href="../../testers/top/main.php" class="btn btn-default btn-sm" style="width: 130px" name="test_buy_but" id="test_buy_but">Buy Test Coins</a></td>
+                            </tr>
+                          </tbody>
+                        </table></td>
+                      </tr>
+                    </tbody>
+                  </table></td>
+                </tr>
               </tbody>
             </table>
 			</td>
@@ -1789,6 +1890,21 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				$('#td_rew_time').css('color', '#B6B8C1');
 				$('#td_rewards').attr('background', '../../template/GIF/next_rewards_off.png'); 
 			});
+			   
+			   
+			$('#td_test_back').mouseover(function() 
+			{ 
+				$('#td_test_back').attr('background', '../../template/GIF/testers_on.png'); 
+				$('#test_buy_but').attr('class', 'btn btn-danger btn-sm'); 
+			});
+			   
+		    $('#td_test_back').mouseout(function() 
+			{ 
+				$('#td_test_back').attr('background', '../../template/GIF/testers_off.png'); 
+				$('#test_buy_but').attr('class', 'btn btn-default btn-sm'); 
+			});
+			   
+			$('#td_test_back').popover({ trigger : "hover"});
 			
 		  </script>
         
@@ -1830,7 +1946,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                          <td align="left">
                          <a href="<? print base64_decode($row['link']); ?>" style="font-size:14px; color:#dddddd; text-shadow:1px 1px 1px #333333"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></a>
                          <br><span style="font-size:12px; color:#bbbbbb"><? print $this->kern->noescape(base64_decode($row['message'])); ?></span> 
-                         <br><span class="font_10" style="color:#999999"><? print $row['mkt_bid']." MSK / hour, expire ~ ".$this->kern->timeFromBlock($row['expire']); ?></span>
+                         <br><span class="font_10" style="color:#999999"><? print $row['mkt_bid']." CRC / hour, expire ~ ".$this->kern->timeFromBlock($row['expire']); ?></span>
                          </td></tr><tr>
                          <td align="left"><hr></td>
                          </tr>
@@ -1951,6 +2067,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		// QR modal
 		$this->showQRModal();
 		
+		// Testnet
+		$this->showTestnetModal();
+		
 		?>
            
            <br />
@@ -1986,7 +2105,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				            break;
 				
 		   // Simpel send
-		   case "new_ad" : $this->acc->sendCoins($_REQUEST['ud']['adr'], 
+		   case "send_coins" : $this->acc->sendCoins($_REQUEST['ud']['adr'], 
 			                                     $_REQUEST['ud']['adr'],
 						                         $_REQUEST['txt_to'], 
 						                         $_REQUEST['txt_CRC'], 
@@ -3422,6 +3541,62 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         <?
 		$this->showModalFooter("Renew");
 	}
+	
+	function showTestnetModal()
+	{
+		// Modal
+		$this->showModalHeader("testnet_modal", "Testnet Node", "act", "");
+		
+		?>
+              
+         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="">
+         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="">
+          <table width="550" border="0" cellspacing="0" cellpadding="5">
+          <tr>
+            <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+                <td align="center"><img src="../../template/GIF/bug.png" width="150px"></td>
+              </tr>
+              <tr>
+                <td align="center" class="bold_gri_18">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" class="bold_gri_18">&nbsp;</td>
+              </tr>
+            </table></td>
+            <td width="61%" align="left" valign="top">
+            
+            
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+				  <td height="30" valign="top" class="font_16"><strong>Testnet Node</strong></td>
+              </tr>
+              <tr>
+				  <td class="font_12">This node is running over ChainRepublik testnet. The testnet is an <strong>alternative</strong> Chainrepublik block chain, to be used for testing. <br><br>Testnet coins are <strong>separate</strong> and distinct from actual ChainRepublik Coins. During ICO, testnet coins <strong>can be exchanged for real coins </strong> but after the ICO ends they will be <strong>useless</strong> and hold no value. <br><br>The test net allows application developers or ChainRepublik testers to <strong>experiment</strong>, without having to use real coins or worrying about breaking the main ChainRepublik network. The <strong>real network</strong> will be launched in Q2 2018.</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="30" valign="top" class="font_12" style="color: #990000">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            
+            </td>
+          </tr>
+          </table>
+
+          <script>
+		  $('#txt_renew_days').keyup(function() { $('#req_renew_coins').text(parseFloat($('#txt_renew_days').val()*0.0001).toFixed(4)); });
+		  </script>
+    
+           
+        <?
+		$this->showModalFooter();
+	}
 
 	function showChgCitModal()
 	{
@@ -4056,6 +4231,71 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                </div>
 
         <?
+	}
+	
+	function showWIP($month)
+	{
+		?>
+           
+             <div class="panel panel-default" style="width: 90%">
+                <div class="panel-body">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="20%" align="center"><img src="../../template/GIF/time.png" width="100" height="95" alt=""/></td>
+                        <td width="2%">&nbsp;</td>
+						  <td width="78%" valign="top"><span class="font_16"><strong>Work in progress</strong></span><br><span class="font_12">This section is work in progress and it will be activated in <strong><? print $month; ?>, 2018</strong></span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                </div>
+
+        <?
+	}
+	
+	function showTrustModal($symbol)
+	{
+		$this->showModalHeader("trust_modal", "Trust Asset", "act", "trust_asset", "txt_trust_symbol", $symbol);
+		?>
+        
+           <table width="700" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+           <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+             <tr>
+               <td align="center"><img src="../../template/GIF/trust.png" width="200" /></td>
+             </tr>
+             <tr><td>&nbsp;</td></tr>
+             <tr>
+               <td align="center">
+				   <? 
+		              $this->showReq(0.1, 0.0010); 
+				   ?>
+			   </td>
+             </tr>
+             <tr>
+               <td align="center">&nbsp;</td>
+             </tr>
+            
+           </table></td>
+           <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+             <tbody>
+               <tr>
+			     <td height="30" align="left" class="font_14"><strong>Days</strong></td>
+               </tr>
+               <tr>
+                 <td align="left"><input id="txt_trust_days" name="txt_trust_days" class="form-control" value="100" style="width: 100px"></td>
+               </tr>
+             </tbody>
+           </table></td>
+         </tr>
+     </table>
+     
+    
+       
+        <?
+		$this->showModalFooter("Send");
+		
 	}
 }
 ?>

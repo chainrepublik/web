@@ -7,7 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../../../kernel/CAssetsMkt.php";
-  include "../../../kernel/CAds.php";
   include "../CMarket.php";
   include "CClothes.php";
   
@@ -32,7 +31,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="../../../utils.js"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
@@ -71,7 +70,7 @@
             
             
 			<?
-			    $template->showHelp("Below are displayed the available clothes offerts. All clothes last for 30 days. Cloyhes can bring you up to 21 points of energy a day. Clothes can also be rented. You can own an unlimited number of clothing items but you can wear only one item type at a time.", 70, 70);
+			    $template->showHelp("Below are displayed the available clothes offerts. All clothes last for <strong>30 days</strong>. Clothes can bring you up to <strong>33 points of energy</strong> a day for a month. You can own an <strong>unlimited</strong> number of clothing items but you can wear only one item type at a time. You can also <strong>rent clothes</strong> to other users.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 
@@ -112,7 +111,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

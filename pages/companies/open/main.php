@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
-  $com=new Ccompanies($db, $template);
+  $com=new Ccompanies($db, $acc, $template);
   $open=new COpenCompany($db, $template, $acc);
  
 ?>
@@ -33,7 +33,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -73,7 +73,7 @@
 			    $open->showOpenModal();
 				
 				
-			    $template->showHelp("You can find below the types of companies you can found and the adjacent cost. Keep in mind the price paid represents the price of the operating license for one month. You need to renew your licence from time to time. After obtaining the license you still have to buy a building, raw materials and production tools in order to start the production process. A company uses other players as workers, so you will need money to pay salaries.", 100, 100);
+			    $template->showHelp("There are over <strong>30 companies</strong> in ChainRepublik from utilities companies to complex <strong>autonomous corporations</strong> run entirely by code. Owning a company can be a <strong>very profitable</strong> on medium / long run. Starting a company costs <strong>10 CRC / month</strong> but keep in mind that a company also needs workplaces, raw materials and it has to <strong>pay salaries</strong>, so the initial investment in a company is not limited to the <strong>opening fee</strong>. Below are listed the types of companies in the game and a short description.", 100, 100);
 		        
 				// Action
 			    if ($_REQUEST['act']=="open")
@@ -88,9 +88,7 @@
 				
 				// Show Companies
 				$open->showList();
-		      
-				
-			?>
+		    ?>
             
             </td>
             <td width="206" align="center" valign="top">
@@ -119,7 +117,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

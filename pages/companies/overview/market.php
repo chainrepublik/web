@@ -19,7 +19,7 @@
   $acc=new CAccountant($db, $template);
   $com=new CCompanies($db, $acc, $template);
   $market=new CMarket($db, $acc, $template, $_REQUEST['ID']);
-  $a_mkt=new CAssetsMkt($db, $acc, $template);
+  $asset_mkts=new CAssetsMkt($db, $acc, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,7 +33,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -72,62 +72,20 @@
 		         $template->showHelp("Below is displayed the market for raw materials / finite products used / produced by this type of company. You can directly buy or sell products to other companies or you can place pending orders for a specified price. All market transactions are tax free. ", 60, 60);
 		  
 				// Selector
-		        $market->showSelector();
+		        $_REQUEST['trade_prod']=$market->showSelector();
 		  
-		        // Action ?
-		        if ($_REQUEST['act']=="new_position")
-                    $a_mkt->newMarketPos($_REQUEST['ID'],
-	                                     $_REQUEST['mktID'],
-	                                     $_REQUEST['tip'],
-	                                     $_REQUEST['txt_new_trade_price'], 
-					                     $_REQUEST['txt_new_trade_qty'], 
-					                     $_REQUEST['txt_new_trade_days']);
-		  
-		       // Close order					   
-		       if ($_REQUEST['act']=="close_order")
-		           $a_mkt->closeOrder($_REQUEST['orderID']);
-			
-		      // Target
-		      if (!isset($_REQUEST['target']))
-		         $_REQUEST['target']="ID_SELLERS";
-		  
-		      // Buts
-		      $a_mkt->showButs($_REQUEST['mktID']);
-		  
-		      // Sellers
-		      switch ($_REQUEST['target'])
-		      {
-			      // Sellers
-		          case "ID_SELLERS" : $sel=1; break;
-								  
-			      // Buyers
-		          case "ID_BUYERS" : $sel=2; break;
-								  
-			      // Trans
-		          case "ID_TRANS" : $sel=3; break;
-		      }
-		  
-		      // Navigation
-		      $template->showNav($sel, 
-		                         "market.php?ID=".$_REQUEST['ID']."&mktID=".$_REQUEST['mktID']."&target=ID_SELLERS", "Sellers", 0, 
-							     "market.php?ID=".$_REQUEST['ID']."&mktID=".$_REQUEST['mktID']."&target=ID_BUYERS", "Buyers", 0,
-							     "market.php?ID=".$_REQUEST['ID']."&mktID=".$_REQUEST['mktID']."&target=ID_TRANS", "Transactions", 0);
-		  
-		      // Sellers
-		      switch ($_REQUEST['target'])
-		      {
-			      // Sellers
-		          case "ID_SELLERS" : $a_mkt->showTraders($_REQUEST['mktID'], "ID_SELL"); 
-			                          break;
-								  
-			      // Buyers
-		          case "ID_BUYERS" : $a_mkt->showTraders($_REQUEST['mktID'], "ID_BUY"); 
-			                         break;
-								  
-			      // Trans
-		          case "ID_TRANS" : $a_mkt->showLastTrades($_REQUEST['mktID']); 
-			                        break;
-		      }
+		        // Action
+				if ($_REQUEST['act']=="trade")
+				   $mkt->trade("ID_CIT", 
+				               $_REQUEST['ud']['ID'], 
+							   "ID_PROD",
+				               $_REQUEST['trade_prod'], 
+				               $_REQUEST['trade_type'], 
+							   $_REQUEST['txt_trade_qty']);
+				
+				
+				// Market
+				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), false, "industrial");
 		  
 		    ?>
             
@@ -163,7 +121,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

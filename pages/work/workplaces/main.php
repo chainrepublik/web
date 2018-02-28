@@ -7,7 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../../kernel/CDropDown.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/SendSMS.php";
   include "../CWork.php";
   include "CWorkplaces.php";
   
@@ -32,7 +31,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="../../../style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -69,7 +68,7 @@
             
 				
 			<?
-			    $template->showHelp("Below you can see the available jobs, listed by the offered hourly wage. Basic rules are simple. You can only work at the company that offers the biggest wage. You can choose how many minutes / hours you want to work. You will spend 1 point of energy for every 5 minutes of work. You can work up to 8 hours / day.");
+			    $template->showHelp("Working for virtual companies is by far <strong>the easiest way to make money</strong> in ChainRepublik. Also, when you work your <strong>political influence is increased</strong>. Below you can see the available jobs, listed by the offered hourly wage. Basic rules are simple. You can only work at any company. You can <strong>choose</strong> how many minutes / hours you want to work. You will spend <strong>1 point</strong> of energy for every <strong>5 minutes of work</strong>. You can work up to 8 hours / day.");
 				
 				// Working panel
 				$workplaces->showWorking();
@@ -120,7 +119,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

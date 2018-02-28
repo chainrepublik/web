@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
-  $com=new Ccompanies($db, $template);
+  $com=new Ccompanies($db, $acc, $template);
   $my_com=new CMyCompanies($db, $acc, $template);
 ?>
 
@@ -32,7 +32,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -68,7 +68,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			   $template->showHelp("Below you can see the list of your companies and the actual status. Keep in mind that a company become inactive if you don't pay your renewal fee or if the company stops the production. The production will stop if there is not enough raw materials, funds to pay the workers or if the production tools are 100% used. The production will also stop if the factory building has a degradation over 80%. Companies's buildings degrade 1-5% / day.");
+			   $template->showHelp("Below you can see the list of your companies and the actual <strong>status</strong>. Keep in mind that a company become <strong>inactive</strong> if the company stops the production. The production will stop if the company is <strong>runs out of raw materials</strong> or funds to pay the workers. Also the company will stop if the production tools or uilding are expired. Companies's buildings degrade <strong>1% / day</strong>.");
 		  
 		       $my_com->showMine();
 			   
@@ -102,7 +102,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

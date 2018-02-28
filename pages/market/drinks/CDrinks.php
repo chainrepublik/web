@@ -1,12 +1,11 @@
 <?
 class CDrinks
 {
-	function CDrinks($db, $acc, $template, $market)
+	function CDrinks($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->market=$market;
 	}
 	
 	function showSelectMenu($prod)

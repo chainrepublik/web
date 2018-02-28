@@ -8,7 +8,7 @@ class CProds
 		$this->template=$template;
 	}
 	
-	function useItem($itemID)
+	function setRentPrice($itemID, $price)
 	{
 		// Basic check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
@@ -23,12 +23,114 @@ class CProds
 		          FROM stocuri 
 				 WHERE adr=?
 				   AND stocID=?
-				   AND qty>=?
-				   ANd rented_to=''";
+				   AND qty>=?";
 				   
 		// Execute
 		$result=$this->kern->execute($query, 
 		                             "sii", 
+									 $_REQUEST['ud']['adr'], 
+									 $itemID, 
+									 1);
+									 
+		// Has data ?
+		if (mysqli_num_rows($result)==0)
+		{
+			$this->template->showErr("Invalid itemID");
+			return false;
+		}
+		
+		// Load data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Item
+		$item=$row['tip'];
+		
+		// Can consume ?
+		if ($this->kern->isUsable($item)==false)
+		{
+			$this->template->showErr("You can't rent this item");
+			return false;
+		}
+		
+		// Rent price
+		if ($price<0.0001)
+		{
+			$this->template->showErr("Minimum price is 0.0001 / day");
+			return false;
+		}
+		
+		try
+	    {
+			 // Begin
+		     $this->kern->begin();
+		     
+		     // Track ID
+		     $tID=$this->kern->getTrackID();
+		     
+			 // Action
+		     $this->kern->newAct("Set item rent price", $tID);
+		
+		     // Insert to stack
+		     $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								par_2=?,
+								status=?, 
+								tstamp=?"; 
+								
+	       $this->kern->execute($query, 
+		                        "isssidsi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_SET_RENT_PRICE", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$itemID,
+								$price,
+								"ID_PENDING", 
+								time());
+		
+		     // Commit
+		     $this->kern->commit();
+		     
+			 // Confirmed
+		     $this->template->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->template->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
+	function useItem($itemID)
+	{
+		// Basic check
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+									0.0001, 
+									$this->template, 
+									$this->acc)==false)
+		   return false;
+		
+		// Item ID exist and is owned ?
+		$query="SELECT * 
+		          FROM stocuri 
+				 WHERE (adr=? OR rented_to=?)
+				   AND stocID=?
+				   AND qty=?";
+				   
+		// Execute
+		$result=$this->kern->execute($query, 
+		                             "ssii", 
+									 $_REQUEST['ud']['adr'], 
 									 $_REQUEST['ud']['adr'], 
 									 $itemID, 
 									 1);
@@ -221,25 +323,22 @@ class CProds
 	
 	function donate($itemID, $rec_adr)
 	{
-		print $itemID."...".$rec_adr;
-		return false;
-		
 		// Format ecipient
-		$rec_adr=$this->kernel->adrFromName($rec_adr);
+		$rec_adr=$this->kern->adrFromName($rec_adr);
 		
 		// Basic check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
 		                            $_REQUEST['ud']['adr'], 
 									0.0001, 
-									$this->acc, 
-									$this->template)==false)
+									$this->template, 
+									$this->acc)==false)
 		   return false;
 		
 		// Item ID exist and is owned ?
 		$query="SELECT * 
 		          FROM stocuri 
-				 WHERE adr=?' 
-				   AND stocID=?' 
+				 WHERE adr=?
+				   AND stocID=? 
 				   AND qty>=?";
 				   
 		// Execute
@@ -263,16 +362,16 @@ class CProds
 		$item=$row['tip'];
 		
 		// Recipient registered ?
-		if ($this->kern->isRegistered($rec_adr)==false)
+		if (!$this->kern->isCitAdr($rec_adr))
 		{
 			$this->template->showErr("Invalid recipient");
 			return false;
 		}
 		
-		// Recipient can buy this item
-		if ($this->kern->canBuy($rec_adr, $item, 1)==false)
+	    // Energy prod ?
+		if ($this->kern->isEnergyProd($item)==false)
 		{
-			$this->template->showErr("Recipient can't receive this item");
+			$this->template->showErr("Invalid item");
 			return false;
 		}
 		
@@ -285,7 +384,7 @@ class CProds
 		     $tID=$this->kern->getTrackID();
 		     
 			 // Action
-		     $this->kern->newAct("Consumes an item", $tID);
+		     $this->kern->newAct("Donate an item", $tID);
 		
 		     // Insert to stack
 		     $query="INSERT INTO web_ops 
@@ -301,7 +400,7 @@ class CProds
 	       $this->kern->execute($query, 
 		                        "isssissi", 
 								$_REQUEST['ud']['ID'], 
-								"ID_WORK", 
+								"ID_DONATE_ITEM", 
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
 								$itemID,
@@ -310,7 +409,7 @@ class CProds
 								time());
 		
 		     // Commit
-		     $this->kern->rollback();
+		     $this->kern->commit();
 		     
 			 // Confirmed
 		     $this->template->confirm();
@@ -336,7 +435,7 @@ class CProds
           <tr>
            <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
              <tr>
-               <td align="center"><img src="../GIF/donate.png" width="160" class="img-circle"/></td>
+               <td align="center"><img src="./GIF/donate.png" width="160" class="img-circle"/></td>
              </tr>
              <tr><td>&nbsp;</td></tr>
            </table></td>
@@ -348,6 +447,43 @@ class CProds
              <tr>
                <td height="25" align="left" valign="top" style="font-size:14px">
                <input class="form-control" id="txt_rec_adr" name="txt_rec_adr" style="width:300px"></td>
+             </tr>
+             <tr>
+               <td height="25" align="left" valign="top" style="font-size:16px">&nbsp;</td>
+             </tr>
+           </table></td>
+         </tr>
+     </table>
+     
+      
+     
+        
+        <?
+		$this->template->showModalFooter("Send");
+		
+	}
+	
+	function showSetPriceModal()
+	{
+		$this->template->showModalHeader("set_price_modal", "Set Rent Price", "act", "set_price", "rent_stocID", "");
+		?>
+          
+          <table width="700" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+           <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+             <tr>
+               <td align="center"><img src="./GIF/rent_price.png" width="160" class="img-circle"/></td>
+             </tr>
+             <tr><td>&nbsp;</td></tr>
+           </table></td>
+           <td width="400" align="center" valign="top">
+           <table width="90%" border="0" cellspacing="0" cellpadding="5">
+             <tr>
+               <td width="391" height="30" align="left" valign="top" class="font_16"><strong>Price</strong></td>
+             </tr>
+             <tr>
+               <td height="25" align="left" valign="top" style="font-size:14px">
+               <input class="form-control" id="txt_rent_price" name="txt_rent_price" style="width:100px" type="number" step="0.0001"></td>
              </tr>
              <tr>
                <td height="25" align="left" valign="top" style="font-size:16px">&nbsp;</td>
@@ -509,13 +645,16 @@ class CProds
 		}
 		
 		
-		$query="SELECT st.*, tp.name 
+		$query="SELECT st.*, 
+		               tp.name, 
+					   adr.name AS rented_to
 			      FROM stocuri AS st
 				  JOIN tipuri_produse AS tp ON tp.prod=st.tip
+				  LEFT JOIN adr ON adr.adr=st.rented_to
 			     WHERE (st.adr=? 
 				    OR st.rented_to=?)
 				   AND st.tip IN (".$prods.") 
-			  ORDER BY ID DESC"; 
+			  ORDER BY st.ID DESC"; 
 		
 	    $result=$this->kern->execute($query, 
 									 "ss", 
@@ -623,7 +762,12 @@ class CProds
                 </td>
                 
 				<td width="10%" align="center" class="font_14">
-                <img src="GIF/rent_off.png" title="Not Rented" width="40px" data-toggle="tooltip" data-placement="top">
+                <?
+                        if ($row['rented_expires']==0) 
+							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
+				        else
+							print "<img src='GIF/rent_on.png' title='Rented to ".$row['rented_to']." for the next ".$this->kern->timeFromBlock($row['rented_expires'])."' width='40px' data-toggle='tooltip' data-placement='top'>";
+					?>
 				</td>
 				   
                 <td width="10%" align="center" class="font_14">
@@ -636,16 +780,26 @@ class CProds
 				</td>
                 
                 <td width="25%" align="center" class="font_14">
-					
-                <div class="btn-group">
+				<div class="btn-group">
                 <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Action <span class="caret"></span>
                 </button>
                <ul class="dropdown-menu">
                <li><a href="main.php?target=<? print $_REQUEST['target'] ?>&act=use&itemID=<? print $row['stocID']; ?>">Use Item</a></li>
-               <li><a href="#">Donate</a></li>
-               <li><a href="#">Set Rent Price</a></li>
-               </ul>
+               
+				   <?
+				       if ($row['rented_expires']==0)
+					   {
+				    ?>
+				   
+			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $row['stocID']; ?>');">Donate</a></li>
+                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<? print $row['stocID']; ?>'); $('#txt_rent_price').val('<? print $row['rent_price']; ?>');">Set Rent Price</a></li>
+               
+				   <?
+					   }
+				   ?>
+				   
+			   </ul>
                </div>
 			   </td>
                 
@@ -653,7 +807,7 @@ class CProds
                 
               
               </tr>
-				   <tr><td colspan="4"><hr></td></tr>
+				   <tr><td colspan="5"><hr></td></tr>
             
             
              
@@ -675,27 +829,66 @@ class CProds
 	{
 	}
 	
+	function showGift($expires)
+	{
+	    ?>
+
+            <table width="100" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <? print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
+            </tr>
+            </tbody></table>
+
+        <?
+	}
+	
+	function showTicket($prod, $qty)
+	{
+		$q=$this->kern->getQuality($prod);
+	   ?>
+
+            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <? print $q; ?> stars" data-toggle="tooltip" data-placement="top">
+	        <table width="90" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+            <td height="90" align="center">&nbsp;</td>
+            </tr>
+            <tr>
+            <td align="center" valign="bottom"><img src="../../template/GIF/stars_1.png" width="90" height="20" alt=""/></td>
+            </tr>
+            <tr>
+			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><? print $qty; ?></strong></td>
+            </tr></tbody></table></td></tr></table>
+
+       <?
+	}
+	
 	function showMisc()
 	{
-		// Q1 qty
-		$q1=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "ID_TRAVEL_TICKET_Q1");
-		if ($q1=="") $q1=0;
+		$n=0;
 		
-		// Q2 qty
-		$q2=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "ID_TRAVEL_TICKET_Q2");
-		if ($q2=="") $q2=0;
+		$query="SELECT * 
+		          FROM stocuri 
+				 WHERE (tip=?
+				       OR tip=?
+					   OR tip=?
+					   OR tip=?
+					   OR tip=?
+					   OR tip=?) 
+					   AND adr=?";
 		
-		// Q3 qty
-		$q3=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "ID_TRAVEL_TICKET_Q3");
-		if ($q3=="") $q3=0;
+		$result=$this->kern->execute($query, 
+									 "sssssss", 
+									 "ID_TRAVEL_TICKET_Q1", 
+									 "ID_TRAVEL_TICKET_Q2", 
+									 "ID_TRAVEL_TICKET_Q3", 
+									 "ID_TRAVEL_TICKET_Q4", 
+									 "ID_TRAVEL_TICKET_Q5", 
+									 "ID_GIFT",
+									 $_REQUEST['ud']['adr']);
 		
-		// Q4 qty
-		$q4=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "ID_TRAVEL_TICKET_Q4");
-		if ($q4=="") $q4=0;
 		
-		// Q5 qty
-		$q5=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "ID_TRAVEL_TICKET_Q5");
-		if ($q5=="") $q5=0;
 		?>
           
           <br>
@@ -703,104 +896,39 @@ class CProds
               <tbody>
                 <tr>
                   
-				  <td width="100" height="150" align="center" valign="top" background="GIF/ticket_<? if ($q1>0) print "on"; else print "off" ?>.png">
-					  <table width="90" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                      <tr>
-                        <td height="90" align="center">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="bottom"><img src="../../template/GIF/stars_1.png" width="90" height="20" alt=""/></td>
-                      </tr>
-                      <tr>
-						  <td height="35" align="center" valign="bottom" class="font_18" style="color: <? if ($q1==0) print "#999999"; else print "#9C742B"; ?>"><strong><? print $q1; ?></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-				 </td>
+				  <?
+		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			         {
+						 $n++;
+		          ?>
 					
-                  <td align="center">&nbsp;</td>
+		               <td width="100" align="center" valign="top">
+						
+						   <?
+						    if (strpos($row['tip'], "TICKET")>0)
+								$this->showTicket($row['tip'], $row['qty']);
+						    else
+								$this->showGift($row['expires']);
+						?>
+						   
+				        </td>
+				        <td align="center">&nbsp;</td>
                   
-				  <td width="100" height="150" align="center" valign="top" background="GIF/ticket_<? if ($q2>0) print "on"; else print "off" ?>.png">
-					  <table width="90" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                      <tr>
-                        <td height="90" align="center">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="bottom"><img src="../../template/GIF/stars_2.png" width="90" height="20" alt=""/></td>
-                      </tr>
-                      <tr>
-						  <td height="35" align="center" valign="bottom" class="font_18" style="color: <? if ($q2==0) print "#999999"; else print "#9C742B"; ?>"><strong><? print $q2; ?></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-				 </td>	
-				  
-                  <td align="center">&nbsp;</td>
-                  
-				  <td width="100" height="150" align="center" valign="top" background="GIF/ticket_<? if ($q3>0) print "on"; else print "off" ?>.png">
-					  <table width="90" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                      <tr>
-                        <td height="90" align="center">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="bottom"><img src="../../template/GIF/stars_3.png" width="90" height="20" alt=""/></td>
-                      </tr>
-                      <tr>
-						  <td height="35" align="center" valign="bottom" class="font_18" style="color: <? if ($q3==0) print "#999999"; else print "#9C742B"; ?>"><strong><? print $q3; ?></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-				 </td>
+				  <?
+	                 }
+		
+		             for ($a=1; $a<=5-$n; $a++)
+					 {
+						 ?>
 					
-                  <td align="center">&nbsp;</td>
+					         <td width="100" align="center" valign="top">&nbsp;</td>
+				             <td align="center">&nbsp;</td>
 					
-                  <td width="100" height="150" align="center" valign="top" background="GIF/ticket_<? if ($q4>0) print "on"; else print "off" ?>.png">
-					  <table width="90" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                      <tr>
-                        <td height="90" align="center">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="bottom"><img src="../../template/GIF/stars_4.png" width="90" height="20" alt=""/></td>
-                      </tr>
-                      <tr>
-						  <td height="35" align="center" valign="bottom" class="font_18" style="color: <? if ($q4==0) print "#999999"; else print "#9C742B"; ?>"><strong><? print $q4; ?></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-				 </td>
+					     <?
+					 }
+		
+		          ?>
 					
-                  <td align="center">&nbsp;</td>
-                  
-				  <td width="100" height="150" align="center" valign="top" background="GIF/ticket_<? if ($q5>0) print "on"; else print "off" ?>.png">
-					  <table width="90" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                      <tr>
-                        <td height="90" align="center">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td align="center" valign="bottom"><img src="../../template/GIF/stars_5.png" width="90" height="20" alt=""/></td>
-                      </tr>
-                      <tr>
-						  <td height="35" align="center" valign="bottom" class="font_18" style="color: <? if ($q5==0) print "#999999"; else print "#9C742B"; ?>"><strong><? print $q5; ?></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
-				 </td>
-                </tr>
-                <tr>
-					<td align="center" height="50" valign="bottom"><a href="#" onClick="" <? if ($q1==0) print "disabled"; ?> class="btn btn-primary btn-sm" style="width: 100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;&nbsp;Donate</a></td>
-                    <td align="center">&nbsp;</td>
-                    <td align="center" height="50" valign="bottom"><a href="#" onClick="" <? if ($q2==0) print "disabled"; ?> class="btn btn-primary btn-sm" style="width: 100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;&nbsp;Donate</a></td>
-                  <td align="center">&nbsp;</td>
-                  <td align="center" height="50" valign="bottom"><a href="#" onClick="" <? if ($q3==0) print "disabled"; ?> class="btn btn-primary btn-sm" style="width: 100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;&nbsp;Donate</a></td>
-                  <td align="center">&nbsp;</td>
-                  <td align="center" height="50" valign="bottom"><a href="#" onClick="" <? if ($q4==0) print "disabled"; ?> class="btn btn-primary btn-sm" style="width: 100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;&nbsp;Donate</a></td>
-                  <td align="center">&nbsp;</td>
-                  <td align="center" height="50" valign="bottom"><a href="#" onClick="" <? if ($q5==0) print "disabled"; ?> class="btn btn-primary btn-sm" style="width: 100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;&nbsp;Donate</a></td>
                 </tr>
               </tbody>
             </table>

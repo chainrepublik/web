@@ -28,12 +28,12 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -64,12 +64,11 @@
             <td width="594" valign="top" align="center">
             
              <?
-		   $template->showHelp("Below are displayed the game's budget stats like 24 hours income, spend and last financial transactions. The game budget receives money from taxes and spends money to pay bonusses. Both taxes and bonusses are decided by players who can propose and vote laws. In casew the budget runs out of funds, all bonusses are suspended.");
-		   
-		   $budget->showPanel();
-		   print "<br><br>";
-		   $acc->showTrans("ID_BUG", 0, "GOLD");
-		?>
+		          $template->showHelp("The state budget receives money from <strong>taxes or network rewards</strong> and <strong>spends money</strong> with bonuses, military equipment purchases or other expenses. Below are the listed budget earnings / expenses and a report for the <strong>last 24 hours</strong>. Note that when the budget reaches zero, all bonuses are <strong>suspended</strong>.");
+		          
+				  // WIP
+				  $template->showWIP("Mars");
+		     ?>
             
             </td>
             <td width="206" align="center" valign="top">
@@ -98,7 +97,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

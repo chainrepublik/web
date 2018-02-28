@@ -93,6 +93,24 @@ class CCompanies
 	
 	function showCompanyMenu($sel=1)
 	{
+		// Unread events
+		$query="SELECT COUNT(*) AS total 
+		          FROM events 
+				 WHERE adr=? 
+				   AND viewed=?";
+		
+		// Result
+		$result=$this->kern->execute($query, 
+									 "si", 
+									 $this->kern->getComAdr($_REQUEST['ID']), 
+									 0);	
+		
+		// Load data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Events
+		$evts=$row['total']; 
+		
 		// Company exist
 		$query="SELECT * 
 		          FROM companies AS com 

@@ -8,105 +8,6 @@ class CAssets
 		$this->template=$template;
 	}
 	
-	function trust($asset, $days)
-	{
-		// Standard checks
-		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
-		                            $_REQUEST['ud']['adr'], 
-								    0.0001*$days, 
-								    $this->template, 
-								    $this->acc)==false)
-		   return false;
-		
-		// Asset exist ?
-		if ($this->kern->isAsset($asset)==false)
-		{
-			$this->template->showErr("Asset doesn't exist");
-			return false;
-		}
-		
-		// Already trusted ?
-		$query="SELECT * 
-		          FROM adr_attr 
-				 WHERE adr=?
-				   AND attr=?
-				   AND s1=?";
-		
-		$result=$this->kern->execute($query, 
-									 "sss", 
-									 $_REQUEST['ud']['adr'], 
-									 "ID_TRUST_ASSET", 
-									 $asset);	
-		
-		if (mysqli_num_rows($result)>0)
-		{
-			$this->template->showErr("You already trust this asset");
-			return false;
-		}
-		
-		// Days
-		if ($days<30)
-		{
-			$this->template->showErr("Minimum days is 30");
-			return false;
-		}
-		
-		// Energy
-		if ($_REQUEST['ud']['energy']<0.1)
-		{
-			$this->template->showErr("Insuficient energy");
-			return false;
-		}
-		
-		try
-	    {
-		   // Begin
-		   $this->kern->begin();
-
-           // Action
-           $this->kern->newAct("Trust an asset - ".$asset);
-		   
-		   // Insert to stack
-		   $query="INSERT INTO web_ops 
-			                SET userID=?, 
-							    op=?, 
-								fee_adr=?, 
-								target_adr=?,
-								par_1=?,
-								par_2=?,
-								days=?,
-								status=?, 
-								tstamp=?";  
-			
-	       $this->kern->execute($query, 
-		                        "ssssssisi", 
-								$_REQUEST['ud']['ID'], 
-								"ID_ADD_ATTR", 
-								$_REQUEST['ud']['adr'], 
-								$_REQUEST['ud']['adr'], 
-								"ID_TRUST_ASSET", 
-								$asset, 
-								$days, 
-								"ID_PENDING", 
-								time());
-		
-		   // Commit
-		   $this->kern->commit();
-		   
-		   // Confirm
-		   $this->template->confirm();
-	   }
-	   catch (Exception $ex)
-	   {
-	      // Rollback
-		  $this->template->rollback();
-
-		  // Mesaj
-		  $this->template->showErr("Unexpected error.");
-
-		  return false;
-	   }
-	}
 	
 	function newAsset($name, 
 					  $desc, 
@@ -449,49 +350,7 @@ class CAssets
 	
 	
 	
-	function showTrustModal()
-	{
-		$this->template->showModalHeader("trust_modal", "Trust Asset", "act", "trust_asset");
-		?>
-        
-           <table width="700" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
-             <tr>
-               <td align="center"><img src="./GIF/trust.png" width="200" /></td>
-             </tr>
-             <tr><td>&nbsp;</td></tr>
-             <tr>
-               <td align="center">
-				   <? 
-		              $this->template->showReq(0.1, 0.0010); 
-				   ?>
-			   </td>
-             </tr>
-             <tr>
-               <td align="center">&nbsp;</td>
-             </tr>
-            
-           </table></td>
-           <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
-             <tbody>
-               <tr>
-			     <td height="30" align="left" class="font_14"><strong>Days</strong></td>
-               </tr>
-               <tr>
-                 <td align="left"><input id="txt_trust_days" name="txt_trust_days" class="form-control" value="100" style="width: 100px"></td>
-               </tr>
-             </tbody>
-           </table></td>
-         </tr>
-     </table>
-     
-    
-       
-        <?
-		$this->template->showModalFooter("Send");
-		
-	}
+	
 	
 	function showIssueMoreModal()
 	{
@@ -577,6 +436,25 @@ class CAssets
 		// Owners
 		$owners=$row['total'];
 		
+		// Trusted by
+		$query="SELECT COUNT(*) AS total 
+		          FROM adr_attr 
+				 WHERE attr=? 
+				   AND s1=?";
+		
+		// Result
+	    $result=$this->kern->execute($query, 
+									 "ss", 
+									 "ID_TRUST_ASSET",
+									 $symbol);	
+		
+		// Data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Trusted
+		$trusted=$row['total']; 
+		if ($trusted=="") $trusted=0;
+		
 		// Asset Data
 		$query="SELECT *
 		          FROM assets 
@@ -614,8 +492,8 @@ class CAssets
             <tr><td colspan="5"><hr></td></tr>
             <tr>
             <td width="30%" align="center"><span class="font_12">Address</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><? print $this->template->formatAdr($row['adr'], 12); ?></a></strong></td>
-            <td width="40%" class="font_12" align="center">Issued&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['block'])." (block ".$row['block'].")"; ?></strong></td>
-            <td width="30%" class="font_12" align="center">Expire&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['expire'])." (block ".$row['expire'].")"; ?></strong></td>
+            <td width="40%" class="font_12" align="center">Trusted by&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $trusted. " players"; ?></strong></td>
+            <td width="30%" class="font_12" align="center">Expire&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['expires']); ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             <tr>

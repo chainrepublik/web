@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
-  $com=new Ccompanies($db, $template);
+  $com=new Ccompanies($db, $acc, $template);
   $list=new CList($db, $acc, $template);
 ?>
 
@@ -32,7 +32,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -68,7 +68,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Every time a business owner withdraws money from the company, all shareholders will receive a percent from the amount, based on the number of shares they in that company. The acquisition of in-game companies shares can be a very profitable business. Below are displayed the top companies by number of employees, number of license, or the price of a stock account balance. ");
+			    $template->showHelp("Companies are <strong>the most important</strong> aspect of ChainRepublik's economy. Like real-life ones, they need workforce, raw materials and investment. Also, companies <strong>pay dividends</strong> from time to time to shareholders so holding shares in companies can be <strong>very profitable</strong>. Below are listed <strong>local</strong> companies.");
 		   
 		        $list->showSelector();
 		        $list->showCompanies();
@@ -106,7 +106,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

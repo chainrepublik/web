@@ -29,7 +29,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -64,62 +64,22 @@
             </td>
             <td width="594" align="center" valign="top">
             
-            <script>
-			function menu_clicked(tab)
-			{
-				$('#div_basic').css('display', 'none');
-				$('#div_casino_page').css('display', 'none');
-				$('#div_other').css('display', 'none');
 				
-				switch (tab)
-				{
-					case "Company" : $('#div_basic').css('display', 'block'); break;
-					case "Tables" : $('#div_casino_page').css('display', 'block'); break;
-					case "Other" : $('#div_other').css('display', 'block'); break;
-				}
-			}
-			</script>
-            
 			<?
-		       $template->showHelp("This page is reserved to company owner. You can change company's description, avatar or other settings. You can upload pics no bigger than 1 MB. Only jpeg images are accepted.");
-		   ?>
+		       $template->showHelp("You can always change certain data about your company profile, such as your name, description, or avatar. To change your company avatar, you'll need to ptovide a link to the image. The company symbol can not be changed.");
+				
+			   // Update
+				if ($_REQUEST['act']=="update")  
+				  $admin->update($_REQUEST['ID'], 
+								 $_REQUEST['txt_profile_name'], 
+								 $_REQUEST['txt_profile_desc'], 
+								 $_REQUEST['txt_profile_pic']);
+				   
+			   // Show panel
+			   $admin->showPanel();
+		    ?>
            
-           <table width="560" border="0" cellspacing="0" cellpadding="0">
-              <tbody>
-                <tr>
-                  <td align="right">
-                  
-                  </td>
-                  </tr>
-              </tbody>
-            </table>
-       
-            
-            <?
-		        // Action
-		        switch ($_REQUEST['act'])
-		        {
-			        case "update_com" :  $admin->updateProfile($_REQUEST['ID'], 
-			                                             $_REQUEST['txt_name'], 
-									                     $_REQUEST['txt_desc']);
-								    break;
-									
-			        case "upload" : $admin->processUpload($_REQUEST['ID']);	
-			                   break;
-							   
-			        case "del_pic" : $admin->delPic($_REQUEST['txt_pic_id_1']); 
-			                    break;
-		        }
-		  
-		        // Panel
-		        $admin->showPanel();
-		   
-		        // Photo upload modal
-		        $template->showPhotoUploadModal(false);
-		   
-		        // Pic modal
-		        $admin->showPicModal();
-		?>
+        
             
            
             </td>
@@ -154,7 +114,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

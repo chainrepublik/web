@@ -28,7 +28,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -65,19 +65,17 @@
             
             
         
-         <?
-		   $template->showHelp("chainrepublik simulates real economy and any member of a real economy pays taxes and receives some bonusses from time to time. Taxes and bonuses are decided by players who can propose and vote / reject laws. Any player can pass a bill if his/ her equity is at least $5. Any player having an equity of at least $100 can propose new laws. Below are the laws you can vote. Voting lasts 24 hours, after which the law comes into force or is rejected. Not all votes are equal. Depending on equity, a player's vote power is between 1 and 100 points.");
+            <?
+		       $template->showHelp("Below is a report of laws voted / rejected by the congress. Laws can <strong>only</strong> be proposed / voted by members of the congress. Laws can <strong>change</strong> taxes, bonuses, <strong>start wars</strong>, <strong>deploy</strong> military equipment and so on. The voting process lasts <strong>24 hours</strong> or less if the law has been <strong>voted by at least 75%</strong> of congressmen and the approval rate is <strong>at least 75%</strong>. Congressmen's voting power is not equal. It depends on the voter's <strong>political influence</strong>.");
 		  
-		  // Target
-		  if (!isset($_REQUEST['target']))
-		     $_REQUEST['target']="pending";
-			 
-		  
-		  
-		  // Menu
-		  $laws->showMenu();
-		?>
-            
+		       // Target
+		       if (!isset($_REQUEST['target']))
+		           $_REQUEST['target']="pending";
+				
+			   // WIP
+			   $template->showWIP("Mars");
+            ?>
+				
             </td>
             <td width="206" align="center" valign="top">
             
@@ -105,7 +103,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

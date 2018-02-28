@@ -9,21 +9,27 @@ class CHistory
 	}
 	
 
-	function showHistory($day, $month, $year)
+	function showHistory()
 	{
-		$query="SELECT wp.*, wp.tstamp AS time, com.*, tc.* 
+		$query="SELECT wp.*, 
+		               wp.block AS time, 
+					   com.*, 
+					   tc.tip, tc.pic, tc.name AS com_type_name
 		          FROM work_procs AS wp
-				  JOIN companies AS com ON com.ID=wp.comID
+				  JOIN companies AS com ON com.comID=wp.comID
 				  JOIN tipuri_companii AS tc ON tc.tip=com.tip
-				 WHERE wp.userID='".$_REQUEST['ud']['ID']."' 
+				 WHERE wp.adr=? 
 			  ORDER BY wp.ID DESC 
 			     LIMIT 0,20"; 
-		$result=$this->kern->execute($query);	
+		
+		$result=$this->kern->execute($query, 
+									 "s", 
+									 $_REQUEST['ud']['adr']);	
 	   
 	  
 		?>
         
-<table width="560" border="0" cellspacing="0" cellpadding="0">
+          <table width="560" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td height="30" align="left" valign="top" class="bold_gri_18">Work History</td>
           </tr>
@@ -38,11 +44,7 @@ class CHistory
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="12%" align="center"><span class="bold_shadow_white_14">Time</span></td>
                 <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="12%" align="center"><span class="bold_shadow_white_14">Prod</span></td>
-                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="11%" align="center" class="bold_shadow_white_14">Salary</td>
-                <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="14%" align="center" class="bold_shadow_white_14">Details</td>
               </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
@@ -62,15 +64,12 @@ class CHistory
                <tr>
                <td width="53"><img src="../../companies/overview/GIF/prods/big/<? print $row['pic']; ?>.png" width="50" height="50" class="img-circle"/></td>
                <td width="147">
-               <a href="#" class="font_14"><strong><? print $row['name']; ?></strong></a>
-               <br />
-               <span class="font_10"><? print $row['tip_name']; ?></span></td>
+			   <a href="#" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a><br><span class="font_10"><? print $row['com_type_name'].", ".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+               </td>
                </tr>
                </table></td>
-               <td width="15%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['time']); ?></td>
-               <td width="15%" align="center" class="bold_gri_14"><? print $row['productivity']."%"; ?></td>
-               <td width="15%" align="center" class="bold_verde_14"><? print "".$row['salary']; ?></td>
-               <td width="15%" align="center" class="bold_verde_14"><a href="#" onclick="javascript:$('#report_modal').modal()" class="btn btn-primary" style="width:70px">Details</a></td>
+				   <td width="15%" align="center" class="font_14"><? print $row['end']-$row['start']; ?><br><span class="font_10">minutes</span></td>
+				   <td width="15%" align="center" class="font_14"><strong><? print "".round($row['salary'], 4); ?></strong><br><span class="font_10">CRC</span></td>
                </tr>
                <tr>
                <td colspan="5" ><hr></td>

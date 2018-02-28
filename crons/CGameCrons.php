@@ -485,7 +485,7 @@ class CGameCrons
 									 "i", 
 									 time());
 		
-		while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		{
 			switch ($row['cron'])
 			{

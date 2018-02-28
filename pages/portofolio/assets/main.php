@@ -7,7 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "../CPorto.php";
   include "CAssets.php";
   
@@ -18,7 +17,6 @@
   $acc=new CAccountant($db, $template);
   $porto=new CPorto($db, $acc, $template);
   $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
   $assets=new CAssets($db, $template, $acc);
 ?>
 
@@ -34,12 +32,12 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -70,65 +68,10 @@
             <td width="594" align="center" valign="top">
             
             <?
-			   if ($_REQUEST['act']!="consume")
-			   $template->showHelp("	In this page there is a list of your belongings. Since some of them do have an expiration date, you might want to check this page regularly so that you always have the maximum energy possible. Keep in mind that all your virtual items like clothes or jewelry can be rented to other players for a daily fee. Use this method to maximize your virtual assets income. Only houses and jewelry can be resold and jewelry items are the only that never expire...");
+			   $template->showHelp("Below are listed your assets. You can transfer assets to any address. Note that the recipient could pay a fee imposed by the asset issuer. Also, only recipients who trust the asset can receive it (they have to trust the asset before any transaction). You can trust an asset from asset's overview page.");
 			   
-			   // Transfer
-			   $assets->showTransferBut();
-			   
-			   if ($_REQUEST['act']=="transfer" || 
-			       $_REQUEST['act']=="received")
-			   {
-				  if ($_REQUEST['act']=="transfer")
-			         $assets->transfer($_REQUEST['dd_type'], 
-				                       $_REQUEST['txt_adr'], 
-									   $_REQUEST['txt_qty'], 
-									   $_REQUEST['txt_pass']);
-				  else
-				     $assets->received($_REQUEST['currency'], 
-					                   $_REQUEST['amount'],
-									   $_REQUEST['mes'],
-									   $_REQUEST['escrower'],
-									   $_REQUEST['tx_hash']);
-			   }
-			   else
-			   {
-			      if ($_REQUEST['act']=="consume")
-			         $assets->consume($_REQUEST['stocID']);
-			   
-			      // Cigars
-			      $assets->showConsumeItems("ID_CIGARS");
-			   
-			      // Drinks
-			      $assets->showConsumeItems("ID_DRINKS");
-			   
-			      // Food
-			      $assets->showConsumeItems("ID_FOOD");
-			   
-			      // Wine
-			      $assets->showConsumeItems("ID_WINE");
-			   
-			      // Clothes
-			      $assets->showRentItems("ID_CLOTHES");
-			   
-			     // Jewelry
-			     $assets->showRentItems("ID_JEWELRY");
-			   
-			     // Cars
-			     $assets->showRentItems("ID_CARS");
-			   
-			     // Houses
-			     $assets->showRentItems("ID_HOUSES");
-				 
-				 // Guns
-			     $assets->showGuns();
-				 
-				 // Ammunition
-			     $assets->showAmmo();
-				 
-				 // Other
-				 $assets->showMisc();
-			   }
+			   // Assets
+			   $assets->showAssets();
 			  
             ?>
             
@@ -164,7 +107,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

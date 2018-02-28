@@ -28,7 +28,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -67,14 +67,17 @@
 				$template->showHelp("In this page you can check your received messages, compose new messages to send to other players and see what messages you already sent. Advertising other games / websites or services is forbidden. Please report any spam or harassing messages. Keep in mind that you can send up to 25 messages / day. If you need to increase this limit get in touch with our support team.");
 				
 				// Trust modal
-		        $assets->showTrustModal();
+		        $template->showTrustModal($_REQUEST['symbol']);
 		
 	            // Vote
 	            if ($_REQUEST['act']=="trust_asset")
-	               $assets->trust($_REQUEST['symbol'], 
-								 $_REQUEST['txt_trust_days']);
+	               $template->trust($_REQUEST['txt_trust_symbol'], 
+								    $_REQUEST['txt_trust_days']);
 	 
-	 
+	           
+				// Trust button
+				$assets->showTrustBut();
+				
 	          // Panel
 	          $assets->showPanel($_REQUEST['symbol']);
 	
@@ -140,7 +143,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

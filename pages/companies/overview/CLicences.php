@@ -166,7 +166,7 @@ class CLicences
 		 $lic_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		 
 		// Period
-		if ($period<3)
+		if ($period<1)
 		{
 			$this->template->showErr("Invalid period");
 			return false;
@@ -190,7 +190,7 @@ class CLicences
 		}
 		
 		// Already has the licence ?
-		if ($this->hasLic($lic)==true)
+		if ($this->hasLic($comID, $lic)==true)
 		{
 			$this->template->showErr("Company already owns this licence");
 		    return false;
@@ -348,14 +348,9 @@ class CLicences
               <td width="64%" class="font_14"><? print $row['name']; ?></td>
               <td width="22%" align="center" class="<? if ($row['expires']-$_REQUEST['sd']['last_block']<11400) print "simple_red_14"; else print "font_14"; ?>"><strong><? if ($row['expires']-$_REQUEST['sd']['last_block']<0) print "expired"; else print $this->kern->timeFromBlock($row['expires']); ?></strong></td>
               <td width="14%" align="center" class="font_14">
-             <a href="#" onclick="javascript:$('#td_3_months_price').text('0.3 CRC'); 
-                                               $('#td_6_months_price').text('0.3 CRC'); 
-                                               $('#td_9_months_price').text('0.3 CRC'); 
-                                               $('#td_12_months_price').text('0.3 CRC'); 
-                                               $('#td_24_months_price').text('0.3 CRC'); 
-                                               $('#licence').val('<? print $row['tip']; ?>'); 
+             <a href="#" onclick="javascript:  $('#licence').val('<? print $row['tip']; ?>'); 
                                                $('#symbol').val('<? print $row['prod']; ?>'); 
-                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px">Renew</a>
+                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Renew</a>
                                    
                                    
               
@@ -380,9 +375,14 @@ class CLicences
 	{
 		$query="SELECT * 
 		          FROM stocuri 
-				 WHERE adr='".$this->kern->getComAdr($comID)."' 
-				   AND tip='".$tip."'";
-	    $result=$this->kern->execute($query);	
+				 WHERE adr=?
+				   AND tip=?";
+		
+	    $result=$this->kern->execute($query, 
+									 "ss", 
+									 $this->kern->getComAdr($comID), 
+									 $tip);	
+		
 	    if (mysqli_num_rows($result)>0)
 		   return true;
 		else
@@ -429,9 +429,23 @@ class CLicences
 			{
 				if ($this->hasLic($comID, $row['tip'])==false)
 				{
-					$prod=str_replace("_Q1", "", $row['prod']);
-					$prod=str_replace("_Q2", "", $prod);
-					$prod=str_replace("_Q3", "", $prod);
+					if (strpos($row['prod'], "_CAR")>0 || 
+						strpos($row['prod'], "_HOUSE")>0)
+					{
+						$prod=$row['prod'];
+					}
+					else
+					{
+					   $prod=str_replace("_Q1", "", $row['prod']);
+				  	   $prod=str_replace("_Q2", "", $prod);
+					   $prod=str_replace("_Q3", "", $prod);
+					   $prod=str_replace("_Q4", "", $prod);
+					   $prod=str_replace("_Q5", "", $prod);
+					}
+					
+					// Factory building ?
+					if (strpos($row['prod'], "_BUILD_COM")>0)
+						$prod="ID_FACTORY";
 		  ?>
           
                <tr>
@@ -461,14 +475,9 @@ class CLicences
                
                </td>
                <td width="20%" align="center" class="font_14">
-               <a href="#" onclick="javascript:$('#td_3_months_price').text('0.3 CRC'); 
-                                               $('#td_6_months_price').text('0.6 CRC'); 
-                                               $('#td_9_months_price').text('0.9 CRC'); 
-                                               $('#td_12_months_price').text('1.2 CRC'); 
-                                               $('#td_24_months_price').text('2.4 CRC'); 
-                                               $('#licence').val('<? print $row['tip']; ?>'); 
+               <a href="#" onclick="javascript:$('#licence').val('<? print $row['tip']; ?>'); 
                                                $('#symbol').val('<? print $row['prod']; ?>'); 
-                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px">Rent</a>
+                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Rent</a>
                </td>
                </tr>
                <tr>
@@ -505,33 +514,38 @@ class CLicences
                 <td height="0" colspan="3" align="center" bgcolor="#FFFFFF" ><hr></td>
               </tr>
               <tr>
-                <td width="7%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" checked="checked" /></td>
+                <td align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="1" checked="checked" /></td>
+                <td height="35" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;1 month</td>
+                <td align="center" bgcolor="#FFFFFF" class="font_14" id="td_1_months_price">3 CRC</td>
+              </tr>
+              <tr>
+                <td width="7%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" /></td>
                 <td width="67%" height="35" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
-                <td width="26%" align="center" bgcolor="#FFFFFF" class="font_14" id="td_3_months_price">0.01</td>
+                <td width="26%" align="center" bgcolor="#FFFFFF" class="font_14" id="td_3_months_price">9 CRC</td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="6" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;6 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_6_months_price"> 0.02</span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_6_months_price"> 18 CRC</span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="9" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;9 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_9_months_price"> 0.03</span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_9_months_price"> 27 CRC</span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="12" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;12 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_12_months_price"> 0.04</span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_12_months_price"> 36 CRC</span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="24" /></td>
                 <td height="35" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;24 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_24_months_price">0.07</span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_24_months_price">72 CRC</span></td>
               </tr>
             </table>
             
@@ -543,61 +557,6 @@ class CLicences
 		$this->template->showModalFooter("Rent");
 	}
 	
-	function showRenewModal()
-	{
-		$this->template->showModalHeader("renew_modal", "Renew Licence", "act", "renew", "licID", "", "symbol", "");
-		?>
-        
-<table width="600" border="0" cellspacing="0" cellpadding="5">
-          <tr>
-            <td width="223" align="center" valign="top"><img src="GIF/renew.png" width="177" height="165" /></td>
-            <td width="357" align="left" valign="top"><table width="85%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td height="35" colspan="3" align="left" bgcolor="#FFFFFF" class="simple_gri_18">Price</td>
-              </tr>
-              <tr>
-                <td height="0" colspan="3" align="center" bgcolor="#FFFFFF" ><hr></td>
-              </tr>
-              <tr>
-                <td width="7%" align="center" bgcolor="#FFFFFF"><input name="renew_period" type="radio" id="period" value="3" checked="checked" /></td>
-                <td width="68%" height="35" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
-                <td width="25%" align="center" bgcolor="#FFFFFF" class="font_14" id="td_3_months_price"> 0.01</td>
-              </tr>
-              <tr>
-                <td align="center" bgcolor="#FFFFFF"><input type="radio" name="renew_period" id="period" value="6" /></td>
-                <td height="35" align="left" bgcolor="#FFFFFF">
-                <span class="font_14">&nbsp;&nbsp;6 months </span><span class="bold_verde_12" id="td_6_months_save">
-				
-                </span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_6_months_price"> 0.02</span></td>
-              </tr>
-              <tr>
-                <td align="center" bgcolor="#FFFFFF"><input type="radio" name="renew_period" id="period" value="9" /></td>
-                <td height="35" align="left" bgcolor="#FFFFFF">
-                <span class="font_14">&nbsp;&nbsp;9 months <span class="bold_verde_12" id="td_9_months_save">(save  0.02)</span></span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_9_months_price"> 0.03</span></td>
-              </tr>
-              <tr>
-                <td align="center" bgcolor="#FFFFFF"><input type="radio" name="renew_period" id="period" value="12" /></td>
-                <td height="35" align="left" bgcolor="#FFFFFF">
-                <span class="font_14">&nbsp;&nbsp;12 months <span class="bold_verde_12" id="td_12_months_save">(save  0.03)</span></span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_12_months_price"> 0.04</span></td>
-              </tr>
-              <tr>
-                <td align="center" bgcolor="#FFFFFF"><input type="radio" name="renew_period" id="period" value="24" /></td>
-                <td height="35" bgcolor="#FFFFFF">
-                <span class="font_14">&nbsp;&nbsp;24 months <span class="bold_verde_12" id="td_24_months_save">(save  0.08)</span></span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"> 0.07</span></td>
-              </tr>
-            </table>
-           <br /> 
-           </td>
-          </tr>
-          </table>
-        
-        <?
-		$this->template->showModalFooter("Rent");
-	}
 	
 }
 ?>

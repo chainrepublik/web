@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
-  $war=new CWar($db, $template);
+  $war=new CWar($db, $acc, $template);
   $my_wars=new CMyWars($db, $acc, $template);
   
 ?>
@@ -33,7 +33,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="../market/style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -69,8 +69,10 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			   $template->showHelp("The internal chainrepublik currency is chainrepublik Gold (GSG). Only 100.000 gold will ever be created. This quantity is slowly distributed to players in form of bonuses. Players receive gold when they open a chest for example. Below is displayed the status of undistributed gold.");
-            
+			   $template->showHelp("Below are the wars in which you participated and the <strong>damage</strong> you inflicted. The damage depends on what kind of <strong>weapons / ammunition</strong> you have used. Keep in mind that your <strong>damage</strong> in the war is gradually <strong>decreasing</strong> towards the end of the war. For maximum impact, try to fight <strong>in the first hour<strong> after the war has been triggered.");
+               
+			   // WIP
+			   $template->showWIP("April");
 			 
 			?>
             
@@ -103,7 +105,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

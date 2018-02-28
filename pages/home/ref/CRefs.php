@@ -174,14 +174,13 @@ class CRefs
 		// Load data
 		$query="SELECT adr.*, 
 		               cou.country 
-		          FROM ref_stats AS ras
-				  JOIN web_users AS us ON us.ID=ras.userID
+		          FROM web_users AS us ON us.ID=ras.userID
 				  JOIN adr ON adr.adr=us.adr
 				  JOIN countries AS cou ON cou.code=adr.cou
-				 WHERE adr.ref_adr=? 
-				   AND ras.day=? 
-				   AND ras.month=? 
-				   AND ras.year=?";
+				 WHERE us.refID=? 
+				   AND us.day=? 
+				   AND us.month=? 
+				   AND us.year=?";
 		
 		$result=$this->kern->execute($query, 
 									 "siii", 

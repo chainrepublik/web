@@ -30,12 +30,12 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -66,7 +66,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-		       $template->showHelp("Below is displayed your work experience and a list of companies where you worked in the past. Your work experience increases 2 points after each day of work and decreases 1 point every day. In order to increase your work experience to the maximum level, you need to work every day for 100 days. Productivity is calculated based on your work experience and energy, so increasing your work experience is the first step to a bigger income.");
+		       $template->showHelp("Below is displayed your work experience and a list of companies where you worked in the past. By working you <strong>increase your political influence</strong>. A higher political influence means a <strong>bigger reward</strong>. Your political influence increases after each work process depending on how long you worked and decreases 1% / day.");
 		   
 		  
 		      $history->showHistory();
@@ -99,7 +99,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

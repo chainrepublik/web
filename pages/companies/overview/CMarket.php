@@ -115,8 +115,20 @@ class CMarket
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         
         <?
+		   $i=0;
+		
+		   // Loop
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		   {
+			  // Index
+			  $i++;
+			   
+			  // First product
+			  if ($i==1) 
+				  $prod=$row['prod'];
+			   
 		      print "<li role='presentation'><a role='menuitem' tabindex='-1' href='".$_SERVER['PHP_SELF']."?ID=".$_REQUEST['ID']."&mktID=".$this->getMktID($row['prod'])."'>".$row['name']."</a></li>";
+		   }
 		?>
         
        
@@ -125,9 +137,11 @@ class CMarket
         
         </td>
           </tr>
-        </table>
+        </table><br>
         
         <?
+		
+		return $prod;
 	}
 }
 ?>

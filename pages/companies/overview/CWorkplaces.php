@@ -214,7 +214,7 @@ class CWorkplaces
 		}
 		
 		// Period valid
-		if ($period<3)
+		if ($period<1)
 		{
 			 $this->template->showErr("Invalid period");
 			 return false;
@@ -262,7 +262,7 @@ class CWorkplaces
 		}
 		
 		// Funds
-		$fee=$period*0.3;
+		$fee=$period*0.1*30;
 		
 		// Has funds ?
 		if ($this->acc->getTransPoolBalance($this->kern->getComAdr($_REQUEST['ID']), "CRC")<$fee)
@@ -362,7 +362,7 @@ class CWorkplaces
 	
 	
 	
-	function showRenewPanel($comID)
+	function showRenewPanel()
 	{
 		$query="SELECT * 
 		          FROM workplaces 
@@ -415,7 +415,7 @@ class CWorkplaces
               </tr>
               <tr>
                 <td height="50" valign="bottom">
-                <a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($this->kern->getComBuilding($_REQUEST['ID'])); ?>" class="btn btn-primary btn-sm" style="width:150px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Buy Building</a></td>
+                <a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($this->kern->getComBuilding($_REQUEST['ID'])); ?>" class="btn btn-danger btn-sm" style="width:150px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Buy Building</a></td>
                 <td>&nbsp;</td>
               </tr>
             </table></td>
@@ -530,7 +530,7 @@ class CWorkplaces
                   <tr>
                     <td align="left">
                     
-                    <a class="btn <? if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="#" onclick="$('#wID').val('<? print $row['ID']; ?>'); $('#new_modal').modal()" data-toggle="tooltip" data-placement="top" title="Renew Workplace"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
+                    <a class="btn <? if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="#" onclick="$('#wID').val('<? print $row['ID']; ?>'); $('#new_modal').modal()" data-toggle="tooltip" data-placement="top" title="Renew Workplace" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
                     </a>
                     
                     </td>
@@ -559,7 +559,7 @@ class CWorkplaces
                                                                  $('#update_modal').modal(); 
                                                                  " 
                                                                  
-                                                         data-toggle="tooltip" data-placement="top" title="Settings">
+                                                         data-toggle="tooltip" data-placement="top" title="Settings" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>
                     <span class="glyphicon glyphicon-cog"></span>
                     </a>
                     </td>
@@ -709,29 +709,34 @@ class CWorkplaces
             <td width="223"><img src="GIF/new_workplace.jpg" width="200" height="204" /></td>
             <td width="357" align="left" valign="top"><table width="85%" border="0" cellspacing="2" cellpadding="0">
               <tr>
-                <td width="8%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" checked="checked" /></td>
-                <td width="70%" height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
-                <td width="22%" align="center" bgcolor="#FFFFFF" class="font_14"><strong>0.25 CRC</strong></td>
+                <td align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="1" checked="checked" /></td>
+                <td height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;1 month</td>
+                <td align="center" bgcolor="#FFFFFF" class="font_14"><strong>3 CRC</strong></td>
+              </tr>
+              <tr>
+                <td width="8%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" /></td>
+                <td width="60%" height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
+                <td width="32%" align="center" bgcolor="#FFFFFF" class="font_14"><strong>9 CRC</strong></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="6" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;6 months </span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>0.5 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>18 CRC</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="9" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;9 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>0.75 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>27 CRC</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="12" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;12 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>1 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>36 CRC</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="24" /></td>
                 <td height="40" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;24 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>2 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>72 CRC</strong></span></td>
               </tr>
             </table></td>
           </tr>

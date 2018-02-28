@@ -12,7 +12,7 @@ class CMyCompanies
 	{
 		$query="SELECT com.*, 
 		               adr.balance, 
-					   tc.name, 
+					   tc.name AS tip_name, 
 					   tc.pic,
 					   cou.country
 		          FROM companies AS com
@@ -62,8 +62,8 @@ class CMyCompanies
 					    print "../../../uploads/".$row['com_pic']; 
 				 ?>" 
                  width="50" height="50" class="img-circle" /></td>
-                 <td width="38%" class="font_14"><a href="#" class=""><? print $row['name']; ?> </a><br />
-                 <span class="font_10"><? print $row['country']; ?></span></td>
+					 <td width="38%" class="font_14"><a href="#" class=""><strong><? print base64_decode($row['name']); ?> </strong></a><br />
+                 <span class="font_10"><? print $row['tip_name'].", ".ucfirst(strtolower($row['country'])); ?></span></td>
                  <td width="16%" align="center" class="font_14"><? print $row['symbol']; ?></td>
                  <td width="16%" align="center"><span class="bold_green_14"><? print "".round($row['balance'], 4)." CRC"; ?></span><br><span class="font_10"><strong><? print "$".$this->kern->toUSD($row['balance']); ?></strong></span></td>
                  <td width="19%" align="center" class="bold_verde_14"><a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="btn btn-primary" style="width:80px" >Manage</a></td>

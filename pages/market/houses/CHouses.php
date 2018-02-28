@@ -1,12 +1,11 @@
 <?
 class CHouses
 {
-    function CHouses($db, $acc, $template, $market)
+    function CHouses($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->market=$market;
 	}
 	
 	function showSelectMenu($prod)

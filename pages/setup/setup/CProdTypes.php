@@ -7,15 +7,17 @@ class CProdTypes
 		$this->utils=$utils;
 	}
 	
-	function getProdNetEnergy($prod, $qty)
+	function getProdNetCost($prod, $qty)
 	{
 		$query="SELECT * FROM tipuri_produse WHERE prod=?";	
 		$result=$this->kern->execute($query, "s", $prod);	
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		return round($row['net_energy']*$qty, 2);
+		$cost=round($row['net_cost']*$qty, 4);
+		$cost=round($cost+$cost/10, 4);
+		return $cost;
 	}
 	
-	function updateProdEnergy($prod)
+	function updateProdCost($prod)
 	{
 	    // Load product data
 		$query="SELECT * FROM tipuri_produse WHERE prod=?";	
@@ -23,43 +25,43 @@ class CProdTypes
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Req Energy
-		$req_energy=round($row['work_hours']*12, 2); 
+		$req_energy=round($row['work_hours']*0.1, 4); 
 		
 		// Raw 1
 		if ($row['prod_1']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_1'], $row['prod_1_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_1'], $row['prod_1_qty']);
 		  
 		// Raw 2
 		if ($row['prod_2']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_2'], $row['prod_2_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_2'], $row['prod_2_qty']);
 		  
 		// Raw 3
 		if ($row['prod_3']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_3'], $row['prod_3_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_3'], $row['prod_3_qty']);
 		   
 		// Raw 4
 		if ($row['prod_4']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_4'], $row['prod_4_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_4'], $row['prod_4_qty']);
 		  
 		// Raw 5
 		if ($row['prod_5']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_5'], $row['prod_5_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_5'], $row['prod_5_qty']);
 		  
 		// Raw 6
 		if ($row['prod_6']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_6'], $row['prod_6_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_6'], $row['prod_6_qty']);
 		  
 		// Raw 7
 		if ($row['prod_7']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_7'], $row['prod_7_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_7'], $row['prod_7_qty']);
 		  
 		// Raw 8
 		if ($row['prod_8']!="")
-		  $req_energy=$req_energy+$this->getProdNetEnergy($row['prod_8'], $row['prod_8_qty']);
+		  $req_energy=$req_energy+$this->getProdNetCost($row['prod_8'], $row['prod_8_qty']);
 		  
 		// Return
 		$query="UPDATE tipuri_produse 
-		           SET net_energy=? 
+		           SET net_cost=? 
 				 WHERE prod=?";
 				 
 		$this->kern->execute($query, 
@@ -86,7 +88,7 @@ class CProdTypes
 		   ?>
            
                 <tr>
-                <td width="498"><? print $row['name']; ?><br><span class='simple_gri_10'><? print $row['prod'].", <strong style='color:#000000'>".$row['net_energy']."</strong> energy"; ?></span></td>
+                <td width="498"><? print $row['name']; ?><br><span class='simple_gri_10'><? print $row['prod'].", <strong style='color:#000000'>".$row['net_cost']." CRC</strong>"; ?></span></td>
                 <td width="77" align="center"><a href="tipuri_produse.php?act=edit&ID=<? print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
                 <td width="25" align="center"><a href="del.php?tab=tipuri_produse&ID=<? print $row['ID']; ?>&txt_search=<? print $_REQUEST['txt_search']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
                 </tr>
@@ -418,7 +420,7 @@ class CProdTypes
 							 $_REQUEST['ID']);
 							 
 	   // Update prod energy
-	   $this->updateProdEnergy($_REQUEST['txt_prod']);
+	   $this->updateProdCost($_REQUEST['txt_prod']);
 	   
 	   // Show prods
 	   $this->showProds("");
@@ -471,7 +473,7 @@ class CProdTypes
 							 $_REQUEST['txt_damage']);
 							 
 		// Update prod energy
-		$this->updateProdEnergy($_REQUEST['txt_prod']);
+		$this->updateProdCost($_REQUEST['txt_prod']);
 	    
 		// Show prods				 
 		$this->showProds("");

@@ -29,7 +29,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -65,11 +65,20 @@
             <td width="594" align="center" valign="top">
             
             <?
-			   // Show info
-			   $com_acc->showPanel();
+			   $template->showHelp("Every company has its own address. The name of the address is even the company's symbol. The address of this company is <strong>".$db->getComSymbol($_REQUEST['ID']).". To deposit coins in the company address, just send your coins to to <strong>".$db->getComSymbol($_REQUEST['ID']).". When you withdraw coins from a company all company shareholders are also paid.");
 			   
+			   // Witdraw ?
+			   if ($_REQUEST['act']=="wth")
+				   $com_acc->doWth($_REQUEST['txt_wth_amount']);
+				
+		       // Buttons 
+			   $com_acc->showButs();
+				
 		       // Show transactions
 		       $acc->showTrans($db->getComAdr($_REQUEST['ID']));
+				
+			   // Withdraw modal
+			   $com_acc->showWthModal();
 		    ?>
         
         <table width="90%" border="0" cellspacing="0" cellpadding="0">
@@ -113,7 +122,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

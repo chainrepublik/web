@@ -7,6 +7,72 @@ class CIndex
 		$this->template=$template;
 	}
 	
+	function hit()
+	{
+		$query="SELECT * 
+		          FROM web_users 
+				 WHERE ID=?";
+		
+		$result=$this->kern->execute($query, 
+									 "i", 
+									 $_SESSION['refID']);		
+		
+		if (mysqli_num_rows($result)>0)
+		{
+			$year=date("Y");
+			$month=date("m");
+			$day=round(date("d"));
+			
+			$query="SELECT * 
+			          FROM ref_stats 
+					 WHERE userID=?
+					   AND year=? 
+					   AND month=? 
+					   AND day=?";
+			
+			$result=$this->kern->execute($query, 
+										 "iiii", 
+										 $_SESSION['refID'], 
+										 $year, 
+										 $month, 
+										 $day);	
+			
+			if (mysqli_num_rows($result)==0)
+			{
+				$query="INSERT INTO ref_stats 
+				                SET userID=?, 
+								    year=?, 
+									month=?, 
+									day=?, 
+									hits=?, 
+									signups=?";
+				
+				$result=$this->kern->execute($query, 
+											 "iiiiii", 
+											 $_SESSION['refID'], 
+											 $year, 
+											 $month, 
+											 $day, 
+											 0, 
+											 0);	
+			}
+			
+			$query="UPDATE ref_stats 
+			           SET hits=hits+1 
+					 WHERE userID=?
+					   AND year=? 
+					   AND month=? 
+					   AND day=?";
+			
+			$this->kern->execute($query, 
+								 "iiii", 
+								 $_SESSION['refID'], 
+								 $year, 
+								 $month, 
+								 $day);		
+		}
+	}
+	
 	
 	function showTopMenu($index=true)
 	{
@@ -63,44 +129,6 @@ class CIndex
 		}
 	}
 	
-	function hit()
-	{
-		$query="SELECT * from web_users WHERE ID='".$_SESSION['refID']."'";
-		$result=$this->kern->execute($query);		
-		if (mysqli_num_rows($result)>0)
-		{
-			$year=date("Y");
-			$month=date("m");
-			$day=round(date("d"));
-			
-			$query="SELECT * 
-			          FROM ref_stat 
-					 WHERE userID='".$_SESSION['refID']."' 
-					   AND year='".$year."' 
-					   AND month='".$month."' 
-					   AND day='".$day."'"; 
-			$result=$this->kern->execute($query);		
-			if (mysqli_num_rows($result)==0)
-			{
-				$query="INSERT INTO ref_stat 
-				                SET userID='".$_SESSION['refID']."', 
-								    year='".$year."', 
-									month='".$month."', 
-									day='".$day."', 
-									hits='0', 
-									signups='0'";
-				$result=$this->kern->execute($query);	
-			}
-			
-			$query="UPDATE ref_stat 
-			           SET hits=hits+1 
-					 WHERE userID='".$_SESSION['refID']."' 
-					   AND year='".$year."' 
-					   AND month='".$month."' 
-					   AND day='".$day."'";
-			$this->kern->execute($query);		
-		}
-	}
 	
 	function lastPayments()
 	{

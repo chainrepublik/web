@@ -92,14 +92,107 @@ class CSignup
 		   $cou="RO"; 
 		   
 		// Referer
-		if (!isset($_SESSION['rID']))
+		if (!isset($_SESSION['refID']))
+		{
+		   // Ref address
 		   $ref_adr=$_REQUEST['sd']['node_adr'];
-		   
+		}
+		else
+		{
+			// Load user
+			$query="SELECT * 
+			          FROM web_users 
+					 WHERE ID=?";
+			
+			// Load data
+		    $result=$this->kern->execute($query, 
+										 "i", 
+										 $_SESSION['refID']);
+			
+			// User exist ?
+			if (mysqli_num_rows($result)==0)
+			{
+		        $ref_adr=$_REQUEST['sd']['node_adr'];
+			}
+			else
+			{
+				// Load data
+				$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+				
+				// Set ref adr
+				$ref_adr=$row['adr'];
+			}
+		}
+		
+		// Find userID
+		$refID=$this->kern->getUserID($ref_adr);
+		
+		// IP
 		if ($_SERVER['HTTP_CF_CONNECTING_IP']!="") 
 	      $IP=$_SERVER['HTTP_CF_CONNECTING_IP'];
 	   else
 	      $IP=$_SERVER['REMOTE_ADDR'];
+		
+		// Valid IP ?
+		if ($IP=="::1")
+			$IP="127.0.0.1";
+		
+		// Same password
+		$query="SELECT * 
+		          FROM web_users 
+				 WHERE pass=?";
+		
+		// Load data
+	    $result=$this->kern->execute($query, 
+									 "s", 
+									  hash("SHA256", $pass));
+		
+		// Password already used
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already have an account on this server", 510);
+			return false;
+		}
+		
+		
+		// Same IP
+		$query="SELECT * 
+		          FROM web_users 
+				 WHERE IP=?";
+		
+		// Load data
+	    $result=$this->kern->execute($query, 
+									 "s", 
+									  $IP);
+		
+		// IP already used
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already have an account on this server", 510);
+			return false;
+		}
+		
+		// Break IP
+		$v=explode(".", $IP);
+		$part=$v[0].".".$v[1].".";
+		
+		// Same IP
+		$query="SELECT * 
+		          FROM web_users 
+				 WHERE IP LIKE '".$part."%' 
+				   AND tstamp>?";
+		
+		// Load data
+	    $result=$this->kern->execute($query, "i", time()-3600);
+		
+		// IP already used
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already have an account on this server", 510);
+			//return false;
+		}
 	     
+		
 		try
 	    {
 		   // Begin
@@ -109,6 +202,7 @@ class CSignup
 		   $query="INSERT INTO web_users 
 		                   SET user=?, 
 						       pass=?, 
+							   refID=?,
 							   IP=?, 
 							   cou=?, 
 							   email=?,
@@ -116,9 +210,10 @@ class CSignup
 							   tstamp=?";
 							   
 		   $result=$this->kern->execute($query, 
-		                                "sssssii", 
+		                                "ssisssii", 
 										$user, 
 										hash("sha256", $pass), 
+										$refID,
 										$IP, 
 										$cou, 
 										$email, 
@@ -157,10 +252,26 @@ class CSignup
 								 $ref_adr, 
 								 "ID_PENDING", 
 								 365,
-								 time()); 
+								 time());
+			
+			// Update refs
+			$query="UPDATE ref_stats
+			           SET signups=signups+1 
+					 WHERE userID=?
+					   AND year=?
+					   AND month=?
+					   AND day=?";
+			
+			// Execute
+			$result=$this->kern->execute($query, 
+		                                "iiii",
+										$refID,
+										$this->kern->y(), 
+										$this->kern->m(),
+										$this->kern->d());
 			
 			// Commit
-	 	    $this->kern->commit();
+	 	    $this->kern->rollback();
 	        
 			// Confirm
 			$this->template->confirm();
@@ -179,8 +290,14 @@ class CSignup
 	
 	function showForm()
 	{
-	   $query="SELECT * from web_users WHERE ID='".$_SESSION['refID']."'";  
-	   $result=$this->kern->execute($query);	
+	   $query="SELECT * 
+	             FROM web_users 
+				WHERE ID=?";  
+		
+	   $result=$this->kern->execute($query, 
+									"i", 
+									$_SESSION['refID']);
+		
 	   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			  
 	   
@@ -193,7 +310,7 @@ class CSignup
 		 <?
 		     // Signup ?
 		    if ($_REQUEST['act']=="signup")
-		        $signup->signup($_REQUEST['txt_user'], 
+		        $this->signup($_REQUEST['txt_user'], 
 		                        $_REQUEST['txt_pass'], 
 						        $_REQUEST['txt_re_pass'], 
 						        $_REQUEST['txt_email'], 
@@ -238,10 +355,6 @@ class CSignup
            </tr>
            <tr>
              <td align="left">&nbsp;</td>
-           </tr>
-           <tr>
-             <td align="left"><input type="checkbox" name="terms" id="terms" />
-               <label for="checkbox" class="font_12">&nbsp;I agree with the <a href="../../terms/terms/main.php">Terms of Service</a></label></td>
            </tr>
            <tr>
              <td align="left">&nbsp;</td>

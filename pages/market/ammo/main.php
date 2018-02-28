@@ -6,8 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CAMarket.php";
-  include "../../../kernel/CAds.php";
+  include "../../../kernel/CAssetsMkt.php";
   include "../CMarket.php";
   include "CAmmo.php";
   
@@ -16,8 +15,8 @@
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $mkt=new CAMarket($db, $acc, $template);
   $market=new CMarket($db, $acc, $template);
+  $asset_mkts=new CAssetsMkt($db, $acc, $template);
   $ammo=new CAmmo($db, $acc, $template);
 ?>
 
@@ -32,13 +31,13 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="../cars/style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="../../../utils.js"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -69,7 +68,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Below are displayed the available ammunition offerts. You can hold an unlimited number of bullets / greandes. Keep in mind that the prices for bullets are for a <strong>25 bullets pack</strong>, not for one single bullet. Bullets never expire. If you have less than 24 pistol bullets, you will <strong>receive 1 free bullet / hour</strong> so you can't get stuck even if you run out of gold.", 70, 70);
+			    $template->showHelp("Below are displayed the available ammunition offerts. You can hold an unlimited number of bullets / greandes. Prices are fo one single bullet. Bullets never expire.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 
@@ -87,7 +86,7 @@
 			    $ammo->showSelectMenu($_REQUEST['trade_prod']);
 				
 				// Market
-				$mkt->showMarket($_REQUEST['trade_prod'], "ID_BUY");
+				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), false, "user");
 			?>
             
             
@@ -118,7 +117,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

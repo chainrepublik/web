@@ -29,12 +29,12 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -64,22 +64,13 @@
             </td>
             <td width="594" valign="top" align="center">
             
-           <?
-		   $template->showHelp("Below are displayed active bonuses. Bonuses are paid by game's fund to companies or players in certain situations such as working 5 days in a row, renting a car etc... Bonuses are proposed and voted by players. From this page you can propose a new bonus or even the suspension of an active bonus. Keep in mind that only players having the energy and equity of minimum 5 can propose changes and only players having a minimum equity of $1 can vote. If the game's fund does not have money to pay a bonus, the bonus will be automatically set to zero.");
+            <?
+		        $template->showHelp("Below are listed <strong>predefined bonuses</strong>. Bonuses are paid <strong>from the state budget</strong> and are set by <strong>members of the congress</strong> by voting. If the state budget is <strong>out of money</strong>, all bonuses are <strong>set to zero</strong>. Bonuses are paid to players who reach <strong>specific targets</strong> such as minimum 5 hours / day, minimum 10 content votes / day and so on.");
+				
+				// WIP
+			   $template->showWIP("Mars");
 		  
-		  if ($_REQUEST['act']=="change")
-		     $bonus->change($_REQUEST['bonus'], 
-			                $_REQUEST['txt_val'], 
-							$_REQUEST['txt_mes']);
-							
-		  $bonus->showNewBonusModal();
-		  
-		  $bonus->showBonuses("ID_WORK");
-		  //$bonus->showBonuses("ID_ENERGY");
-		  //$bonus->showBonuses("ID_TRADE");
-		  $bonus->showBonuses("ID_BUY");
-		  //$bonus->showBonuses("ID_RENT");
-		?>
+		    ?>
             
             </td>
             <td width="206" align="center" valign="top">
@@ -108,7 +99,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

@@ -1,12 +1,11 @@
 <?
 class CCars
 {
-    function CCars($db, $acc, $template, $market)
+    function CCars($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->market=$market;
 	}
 	
 	function showSelectMenu($prod)

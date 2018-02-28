@@ -34,7 +34,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -71,7 +71,7 @@
             
             
             <?
-			    $template->showHelp("Below are displayed the available drinks offerts. You can drink only one type of cocktail / day. A player can drink one cocktail every 10 minutes. The energy increases immediately. Drinking can bring you up to 15 points of energy / day.", 70, 70);
+			    $template->showHelp("Below are displayed the available cockatils offerts. You can drink one type of cocktail per day or up to 5 cocktails / 24 hours. Drinking can bring you up to <strong>31.5 points of energy / day</strong>. Keep in mind that after purchasing a cocktails, you have to actually <strong>'drink' it in order to increase your energy</strong>. Check your <strong>imventory</strong> page for consuming items.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 
@@ -112,7 +112,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

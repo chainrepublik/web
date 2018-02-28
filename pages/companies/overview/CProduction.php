@@ -150,9 +150,14 @@ class CProduction
                   <p class="bold_verde_10">Market price : <? print $row['price']; ?> gold / <? print $row['unitate']; ?></p></td>
               </tr>
              </table></td>
-             <td width="17%" align="center"><span class="font_14"><? print round($row['qty'], 4); ?></span><br />
+             <td width="17%" align="center"><span class="font_14">
+		     <?
+				  $com_adr=$this->kern->getComAdr($_REQUEST['ID']);
+				  print round($this->acc->getTransPoolBalance($com_adr, $row['tip']), 4); 
+			  ?>
+				 </span><br />
               <span class="simple_blue_10"><? print $row['unitate']; ?></span></td>
-            <td width="18%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;">Buy</a></td>
+            <td width="18%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Buy</a></td>
   </tr>
   <tr>
             <td colspan="3" ><hr></td>
@@ -172,13 +177,13 @@ class CProduction
 		$adr=$this->kern->getComAdr($_REQUEST['ID']);
 		
 		$query="SELECT *
-		                       FROM stocuri AS st
-				               JOIN tipuri_produse AS tp ON tp.prod=st.tip
-				              WHERE st.adr=? 
-				                AND tp.prod IN (SELECT prod 
-				                                  FROM com_prods AS cp
-												 WHERE cp.com_type=? 
-								                   AND cp.type=?)"; 
+		          FROM stocuri AS st
+				  JOIN tipuri_produse AS tp ON tp.prod=st.tip
+				 WHERE st.adr=? 
+				   AND tp.prod IN (SELECT prod 
+				                     FROM com_prods AS cp
+									WHERE cp.com_type=? 
+								      AND cp.type=?)"; 
 								   
 		$result=$this->kern->execute($query, 
 		                             "sss", 
@@ -192,12 +197,12 @@ class CProduction
 		?>
             
             <br><br>
-<table width="560" border="0" cellspacing="0" cellpadding="0">
-          <tr>
+            <table width="560" border="0" cellspacing="0" cellpadding="0">
+            <tr>
             <td colspan="2" align="left"><span class="simple_blue_deschis_24">Finite Materials</span></td>
             <td>&nbsp;</td>
-          </tr>
-          <tr>
+            </tr>
+            <tr>
             <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
             <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -207,18 +212,20 @@ class CProduction
                 <td width="3%" align="center" class="bold_shadow_white_14"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="12%" align="center" class="bold_shadow_white_14">Qty</td>
                 <td width="3%" align="center" class="bold_shadow_white_14"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="16%" align="center"><span class="bold_shadow_white_14">Buy More</span></td>
+                <td width="16%" align="center"><span class="bold_shadow_white_14">Trade</span></td>
               </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
           </tr>
-        </table>
-<table width="540" border="0" cellspacing="0" cellpadding="5">
+          </table>
+          
+          <table width="540" border="0" cellspacing="0" cellpadding="5">
           <?
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($this->kern->hasProdLic($adr, $row['tip']))
 				{
+					
 		  ?>
           
              <tr>
@@ -227,30 +234,47 @@ class CProduction
               <tr>
                 <td width="21%"><img src="../overview/GIF/prods/big/
 				<? 
-				    if (strpos($row['tip'], "TOOLS_PROD")>0)
-					{   
-					   print "ID_TOOLS";
+				    if (strpos($row['tip'], "_CAR")>0 || 
+						strpos($row['tip'], "_HOUSE")>0)
+					{
+						$prod=$row['tip'];
 					}
 					else
 					{
-				        $tip=str_replace("_Q1", "", $row['prod']); 
-						$tip=str_replace("_Q2", "", $tip); 
-						$tip=str_replace("_Q3", "", $tip); 
-						print $tip; 
+					   $prod=str_replace("_Q1", "", $row['tip']);
+				  	   $prod=str_replace("_Q2", "", $prod);
+					   $prod=str_replace("_Q3", "", $prod);
+					   $prod=str_replace("_Q4", "", $prod);
+					   $prod=str_replace("_Q5", "", $prod);
 					}
+					
+					// Factory building ?
+					if (strpos($row['tip'], "_BUILD_COM")>0)
+						$prod="ID_FACTORY";
+						
+				    // Prod
+				    print $prod;
+					
 				?>.png"  width="50" height="50"/></td>
                 <td width="79%" align="left"><strong class="font_14"><? print $row['name']; ?></strong><br />
                   <span class="bold_verde_10">Market price : <? print $row['price']; ?> CRC / <? print $row['unitate']; ?></span></td>
               </tr>
              </table></td>
              
-             <td width="15%" align="center"><span class="font_14"><? print "".number_format($row['invested']/$row['qty'], 6); ?></span><br />
+             <td width="15%" align="center"><span class="font_14">
+		     <? 
+					if ($row['qty']>0) 
+						print "".round($row['invested']/$row['qty'], 6); 
+					else 
+						print "0";
+			 ?>
+		      </span><br />
               <span class="simple_blue_10">for 1 <? print $row['unitate']; ?></span></td>
               
-             <td width="15%" align="center"><span class="font_14"><? print round($row['qty'], 4); ?></span><br />
+             <td width="15%" align="center"><span class="font_14"><? print round($this->acc->getTransPoolBalance($adr, $row['prod']), 4); ?></span><br />
               <span class="simple_blue_10"><? print $row['unitate']; ?></span></td>
               
-            <td width="17%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;">Trade</a></td>
+            <td width="17%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Trade</a></td>
   </tr>
   <tr>
             <td colspan="4" ><hr></td>
@@ -455,11 +479,11 @@ class CProduction
                 <td width="22%">&nbsp;</td>
               </tr>
               <tr>
-                <td class="font_14">Any company needs production tools in order to be active. Production tools expires after a while, depending on the quality. You need to buy new tools.</td>
+                <td class="font_12">Any company needs production tools in order to be active. Production tools expires after a while, depending on the quality. You need to buy new tools.</td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td height="50" valign="bottom"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $mktID; ?>" class="btn btn-danger btn-sm" style="width:150px;"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Buy Tools</a></td>
+                <td height="50" valign="bottom"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $mktID; ?>" class="btn btn-danger btn-sm" style="width:150px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Buy Tools</a></td>
                 <td>&nbsp;</td>
               </tr>
             </table></td>
@@ -706,7 +730,9 @@ class CProduction
 	function showWorkLog()
 	{
 		// Query
-		$query="SELECT wp.*, adr.pic, tp.name
+		$query="SELECT wp.*, 
+		               adr.pic, 
+					   tp.name
 		          FROM work_procs AS wp 
 				  JOIN tipuri_produse AS tp ON tp.prod=wp.output_prod 
 				  JOIN companies AS com ON com.comID=wp.comID 
@@ -756,13 +782,13 @@ class CProduction
               <tr>
               <td width="34%" align="left" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td width="27%"><img src="<? print base64_decode($row['pic']); ?>" width="40" height="40" class="img-circle" /></td>
+                <td width="27%"><img src="<? if ($row['pic']!="") $this->kern->crop($row['pic']); else print "../../template/GIF/empty_pic.png"; ?>" width="40" height="40" class="img-circle" /></td>
                 <td width="73%" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="2">
                   <tr>
                     <td align="left"><a href="../../profiles/overview/main.php?ID=<? print $row['userID']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['adr']); ?></strong></a></td>
                   </tr>
                   <tr>
-                    <td align="left"><span class="font_10">Ouput : <? print $row['output_qty']." ".$row['name']; ?></span></td>
+                    <td align="left"><span class="font_10">Ouput : <? print round($row['output_qty'], 4)." ".$row['name'].", ".$this->kern->timeFromBlock($row['block'])." ago"; ?></span></td>
                   </tr>
                 </table></td>
               </tr>

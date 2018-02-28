@@ -86,9 +86,12 @@ class CLogin
 		     $this->template->showErr("Invalid username or password", 500);
 		     return false;
 	  }
+		
+	  // Row
+	  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	 
 	  // Account creation block
-	  if ($row['block']==$_REQUEST['sd']['last_block'] 
+      if ($row['block']==$_REQUEST['sd']['last_block'] 
 		  && $user!="root")
 	  {
 		  $this->template->showErr("Your account has not been yet registered with the network. Wait for 5 minutes and try again.", 500);
@@ -96,7 +99,6 @@ class CLogin
 	  }
 	  
       // Session
-	  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	  $_SESSION['userID']=$row['ID'];
 	  $userID=$row['ID'];
 	  

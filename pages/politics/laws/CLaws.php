@@ -1,12 +1,11 @@
 <?
 class CLaws
 {
-	function CLaws($db, $acc, $template, $data)
+	function CLaws($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->data=$data;
 	}
 	
 	function vote($pos, $lawID)

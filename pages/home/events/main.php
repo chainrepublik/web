@@ -5,7 +5,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CHome.php";
-  include "CEvents.php";
   
   $db=new db();
   $gd=new CGameData($db);
@@ -13,7 +12,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $home=new CHome($db, $acc, $template);
-  $events=new CEvents($db, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,7 +25,7 @@
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="../../template/GIF/favico.png"/>
+<link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 </head>
@@ -65,7 +63,7 @@
             <? 
                $template->showHelp("Below are displayed your last events. Events are usually generated when something is wrong with your account o when you receive donations, messages and so on. Events are deleted after 10 days.", 70, 70);
 		   
-		       $events->showEvents();
+		       $db->showEvents($_REQUEST['ud']['adr']);
            ?>
             
             </td>
@@ -95,7 +93,7 @@
                     <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
                   </tr>
                   <tr>
-                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2016, ANNO1777 Labs, All Rights Reserved</td>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
                   </tr>
                   <tr>
                     <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>

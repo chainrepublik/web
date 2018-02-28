@@ -1,10 +1,9 @@
 <?
 class CTemp
 {
-	function CTemp($db, $template)
+	function CTemp($db)
 	{
 		$this->kern=$db;
-		$this->template=$template;
 	}
 	
 	function showNav($sel=1)

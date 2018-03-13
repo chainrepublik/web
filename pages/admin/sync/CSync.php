@@ -96,7 +96,7 @@ class CSync
 		?>
         
             <tr>
-            <td class="font_14" width="70%" style="
+            <td class="font_14" width="50%" style="
             <?
 			   switch ($row['status'])
 			   {

@@ -134,7 +134,22 @@ class CAccountant
 			return false;
 		}
 		
-				
+		// Currency ?
+		if (!$this->kern->isCur($moneda))
+		{
+			$this->template->showErr("Insuficient currency");
+			return false;
+		}
+		
+	    // Asset ?
+		if ($moneda!="CRC" && 
+			!$this->kern->trustAsset($to_adr, $moneda))
+		{
+			$this->template->showErr("Recipient doesn't trust this asset");
+			return false;
+		}
+		
+		
 		try
 	    {
 		   // Begin
@@ -421,8 +436,8 @@ class CAccountant
 		// Currency ?
 		if ($this->kern->isCur($cur)==false
 		   && $this->kern->isProd($cur)==false)
-		   return false;
-		   
+		return false;
+		
 		 // CRC ?
 		 if ($cur=="CRC")
 		 {
@@ -448,15 +463,15 @@ class CAccountant
 		 {
 			 // Query
 			 $query="SELECT * 
-			           FROM asset_owners 
+			           FROM assets_owners 
 					  WHERE owner=? 
 					    AND symbol=?";
 					  
 			// Result
 		    $result=$this->kern->execute($query, 
-	                              "ss", 
-				                  $adr,
-								  $cur);
+	                                     "ss", 
+				                         $adr,
+								         $cur);
 								  
 			// Load data ?
 	        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -493,7 +508,7 @@ class CAccountant
 		// Is address ?
 		if ($this->kern->isAdr($adr)==false)
 		   return false;
-		   
+		  
 		// Currency ?
 		if ($this->kern->isCur($cur)==false
 		    && $this->kern->isProd($cur)==false)
@@ -518,14 +533,27 @@ class CAccountant
 			          FROM trans_pool 
 					 WHERE src=? 
 					   AND cur=?";
+			
+			// Result
+		    $result=$this->kern->execute($query, 
+	                                     "ss", 
+				                         $adr,
+				    	                 $cur);
 					   
 			// Load data ?
 	        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			
 			// Return
-			return $row['total']+$this->getNetBalance($adr, $cur);
+			$balance=$row['total']+$this->getNetBalance($adr, $cur);
 		}
-		else return $this->getNetBalance($adr, $cur);
+		else $balance=$this->getNetBalance($adr, $cur);
+		
+		// Format
+		if ($balance=="")
+			$balance=0;
+		
+		// Return
+		return $balance;
 	}
 	
 	function getEnergyProdBalance($adr, $prod)

@@ -360,6 +360,8 @@ class CProduction
 		// Row
 	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	    
+		// Used
+		$used=$row['used']; 
 		
 		// Degradation
 		if ($used==0)
@@ -385,7 +387,7 @@ class CProduction
            <td width="157" align="center">
            <table>
            <tr><td align="center" class="font_10">Used</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print round($row['used'], 2); ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><? print round($used, 2); ?></td></tr>
            <tr><td align="center" class="font_10">units</td></tr>
            </table>
            </td>

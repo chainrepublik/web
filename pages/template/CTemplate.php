@@ -871,14 +871,24 @@ class CTemplate
             <td height="75" align="center" background="../../template/GIF/top_bar.png"><table width="1000" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
-            <td width="339">
+            <td width="200">
             <a href="../../../index.php">
             <img src="../../template/GIF/logo.png" width="200" alt=""/>
             </a>
             </td>
-				<td width="200" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
-            <td width="160" align="right">&nbsp;</td>
-            <td width="227" align="right">
+				<td width="105" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
+            <td width="448" align="center"><table width="200" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td width="20%" align="center"><a href="https://twitter.com/chainrepublik" target="_blank"><img src="../../template/GIF/twitter.png" width="30" height="31" alt=""/></a></td>
+                  <td width="20%" align="center"><a href="https://www.facebook.com/chainrepublik" target="_blank"><img src="../../template/GIF/facebook.png" width="30" height="30" alt=""/></a></td>
+                  <td width="20%" align="center"><a href="https://t.me/joinchat/IdoQlEuEDknfU5pf6Q8tdw" target="_blank"><img src="../../template/GIF/telegram.png" width="30" height="30" alt=""/></a></td>
+                  <td width="20%" align="center"><a href="https://github.com/chainrepublik" target="_blank"><img src="../../template/GIF/github.png" width="35" height="35" alt=""/></a></td>
+                  <td width="20%" align="center">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table></td>
+            <td width="247" align="right">
 			<?
 			   if ($this->kern->isLoggedIn()==false)
 			     $this->showTopButs();
@@ -4296,6 +4306,78 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         <?
 		$this->showModalFooter("Send");
 		
+	}
+	
+	function showPanels($title_1, $val_1, $sub_line_1, 
+					    $title_2, $val_2, $sub_line_2, 
+					    $title_3, $val_3, $sub_line_3, 
+					    $title_4, $val_4, $sub_line_4)
+	{
+		
+		?>
+            
+            <br>
+            <table width="550" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+              <td width="25%">
+			  
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+				   <table width="100%">
+						 <tr><td align="center" class="font_12"><? print $title_1; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $val_1; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $sub_line_1; ?></td></tr>
+				   </table>
+			     </div>
+                 </div>
+				
+			  </td>
+              <td width="25%">
+			  
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12"><? print $title_2; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $val_2; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $sub_line_2; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				
+			  </td>
+              <td width="25%">
+			
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12"><? print $title_3; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $val_3; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $sub_line_3; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				
+			  </td>
+				
+              <td width="25%">
+			
+				  <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12"><? print $title_4; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $val_4; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $sub_line_4; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				  
+			  </td>
+            </tr>
+            </tbody>
+            </table>         
+          
+        <?
 	}
 }
 ?>

@@ -6,7 +6,6 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CAds.php";
   include "../CHome.php";
   include "CExplorer.php";
   
@@ -17,8 +16,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $home=new CHome($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
   $explorer=new CExplorer($db, $template);
 ?>
 
@@ -71,20 +68,11 @@
             
 
             <?
-               // Location
-               $template->showLocation("../../explorer/packets/index.php", "Explorer", "", "Last Blocks");
-	 
-	           // Menu
-	           $template->showNav(2,
-	                              "../packets/index.php", "Packets", "",
-	                              "../blocks/index.php", "Blocks", "", 
-					              "../adr/index.php", "Addresses");
-	 
-	           // Help
+                // Help
               $template->showHelp("The packages contain instructions that are executed by each node separately. For any operation you perform in the network, a new data package is created. The blocks represent a collection of the latest packages distributed through the network. Below the last blocks received are displayed. A block can contain up to 250 packages and has the maximum size of 250kb.");
 	  
 	          // Blocks
-	          $blocks->showBlock($_REQUEST['hash']);
+	          $explorer->showBlock($_REQUEST['hash']);
             ?>
 	
             </td>

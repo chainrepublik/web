@@ -1,31 +1,23 @@
 <?php  
-// if ($_SERVER['HTTP_CF_CONNECTING_IP']!="89.38.168.20") die ("Maintainance in progress. Try again in a few hours.");
-   
  class db
   {
 	 var $html=array("<", ">", "http://", "http:", "http", "javascript");
 
 	 function db()
 	 {
-        $host=$_SERVER['HTTP_HOST'];
+		 //if ($_SERVER['HTTP_CF_CONNECTING_IP']!="109.166.135.48")
+		 //    die ("Maintainance in progress. Pls come back in a few hours.");
+		 
+		 
+		// ---------------------------------
+        $user="root";
+		$pass="";
+		$db="chainrepublik";
 		
-		 if ($host=="localhost")
-		 {
-			 $ho="127.0.0.1:3306:/tmp/mysql.sock";
-			 $user="root";
-			 $pass="";
-			 $db="chainrepublik";
-			 $_REQUEST['sd']['server']="localhost";
-		 }
-		 else
-		 {
-			 $user="root";
-			 $pass="dicatrenu";
-			 $db="chainrepublik";
-			 $ho="localhost";
-		 }
+	    // ---------------------------------
 		
-         $this->con = mysqli_connect($ho, $user, $pass, $db)
+		
+         $this->con = mysqli_connect("localhost", $user, $pass, $db)
             or die("Could not connect: " . mysqli_error());
  		
 		 
@@ -62,7 +54,7 @@
 					   $par_24="",
 					   $par_25="")
 	  {
-		    //print $query."  ($par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25)<br><br>";
+		   //print $query."  ($par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25)<br><br>";
 		   
 		   		  
 		   $stmt = $this->con->prepare($query);
@@ -128,47 +120,47 @@
 					  
 					  // 15 params
 		             if (strlen($types)==15)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15);
 					  
 					  // 16 params
 		             if (strlen($types)==16)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16);
 					  
 					  // 17 params
 		             if (strlen($types)==17)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17);
 					  
 					  // 18 params
 		             if (strlen($types)==18)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18);
 					  
 					  // 19 params
 		             if (strlen($types)==19)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19);
 					  
 					  // 20 params
 		             if (strlen($types)==20)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20);
 					  
 					  // 21 params
 		             if (strlen($types)==21)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21);
 					  
 					  // 22 params
 		             if (strlen($types)==22)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22);
 					  
 					  // 23 params
 		             if (strlen($types)==23)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23);
 					  
 					  // 24 params
 		             if (strlen($types)==24)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24);
 					  
 					  // 25 params
 		             if (strlen($types)==25)
-	                  $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25);
+	                     $stmt->bind_param($types, $par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25);
 				
 			       // Execute
 		           $stmt->execute();
@@ -397,7 +389,7 @@
                 case 'url': $replacement = "<a target='blank' href='" . ($param? $param : $innertext) . "'>$innertext</a>"; break;
                 case 'img':
                     list($width, $height) = preg_split('`[Xx]`', $param);
-                    $replacement = "<img style=\"max-width:550px;\" border=\"0\" src=\"$innertext\" " . (is_numeric($width)? "width=\"$width\" " : '') . (is_numeric($height)? "height=\"$height\" " : '') . '/>';
+                    $replacement = "<img style=\"max-width:350px;\" border=\"0\" src=\"$innertext\" " . (is_numeric($width)? "width=\"$width\" " : '') . (is_numeric($height)? "height=\"$height\" " : '') . '/>';
                 break;
             }
             $string = str_replace($match, $replacement, $string);
@@ -414,7 +406,7 @@
 	
 	 function isLoggedIn()
 	 {
-		 if ($_REQUEST['ud']['ID']>0)
+		 if ($_SESSION['userID']>0)
 		   return true;
 		 else
 		   return false;
@@ -483,10 +475,10 @@
 	    return false;
 		
 		// Valid ?
-		if (preg_match("%^[a-z0-9]+$%", $name)==1)
+		if (preg_match("%^[a-z0-9A-Z]+$%", $name)==1)
 		   return true;
 		else 
-           return false;
+		   return false;
 	}
 	
 	function isName($name)
@@ -833,8 +825,11 @@
 		  return true;
 		  
 	    // Not CRC ?
-		if (!$this->isAsset($cur))
+		if ($this->isAsset($cur)==false)
 		   return false;
+		
+		// Return
+		return true;
 	}
 	
 	function isStringID($ID)
@@ -907,7 +902,9 @@
 		   
 		// No government address or company address ?
 		if ($this->isGovAdr($adr)==false && 
-	       $this->isCompanyAdr($adr)==false)
+	       $this->isCompanyAdr($adr)==false &&
+		   $this->isOrgAdr($adr)==false &&
+		   $this->isRegistered($adr)==true)
 		return true;
 		else
 		return false;
@@ -922,6 +919,29 @@
 	    // Find company
 		$query="SELECT * 
 		          FROM companies 
+				 WHERE adr=?";
+				 
+	   // Result
+	   $result=$this->execute($query, 
+	                         "s", 
+				             $adr);
+			 
+	  // Has data ?
+	  if (mysqli_num_rows($result)>0)
+		 return true;
+	  else
+		 return false;
+	}
+	 
+	 function isOrgAdr($adr)
+	{
+		// Valid address ?
+		if ($this->isAdr($adr)==false)
+		   return false;
+		   
+	    // Find company
+		$query="SELECT * 
+		          FROM orgs 
 				 WHERE adr=?";
 				 
 	   // Result
@@ -1167,16 +1187,12 @@
 		if ($this->isProd($prod)==false)
 		   return false;
 		
-		
-		// Address type
-		$type=$this->getAdrOwnerType($adr); 
-		   
 		// Can buy ?
 		$query="SELECT * 
 		          FROM allow_trans 
 				 WHERE receiver_type=? 
 				   AND prod=? 
-				   AND can_rent='YES'";
+				   AND can_rent='YES'"; 
 				   
 		// Result
 	    $result=$this->execute($query, 
@@ -1315,7 +1331,7 @@
 		// Product exist ?
 		$query="SELECT * 
 		          FROM tipuri_produse 
-				 WHERE prod=?";
+				 WHERE prod=?"; 
 				 
 		 // Load
 	     $result=$this->execute($query, 
@@ -1583,7 +1599,7 @@
 		
 		// If no exit
 		if (mysqli_num_rows($result)==0) 
-		   die("Inavlid entry data");
+		   die("Invalid entry data");
 		   
 		// Load data
 		$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -2044,22 +2060,22 @@
 				// --------------------------------- BIJUTERII --------------------------------------------
 				
 				// Ring Q1 - 30 energy
-				case "ID_INEL_Q1" : return 1; break;
+				case "ID_RING_Q1" : return 1; break;
 				
 				// Ring Q2 - 60 energy
-				case "ID_INEL_Q2" : return 2; break;
+				case "ID_RING_Q2" : return 2; break;
 				
 				// Ring Q3  - 90 energy
-				case "ID_INEL_Q3" : return 3; break;
+				case "ID_RING_Q3" : return 3; break;
 				
 				// Earing Q1 - 60 energy
-				case "ID_CERCEL_Q1" : return 2; break;
+				case "ID_CERCEI_Q1" : return 2; break;
 				
 				// Earing Q2 - 90 energy
-				case "ID_CERCEL_Q2" : return 3; break;
+				case "ID_CERCEI_Q2" : return 3; break;
 				
 				// Earing Q3 - 120 energy
-				case "ID_CERCEL_Q3" : return 4; break;
+				case "ID_CERCEI_Q3" : return 4; break;
 				
 				// Pandant Q1 - 90 energy
 				case "ID_COLIER_Q1" : return 3; break;
@@ -2111,7 +2127,7 @@
 				case "ID_HOUSE_Q3" : return 30; break;
 				
 				// Wine
-				case "ID_WINE" : return 10; break;
+				case "ID_WINE" : return 5; break;
 			}
 			
 			return 0;
@@ -2180,12 +2196,12 @@
             $prod=="ID_PALTON_Q1" ||
 			$prod=="ID_PALTON_Q2" ||
 			$prod=="ID_PALTON_Q3" ||
-            $prod=="ID_INEL_Q1" ||
-			$prod=="ID_INEL_Q2" ||
-			$prod=="ID_INEL_Q3" ||
-            $prod=="ID_CERCEL_Q1" ||
-			$prod=="ID_CERCEL_Q2" ||
-			$prod=="ID_CERCEL_Q3" ||
+            $prod=="ID_RING_Q1" ||
+			$prod=="ID_RING_Q2" ||
+			$prod=="ID_RING_Q3" ||
+            $prod=="ID_CERCEI_Q1" ||
+			$prod=="ID_CERCEI_Q2" ||
+			$prod=="ID_CERCEI_Q3" ||
             $prod=="ID_COLIER_Q1" ||
 			$prod=="ID_COLIER_Q2" ||
 			$prod=="ID_COLIER_Q3" ||
@@ -2227,12 +2243,12 @@
             $prod=="ID_PALTON_Q1" ||
 			$prod=="ID_PALTON_Q2" ||
 			$prod=="ID_PALTON_Q3" ||
-            $prod=="ID_INEL_Q1" ||
-			$prod=="ID_INEL_Q2" ||
-			$prod=="ID_INEL_Q3" ||
-            $prod=="ID_CERCEL_Q1" ||
-			$prod=="ID_CERCEL_Q2" ||
-			$prod=="ID_CERCEL_Q3" ||
+            $prod=="ID_RING_Q1" ||
+			$prod=="ID_RING_Q2" ||
+			$prod=="ID_RING_Q3" ||
+            $prod=="ID_CERCEI_Q1" ||
+			$prod=="ID_CERCEI_Q2" ||
+			$prod=="ID_CERCEI_Q3" ||
             $prod=="ID_COLIER_Q1" ||
 			$prod=="ID_COLIER_Q2" ||
 			$prod=="ID_COLIER_Q3" ||
@@ -2570,6 +2586,10 @@
 	 
 	 function isWorking($adr)
 	 {
+		 // Logged in
+		 if (!$this->isLoggedIn())
+			 return true;
+		 
 		 // Is address
         if ($this->isAdr($adr)==false)
            throw new Exception("Invalid address");
@@ -2701,7 +2721,7 @@
 		 // Result	  
 		$result=$this->execute($query, 
 		                       "s", 
-							   $_REQUEST['ud']['adr']);	
+							   $adr);	
 		 
 		 // Load data ?
 	     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -2806,6 +2826,24 @@
 				
 			// Travel Packet
 			case "ID_ADR_TRAVEL_PACKET" : return "Travel Packet"; break;
+				
+		    // Gift Packet
+			case "ID_GIFT_PACKET" : return "Welcome Gift Packet"; break;
+				
+			// Withdraw Funds Packet
+			case "ID_WTH_FUNDS_PACKET" : return "Withdraw Funds Packet"; break;
+				
+			// Donate Packet
+			case "ID_DONATE_ITEM_PACKET" : return "Donate Packet"; break;
+				
+		    // Set rent price packet
+			case "ID_SET_RENT_PRICE_PACKET" : return "Set Rent Price Packet"; break;
+				
+			// Rent item packet
+			case "ID_RENT_ITEM_PACKET" : return "Rent Item Packet"; break;
+				
+			// Update compaanyc
+			case "ID_UPDATE_COM_PACKET" : return "Update Company Packet"; break;
 		}
 	}
 	 
@@ -2903,7 +2941,7 @@
 		$result=$this->execute($query, 
 		                       "sss", 
 							   $adr,
-							   "ID_TRUST_ADR",
+							   "ID_TRUST_ASSET",
 							   $asset);
 		
 		// Has data
@@ -2926,5 +2964,97 @@
 		// Return true
 		return true;
 	}
+	 
+	function showEvents($adr)
+	{
+		// Load events
+		$query="SELECT * 
+		          FROM events 
+				 WHERE adr=?
+			  ORDER BY ID DESC 
+				 LIMIT 0,25";
+		
+		// Load data
+		$result=$this->execute($query, 
+			    			   "s", 
+							   $adr);	
+	   
+	  
+		?>
+        
+          <table width="95%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
+            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="81%" class="bold_shadow_white_14">Explanation</td>
+                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                <td width="16%" align="center" class="bold_shadow_white_14">Time</td>
+                </tr>
+            </table></td>
+            <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
+          </tr>
+          </table>
+         <table width="90%" border="0" cellspacing="0" cellpadding="5">
+          
+          <?
+		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			 {
+		  ?>
+          
+                <tr>
+                <td width="82%" class="simple_gri_14">
+                <?
+				   if ($row['viewed']==0)
+				     print "<strong>".$row['evt']."</strong>";
+				   else
+				     print $row['evt'];
+				?>
+                </td>
+                <td width="18%" align="center" class="font_14">
+                 <?
+				   if ($row['viewed']==0)
+				     print "<strong>".$this->timeFromBlock($row['block'])."</strong>";
+				   else
+				     print $this->timeFromBlock($row['block']);
+				?>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="2" ><hr></td>
+                </tr>
+          
+          <?
+			 }
+		  ?>
+            
+        </table>
+        
+        <?
+		
+		// Set unread events to zero
+		$query="UPDATE web_users 
+		           SET unread_events=0 
+				 WHERE ID=?";
+				 
+		$this->execute($query, 
+					   "i", 
+					   $_REQUEST['ud']['ID']);
+		
+		// Set events as read
+		$query="UPDATE events 
+		           SET viewed=? 
+				 WHERE adr=?";
+				   
+		$this->execute($query, 
+					   "is", 
+					   time(), 
+					   $adr);
+	}
+	 
+	 function breakWord($word)
+	 {
+		 return preg_replace('/([^\s]{20})(?=[^\s])/', '$1'.' ', $word);
+	 }
 }
 ?>

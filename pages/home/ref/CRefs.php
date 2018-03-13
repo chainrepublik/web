@@ -174,7 +174,7 @@ class CRefs
 		// Load data
 		$query="SELECT adr.*, 
 		               cou.country 
-		          FROM web_users AS us ON us.ID=ras.userID
+		          FROM web_users AS us
 				  JOIN adr ON adr.adr=us.adr
 				  JOIN countries AS cou ON cou.code=adr.cou
 				 WHERE us.refID=? 

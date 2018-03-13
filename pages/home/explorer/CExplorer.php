@@ -10,6 +10,31 @@
 	  
 	  function showBlocks()
 	  {
+		  // Packets data
+		  $query="SELECT COUNT(*) AS total, 
+		                 AVG(packets) AS packets, 
+					     AVG(size) AS size,
+						 SUM(reward) AS reward
+				  FROM blocks 
+				 WHERE tstamp>?";
+		
+		  // Load
+		  $result=$this->kern->execute($query, 
+									  "i", 
+									   time()-86400);	
+		
+		  // Row
+		  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		  // Stats
+		  $this->template->showPAnels("Blocks 24H", $row['total'], "blocks", 
+								      "Packets / block", round($row['packets']/$row['total'], 2), "average", 
+								      "Average Size", round($row['size']/100, 2), "Kbytes",
+								      "Miners Reward", round($row['reward']), "CRC");
+		
+		  // Space
+		  print "<br>";
+		  
 		  $query="SELECT * 
 		            FROM blocks 
 			    ORDER BY ID DESC 
@@ -172,8 +197,8 @@
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tbody>
                             <tr>
-                              <td width="12%" style="padding-right:10px"><img src="../packets/GIF/<? print $row['packet_type']; ?>.png" class="img-responsive" /></td>
-                              <td width="79%"><a href="../packets/packet.php?hash=<? print $row['packet_hash']; ?>" class="font_14"><strong>
+                              <td width="15%" style="padding-right:10px"><img src="./GIF/<? print $row['packet_type']; ?>.png" class="img-responsive" /></td>
+                              <td width="79%"><a href="./GIF/packet.php?hash=<? print $row['packet_hash']; ?>" class="font_14"><strong>
                               <?
 							    print $this->kern->getPacketName($row['packet_type']);
 							  ?>
@@ -204,11 +229,38 @@
 	
 	function showLastPackets()
 	{
-		$query="SELECT * FROM packets 
+		// Packets data
+		$query="SELECT COUNT(*) AS total, 
+		               SUM(fee_amount) AS fees, 
+					   AVG(payload_size) AS size
+				  FROM packets 
+				 WHERE tstamp>?";
+		
+		// Load
+		$result=$this->kern->execute($query, 
+									 "i", 
+									 time()-86400);	
+		
+		// Row
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Stats
+		$this->template->showPanels("Packets 24H", $row['total'], "packets", 
+									"Packets / minute", round($row['total']/1440, 2), "average", 
+								    "Fees 24H", round($row['fees'], 2), "CRC",
+								    "Average size", round($row['size']), "bytes");
+		
+		// Space
+		print "<br>";
+			
+		// Load last packets
+		$query="SELECT * 
+		          FROM packets 
 		      ORDER BY ID DESC 
 			     LIMIT 0,25";
+		
 		 $result=$this->kern->execute($query);	
-	 
+	     
 		?>
         
              <table width="90%" border="0" cellspacing="0" cellpadding="0">

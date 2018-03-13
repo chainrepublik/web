@@ -152,7 +152,7 @@ class CAds
           <table width="90%" border="0" cellspacing="0" cellpadding="5">
           
           <?
-		     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		     while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
           

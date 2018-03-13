@@ -108,14 +108,14 @@ class CProfile
 		    <table width="550" border="0" cellspacing="0" cellpadding="0">
 		    <tbody>
 		    <tr>
-		    <td width="150" align="center" valign="top"><img src="<? if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($_REQUEST['ud']['pic'], 140, 140); ?>" width="140" id="img" name="img" class="img img-circle"></td>
+		    <td width="150" align="center" valign="top"><img src="<? if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($_REQUEST['ud']['pic'], 140, 140); ?>" width="140" id="profile_img" name="profile_img" class="img img-circle"></td>
 		    <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
 		    <tbody>
 		    <tr>
 			<td align="left" class="font_14" height="30" valign="top"><strong>Avatar URL</strong></td>
 		    </tr>
 		    <tr>
-		    <td align="left"><input class="form-control" id="txt_avatar" name="txt_avatar" placeholder="Image URL (10-250 characters)" onKeyDown="key()" type="url" onChange="changed()" <? if ($_REQUEST['ud']['pic']!="") print "value=\"".base64_decode($_REQUEST['ud']['pic'])."\""; ?>></td>
+		    <td align="left"><input class="form-control" id="txt_avatar" name="txt_avatar" placeholder="Image URL (10-250 characters)" onKeyDown="key()" type="url" onChange="changed_img()" <? if ($_REQUEST['ud']['pic']!="") print "value=\"".base64_decode($_REQUEST['ud']['pic'])."\""; ?>></td>
 		    </tr>
 		    <tr>
 		    <td align="left">&nbsp;</td>
@@ -137,7 +137,7 @@ class CProfile
 		      </tr>
 		    <tr>
 		      <td align="center" valign="top">&nbsp;</td>
-				<td align="right" valign="top"><a href="javascript:void(0)" onClick="$('#form_profile').submit()" class="btn btn-success" style="width: 100px" id="btn-update" name="btn-update" disabled><span class="glyphicon glyphicon-refresh"></span>Update</a></td>
+				<td align="right" valign="top"><a href="javascript:void(0)" onClick="$('#form_profile').submit()" class="btn btn-success" style="width: 100px" id="btn-update" name="btn-update" disabled><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Update</a></td>
 		      </tr>
 		        </tbody>
 		  </table>
@@ -145,7 +145,7 @@ class CProfile
 				
 				<script>
 					function key() {  $('#btn-update').removeAttr("disabled"); }
-					function changed() {  $('#img').attr("src", "../../../crop.php?src="+$('#txt_avatar').val()+"&w=140&h=140"); }
+					function changed_img() {  $('#profile_img').attr("src", "../../../crop.php?src="+$('#txt_avatar').val()+"&w=140&h=140"); }
 				</script>        
 
         <?

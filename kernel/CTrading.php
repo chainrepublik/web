@@ -17,7 +17,7 @@ class CTrading
 		          FROM sec_orders 
 				 WHERE ID='".$orderID."'";
 	    $result=$this->kern->execute($query);	
-	    $order_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $order_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	  
 		// Rights
 		if ($order_row['owner_type']=="ID_COM")
@@ -46,7 +46,7 @@ class CTrading
 		}
 	    else
 		{
-		  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		  $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		  $old=$row['total'];
 		}
 		
@@ -63,7 +63,7 @@ class CTrading
 		          FROM com_funds 
 				 WHERE comID='".$comID."'";
 		$result=$this->kern->execute($query);	
-	    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$fundID=$row['ID'];
 		
 		$query="SELECT SUM(margin+pl) AS total
@@ -72,14 +72,14 @@ class CTrading
 					   AND ownerID='".$comID."' 
 					   AND (status='ID_MARKET' OR status='ID_PENDING')";
 	    $result=$this->kern->execute($query);	
-	    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$invested=$row['total'];
 						
 		$query="SELECT * 
 		          FROM bank_acc 
 				 WHERE fundID='".$fundID."'"; 
 		$result=$this->kern->execute($query);	
-	    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$balance=$row['balance'];
 		$total=$invested+$row['balance']; 
 		
@@ -127,7 +127,7 @@ class CTrading
 		if (mysql_num_rows($result)==0) return 0;	
 	    
 		// Load data
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	    
 		// Return profit
 		return $row['s'];
@@ -204,7 +204,7 @@ class CTrading
 		}
 		
 		// Load broker data
-	    $broker_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $broker_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$broker_name=$broker_row['name'];
 		
 		// Broker can trade symbol
@@ -224,7 +224,7 @@ class CTrading
 		}
 		
 		// Load licence data
-		$lic_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$lic_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// ------------------------  Owner fund ? -----------------------------
 		if ($_REQUEST['dd_owner']>0)
@@ -248,7 +248,7 @@ class CTrading
 			}
 			
 			// Fund data
-			$fund_row=mysql_fetch_array($result, MYSQL_ASSOC);
+			$fund_row=mysql_fetch_array($result, MYSQLI_ASSOC);
 			
 			// Max risk per symbol
 			$max_risk=$fund_row['max_risk']; 
@@ -281,7 +281,7 @@ class CTrading
 		}
 		
 		// Load coupon data
-		$cou_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$cou_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Symbol exist
 		$query="SELECT * 
@@ -290,7 +290,7 @@ class CTrading
 		$result=$this->kern->execute($query);	
 		
 		// Load symbol data
-		$sym_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$sym_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Halted ?
 		if ($sym_row['mkt_status']=="halted")
@@ -483,13 +483,13 @@ class CTrading
 				}
 				
 				// Load price
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 				$dp_ask=round(1/$row['bid'], 4);
 			    $dp_bid=round(1/$row['ask'], 4);
 			}
 			else 
 			{
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 				$dp_ask=$row['ask'];
 			    $dp_bid=$row['bid'];
 			}
@@ -860,7 +860,7 @@ class CTrading
 			}
 			
 			// Fund data
-			$fund_row=mysql_fetch_array($result, MYSQL_ASSOC);
+			$fund_row=mysql_fetch_array($result, MYSQLI_ASSOC);
 		}
 		
 		// Broker
@@ -882,7 +882,7 @@ class CTrading
 		}
 		
 		// Load broker data
-	    $broker_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $broker_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$broker_name=$broker_row['name'];
 		
 		// Live price
@@ -911,7 +911,7 @@ class CTrading
 		}
 		
 		// Load licence data
-		$lic_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$lic_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Trade coupons
 		switch ($broker_row['tip'])
@@ -941,7 +941,7 @@ class CTrading
 		}
 		
 		// Load coupon data
-		$cou_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$cou_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Symbol exist
 		$query="SELECT * 
@@ -950,7 +950,7 @@ class CTrading
 		$result=$this->kern->execute($query);	
 		
 		// Load symbol data
-		$sym_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$sym_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Halted ?
 		if ($sym_row['mkt_status']=="halted")
@@ -1295,7 +1295,7 @@ class CTrading
 			}
 			
 			// Fund data
-			$fund_row=mysql_fetch_array($result, MYSQL_ASSOC);
+			$fund_row=mysql_fetch_array($result, MYSQLI_ASSOC);
 			
 			// Max risk per symbol
 			$max_risk=$fund_row['max_risk']; 
@@ -1555,7 +1555,7 @@ class CTrading
 		}
 		
 		// Load order data
-		$order_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$order_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Collateral ?
 		if ($order_row['loan_bankID']>0)

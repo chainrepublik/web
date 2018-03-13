@@ -10,7 +10,7 @@ class CGameData
 		          FROM web_sys_data";
 		
 		// Load data
-		$result=$this->kern->execute($query,"i", 0);	
+		$result=$this->kern->execute($query);	
 		
 		// Row
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);

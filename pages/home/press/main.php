@@ -103,7 +103,7 @@
 			   
 			   // Target
 			   if (!isset($_REQUEST['target']))
-			      $_REQUEST['target']="ID_LOCAL";
+			      $_REQUEST['target']="ID_GLOBAL";
 				  
 			   // Type
 			   if (!isset($_REQUEST['type']))
@@ -121,10 +121,10 @@
 			   switch ($_REQUEST['target'])
 			   {
 				   // Local press
-				   case "ID_LOCAL" : $sel=1; break;
+				   case "ID_LOCAL" : $sel=2; break;
 				   
 				   // International press
-				   case "ID_GLOBAL" : $sel=2; break;
+				   case "ID_GLOBAL" : $sel=1; break;
 				   
 				   // My articles
 				   case "ID_MINE" : $sel=3; break;
@@ -136,15 +136,15 @@
 			   // Menu
 			   if ($_REQUEST['ud']['ID']>0)
 			   $template->showImgsMenu($sel, 
-			                           "menu_label_local_off.png", "menu_label_local_on.png", "Local Press", "main.php?target=ID_LOCAL",
-									   "menu_label_global_off.png", "menu_label_global_on.png", "International Press", "main.php?target=ID_GLOBAL",
+			                           "menu_label_global_off.png", "menu_label_global_on.png", "International Press", "main.php?target=ID_GLOBAL",
+									   "menu_label_local_off.png", "menu_label_local_on.png", "Local Press", "main.php?target=ID_LOCAL",
 									   "menu_label_mine_off.png", "menu_label_mine_on.png", "My Articles", "main.php?target=ID_MINE",
 									   "menu_label_write_off.png", "menu_label_write_on.png", "Write Article", "main.php?target=ID_WRITE");
 			   
 			   else
-			   $template->showImgsMenu($sel, 
-			                           "menu_label_local_off.png", "menu_label_local_on.png", "Local Press", "main.php?target=ID_LOCAL",
-									   "menu_label_global_off.png", "menu_label_global_on.png", "International Press", "main.php?target=ID_GLOBAL");			   
+			   $template->showImgsMenu($sel,
+									   "menu_label_global_off.png", "menu_label_global_on.png", "International Press", "main.php?target=ID_GLOBAL",
+			                           "menu_label_local_off.png", "menu_label_local_on.png", "Local Press", "main.php?target=ID_LOCAL");			   
 			   // Sub menus
 			   if ($sel==1 || $sel==2)
 			   {
@@ -171,7 +171,7 @@
 											"Last Articles", "main.php?target=".$_REQUEST['target']."&type=ID_LAST");
 					
 					// Country
-					if ($sel==1) 
+					if ($sel==2) 
 					    $cou=$_REQUEST['ud']['loc'];
 				    else
 					   	$cou="EN";

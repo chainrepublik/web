@@ -41,7 +41,7 @@ class CAMarket
 		}
 		
 		// Load market data
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Round
 		$qty=round($qty);
@@ -170,7 +170,7 @@ class CAMarket
 	       
 		   if (mysql_num_rows($result)>0)
 		   {
-		       $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		       $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			   $last_price=$row['price'];
 			   $change=$new_price-$change;
 		   }
@@ -188,7 +188,7 @@ class CAMarket
 					WHERE prod='".$symbol."' 
 					  AND tstamp>".(time()-86400);
 		   $result=$this->kern->execute($query);	
-		   $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		   $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		   
 		   // Trans no
 		   $trans=$row['total']+1;
@@ -329,7 +329,7 @@ class CAMarket
 		            FROM companies 
 				   WHERE ID='".$receiverID."'";
 		   $result=$this->kern->execute($query);	
-	       $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	       $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		   
 		   // Set receiver type
 		   $com_type=$row['tip'];
@@ -362,7 +362,7 @@ class CAMarket
 		}
 		
 		// Load market data
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Min qty 
 		if ($qty<$row['min_qty'])
@@ -416,7 +416,7 @@ class CAMarket
 		}
 		
 		// Load data
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Max hold
 		if ($type=="ID_BUY" && $row['max_hold']>0)
@@ -549,7 +549,7 @@ class CAMarket
 	       
 		   if (mysql_num_rows($result)>0)
 		   {
-		       $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		       $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			   $last_price=$row['price'];
 			   $change=$new_price-$last_price;
 			   $change=round($change*100/$last_price, 2);
@@ -566,7 +566,7 @@ class CAMarket
 					WHERE prod='".$prod."' 
 					  AND tstamp>".(time()-86400);
 		   $result=$this->kern->execute($query);	
-		   $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		   $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		   
 		   // Trans no
 		   $trans=$row['total']+1;
@@ -737,7 +737,7 @@ class CAMarket
 		          FROM a_mkts 
 				 WHERE prod='".$prod."'"; 
 		$result=$this->kern->execute($query);	
-	    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	  
 		?>
         
@@ -792,7 +792,7 @@ class CAMarket
 								    AND owner_type='ID_CIT' 
 									AND ownerID='".$_REQUEST['ud']['ID']."'"; 
 	               	     $res=$this->kern->execute($query);	
-	                     $shares_row = mysql_fetch_array($res, MYSQL_ASSOC);
+	                     $shares_row = mysql_fetch_array($res, MYSQLI_ASSOC);
 		                 $qty=round($shares_row['qty']);
 						 
 						 ?>
@@ -881,7 +881,7 @@ class CAMarket
           <table width="530" border="0" cellspacing="0" cellpadding="5">
             
             <?
-			   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			   while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			   {
 				 
 			?>
@@ -962,7 +962,7 @@ class CAMarket
          data.addRows([
 		 <?
 		    $a=0;
-		    while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		    while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			{
 				$a++;
 			    $v[$a]=$row['price'];	

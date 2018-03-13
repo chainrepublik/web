@@ -8,6 +8,125 @@ class CAssetsMkt
 		$this->template=$template;
 	}
 	
+	function rent($itemID, $days)
+	{
+		// Basic check
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+									0.0001, 
+									$this->template, 
+									$this->acc)==false)
+	    return false;
+		   
+		// Item exist ?
+		$query="SELECT * 
+		          FROM stocuri 
+				 WHERE stocID=? 
+				   AND rented_to=? 
+				   AND rent_price>?
+				   AND in_use=? 
+				   AND adr<>?
+				   AND qty>=?"; 
+				 
+		// Result 
+		$result=$this->kern->execute($query, 
+		                             "isiisi", 
+									 $itemID, 
+									 "", 
+									 0.0001, 
+									 0,
+									 $_REQUEST['ud']['adr'],
+									 1); 
+		
+		// Has data ?
+		if (mysqli_num_rows($result)==0)
+		{
+			$this->template->showErr("Invalid item");
+			return false;
+		}
+		
+		// Order data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Can rent ?
+		if (!$this->kern->canRent($row['tip']))
+		{
+			$this->template->showErr("Item can't be rented");
+			return false;
+		}
+		
+		// Days
+		if ($days<1)
+		{
+			$this->template->showErr("Invalid item");
+			return false;
+		}
+		
+		// After item expiration ?
+		if ($_REQUEST['sd']['last_block']+$days*1440>$row['expires']-1440)
+		{
+			$this->template->showErr("You can rent this item for maximum "+$this->kern->timeFromblock($row['expires']-1440));
+			return false;
+		}
+		
+		// Price
+		$price=$days*$row['rent_price'];
+		
+		// Funds ?
+		if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$price)
+		{
+			$this->template->showErr("Insufficient funds to execute this operation");
+			return false;
+		}
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Rent an item for ".$days." days");
+					   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								days=?,
+								status=?, 
+								tstamp=?"; 
+								
+	       $this->kern->execute($query, 
+		                        "isssiisi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_RENT_ITEM", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$itemID,
+								$days,
+								"ID_PENDING", 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->template->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->template->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
 	function closeOrder($orderID)
 	{
 		// Basic check
@@ -37,7 +156,7 @@ class CAssetsMkt
 		}
 		
 		// Order data
-		$row = mysqli_fetch_array($result, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Rights
 		if ($this->kern->isMine($row['adr'])==false)
@@ -78,7 +197,7 @@ class CAssetsMkt
 		   $this->kern->commit();
 		   
 		   // Confirm
-		   $this->template->showOk("Your request has been succesfully recorded");
+		   $this->template->confirm();
 	   }
 	   catch (Exception $ex)
 	   {
@@ -100,6 +219,14 @@ class CAssetsMkt
 					      $qty, 
 					      $days)
 	{
+		
+		// Days
+		if ($days<1)
+		{
+			$this->template->showErr("You can post an order for minimum 1 day");
+			return false;
+		}
+		
 		// Fee
 		$fee=0.0001*$days;
 		
@@ -118,7 +245,7 @@ class CAssetsMkt
 			$buyer_type="ID_CIT";
 			
 			// Adr
-			$adr=$_REQUEST['ud']['adr'];
+			$adr=$_REQUEST['ud']['adr']; 
 		}
 		
 		// Company ID
@@ -158,7 +285,7 @@ class CAssetsMkt
 		}
 		
 		// Market data
-		$mkt_row=mysqli_fetch_array($result, MYSQL_ASSOC);
+		$mkt_row=mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Currency
 		$cur=$mkt_row['cur'];
@@ -233,12 +360,6 @@ class CAssetsMkt
 			}
 		}
 		
-		// Days
-		if ($days<1)
-		{
-			$this->template->showErr("You can post an order for minimum 1 day");
-			return false;
-		}
 		
 		try
 	    {
@@ -301,7 +422,7 @@ class CAssetsMkt
 		          FROM assets_mkts 
 				 WHERE mktID='".$mktID."'";
 	    $result=$this->kern->execute($query);	
-	    $row = mysqli_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		?>
         
@@ -359,7 +480,7 @@ class CAssetsMkt
 		         FROM assets_mkts 
 				WHERE mktID='".$mktID."'"; 
 	    $result=$this->kern->execute($query);	
-	    $mkt_row = mysqli_fetch_array($result, MYSQL_ASSOC);
+	    $mkt_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	    
 		// Owned assets
 		$query="SELECT sum(qty) AS total
@@ -369,7 +490,7 @@ class CAssetsMkt
 				                 FROM my_adr 
 								WHERE userID='".$_REQUEST['ud']['ID']."')";
 	    $result=$this->kern->execute($query);	
-	    $row = mysqli_fetch_array($result, MYSQL_ASSOC);
+	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$owned_assets=$row['total'];
 		
 		
@@ -388,7 +509,7 @@ class CAssetsMkt
 								WHERE userID='".$_REQUEST['ud']['ID']."')";
 								
 		  $result=$this->kern->execute($query);	
-		  $row = mysqli_fetch_array($result, MYSQL_ASSOC);
+		  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		  $owned_cur=$row['total'];
 		}
 		
@@ -398,7 +519,7 @@ class CAssetsMkt
 				 WHERE mktID='".$mktID."' 
 				   AND block>".($_REQUEST['sd']['last_block']-$_REQUEST['sd']['blocks_per_day']);
 		$result=$this->kern->execute($query);	
-		$row = mysqli_fetch_array($result, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$trades=$row['total'];
 		  
 		?>
@@ -430,6 +551,10 @@ class CAssetsMkt
 	
 	function showButs($mktID, $show_sell=true)
 	{
+		// Logged in ?
+		if (!$this->kern->isLoggedIn())
+			return false;
+		
 		// Load market data
 		$query="SELECT * 
 		          FROM assets_mkts 
@@ -441,10 +566,10 @@ class CAssetsMkt
 									 $mktID);	
 		
 		// Row
-		$row = mysqli_fetch_array($result, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Prod
-		$asset=$row['asset'];
+		$asset=$row['asset']; 
 		
 		// User type
 		if (!isset($_REQUEST['ID']))
@@ -466,11 +591,11 @@ class CAssetsMkt
 									   $asset);
 		
 		// Load data
-		$row_at = mysqli_fetch_array($result_at, MYSQL_ASSOC); 
+		$row_at = mysqli_fetch_array($result_at, MYSQLI_ASSOC); 
 		
 		// Can buy
 		if ($row_at['can_buy']=="YES")
-			$show_buy=true;
+		   $show_buy=true;
 		else
 			$show_buy=false;
 		
@@ -479,6 +604,14 @@ class CAssetsMkt
 			$show_sell=true;
 		else
 			$show_sell=false;
+		
+		// Asset ?
+		if (strlen($asset)==5 && 
+			strpos($asset, "_")==false)
+		{
+		   $show_buy=true;
+		   $show_sell=true;
+		}
 		
 		
 		// Modal
@@ -510,10 +643,18 @@ class CAssetsMkt
           
 		  <?
 		     if ($this->kern->canRent($row['asset'])==true)
-			 $this->template->showSmallMenu(1,
-			                              "For Sale", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_SALE", 
-										  "For Rent", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_RENT");
-			 
+			 {
+				   // Sel
+				   if ($_REQUEST['target']=="ID_SALE")
+					   $sel=1;
+				   else if ($_REQUEST['target']=="ID_RENT")
+					   $sel=2;
+				   else $sel=1;
+				 
+			       $this->template->showSmallMenu($sel,
+			                                      "For Sale", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_SALE", 
+										          "For Rent", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_RENT");
+			 }
 		  ?>
           
           </td>
@@ -525,14 +666,15 @@ class CAssetsMkt
 				  strpos($row['asset'], "Q3")>0)
 			  {
 		         // Prod
-			     $prod=str_replace("Q1", "", $row['asset']);
-			     $prod=str_replace("Q2", "", $prod);
-			     $prod=str_replace("Q3", "", $prod);
-			  
-		         $this->template->showDD("Quality", 
-			                          "Low Quality", "main.php?trade_prod=".$prod."Q1", 
-							       	  "Medium Quality", "main.php?trade_prod=".$prod."Q2",  
-								      "High Quality", "main.php?trade_prod=".$prod."Q3");
+			     $prod=str_replace("_Q1", "", $row['asset']);
+			     $prod=str_replace("_Q2", "", $prod);
+			     $prod=str_replace("_Q3", "", $prod);
+			     
+				 // No cars or houses
+				 $this->template->showDD("Quality", 
+			                             "Low Quality", "main.php?trade_prod=".$prod."_Q1&target=".$_REQUEST['target'], 
+							       	     "Medium Quality", "main.php?trade_prod=".$prod."_Q2&target=".$_REQUEST['target'],  
+								         "High Quality", "main.php?trade_prod=".$prod."_Q3&target=".$_REQUEST['target']);
 			  }
 		  ?>
 
@@ -541,7 +683,9 @@ class CAssetsMkt
           
          
                  <?
-				     if ($show_sell==true)
+				     if ($show_sell==true && 
+						 $_REQUEST['target']!="ID_RENT" && 
+						 $this->kern->isLoggedIn())
 					 {
 				 ?>
                  
@@ -569,7 +713,9 @@ class CAssetsMkt
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			  
 			  <?
-				     if ($show_buy==true)
+				     if ($show_buy==true &&
+						 $_REQUEST['target']!="ID_RENT" &&
+						  $this->kern->isLoggedIn())
 					 {
 				 ?>
 			  
@@ -610,13 +756,13 @@ class CAssetsMkt
 		    $query="SELECT amp.*, 
 			               am.asset, 
 						   am.cur, 
-						   ma.userID, 
-						   tp.name
+						   tp.name,
+						   com.name AS com_name
 			          FROM assets_mkts_pos AS amp
 					  JOIN assets_mkts AS am ON am.mktID=amp.mktID
-					  JOIN tipuri_produse AS tp ON tp.prod=am.asset
-				 LEFT JOIN my_adr AS ma ON ma.adr=amp.adr
-					 WHERE tip=?
+				  LEFT JOIN tipuri_produse AS tp ON tp.prod=am.asset
+				  LEFT JOIN companies AS com ON com.adr=amp.adr
+					 WHERE amp.tip=?
 					   AND am.mktID=?
 				  ORDER BY price DESC 
 				     LIMIT 0,25";
@@ -631,13 +777,13 @@ class CAssetsMkt
 		    $query="SELECT amp.*, 
 			               am.asset, 
 						   am.cur, 
-						   ma.userID, 
-						   tp.name
+						   tp.name,
+						   com.name AS com_name
 			          FROM assets_mkts_pos AS amp
 					  JOIN assets_mkts AS am ON am.mktID=amp.mktID
-					  JOIN tipuri_produse AS tp ON tp.prod=am.asset
-				 LEFT JOIN my_adr AS ma ON ma.adr=amp.adr
-					 WHERE tip=?
+				 LEFT JOIN tipuri_produse AS tp ON tp.prod=am.asset
+				 LEFT JOIN companies AS com ON com.adr=amp.adr
+					 WHERE amp.tip=?
 					   AND am.mktID=?
 				  ORDER BY price ASC 
 				     LIMIT 0,25";
@@ -652,8 +798,6 @@ class CAssetsMkt
 		
 		?>
            
-           
-           <div id="div_traders_<? print $tip; ?>" name="div_sellers" style="display:<? if ($visible==true) print "block"; else print "none"; ?>">
            
           
            <table class="table-responsive" width="90%">
@@ -670,7 +814,7 @@ class CAssetsMkt
            
            <?
 		      $a=0;
-		      while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
+		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 				  $a++;
 		   ?>
@@ -679,8 +823,15 @@ class CAssetsMkt
                  <td width="10%"><img class="img img-responsive img-circle" src="../../template/GIF/empty_pic.png"></td>
                  <td>&nbsp;&nbsp;&nbsp;</td>
                  <td width="39%">
-                 <a href="#" class="font_14"><? print $this->template->formatAdr($row['adr'])."<br>"; ?></a>
-                 <span class="font_10"><? print "Placed ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span><br>
+                 <a href="#" class="font_14">
+			     <? 
+				      if ($row['com_name']!="") 
+						  print base64_decode($row['com_name']); 
+				      else 
+						  print $this->template->formatAdr($row['adr']); 
+				 ?>
+			     </a><br>
+                 <span class="font_10"><? print "Placed ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
                  <? if ($this->kern->hasQuality($row['asset'])==true) $this->template->showStars($row['asset']); ?>
                  </td>
                  <td class="font_14" width="16%">
@@ -728,9 +879,9 @@ class CAssetsMkt
            
            
             <br><br><br>
-            </div>
+           
         
-        <?
+<?
 	}
 	
 	
@@ -765,7 +916,7 @@ class CAssetsMkt
            <br>
            
            <?
-		      while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
+		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 				  
 		   ?>
@@ -790,7 +941,7 @@ class CAssetsMkt
                  </td>
                  
                  
-                 <td width="10%" class="font_14">
+                 <td width="15%" class="font_14">
                  <?
 				    print "~".$this->kern->timeFromBlock($row['block']);
 				 ?>
@@ -830,7 +981,7 @@ class CAssetsMkt
 		}
 		
 		// Load data
-		$row = mysqli_fetch_array($result, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Header
 		$this->template->showModalHeader("modal_new_pos", "New Trade Position", "act", "new_position", "tip", "", "mktID", $mktID);
@@ -872,9 +1023,6 @@ class CAssetsMkt
               </tr>
               <tr>
                 <td height="30" align="center">&nbsp;</td>
-              </tr>
-              <tr>
-                <td align="center"><? $this->template->showNetFeePanel(); ?></td>
               </tr>
               <tr>
                 <td align="center">&nbsp;</td>
@@ -960,28 +1108,146 @@ class CAssetsMkt
 		$this->template->showModalFooter("Remove");
 	}
 	
+	function showRentModal()
+	{
+		// Header
+		$this->template->showModalHeader("rent_modal", "Rent Item", "act", "rent", "rent_itemID", "0");
+		?>
+            
+            <table width="610" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+            <td width="172" align="center" valign="top">
+			  <table width="180" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center"><img src="../../template/GIF/ico_renew.png" width="180" height="181" alt=""/></td>
+              </tr>
+              <tr>
+                <td align="center">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center">&nbsp;</td>
+              </tr>
+            </table></td>
+            <td width="438" align="center" valign="top">
+            <table width="300" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="30" align="left" valign="top" class="simple_blue_16"><strong>Days</strong></td>
+              </tr>
+              
+              <tr>
+                <td align="left"><input class="form-control" name="txt_rent_days" id="txt_rent_days" value="0" style="width:100px" type="number" min="1"></td>
+              </tr>
+              <tr>
+                <td height="30" align="left" valign="top" class="simple_blue_14">&nbsp;</td>
+              </tr>
+              </table></td>
+          </tr>
+         </table>
+         
+		 
+        
+        <?
+		$this->template->showModalFooter("Rent");
+	}
+	
 	function showMarket($mktID, $show_sell=true, $section="industrial")
 	{
-		// Action ?
-		  if ($_REQUEST['act']=="new_position")
-             $this->newMarketPos($_REQUEST['ID'],
-	                               $mktID,
-	                               $_REQUEST['tip'],
-	                               $_REQUEST['txt_new_trade_price'], 
-					               $_REQUEST['txt_new_trade_qty'], 
-					               $_REQUEST['txt_new_trade_days']);
-		  
-		  // Close order					   
-		  if ($_REQUEST['act']=="close_order")
-		    $this->closeOrder($_REQUEST['orderID']);
+		// User section ?
+		if ($section=="user" || $section=="shares")
+			$comID=0;
+		else
+			$comID=$_REQUEST['ID'];
+	
+		// Load market data
+		$query="SELECT * 
+		          FROM assets_mkts 
+				 WHERE mktID=?"; 
+		
+		// Load
+		$result=$this->kern->execute($query, "i", $mktID);
+		
+		// Data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Owned items
+		if ($comID>0)
+			$owned=$this->acc->getTransPoolBalance($this->kern->getComAdr($comID), 
+												   $row['asset']);
+		else
+		    $owned=$this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], 
+												   $row['asset']);
+		
+		
+		// Asset
+		$asset=$row['asset']; 
+		
+		// Format asset name
+		if (strpos($asset, "_")>0) 
+			$asset="units";
+		
+		// Currency
+		$cur=$row['cur'];
+		
+		// Ask
+		$ask=round ($row['ask'], 4);
+		
+		// Bid
+		$bid=round($row['bid'], 4);
+		
+		// 24 hours volume
+		$query="SELECT SUM(qty) AS total 
+		          FROM assets_mkts_trades 
+				 WHERE mktID=? 
+				   AND block>?";
+		
+		// Load
+		$result=$this->kern->execute($query, 
+									 "ii", 
+									 $mktID, 
+									 $_REQUEST['sd']['last_block']-1440);
+		
+		// Data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Volume
+		$vol=round($row['total'], 2);
+		
+		 // Action
+		 switch ($_REQUEST['act'])
+		 {
+			 // New position
+			 case "new_position" : $this->newMarketPos($comID,
+	                                                   $mktID,
+	                                                   $_REQUEST['tip'],
+	                                                   $_REQUEST['txt_new_trade_price'], 
+					                                   $_REQUEST['txt_new_trade_qty'], 
+					                                   $_REQUEST['txt_new_trade_days']);
+		     break;
+				 
+			 // Close order	 
+		     case "close_order" : $this->closeOrder($_REQUEST['orderID']);
+			 break;
+				 
+			 // Rent	 
+		     case "rent" : $this->rent($_REQUEST['rent_itemID'], $_REQUEST['txt_rent_days']);
+			 break;
+		 }
 			
 		  // Target
 		  if (!isset($_REQUEST['target']))
 		     $_REQUEST['target']="ID_SELLERS";
+		
+		  // Panels
+		  if ($this->kern->isLoggedIn())
+		  $this->showPanels($asset, $cur, $owned, $ask, $bid, $vol);
 		  
 		  // Buts
+		  if ($section=="user" ||
+			  $section=="shares" ||  
+		      ($section=="industrial" && 
+			  $this->kern->ownedCom($_REQUEST['ID'])==true))
 		  $this->showButs($mktID, $show_sell);
-		  
+		
 		   // Sellers
 		  switch ($_REQUEST['target'])
 		  {
@@ -996,42 +1262,232 @@ class CAssetsMkt
 		  }
 		  
 		  // Navigation
-		  switch ($section)
+		  if ($_REQUEST['target']!="ID_RENT")
 		  {
-			  // Industrial section
-			  case "industrial" : $this->template->showNav($sel, 
+		      switch ($section)
+		      {
+			      // Industrial section
+			      case "industrial" : $this->template->showNav($sel, 
 		                                                  "market.php?ID=".$_REQUEST['ID']."&mktID=".$mktID."&target=ID_SELLERS", "Sellers", 0, 
 							                              "market.php?ID=".$_REQUEST['ID']."&mktID=".$mktID."&target=ID_BUYERS", "Buyers", 0,
 							                              "market.php?ID=".$_REQUEST['ID']."&mktID=".$mktID."&target=ID_TRANS", "Transactions", 0);
 							      break;
 			  
-			  // Users section
-			  case "user" : $this->template->showNav($sel, 
+			      // Users section
+			      case "user" : $this->template->showNav($sel, 
 		                                            "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_SELLERS", "Sellers", 0, 
 							                        "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_BUYERS", "Buyers", 0,
 							                        "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_TRANS", "Transactions", 0);
 							break;
-		  }
+				  
+			     // Shares section
+			     case "shares" : $this->template->showNav($sel, 
+		                                            "shares.php?ID=".$_REQUEST['ID']."&target=ID_SELLERS", "Sellers", 0, 
+							                        "shares.php?ID=".$_REQUEST['ID']."&target=ID_BUYERS", "Buyers", 0,
+							                        "shares.php?ID=".$_REQUEST['ID']."&target=ID_TRANS", "Transactions", 0);
+							break;
+		    }
 		  
 		  
 		  
-		  // Sellers
-		  switch ($_REQUEST['target'])
-		  {
-			  // Sellers
-		      case "ID_SELLERS" : $this->showTraders($mktID, "ID_SELL"); 
+		  
+		     switch ($_REQUEST['target'])
+		     {
+			     // Sellers
+		         case "ID_SELLERS" : $this->showTraders($mktID, "ID_SELL"); 
 			                      break;
 								  
-			  // Buyers
-		      case "ID_BUYERS" : $this->showTraders($mktID, "ID_BUY"); 
+			     // Buyers
+		         case "ID_BUYERS" : $this->showTraders($mktID, "ID_BUY"); 
 			                     break;
 								  
-			  // Trans
-		      case "ID_TRANS" : $this->showLastTrades($mktID); 
+			     // Trans
+		         case "ID_TRANS" : $this->showLastTrades($mktID); 
 			                    break;
-		  }
+		     }
+	      }
+		  else $this->showRentMarket($mktID);
 	}
 	
+	
+    function showRentMarket($mktID)
+	{
+		// Rent modal
+		$this->showRentModal();
+		
+		// Load market data
+		$query="SELECT * 
+		          FROM assets_mkts 
+				 WHERE mktID=?";
+		
+		// Load
+		$result=$this->kern->execute($query, 
+									 "i", 
+									 $mktID);
+		
+		// Data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Product
+		$prod=$row['asset'];
+		
+		// Load data
+		$query="SELECT st.*,
+		               com.name AS com_name,
+					   adr.pic,
+					   cou.country
+			     FROM stocuri AS st
+		   	     JOIN adr ON adr.adr=st.adr
+				 JOIN countries AS cou ON cou.code=adr.cou
+		    LEFT JOIN tipuri_produse AS tp ON tp.prod=st.tip
+			LEFT JOIN companies AS com ON com.adr=st.adr
+				WHERE st.tip=?
+				  AND st.rent_price>?
+				  AND st.rented_expires=?
+				  AND st.in_use=?
+				  AND st.expires>?
+			 ORDER BY rent_price ASC 
+			    LIMIT 0,25";
+		
+		// Load
+		$result=$this->kern->execute($query, 
+									 "sdiii", 
+									 $prod, 
+									 0, 
+									 0, 
+									 0, 
+									 $_REQUEST['sd']['last_block']+1440); 
+		
+		?>
+
+           <table class="table-responsive" width="90%">
+           <thead bgcolor="#f9f9f9">
+           <th></th>
+           <th width="1%">&nbsp;</th>
+           <th class="font_14" height="35">&nbsp;&nbsp;Address</th>
+           <th class="font_14" height="35" align="center">Price</th>
+           <th class="font_14" height=35 align=\"center\">Rent</th>
+           </thead>
+           
+           <br>
+           
+           <?
+		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			  {
+				  if ($this->kern->reserved("ID_RENT_ITEM_PACKET", 
+										   "par_1_val", 
+										   base64_encode($row['stocID']))==false)
+				  {
+		   ?>
+           
+                 <tr>
+                 <td width="9%"><img class="img img-responsive img-circle" src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop(base64_decode($row['pic'])); ?>"></td>
+                 <td>&nbsp;&nbsp;&nbsp;</td>
+                 <td width="39%">
+                 <a href="#" class="font_14">
+			     <? 
+				      if ($row['com_name']!="") 
+						  print base64_decode($row['com_name']); 
+				      else 
+						  print $this->template->formatAdr($row['adr']); 
+				 ?>
+			     </a><br>
+                 <span class="font_10"><? print ucfirst(strtolower($row['country'])); ?></td>
+                 <td class="font_14" width="17%"><strong>
+				 <? 
+				      print round($row['rent_price'], 4)." </strong><span class='font_10'>CRC</span>"; 
+			     ?>
+                 </td>
+                 
+                 
+                 <td class="font_16" width="10%">
+			     <a href="javascript:void(0)" onClick="$('#rent_modal').modal(); $('#rent_itemID').val('<? print $row['stocID']; ?>')" class="btn btn-primary" style="width: 100px">Rent</a>
+                 </td>
+                
+                 
+                 </tr>
+                 <tr><td colspan="6"><hr></td></tr>
+           
+           <?
+				  }
+			  }
+		   ?>
+           
+           </table>
+           <br><br><br>
+       
+
+        <?
+	}
+	
+	function showPanels($asset, $cur, $owned, $ask, $bid, $vol)
+	{
+		
+		?>
+            
+            <br>
+            <table width="550" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+              <td width="25%">
+			  
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+				   <table width="100%">
+						 <tr><td align="center" class="font_12">You own</td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $owned; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $asset?></td></tr>
+				   </table>
+			     </div>
+                 </div>
+				
+			  </td>
+              <td width="25%">
+			  
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12">Ask</td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $ask; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $cur; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				
+			  </td>
+              <td width="25%">
+			
+				 <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12">Bid</td></tr>
+						 <tr><td align="center" class="font_22"><strong><? print $bid; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $cur; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				
+			  </td>
+				
+              <td width="25%">
+			
+				  <div class="panel panel-default" style="width: 90%">
+                 <div class="panel-body">
+					 <table width="100%">
+						 <tr><td align="center" class="font_12">24H Volume</td></tr>
+						 <tr><td align="center" class="font_22" style="color: #009900"><strong><? print $vol; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><? print $asset; ?></td></tr>
+					 </table>
+			     </div>
+                 </div>
+				  
+			  </td>
+            </tr>
+            </tbody>
+            </table>         
+          
+        <?
+	}
 	
 } 
 ?>

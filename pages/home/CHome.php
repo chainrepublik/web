@@ -279,29 +279,6 @@ class CHome
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
-                
-                
-                <tr>
-                  <td height="80" align="center" <? if ($sel==10) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                    <a href="../../home/explorer/main.php">
-                    <table width="95%" border="0" cellspacing="0" cellpadding="0">
-                    <tbody>
-                      <tr>
-                        <td width="41%" align="left"><img src="../GIF/ico_cashier_<? if ($sel==10) print "on"; else print "off"; ?>.png" width="70" height="59" alt=""/></td>
-                        <td width="50%" valign="middle"><span class="<? if ($sel==10) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Explorer</span><br />
-                          <span class="<? if ($sel==10) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Blockchain explorer</span></td>
-                        <td width="9%"><? if ($sel==10) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  </a>
-                  </td>
-                </tr>
-                
-                
-                <tr>
-                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
-                </tr>
 				  
 				  
 				  <tr>
@@ -330,6 +307,27 @@ class CHome
 				  }
 				?>
                 
+				 
+                <tr>
+                  <td height="80" align="center" <? if ($sel==10) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                    <a href="../../home/explorer/main.php">
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="41%" align="left"><img src="../GIF/ico_cashier_<? if ($sel==10) print "on"; else print "off"; ?>.png" width="70" height="59" alt=""/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==10) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Explorer</span><br />
+                          <span class="<? if ($sel==10) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Blockchain explorer</span></td>
+                        <td width="9%"><? if ($sel==10) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </a>
+                  </td>
+                </tr>
+				  
+				   <tr>
+                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
+                </tr>
               
                 <tr>
                   <td>&nbsp;</td>

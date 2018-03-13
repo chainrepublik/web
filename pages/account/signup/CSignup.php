@@ -12,7 +12,9 @@ class CSignup
 	function signup($user, $pass, $re_pass, $email)
 	{
 		// User
-		if (strlen($user)<5 || strlen($user)>15)
+		if (strlen($user)<5 || 
+			strlen($user)>15 || 
+			!$this->kern->isValidName($user))
 		{
 			$this->template->showErr("Invalid username length (5-15 characters)", 510);
 			return false;
@@ -137,61 +139,63 @@ class CSignup
 		if ($IP=="::1")
 			$IP="127.0.0.1";
 		
-		// Same password
-		$query="SELECT * 
+		if ($IP!="109.166.135.48" && $IP!="127.0.0.1")
+		{
+		    // Same password
+		    $query="SELECT * 
 		          FROM web_users 
 				 WHERE pass=?";
 		
-		// Load data
-	    $result=$this->kern->execute($query, 
+		    // Load data
+	        $result=$this->kern->execute($query, 
 									 "s", 
 									  hash("SHA256", $pass));
 		
-		// Password already used
-		if (mysqli_num_rows($result)>0)
-		{
-			$this->template->showErr("You already have an account on this server", 510);
-			return false;
+		    // Password already used
+		    if (mysqli_num_rows($result)>0)
+		    {
+			    $this->template->showErr("You already have an account on this server", 510);
+			    return false;
+	  	    }
+		
+		
+		    // Same IP
+		    $query="SELECT * 
+		              FROM web_users 
+				     WHERE IP=?";
+		
+		    // Load data
+	        $result=$this->kern->execute($query, 
+									     "s", 
+									      $IP);
+		
+		    // IP already used
+		    if (mysqli_num_rows($result)>0)
+		    {
+			    $this->template->showErr("You already have an account on this server", 510);
+			    return false;
+		    }
+		
+		    // Break IP
+		    $v=explode(".", $IP);
+		    $part=$v[0].".".$v[1].".";
+		
+		    // Same IP
+		    $query="SELECT * 
+		              FROM web_users 
+				     WHERE IP LIKE '".$part."%' 
+				       AND tstamp>?";
+		
+		    // Load data
+	        $result=$this->kern->execute($query, "i", time()-3600);
+		
+		    // IP already used
+		    if (mysqli_num_rows($result)>0)
+		    {
+			    $this->template->showErr("You already have an account on this server", 510);
+			    return false;
+		    }
 		}
-		
-		
-		// Same IP
-		$query="SELECT * 
-		          FROM web_users 
-				 WHERE IP=?";
-		
-		// Load data
-	    $result=$this->kern->execute($query, 
-									 "s", 
-									  $IP);
-		
-		// IP already used
-		if (mysqli_num_rows($result)>0)
-		{
-			$this->template->showErr("You already have an account on this server", 510);
-			return false;
-		}
-		
-		// Break IP
-		$v=explode(".", $IP);
-		$part=$v[0].".".$v[1].".";
-		
-		// Same IP
-		$query="SELECT * 
-		          FROM web_users 
-				 WHERE IP LIKE '".$part."%' 
-				   AND tstamp>?";
-		
-		// Load data
-	    $result=$this->kern->execute($query, "i", time()-3600);
-		
-		// IP already used
-		if (mysqli_num_rows($result)>0)
-		{
-			$this->template->showErr("You already have an account on this server", 510);
-			//return false;
-		}
-	     
 		
 		try
 	    {
@@ -271,7 +275,7 @@ class CSignup
 										$this->kern->d());
 			
 			// Commit
-	 	    $this->kern->rollback();
+	 	    $this->kern->commit();
 	        
 			// Confirm
 			$this->template->confirm();

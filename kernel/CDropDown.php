@@ -45,14 +45,14 @@ class CDropDown
 		$query="SELECT * FROM countries"; 
 		
 		$result=$this->kern->execute($query);
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		$this->addLine($row['country'], 
 			                $row['code'], 
 							true, 
 							"../../GIF/flags/35/".$row['code'].".gif", 
 							"Global market");
 							
-	    while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+	    while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 	         $this->addLine($row['country'], 
 			                $row['code'], 
 							false, 

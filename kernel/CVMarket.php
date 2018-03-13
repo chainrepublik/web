@@ -38,7 +38,7 @@ class CVMarket
 		}
 		
 		// Load order data
-	    $ord_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $ord_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Owner type
 		$owner_type=$ord_row['owner_type'];
@@ -185,7 +185,7 @@ class CVMarket
 		}
 		
 		// Load order data
-		$order_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$order_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Buy order
 		if ($order_row['tip']=="ID_BUY")
@@ -197,7 +197,7 @@ class CVMarket
 					   AND tip='ID_BUY'
 				  ORDER BY price DESC, ID ASC";
 			$result=$this->kern->execute($query);
-			$row = mysql_fetch_array($result, MYSQL_ASSOC);	
+			$row = mysql_fetch_array($result, MYSQLI_ASSOC);	
 			if ($row['ID']!=$orderID)
 			{
 				$this->template->showErr("Invalid entry data");
@@ -213,7 +213,7 @@ class CVMarket
 					   AND tip='ID_SELL'
 				  ORDER BY price ASC, ID ASC";
 			$result=$this->kern->execute($query);
-			$row = mysql_fetch_array($result, MYSQL_ASSOC);	
+			$row = mysql_fetch_array($result, MYSQLI_ASSOC);	
 			if ($row['ID']!=$orderID)
 			{
 				$this->template->showErr("Invalid entry data");
@@ -229,7 +229,7 @@ class CVMarket
 						  JOIN tipuri_companii AS tc ON tc.tip=com.tip
 						 WHERE com.ID='".$ownerID."'";
 				$result=$this->kern->execute($query);
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);	
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);	
 				
 				// Tools in stock ?
 				$query="SELECT * 
@@ -264,7 +264,7 @@ class CVMarket
 		          FROM tipuri_produse 
 				 WHERE prod='".$order_row['symbol']."'";
 		$result=$this->kern->execute($query);	
-		$prod_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$prod_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Symbol
 		$symbol=$order_row['symbol'];
@@ -305,7 +305,7 @@ class CVMarket
 		    return false;
 		}
 		
-		$mkt_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$mkt_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	    $s_type=$mkt_row['symbol_type'];
 		
 		// Load trader data
@@ -316,7 +316,7 @@ class CVMarket
 		{
 			$query="SELECT * FROM companies WHERE ID='".$ownerID."'";
 	        $result=$this->kern->execute($query);	
-	        $com_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $com_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			$o_type=$com_row['tip'];
 		}
 		
@@ -558,7 +558,7 @@ class CVMarket
 				 ORDER BY price ASC 
 				    LIMIT 0,1";
 		   $result=$this->kern->execute($query);	
-		   $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		   $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		   $ask=$row['price'];
 		   
 		   // Calculate bid
@@ -569,7 +569,7 @@ class CVMarket
 				 ORDER BY price DESC 
 				    LIMIT 0,1";
 		   $result=$this->kern->execute($query);	
-		   $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		   $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		   $bid=$row['price'];
 		   
 		   // Update market
@@ -647,7 +647,7 @@ class CVMarket
 			if (mysql_num_rows($result)>0)
 			{
 				// Load data
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 				
 				// Error
 				$this->template->showErr("There is a sell order at a lower price. Maximum possible price is ".$row['price']);
@@ -670,7 +670,7 @@ class CVMarket
 			if (mysql_num_rows($result)>0)
 			{
 				// Load data
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 				
 				// Error
 				$this->template->showErr("There is a buy order at a higher price. Minimum possible price is ".$row['price']);
@@ -705,7 +705,7 @@ class CVMarket
 		    return false;
 		}
 		
-		$mkt_row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$mkt_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Symbol type
 	    $s_type=$mkt_row['symbol_type'];
@@ -728,7 +728,7 @@ class CVMarket
 		{
 			$query="SELECT * FROM companies WHERE ID='".$ownerID."'";
 	        $result=$this->kern->execute($query);	
-	        $com_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $com_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			$o_type=$com_row['tip'];
 		}
 		
@@ -771,14 +771,14 @@ class CVMarket
 				          FROM tipuri_produse 
 						 WHERE prod='".$symbol."'";
 				$result=$this->kern->execute($query);	
-				$row = mysql_fetch_array($result, MYSQL_ASSOC);
+				$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 				
 				// Prod name
 				$prod=$row['name'];
 			}
 			else
 			{
-			  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+			  $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			  $available=$row['qty'];
 			}
 			
@@ -799,7 +799,7 @@ class CVMarket
 			}
 			else
 			{
-			  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+			  $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			  $available=$row['qty'];
 			}
 			
@@ -950,7 +950,7 @@ class CVMarket
 				 WHERE vm.symbol='".$symbol."'";
 				 
 		$result=$this->kern->execute($query);	
-	    $mkt_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $mkt_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	    
 		// Product
 		if ($mkt_row['symbol_type']=="ID_PROD")
@@ -978,7 +978,7 @@ class CVMarket
 			}
 			else
 			{
-			  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+			  $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			  $own=$row['qty'];
 			}
 		}
@@ -998,7 +998,7 @@ class CVMarket
 			}
 			else
 			{
-			  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+			  $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 			  $own=$row['qty'];
 			}
 			
@@ -1082,7 +1082,7 @@ class CVMarket
 		          FROM v_mkts 
 				 WHERE symbol='".$symbol."'";
 		$result=$this->kern->execute($query);	
-	    $mkt_row = mysql_fetch_array($result, MYSQL_ASSOC);
+	    $mkt_row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	    
 		// Owns
 		if ($mkt_row['symbol_type']=="ID_PROD")
@@ -1093,7 +1093,7 @@ class CVMarket
 					   AND owner_type='".$owner_type."' 
 					   AND ownerID='".$ownerID."'"; 
 			$result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $owns=$row['q'];
 		}
 		else
@@ -1104,7 +1104,7 @@ class CVMarket
 					   AND owner_type='".$owner_type."' 
 					   AND ownerID='".$ownerID."'";
 			$result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $owns=$row['qty'];
 		}
 		
@@ -1254,7 +1254,7 @@ class CVMarket
         dataTable.addRows([
         
 		<?
-		   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		   while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 		      print "['', ".$row['low'].", ".$row['open'].", ".$row['close'].", ".$row['high'].",  'Close : $".$row['close']."'],";
 		?>
       
@@ -1357,7 +1357,7 @@ class CVMarket
              
 			 <?
 			   $a=0;
-			   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			   while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			   {
 				   
 			      $a++;
@@ -1533,7 +1533,7 @@ class CVMarket
             <table width="550" border="0" cellspacing="1">
             
             <?
-			   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			   while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			   {
 			?>
             
@@ -1645,7 +1645,7 @@ class CVMarket
 			          FROM shares 
 					 WHERE symbol='".$symbol."'";
 			$result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $sum=$row['s'];
 					 
 			$query="SELECT sum(qty) AS s
@@ -1654,7 +1654,7 @@ class CVMarket
 					   AND tip='ID_SELL'";
 					   
 			$result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $sum=$sum+$row['s'];
 		}
 		else
@@ -1664,7 +1664,7 @@ class CVMarket
 					  WHERE tip='".$symbol."'";
 		
 		    $result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $sum=$row['s'];
 			
 			$query="SELECT sum(qty) AS s
@@ -1673,7 +1673,7 @@ class CVMarket
 					   AND tip='ID_SELL'";
 					   
 			$result=$this->kern->execute($query);	
-	        $row = mysql_fetch_array($result, MYSQL_ASSOC);
+	        $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 		    $sum=$sum+$row['s'];
 		}
 		
@@ -1743,7 +1743,7 @@ class CVMarket
             <table width="550" border="0" cellspacing="1" cellpadding="0">
               
               <?
-			     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			     while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 				 {
 					 $owns=$this->getOwnedItems($row['owner_type'], $row['ownerID'], $symbol); 
 					 if ($owns>0)
@@ -1832,7 +1832,7 @@ class CVMarket
 				       AND ownerID='".$ownerID."' 
 				       AND symbol='".$symbol."'";
 		    $result=$this->kern->execute($query);	
-		    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	        $total=$row['total'];
 			
 			$query="SELECT sum(qty) AS s
@@ -1842,7 +1842,7 @@ class CVMarket
 				       AND symbol='".$symbol."'
 					   AND tip='ID_SELL'";
 		    $result=$this->kern->execute($query);	
-		    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	        $total=$total+$row['s'];
 			
 			return $total;
@@ -1861,7 +1861,7 @@ class CVMarket
 				       AND ownerID='".$ownerID."' 
 				       AND symbol='".$symbol."'";
 		    $result=$this->kern->execute($query);	
-		    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	        $total=$row['qty'];
 			
 			$query="SELECT sum(qty) AS s
@@ -1871,7 +1871,7 @@ class CVMarket
 				       AND symbol='".$symbol."'
 					   AND tip='ID_SELL'";
 		    $result=$this->kern->execute($query);	
-		    $row = mysql_fetch_array($result, MYSQL_ASSOC);
+		    $row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	        $total=$total+$row['s'];
 			
 			return $total;
@@ -1897,7 +1897,7 @@ class CVMarket
 		          FROM tipuri_produse 
 				 WHERE prod='".$symbol."'";
 		$result=$this->kern->execute($query);	
-		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		$row = mysql_fetch_array($result, MYSQLI_ASSOC);
 	    return $row['name'];
 	}
 	
@@ -1953,7 +1953,7 @@ class CVMarket
         <table width="540" border="0" cellspacing="0" cellpadding="5">
           
           <?
-		     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		     while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
           

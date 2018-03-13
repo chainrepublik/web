@@ -71,16 +71,14 @@ class CPress
 		          FROM votes 
 				 WHERE adr=? 
 				   AND target_type=? 
-				   AND targetID=? 
-				   AND block>?"; 
+				   AND targetID=?"; 
 				   
 		// Query
 		$result=$this->kern->execute($query, 
-		                             "ssii", 
-									 $adr, 
+		                             "ssi", 
+									 $_REQUEST['ud']['adr'], 
 									 $target_type, 
-									 $targetID, 
-									 $_REQUEST['sd']['last_block']-1440);	
+									 $targetID);	
 	    
 		// Has data ?
 		if (mysqli_num_rows($result)>0)
@@ -576,7 +574,7 @@ class CPress
 	{
 		// Line
 		print "<br>";
-		
+				
 		// QR modal
 		$this->template->showQRModal();
 		
@@ -1380,7 +1378,7 @@ class CPress
           <td width="22%" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tbody>
            <tr>
-             <td align="center"><img src="<? if ($row['pic']=="") print "../../template/template/GIF/mask.jpg"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=100&h=100"; ?>" width="125" height="125" class="img img-responsive img-rounded" /></td>
+             <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=100&h=100"; ?>" width="125" height="125" class="img img-responsive img-rounded" id="post_img" name="post_img" onError="$('#post_img').attr('src', '../../template/GIF/empty_pic.png');"/></td>
            </tr>
            <tr>
              <td>&nbsp;</td>
@@ -1496,7 +1494,10 @@ class CPress
              <td><hr></td>
            </tr>
            <tr>
-             <td class="font_14"><? print nl2br($this->template->makeLinks($this->kern->bb_parse($this->kern->noescape(base64_decode($row['mes']))))); ?></td>
+             <td class="font_14">
+		    <? 
+		           print nl2br($this->template->makeLinks($this->kern->bb_parse($this->kern->noescape(base64_decode($row['mes']))))); 
+			?></td>
            </tr>
            <tr>
              <td class="font_14">&nbsp;</td>

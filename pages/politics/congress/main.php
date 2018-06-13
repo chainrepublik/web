@@ -7,6 +7,7 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CPolitics.php";
+  include "CCongress.php";
   
   $db=new db();
   $gd=new CGameData($db);
@@ -14,7 +15,9 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $pol=new CPolitics($db, $acc, $template);
+  $congress=new CCongress($db, $acc, $template);
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +32,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -55,7 +59,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $pol->showMenu(7);
+			   $pol->showMenu(6);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -64,10 +68,40 @@
              <?
 		          $template->showHelp("The congress is made up of the <strong>top 25 players by political endorsement</strong>. Congress sets the amount of taxes, bonuses, can start wars and has <strong>absolute control</strong> over the state budget. Below are <strong>listed congress members</strong>. Note that the congress is formed in a country <strong>only</strong> if members have a cumulated political endorment of at <strong>least 100,000</strong>. Below are listed the members of congress. Your political endorsment <strong>increases</strong> when other players endorse you for congress.");
 		          
-				  // WIP
-				  $template->showWIP("Mars");
+				  // Congress
+				  $congress->showCongressStatus($db->getCou());
+				
+				  // Revoke
+				  if ($_REQUEST['act']=="revoke")
+					  $template->endorseAdr($_REQUEST['adr'], "ID_DOWN");
+				
+				  // Menu
+				  $congress->showMenu();  
+				  
+				  // Page ?
+				  if (!isset($_REQUEST['page']))
+					  $_REQUEST['page']="members";
+				
+				  // Page
+				  switch ($_REQUEST['page'])
+				  {
+					  // Members 
+					  case "members" : $congress->showCongress(); 
+						               break;
+					  
+					  // Mine
+					  case "mine" : $congress->showEndorsers("ID_MINE"); 
+						            break;
+					  
+					  // Endorsed
+					  case "endorsed" : $congress->showEndorsers("ID_ENDORSED"); 
+						                break;
+				  }
+				
 		     ?>
             
+				
+				
             </td>
             <td width="206" align="center" valign="top">
             

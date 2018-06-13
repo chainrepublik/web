@@ -11,6 +11,9 @@ class CHome
 	
     function showOverviewPanel()
 	{
+		// QR modal
+		$this->template->showQRModal();
+		
 		// Load company data
 		$query="SELECT * 
 		          FROM companies 

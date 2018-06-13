@@ -7,6 +7,7 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CPolitics.php";
+  include "CParties.php";
   
   $db=new db();
   $gd=new CGameData($db);
@@ -14,6 +15,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $pol=new CPolitics($db, $acc, $template);
+  $parties=new CParties($db, $acc, $template);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -29,6 +31,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -55,7 +58,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $pol->showMenu(5);
+			   $pol->showMenu(4);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -64,8 +67,17 @@
              <?
 		          $template->showHelp("Political parties in ChainRepunlik are predefined and bear the name of political parties in the real world. You can participate in political life only if you are a member of a political party. You can endorse only members of your own political party. If you move to another political party, your political infuence and endorsment will be reset to zero. ");
 		          
-				  // WIP
-				  $template->showWIP("Mars");
+				 // Country
+				 if (!isset($_REQUEST['cou']))
+					$cou=$_REQUEST['ud']['loc'];
+				 else
+					$cou=$_REQUEST['cou'];
+				
+				 // Top bar
+				 $pol->showTopPanel($cou);
+				
+				 // Parties
+				 $parties->showParties($cou);
 		     ?>
             
             </td>

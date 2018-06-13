@@ -5,8 +5,10 @@
 
 	 function db()
 	 {
+		 //die ("Maintainanance in progress. We will be up in 3-4 hours.");
 		 //if ($_SERVER['HTTP_CF_CONNECTING_IP']!="109.166.135.48")
 		 //    die ("Maintainance in progress. Pls come back in a few hours.");
+		 
 		 
 		 
 		// ---------------------------------
@@ -610,9 +612,10 @@
 		// Check each chatacter
 		for ($a=0; $a<=strlen($str)-1; $a++)
 		  if (ord($str[$a])<32 || 
-		      ord($str[$a])>126)
-		    return false;
-		  
+		      ord($str[$a])>255)
+			     return false;
+				
+		 
 		// Return
 		return true;
 	}
@@ -2842,8 +2845,26 @@
 			// Rent item packet
 			case "ID_RENT_ITEM_PACKET" : return "Rent Item Packet"; break;
 				
-			// Update compaanyc
-			case "ID_UPDATE_COM_PACKET" : return "Update Company Packet"; break;
+			// Endorse packet
+			case "ID_ENDORSE_PACKET" : return "Endorse Packet"; break;
+				
+		    // New law packet
+			case "ID_NEW_LAW_PACKET" : return "New Law Packet"; break;
+				
+			// Vote law packet
+			case "ID_VOTE_LAW_PACKET" : return "Vote Law Packet"; break;
+				
+			// Join party packet
+			case "ID_JOIN_PARTY_PACKET" : return "Join Party Packet"; break;
+				
+			// Leave party packet
+			case "ID_LEAVE_PARTY_PACKET" : return "Leave Party Packet"; break;
+				
+			// New org prop packet
+			case "ID_NEW_ORG_PROP_PACKET" : return "New Organization Proposal"; break;
+				
+			// Vote org prop packet
+			case "ID_VOTE_ORG_PROP_PACKET" : return "Vote Organization Proposal"; break;
 		}
 	}
 	 
@@ -3056,5 +3077,133 @@
 	 {
 		 return preg_replace('/([^\s]{20})(?=[^\s])/', '$1'.' ', $word);
 	 }
+	 
+	 function getCouAdr($cou)
+	 {
+		 // Valid country code ?
+		 if (!$this->isCou($cou))
+			 return '';
+		 
+		 // Query
+		 $query="SELECT * 
+		           FROM countries 
+				  WHERE code=?";
+		 
+		 // Result
+		 $result=$this->execute($query, 
+				         	    "s", 
+					            $cou);
+		 
+		 // Data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		 
+		 // Return
+		 return $row['adr'];
+	 }
+	 
+	 function getCou()
+	 {
+		 // Country
+		if ($_REQUEST['cou']=="")
+			$cou=$_REQUEST['ud']['loc'];
+		else
+			$cou=$_REQUEST['cou'];
+		 
+		 return $cou;
+	 }
+	 
+	 function isCongressman($adr)
+	 {
+		 $found=false;
+		 
+		 // Valid address ?
+		 if (!$this->isAdr($adr))
+			 throw new Exception("Invalid address");
+		 
+		 // Get address country
+		 $cou=$this->getAdrData($adr, "cou");
+		 
+		 // Parse congress list
+		 $query="SELECT * 
+		           FROM adr 
+				  WHERE cou=? 
+			   ORDER BY pol_endorsed DESC 
+			      LIMIT 0,25";
+		 
+		 // Result
+		 $result=$this->execute($query, 
+				         	    "s", 
+					            $cou);
+		 
+		 // Data
+		 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			 if ($row['adr']==$adr)
+				 $found=true;
+		 
+		 // Return
+		 return $found;
+	 }
+	 
+	 function isCongressActive($cou)
+	 {
+		 // Min 100 citizens ?
+		 $query="SELECT COUNT(*) AS total 
+		           FROM adr 
+				  WHERE cou=?";
+		 
+		 // Result
+		 $result=$this->execute($query, 
+				         	    "s", 
+					            $cou);
+		 
+		 // Load data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		 
+		 // Total cit
+		 $total_cit=$row['total'];
+		 
+		 // Min 10000 political influence ?
+		 $query="SELECT SUM(pol_inf) AS total 
+		           FROM adr 
+				  WHERE cou=?";
+		 
+		 // Result
+		 $result=$this->execute($query, 
+				         	    "s", 
+					            $cou);
+		 
+		 // Load data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		 
+		 // Total cit
+		 $total_pol_inf=$row['total'];
+		 
+		 // Min 25 citizens political endorsed ?
+		 $query="SELECT COUNT(*) AS total 
+		           FROM adr 
+				  WHERE cou=? 
+				    AND pol_endorsed>0";
+		 
+		 // Result
+		 $result=$this->execute($query, 
+				         	    "s", 
+					            $cou);
+		 
+		 // Load data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		 
+		 // Total cit
+		 $total_pol_endorsed=$row['total'];
+		 
+		 // Return 
+		 if ($total_cit>100 && 
+			 $total_pol_inf>10000 && 
+			 $total_pol_endorsed>=25)
+			 return true;
+		 else
+			 return false;
+	 }
+	 
+
 }
 ?>

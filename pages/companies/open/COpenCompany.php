@@ -1093,10 +1093,17 @@ class COpenCompany
 								  $this->acc)==false)
 	   return false;
 	   
-	   // Another company with the same address ?
+	   // Another company / address with the same address ?
 	   if ($this->kern->isCompanyAdr($fee_adr)==true)
 	   {
 		   $this->template->showErr("This address is associated with another company");
+		   return false;
+	   }
+	  
+	   // Another address with the same name ?
+	   if ($this->kern->isName($name))
+	   {
+		   $this->template->showErr("Symbol already used");
 		   return false;
 	   }
 	   

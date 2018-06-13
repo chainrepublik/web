@@ -31,6 +31,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -57,7 +58,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $pol->showMenu(1);
+			   $pol->showMenu(2);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -67,13 +68,39 @@
         
             <?
 		       $template->showHelp("Below is a report of laws voted / rejected by the congress. Laws can <strong>only</strong> be proposed / voted by members of the congress. Laws can <strong>change</strong> taxes, bonuses, <strong>start wars</strong>, <strong>deploy</strong> military equipment and so on. The voting process lasts <strong>24 hours</strong> or less if the law has been <strong>voted by at least 75%</strong> of congressmen and the approval rate is <strong>at least 75%</strong>. Congressmen's voting power is not equal. It depends on the voter's <strong>political influence</strong>.");
-		  
-		       // Target
-		       if (!isset($_REQUEST['target']))
-		           $_REQUEST['target']="pending";
+		       
+			   // Action
+			   switch ($_REQUEST['act'])
+			   {
+				   case "new_law" : $laws->proposeLaw($_REQUEST['dd_type'], 
+													  $_REQUEST['dd_bonus'], 
+													  $_REQUEST['txt_bonus_amount'], 
+													  $_REQUEST['dd_tax'], 
+													  $_REQUEST['txt_tax_amount'], 
+													  $_REQUEST['txt_donation_adr'], 
+													  $_REQUEST['txt_donation_amount'], 
+													  $_REQUEST['txt_premium'],
+													  $_REQUEST['txt_artID'],
+													  $_REQUEST['txt_expl']); 
+				   break;
+					   
+				}
 				
-			   // WIP
-			   $template->showWIP("Mars");
+		       // Target
+		       if (!isset($_REQUEST['page']))
+		           $_REQUEST['page']="ID_VOTING";
+				
+			   // Sub menu
+			   $laws->showSubMenu();
+				
+				// Country ?
+		        if ($_REQUEST['cou']=="")
+			        $cou=$_REQUEST['ud']['cou'];
+		        else
+			        $cou=$_REQUEST['cou'];
+			
+		       // Show Laws
+			   $laws->showLaws($_REQUEST['page']);
             ?>
 				
             </td>

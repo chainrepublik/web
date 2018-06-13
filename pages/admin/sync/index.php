@@ -26,6 +26,7 @@
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
 <link href="../../../style.css" rel="stylesheet">
 <link rel="shortcut icon" href="../../../flat/img/favicon.ico">
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body>

@@ -17,6 +17,7 @@
   $pol=new CPolitics($db, $acc, $template);
   $budget=new CBudget($db, $acc, $template);
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -31,6 +32,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -57,7 +59,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $pol->showMenu(4);
+			   $pol->showMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -66,8 +68,55 @@
              <?
 		          $template->showHelp("The state budget receives money from <strong>taxes or network rewards</strong> and <strong>spends money</strong> with bonuses, military equipment purchases or other expenses. Below are the listed budget earnings / expenses and a report for the <strong>last 24 hours</strong>. Note that when the budget reaches zero, all bonuses are <strong>suspended</strong>.");
 		          
-				  // WIP
-				  $template->showWIP("Mars");
+				  // Country
+				  if ($_REQUEST['cou']=="")
+					$cou=$_REQUEST['ud']['loc'];
+				  else
+					$cou=$_REQUEST['cou'];
+				
+				  // Panel
+				  $budget->showPanel($cou);
+				
+				  // selection
+				  if ($_REQUEST['page']=="")
+					  $sel=1;
+				  
+				  // Page
+		          switch ($_REQUEST['page'])
+		          {
+			         case "trans" : $sel=1; 
+				                     break;
+				
+			         case "taxes" : $sel=2; 
+				                      break;
+				
+			         case "bonuses" : $sel=3; 
+				                       break;
+		          }
+				
+				  // Menu
+				  print "<br>";
+				  $template->showSmallMenu($sel, 
+										   "Transactions", "main.php?page=trans&cou=".$_REQUEST['cou'], 
+										   "Taxes", "main.php?page=taxes&cou=".$_REQUEST['cou'], 
+										   "Bonuses", "main.php?page=bonuses&cou=".$_REQUEST['cou']);
+				  
+				  // Page
+				  switch ($sel)
+				  {
+					  // Transactions
+					  case 1 : $budget->showTrans($cou); 
+						       break;
+						 
+					  // Taxes 	  
+					  case 2 : $budget->showTaxes($cou); 
+						       break;
+						 
+					  // Bonuses
+					  case 3 : $budget->showBonuses($cou); 
+						       break;
+				  }
+				 
 		     ?>
             
             </td>

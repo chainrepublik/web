@@ -32,6 +32,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -64,18 +65,28 @@
             </td>
             <td width="594" valign="top" align="center">
             
-            <script>
-		  function menu_clicked(panel)
-		  {
-			 
-		  }
-        </script>
-        
+          
          <?
 		   $template->showHelp("Below are displayed current active taxes. Taxes represent amounts of money paid by players or companies in certain situations to state budget. Taxes are set by the congress and are paid when companies / players have earnings. Taxes have maximum preset values.");
-		   
-		   // WIP
-		   $template->showWIP("Mars");		
+				
+		   // Country
+		   if (!isset($_REQUEST['cou']))
+			  $cou=$_REQUEST['ud']['loc'];
+		   else
+			  $cou=$_REQUEST['cou'];
+		  
+		   // Target
+		   if (!isset($_REQUEST['target']))
+			   $target="ID_CIT";
+		   else
+			   $target=$_REQUEST['target'];
+				
+		   // Taxes
+		   $taxes->showTopPanel($cou, $target);
+				
+		   // Show taxes
+		   $taxes->showTaxes($cou, $target);
+		   	
 		?>
             
             </td>

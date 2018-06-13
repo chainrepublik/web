@@ -145,46 +145,12 @@ class CWorkplaces
 	
 	}
 	
-	function checkWorkBonus($per, $tID)
-	{
-			   $last=$this->acc->getLastBonusTime("ID_CIT", 
-			                                      $_REQUEST['ud']['ID'], 
-												  "ID_WORK_".$per."_DAYS");
-			   
-			   if ($last==0)
-			   {
-				   $query="INSERT INTO bonuses_paid 
-				                   SET receiver_type='ID_CIT', 
-								       receiverID='".$_REQUEST['ud']['ID']."', 
-									   bonus='ID_WORK_".$per."_DAYS', 
-									   amount='0', 
-									   tstamp='".time()."'";
-				   $this->kern->execute($query);
-				   $last=time();
-			   }
-			   else
-			   {
-			   // Load workdays
-			   $query="SELECT * 
-			             FROM work_procs 
-						WHERE userID='".$_REQUEST['ud']['ID']."' 
-						  AND tstamp>".$last;
-			    $result=$this->kern->execute($query);
-					
-	            if (mysqli_num_rows($result)>=$per)
-	               $this->acc->payBonus("ID_WORK_".$per."_DAYS", 
-				                        "ID_CIT", 
-										$_REQUEST['ud']['ID'],
-										1, 
-										$tID);
-			   }
-	}
 	
-	
-	
-	function showWorkplaces()
+	function showWorkplaces($comID=0)
 	{
 		// Query
+		if ($comID==0)
+		{
 		$query="SELECT wp.*, 
 		               com.name AS com_name, 
 					   com.tip, 
@@ -201,12 +167,41 @@ class CWorkplaces
 				   AND wp.work_ends<?
 			  ORDER BY wp.wage DESC, wp.ID ASC 
 			     LIMIT 0,20";
-		
-		// Result	  
-		$result=$this->kern->execute($query, 
+			
+			// Result	  
+		    $result=$this->kern->execute($query, 
 		                             "si", 
 									 "ID_FREE", 
 									 time());	
+		}
+		else
+		{
+		      $query="SELECT wp.*, 
+		               com.name AS com_name, 
+					   com.tip, 
+					   com.symbol,
+					   tc.name, 
+					   tc.pic,
+					   cou.country 
+		          FROM workplaces AS wp 
+				  JOIN companies AS com ON com.comID=wp.comID 
+				  JOIN adr AS adr ON adr.adr=com.adr
+				  JOIN countries AS cou ON cou.code=adr.cou
+				  JOIN tipuri_companii AS tc ON tc.tip=com.tip 
+				 WHERE wp.status=? 
+				   AND wp.work_ends<?
+				   AND com.comID=?
+			  ORDER BY wp.wage DESC, wp.ID ASC 
+			     LIMIT 0,20";
+		
+			// Result	  
+		    $result=$this->kern->execute($query, 
+		                             "si", 
+									 "ID_FREE", 
+									 time(),
+									 $comID);	
+		}
+		
 		
 		// Can work ?
 		if ($this->kern->isWorking($_REQUEST['ud']['adr'])  || 

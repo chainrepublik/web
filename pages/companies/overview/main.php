@@ -10,6 +10,7 @@
   include "../../market/CMarket.php";
   include "../../market/food/CFood.php";
   include "../CCompanies.php";
+  include "../../work/workplaces/CWorkplaces.php";
   include "CHome.php";
   
   $db=new db();
@@ -21,6 +22,7 @@
   $vmarket=new CVMarket($db, $acc, $template, "ID_COM", $_REQUEST['ID']);
   $mkt=new CMarket($db, $acc, $template);
   $food=new CFood($db, $acc, $template);
+  $work=new CWorkplaces($db, $acc, $template);
   $home=new CHome($db, $acc, $template, $_REQUEST['ID'], $vmarket, $mkt, $food);
 ?>
 
@@ -38,6 +40,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -81,9 +84,17 @@
 		       if ($_REQUEST['act']=="trust_asset")
 	               $template->trust($_REQUEST['txt_trust_symbol'], 
 								     $_REQUEST['txt_trust_days']);
+				
+				// Work ?
+			    if ($_REQUEST['act']=="work")
+		           $work->work($_REQUEST['wID'], 
+				               $_REQUEST[$name]);
 			   
 				// Trust modal
 				$template->showTrustModal($db->getComSymbol($_REQUEST['ID']));
+				
+				// Workplaces
+				$work->showWorkplaces($_REQUEST['ID']);
 			   
 		  ?>
 		       

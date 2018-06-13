@@ -7,6 +7,276 @@ class CTemplate
 		$this->acc=new CAccountant($this->kern, $this);
 	}
 	
+	function vote($target_type, 
+				  $targetID, 
+				  $type)
+	{
+		// Basic check
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+								    0.0001, 
+								    $this->template, 
+								    $this->acc)==false)
+		   return false;
+		
+		// Target exist ?
+		switch ($target_type)
+		{
+			case "ID_TWEET" : // Query
+			                 $query="SELECT * 
+		                              FROM tweets 
+				                     WHERE tweetID=?";
+							break;
+							 
+			case "ID_COM" :  // Query
+			                 $query="SELECT * 
+		                               FROM comments 
+				                      WHERE comID=?";
+							 break;
+				
+			case "ID_PROP" :  // Query
+			                 $query="SELECT * 
+		                               FROM orgs_props 
+				                      WHERE propID=?";
+							 break;
+				
+		   case "ID_LAW" :  // Query
+			                 $query="SELECT * 
+		                               FROM laws 
+				                      WHERE lawID=?";
+							 break;
+		}
+		
+		// Execute
+		$result=$this->kern->execute($query, 
+							         "i", 
+									 $targetID);	
+		
+		// Num rows
+		if (mysqli_num_rows($result)==0)
+		{
+			$this->showErr("Invalid content ID", 550);
+			return false;
+		}
+		
+		// Row
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Block
+		if ($_REQUEST['sd']['last_block']-$row['block']>1440)
+		{
+			$this->showErr("This article can't be voted anymore", 550);
+			return false;
+		}
+		
+		// Already voted?
+		$query="SELECT * 
+		          FROM votes 
+				 WHERE adr=? 
+				   AND target_type=? 
+				   AND targetID=?"; 
+				   
+		// Query
+		$result=$this->kern->execute($query, 
+		                             "ssi", 
+									 $_REQUEST['ud']['adr'], 
+									 $target_type, 
+									 $targetID);	
+	    
+		// Has data ?
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->showErr("Already liked this post", 550);
+			return false;
+		}
+		
+		if ($_REQUEST['ud']['energy']<1)
+		{
+			$this->showErr("Minimum energy to vote is 1", 550);
+			return false;
+		}
+		
+		// Type
+		if ($type!="ID_UP" && 
+	        $type!="ID_DOWN")
+		{
+			$this->showErr("Invalid vote type", 550);
+		    return false;
+		}
+		
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Like a tweet");
+		   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			               SET userID=?, 
+							   op=?, 
+							   fee_adr=?, 
+							   target_adr=?,
+							   par_1=?,
+							   par_2=?,
+							   par_3=?,
+							   status=?, 
+							   tstamp=?"; 
+							   
+	       $this->kern->execute($query, 
+		                        "issssissi", 
+								$_REQUEST['ud']['ID'], 
+								'ID_VOTE', 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$target_type, 
+								$targetID, 
+								$type, 
+								'ID_PENDING', 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->showErr("Unexpected error.", 550);
+
+		  return false;
+	   }
+	}
+	
+	
+	function endorseAdr($adr, $type="ID_UP")
+	{
+		// Address
+		$adr=$this->kern->adrFromName($adr);
+			
+		// Standard checks
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+								    0.0001, 
+								    $this->template, 
+								    $this->acc)==false)
+		   return false;
+		
+		// Type
+		if ($type!="ID_UP" && 
+			$type!="ID_DOWN")
+		{
+			$this->showErr("Invalid type");
+			return false;
+		}
+		
+		
+		// Same party ?
+		if ($this->kern->getAdrData($adr, "pol_party")!=$_REQUEST['ud']['pol_party'])
+		{
+			$this->showErr("You can endorse only members of your political party");
+			return false;
+		}
+		
+		// Already endorsed ?
+		$query="SELECT * 
+		          FROM endorsers 
+				 WHERE endorser=? 
+				   AND endorsed=?
+				   AND type=?";
+		
+		$result=$this->kern->execute($query, 
+									 "sss", 
+									 $_REQUEST['ud']['adr'], 
+									 $adr,
+									 $type);
+		
+		// Endorsed ?
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->showErr("You already endorsed this address.");
+			return false;
+		}
+		
+		// Already 10 addressess endorsed ?
+		$query="SELECT COUNT(*) AS total 
+		          FROM endorsers 
+				 WHERE endorser=?";
+		
+		$result=$this->kern->execute($query, 
+									 "s", 
+									 $_REQUEST['ud']['adr']);
+		
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		if ($row['total']>=10 && $endorsed==false)
+		{
+			$this->showErr("You already endorsed 10 addressess.");
+			return false;
+		}
+		
+		// Energy
+		if ($_REQUEST['ud']['energy']<0.1)
+		{
+			$this->showErr("Insuficient energy");
+			return false;
+		}
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Endorse an user - ".$user);
+		   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								par_2=?,
+								status=?, 
+								tstamp=?";  
+			
+	       $this->kern->execute($query, 
+		                        "issssssi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_ENDORSE_ADR", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$adr, 
+								$type,
+								"ID_PENDING", 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
 	function trust($asset, $days)
 	{
 		// Standard checks
@@ -20,7 +290,7 @@ class CTemplate
 		// Asset exist ?
 		if ($this->kern->isAsset($asset)==false)
 		{
-			$this->template->showErr("Asset doesn't exist");
+			$this->showErr("Asset doesn't exist");
 			return false;
 		}
 		
@@ -39,21 +309,21 @@ class CTemplate
 		
 		if (mysqli_num_rows($result)>0)
 		{
-			$this->template->showErr("You already trust this asset");
+			$this->showErr("You already trust this asset");
 			return false;
 		}
 		
 		// Days
 		if ($days<30)
 		{
-			$this->template->showErr("Minimum days is 30");
+			$this->showErr("Minimum days is 30");
 			return false;
 		}
 		
 		// Energy
 		if ($_REQUEST['ud']['energy']<0.1)
 		{
-			$this->template->showErr("Insuficient energy");
+			$this->showErr("Insuficient energy");
 			return false;
 		}
 		
@@ -120,6 +390,13 @@ class CTemplate
 								    $this, 
 								    $this->acc)==false)
 		return false;
+		
+		// Target type
+		if ($target_type=="")
+		{
+			$this->showErr("Invalid target type", 550);
+		  	return false;
+		}
 		
 		// Repply to tweet ?
 		if ($target_type=="ID_TWEET")
@@ -641,7 +918,7 @@ class CTemplate
             </td>
             <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==7) print "on"; else print "off"; ?>.png">
             
-            <a href="../../politics/laws/main.php">
+            <a href="../../politics/stats/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
@@ -732,7 +1009,7 @@ class CTemplate
 		?>
         
            <table width="700" border="0" cellspacing="0" cellpadding="0">
-          <tr>
+          <tr>s
            <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
              <tr>
                <td align="center"><img src="../../template/GIF/wallet.png" width="200" /></td>
@@ -1316,16 +1593,17 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		   
 		   ?>
            
-          <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116285551-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-86521785-1', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-116285551-1');
 </script>
+
            <?
 	}
 	
@@ -1458,8 +1736,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		$this->showChgCitModal();
 		$this->showTravelModal();
 		
-		// Confirm modal
-		$this->showConfirmModal();
+	
 		
 		?>
             
@@ -2080,6 +2357,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		// Testnet
 		$this->showTestnetModal();
 		
+		// Endorse
+		$this->showEndorseModal();
+		
 		?>
            
            <br />
@@ -2137,13 +2417,25 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 						       	                 $_REQUEST['txt_com_mes']);
 				               break;
 				
-		  // New Comment
+		  // New Vote
+		  case "vote" : $this->vote($_REQUEST['vote_target_type'], 
+			                        $_REQUEST['vote_targetID'],
+								    $_REQUEST['vote_type']);
+				        break;
+				
+		  // Renew
 		  case "renew" : $this->renew($_REQUEST['txt_renew_target_type'], 
 			                          $_REQUEST['txt_renew_targetID'], 
 						       	      $_REQUEST['txt_renew_days']);
 				         break;
+				
+		  // Endorse
+		  case "endorse" : $this->endorseAdr($_REQUEST['txt_endorse_user']);
+				           break;
 		}
 	}
+	
+	
 	
 	 function showErr($err, $size=550, $class="inset_red_14")
    {	   
@@ -2544,14 +2836,55 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		}
 	}
 	
-	function showNewCommentModal()
+	function showEndorseModal()
+	{
+		
+		// Modal
+		$this->showModalHeader("endorse_modal", "Endorse User", "act", "endorse");
+		?>
+            
+          <table width="550" border="0" cellspacing="0" cellpadding="5">
+          <tr>
+            <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+                <td align="center"><img src="../../politics/congress/GIF/endorse.png" width="180"  alt=""/></td>
+              </tr>
+              <tr>
+                <td height="50" align="center" class="bold_gri_18">Endorse User</td>
+              </tr>
+            </table></td>
+            <td width="61%" align="right" valign="top">
+            
+            
+            <table width="90%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+                <td height="30" valign="top" class="font_16"><strong>User</strong></td>
+              </tr>
+              <tr>
+                <td height="30" valign="top" class="font_14">
+					<input placeholder="user" id="txt_endorse_user" name="txt_endorse_user" class="form-control"></td>
+              </tr>
+              <tr>
+                <td height="30" valign="top" class="font_14">&nbsp;</td>
+              </tr>
+            </table>
+            
+            </td>
+          </tr>
+        </table>
+        
+        <?
+		$this->showModalFooter("Endorse", "Send");
+	}
+	
+	function showNewCommentModal($target_type ,$targetID)
 	{
 		
 		$this->showModalHeader("new_comment_modal", "New Comment", "act", "new_comment");
 		?>
           
-          <input type="hidden" id="com_target_type" name="com_target_type" value="ID_POST"> 
-          <input type="hidden" id="com_targetID" name="com_targetID" value="0"> 
+          <input type="hidden" id="com_target_type" name="com_target_type" value="<? print $target_type; ?>"> 
+          <input type="hidden" id="com_targetID" name="com_targetID" value="<? print $targetID; ?>"> 
           
           <table width="700" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -4137,13 +4470,29 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             <table width="580" border="0" cellspacing="0" cellpadding="0">
             <tr>
             <td width="147" align="center"><img src="../../template/GIF/img_confirm.png" width="150" height="150" alt=""/></td>
-            <td width="443" align="right" valign="top"><table width="95%" border="0" cellspacing="0" cellpadding="0">
+            <td width="443" align="right" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="left" class="simple_blue_18"><strong><? print $question; ?></strong></td>
               </tr>
              
               <tr>
                 <td align="left" class="simple_gri_12"><? print $details; ?></td>
+              </tr>
+              <tr>
+                <td align="left" class="simple_gri_12">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="30" align="left" class="font_14"><strong>Account Password</strong></td>
+              </tr>
+              <tr>
+                <td align="left" class="simple_gri_12">
+			    <input class="form-control" name="txt_confirm_pass" id="txt_confirm_pass" type="password" style="width: 90%"></td>
+              </tr>
+              <tr>
+                <td align="left" class="simple_gri_12">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="left" class="simple_gri_12">&nbsp;</td>
               </tr>
             </table></td>
             </tr>
@@ -4304,7 +4653,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
     
        
         <?
-		$this->showModalFooter("Send");
+		$this->showModalFooter("Trust");
 		
 	}
 	
@@ -4378,6 +4727,230 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </table>         
           
         <?
+	}
+	
+	function citPic($pic)
+	{
+		?>
+
+           <img src="
+						  <? 
+				              
+				                  if ($pic=="") 
+								     print "../../template/GIF/empty_pic.png"; 
+				                  else 
+								     print $this->kern->crop($pic); 
+							  
+				          ?>
+						  
+						  " width="40" height="41" class="img-circle" />   
+
+        <?
+	}
+	
+	function showComments($target_type, $targetID, $branch=0)
+	{
+		// Vote modal
+		$this->showVoteModal("ID_COM", 0);
+		
+		// Load coments
+		$query="SELECT com.*, adr.pic, vs.*
+		          FROM comments AS com
+				  JOIN adr ON adr.adr=com.adr
+			 LEFT JOIN votes_stats AS vs ON (vs.target_type='ID_COM' AND vs.targetID=com.comID)
+				 WHERE com.parent_type=?
+				   AND com.parentID=? 
+			  ORDER BY (vs.upvotes_power_24-vs.downvotes_power_24) DESC"; 
+			  
+		$result=$this->kern->execute($query, 
+		                            "si", 
+									$target_type, 
+									$targetID);	
+	  
+	    
+		
+		?>
+        
+        <table width="<? if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
+        <tbody>
+        
+        <?
+		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		   {
+			   if (($row['upvotes_power_24']-$row['downvotes_power_24'])>-10)
+			   {
+		?>
+        
+               <tr>
+               <td width="<? print $branch*14; ?>%">&nbsp;</td>
+               <td width="7%" align="center" valign="top">
+               <table width="100%" border="0" cellpadding="0" cellspacing="0">
+           <tbody>
+             <tr>
+               <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-responsive img-circle"/></td>
+               </tr>
+             <tr>
+              
+               
+               <?
+			       if ($_REQUEST['ud']['ID']>0)
+				   {
+			   ?>
+                      <td align="center" class="font_14" height="40">
+                      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                      <tbody>
+                      <tr>
+                      <td><a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', '../../template/GIF/like.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-up"></span></a></td>
+                      <td>&nbsp;</td>
+                      <td><a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', '../../template/GIF/down.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-down"></span></a></td>
+                      </tr>
+                      </tbody>
+                      </table>
+                       </td>
+               
+               <?
+				   }
+				 
+			   ?>
+               
+              
+               </tr>
+             <tr>
+              
+              <td height="0" align="center" bgcolor="<? if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
+               <strong><span style="color:<? if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
+             </tr>
+             </tbody>
+         </table></td>
+       <td width="733" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
+         <tbody>
+           <tr>
+             <td align="left"><a class="font_14"><strong><? print $this->formatAdr($row['adr']); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+               <p class="font_14"><? print  nl2br($this->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
+           </tr>
+           <tr>
+             <td align="right">
+             
+             <table width="150" border="0" cellpadding="0" cellspacing="0">
+               <tbody>
+                 <tr>
+                   <td width="25%" align="center" style="color:#999999"><a class="font_12" href="javascript:void(0)" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_COM'); $('#com_targetID').val('<? print $row['comID']; ?>');"><? if ($branch<3 && $_REQUEST['ud']['ID']>0) print "reply"; ?></a></td>
+                   
+                   <td width="25%" align="center" style="color:<? if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><? print $row['upvotes_24']; ?></span></td>
+                   
+                   <td width="25%" align="center" style="color:<? if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><? print $row['downvotes_24']; ?></span></td>
+                   </tr>
+               </tbody>
+             </table>
+             
+             </td>
+           </tr>
+         </tbody>
+       </table>         
+       
+     </tr>
+     <tr><td colspan="3">
+	 <?
+	     $this->showComments("ID_COM", $row['comID'], $branch+1);
+	 ?>
+     </td></tr> 
+     
+     <?
+	    if ($branch==0)
+		  print "<tr><td colspan='3'><hr></td></tr>";
+		else
+		  print "<tr><td colspan='3'>&nbsp;</td></tr>";  
+		   }
+		   }
+	 ?>
+   
+   
+   </tbody>
+ </table>
+ 
+        
+        <?
+	}
+	
+	function showVoteModal($target_type, $targetID)
+	{
+		$this->showModalHeader("vote_modal", "Vote", "act", "vote", "vote_targetID", $targetID);
+		  
+		?>
+          
+          <input type="hidden" name="vote_target_type" id="vote_target_type" value="<? print $target_type; ?>">
+          <input type="hidden" name="vote_type" id="vote_type" value="">
+          
+          <table width="700" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+           <td width="170" align="center" valign="top">
+			   <table width="100%" border="0" cellspacing="0" cellpadding="5">
+             <tr>
+               <td width="180" align="center"><img src="../../tweets/GIF/like.png" width="150" name="vote_img" id="vote_img"/></td>
+             </tr>
+             <tr><td>&nbsp;</td></tr>
+             <tr>
+               <td align="center"><? $this->showReq(1, 0.0001, "80%"); ?></td>
+             </tr>
+           </table></td>
+           <td width="400" align="left" valign="top">
+           
+           
+           <table width="300" border="0" cellspacing="0" cellpadding="5">
+             <tr>
+               <td width="25" align="left" valign="top" style="font-size:16px"></td>
+               <td width="143" height="25" align="left" valign="top" style="font-size:16px">
+               
+               
+                      
+               </td>
+               <td width="102" align="left" valign="top" style="font-size:16px">&nbsp;</td>
+             </tr>
+             <tr>
+               <td align="left" valign="top" class="font_14">&nbsp;</td>
+               <td height="25" align="left" valign="top" class="font_14">Content publish date </td>
+				 <td align="left" valign="top" class="font_14"><strong id="vote_published">23 blocks ago</strong></td>
+             </tr>
+             <tr>
+               <td height="25" colspan="3" align="left" valign="top"><hr></td>
+             </tr>
+             <tr>
+               <td align="left" valign="top" class="font_14">&nbsp;</td>
+               <td height="25" align="left" valign="top" class="font_14">Your energy</td>
+				 <td align="left" valign="top" class="font_14"><strong id="vote_energy">21 points</strong></td>
+             </tr>
+             <tr>
+               <td height="25" colspan="3" align="left" valign="top"><hr></td>
+             </tr>
+             <tr>
+               <td align="left" valign="top" class="font_14">&nbsp;</td>
+               <td height="25" align="left" valign="top" class="font_14">Your vote power</td>
+				 <td align="left" valign="top" class="font_14"><strong id="vote_power" style="color: #009900">19.32 points</strong></td>
+             </tr>
+             <tr>
+               <td height="25" colspan="3" align="left" valign="top"><hr></td>
+             </tr>
+             
+           </table>
+           
+           
+           </td>
+         </tr>
+     </table>
+     
+<script>
+	 $('#dd_vote_adr').change(
+	 function() 
+	 { 
+	    $('#div_power').load("../../tweets/tweet/get_page.php?act=get_power&adr="+encodeURIComponent($('#dd_vote_adr').val()), ""); 
+     });
+     </script>
+     
+       
+       
+        <?
+		
+		$this->showModalFooter("Vote");
 	}
 }
 ?>

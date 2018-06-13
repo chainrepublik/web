@@ -16,141 +16,7 @@ class CPress
 	   $this->mes=$mes;
     }
 	
-	function vote($target_type, 
-				  $targetID, 
-				  $type)
-	{
-		// Basic check
-		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
-		                            $_REQUEST['ud']['adr'], 
-								    0.0001, 
-								    $this->template, 
-								    $this->acc)==false)
-		   return false;
-		
-		// Target exist ?
-		switch ($target_type)
-		{
-			case "ID_TWEET" : // Query
-			                 $query="SELECT * 
-		                              FROM tweets 
-				                     WHERE tweetID=?";
-							break;
-							 
-			case "ID_COM" :  // Query
-			                 $query="SELECT * 
-		                               FROM comments 
-				                      WHERE comID=?";
-							 break;
-		}
-		
-		// Execute
-		$result=$this->kern->execute($query, 
-							         "i", 
-									 $targetID);	
-		
-		// Num rows
-		if (mysqli_num_rows($result)==0)
-		{
-			$this->template->showErr("Invalid content ID", 550);
-			return false;
-		}
-		
-		// Row
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		
-		// Block
-		if ($_REQUEST['sd']['last_block']-$row['block']>1440)
-		{
-			$this->template->showErr("This article can't be voted anymore", 550);
-			return false;
-		}
-		
-		// Already voted?
-		$query="SELECT * 
-		          FROM votes 
-				 WHERE adr=? 
-				   AND target_type=? 
-				   AND targetID=?"; 
-				   
-		// Query
-		$result=$this->kern->execute($query, 
-		                             "ssi", 
-									 $_REQUEST['ud']['adr'], 
-									 $target_type, 
-									 $targetID);	
-	    
-		// Has data ?
-		if (mysqli_num_rows($result)>0)
-		{
-			$this->template->showErr("Already liked this post", 550);
-			return false;
-		}
-		
-		if ($_REQUEST['ud']['energy']<1)
-		{
-			$this->template->showErr("Minimum energy to vote is 1", 550);
-			return false;
-		}
-		
-		// Type
-		if ($type!="ID_UP" && 
-	        $type!="ID_DOWN")
-		{
-			$this->template->showErr("Invalid vote type", 550);
-		    return false;
-		}
-		
-		
-		try
-	    {
-		   // Begin
-		   $this->kern->begin();
-
-           // Action
-           $this->kern->newAct("Like a tweet");
-		   
-		   // Insert to stack
-		   $query="INSERT INTO web_ops 
-			               SET userID=?, 
-							   op=?, 
-							   fee_adr=?, 
-							   target_adr=?,
-							   par_1=?,
-							   par_2=?,
-							   par_3=?,
-							   status=?, 
-							   tstamp=?"; 
-							   
-	       $this->kern->execute($query, 
-		                        "issssissi", 
-								$_REQUEST['ud']['ID'], 
-								'ID_VOTE', 
-								$_REQUEST['ud']['adr'], 
-								$_REQUEST['ud']['adr'], 
-								$target_type, 
-								$targetID, 
-								$type, 
-								'ID_PENDING', 
-								time());
-		
-		   // Commit
-		   $this->kern->commit();
-		   
-		   // Confirm
-		   $this->template->confirm();
-	   }
-	   catch (Exception $ex)
-	   {
-	      // Rollback
-		  $this->kern->rollback();
-
-		  // Mesaj
-		  $this->showErr("Unexpected error.", 550);
-
-		  return false;
-	   }
-	}
+	
 	
 	function newTweet($title, 
 					  $mes, 
@@ -159,8 +25,8 @@ class CPress
 					  $days=30,
 					  $retweet_tweet_id=0, 
 					  $pic,
-					  $mil_unit=0,
-					  $pol_party=0)
+					  $pol_party,
+					  $mil_unit)
 	{
 		// Basic check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
@@ -259,9 +125,10 @@ class CPress
 		// Military unit ?
 		if ($mil_unit>0)
 		{
-			if (!$this->kern->isMilUnit($mil_unit))
-		    {
-			   $this->template->showErr("Invalid military unit", 550);
+			// Member of military unit ?
+			if ($_REQUEST['ud']['mil_unit']!=$mil_unit)
+			{
+			   $this->template->showErr("You are not a member of this military unit", 550);
 			   return false;
 		    }
 		}
@@ -269,9 +136,10 @@ class CPress
 		// Political party ?
 		if ($pol_party>0)
 		{
-			if (!$this->kern->isPolParty($pol_party))
-		    {
-			   $this->template->showErr("Invalid political party", 550);
+			// Member of political party ?
+			if ($_REQUEST['ud']['pol_party']!=$pol_party)
+			{
+			   $this->template->showErr("You are not a member of this political party", 550);
 			   return false;
 		    }
 		}
@@ -584,10 +452,11 @@ class CPress
 			case "ID_HOME" : $query="SELECT *
 		                              FROM tweets AS tw 
 						         LEFT JOIN votes_stats AS vs ON vs.targetID=tw.tweetID
+								 LEFT JOIN hidden AS hi ON hi.contentID=tw.tweetID
 					                 WHERE tw.adr IN (SELECT follows 
 						                                FROM tweets_follow
 							                           WHERE adr=?) 
-					              ORDER BY tw.ID DESC 
+								 ORDER BY tw.ID DESC 
 			                         LIMIT ?, ?"; 
 									 
 							 // Load data
@@ -602,13 +471,16 @@ class CPress
 			
 			// Trending
 			case "ID_TRENDING" :  // Query
-			                     $query="SELECT tw.*, vs.*
+			                     $query="SELECT tw.*, 
+								                vs.*, 
+												hi.hidden
 		                                  FROM tweets AS tw 
 					                 LEFT JOIN votes_stats AS vs ON vs.targetID=tw.tweetID
+									 LEFT JOIN hidden AS hi ON hi.contentID=tw.tweetID
 			                             WHERE tw.mes LIKE '%".$term."%' 
 					                       AND tw.block>?
 					                       AND tw.cou=? 
-			                  	      ORDER BY (vs.upvotes_power_24-vs.downvotes_power_24) DESC 
+									ORDER BY (vs.upvotes_power_24-vs.downvotes_power_24) DESC 
 			                             LIMIT ?, ?"; 
 										 
 								 // Load data
@@ -624,11 +496,14 @@ class CPress
 			
 			// Last posts
 			case "ID_LAST" : // Query
-			                 $query="SELECT tw.*, vs.*
+			                 $query="SELECT tw.*, 
+							                vs.*, 
+											hi.hidden
 		                              FROM tweets AS tw 
 					             LEFT JOIN votes_stats AS vs ON vs.targetID=tw.tweetID
+								 LEFT JOIN hidden AS hi ON hi.contentID=tw.tweetID
 			                         WHERE cou=?
-				                  ORDER BY tw.ID DESC 
+								  ORDER BY tw.ID DESC 
 			                         LIMIT ?, ?"; 
 									 
 							 // Load data
@@ -641,12 +516,15 @@ class CPress
 					         break;
 			
 			// Specific address
-			case "ID_ADR"  : $query="SELECT tw.*, vs.*
+			case "ID_ADR"  : $query="SELECT tw.*, 
+			                                vs.*, 
+											hi.hidden
 		                              FROM tweets AS tw 
 					             LEFT JOIN votes_stats AS vs ON vs.targetID=tw.tweetID
+								 LEFT JOIN hidden AS hi ON hi.contentID=tw.tweetID
 			                         WHERE tw.mes LIKE '%".$term."%' 
 					                  AND tw.adr=?
-				                  ORDER BY tw.ID DESC 
+								 ORDER BY tw.ID DESC 
 			                         LIMIT ?, ?"; 
 									 
 							 // Load data
@@ -677,7 +555,7 @@ class CPress
          <?
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
-				if (($row['upvotes_power_24']-$row['downvotes_power_24'])>-10)
+				if ($row['hidden']==0)
 				{
 					
 				// Retweet ?
@@ -1032,7 +910,7 @@ class CPress
 		?>
            
            <br>
-           <form id="form_new_tweet_modal" name="form_new_tweet_modal" action="main.php?target=write&act=new_tweet" method="post">
+           <form id="form_new_tweet_modal" name="form_new_tweet_modal" action="main.php?target=write&act=new_tweet&pol_party=<? print $_REQUEST['pol_party']; ?>&mil_unit=<? print $_REQUEST['mil_unit']; ?>" method="post">
            <input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple style="display:none">
            <input type="hidden" id="tweet_adr" name="tweet_adr" value="">
            <input type="hidden" id="h_img_0" name="h_img_0" value="">
@@ -1153,7 +1031,7 @@ class CPress
                      <td width="48%">
                      <select name="dd_cou" id="dd_cou" class="form-control">
                      <option value="EN" selected>International Press</option>
-                     <option value="<? print $_REQUEST['ud']['loc']; ?>">Local Press</option>
+                     <option value="<? print $_REQUEST['ud']['loc']; ?>" <? if ($_REQUEST['pol_party']>0 || $_REQUEST['mil_unit']>0) print "selected"; ?>>Local Press</option>
                      </select>
                      </td>
                    </tr>
@@ -1367,7 +1245,7 @@ class CPress
 		$this->showVoteModal("ID_TWEET", $ID);
 		
 		// New comment modal
-		$this->template->showNewCommentModal();
+		$this->template->showNewCommentModal("ID_POST", $ID);
 	  
 		?>
         
@@ -1521,128 +1399,6 @@ class CPress
 	}
 	
 	
-	
-	function showComments($target_type, $targetID, $branch=0)
-	{
-		
-		$query="SELECT com.*, adr.pic, vs.*
-		          FROM comments AS com
-				  JOIN adr ON adr.adr=com.adr
-			 LEFT JOIN votes_stats AS vs ON (vs.target_type='ID_COM' AND vs.targetID=com.comID)
-				 WHERE com.parent_type=?
-				   AND com.parentID=? 
-			  ORDER BY (vs.upvotes_power_24-vs.downvotes_power_24) DESC"; 
-			  
-		$result=$this->kern->execute($query, 
-		                            "si", 
-									$target_type, 
-									$targetID);	
-	  
-	  
-		
-		?>
-        
-        <table width="<? if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
-        <tbody>
-        
-        <?
-		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-		   {
-			   if (($row['upvotes_power_24']-$row['downvotes_power_24'])>-10)
-			   {
-		?>
-        
-               <tr>
-               <td width="<? print $branch*14; ?>%">&nbsp;</td>
-               <td width="7%" align="center" valign="top">
-               <table width="100%" border="0" cellpadding="0" cellspacing="0">
-           <tbody>
-             <tr>
-               <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-responsive img-circle"/></td>
-               </tr>
-             <tr>
-              
-               
-               <?
-			       if ($_REQUEST['ud']['ID']>0)
-				   {
-			   ?>
-                      <td align="center" class="font_14" height="40">
-                      <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                      <tbody>
-                      <tr>
-                      <td><a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', './GIF/like.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-up"></span></a></td>
-                      <td>&nbsp;</td>
-                      <td><a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', './GIF/down.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-down"></span></a></td>
-                      </tr>
-                      </tbody>
-                      </table>
-                       </td>
-               
-               <?
-				   }
-				 
-			   ?>
-               
-              
-               </tr>
-             <tr>
-              
-              <td height="0" align="center" bgcolor="<? if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
-               <strong><span style="color:<? if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
-             </tr>
-             </tbody>
-         </table></td>
-       <td width="733" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
-         <tbody>
-           <tr>
-             <td align="left"><a class="font_14"><strong><? print $this->template->formatAdr($row['adr']); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
-               <p class="font_14"><? print  nl2br($this->template->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
-           </tr>
-           <tr>
-             <td align="right">
-             
-             <table width="150" border="0" cellpadding="0" cellspacing="0">
-               <tbody>
-                 <tr>
-                   <td width="25%" align="center" style="color:#999999"><a class="font_12" href="javascript:void(0)" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_COM'); $('#com_targetID').val('<? print $row['comID']; ?>');"><? if ($branch<3 && $_REQUEST['ud']['ID']>0) print "reply"; ?></a></td>
-                   
-                   <td width="25%" align="center" style="color:<? if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><? print $row['upvotes_24']; ?></span></td>
-                   
-                   <td width="25%" align="center" style="color:<? if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><? print $row['downvotes_24']; ?></span></td>
-                   </tr>
-               </tbody>
-             </table>
-             
-             </td>
-           </tr>
-         </tbody>
-       </table>         
-       
-     </tr>
-     <tr><td colspan="3">
-	 <?
-	     $this->showComments("ID_COM", $row['comID'], $branch+1);
-	 ?>
-     </td></tr> 
-     
-     <?
-	    if ($branch==0)
-		  print "<tr><td colspan='3'><hr></td></tr>";
-		else
-		  print "<tr><td colspan='3'>&nbsp;</td></tr>";  
-		   }
-		   }
-	 ?>
-   
-   
-   </tbody>
- </table>
- 
-        
-        <?
-	}
-	
 	function showNewCommentBut($ID)
 	{
 		if (!isset($_REQUEST['ud']['ID'])) return false;
@@ -1657,82 +1413,7 @@ class CPress
         <?
 	}
 	
-	function showVoteModal($target_type, $targetID)
-	{
-		$this->template->showModalHeader("vote_modal", "Vote", "act", "vote", "vote_targetID", $targetID);
-		  
-		?>
-          
-          <input type="hidden" name="vote_target_type" id="vote_target_type" value="<? print $target_type; ?>">
-          <input type="hidden" name="vote_type" id="vote_type" value="">
-          
-          <table width="700" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-           <td width="170" align="center" valign="top">
-			   <table width="100%" border="0" cellspacing="0" cellpadding="5">
-             <tr>
-               <td width="180" align="center"><img src="../../tweets/GIF/like.png" width="150" name="vote_img" id="vote_img"/></td>
-             </tr>
-             <tr><td>&nbsp;</td></tr>
-             <tr>
-               <td align="center"><? $this->template->showReq(1, 0.0001, "80%"); ?></td>
-             </tr>
-           </table></td>
-           <td width="400" align="left" valign="top">
-           
-           
-           <table width="300" border="0" cellspacing="0" cellpadding="5">
-             <tr>
-               <td width="165" height="25" align="left" valign="top" style="font-size:16px">
-               
-               
-                      
-               </td>
-               <td width="115" align="left" valign="top" style="font-size:16px">&nbsp;</td>
-             </tr>
-             <tr>
-               <td height="25" align="left" valign="top" class="font_14">Content publish date </td>
-				 <td align="left" valign="top" class="font_14"><strong id="vote_published">23 blocks ago</strong></td>
-             </tr>
-             <tr>
-               <td height="25" colspan="2" align="left" valign="top"><hr></td>
-             </tr>
-             <tr>
-               <td height="25" align="left" valign="top" class="font_14">Your energy</td>
-				 <td align="left" valign="top" class="font_14"><strong id="vote_energy">21 points</strong></td>
-             </tr>
-             <tr>
-               <td height="25" colspan="2" align="left" valign="top"><hr></td>
-             </tr>
-             <tr>
-               <td height="25" align="left" valign="top" class="font_14">Your vote power</td>
-				 <td align="left" valign="top" class="font_14"><strong id="vote_power" style="color: #009900">19.32 points</strong></td>
-             </tr>
-             <tr>
-               <td height="25" colspan="2" align="left" valign="top"><hr></td>
-             </tr>
-             
-           </table>
-           
-           
-           </td>
-         </tr>
-     </table>
-     
-<script>
-	 $('#dd_vote_adr').change(
-	 function() 
-	 { 
-	    $('#div_power').load("../../tweets/tweet/get_page.php?act=get_power&adr="+encodeURIComponent($('#dd_vote_adr').val()), ""); 
-     });
-     </script>
-     
-       
-       
-        <?
-		
-		$this->template->showModalFooter("Vote");
-	}
+	
 	
 	function getPower($adr)
 	{

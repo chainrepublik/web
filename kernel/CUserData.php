@@ -19,20 +19,24 @@ class CUserData
 	           $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			}
 			
+			// Banned ?
+			if ($row['status']=="ID_BANNED")
+			   	$this->kern->redirect("../../misc/banned/main.php");
 			
-			 $_REQUEST['ud']['ID']=$row['ID'];
-			 $_REQUEST['ud']['user']=$row['user']; 
-			 $_REQUEST['ud']['pass']=$row['pass'];
-			 $_REQUEST['ud']['email']=$row['email'];
-			 $_REQUEST['ud']['IP']=$row['IP'];
-			 $_REQUEST['ud']['status']=$row['status'];
-			 $_REQUEST['ud']['api_key']=$row['api_key'];
-			 $_REQUEST['ud']['ref_adr']=$row['ref_adr'];
-			 $_REQUEST['ud']['tstamp']=$row['tstamp'];
-			 $_REQUEST['ud']['unread_esc']=$row['unread_esc'];
-			 $_REQUEST['ud']['unread_events']=$row['unread_events'];
-			 $_REQUEST['ud']['unread_mes']=$row['unread_mes'];
-			 $_REQUEST['ud']['unread_trans']=$row['unread_trans'];
+			
+			$_REQUEST['ud']['ID']=$row['ID'];
+			$_REQUEST['ud']['user']=$row['user']; 
+			$_REQUEST['ud']['pass']=$row['pass'];
+			$_REQUEST['ud']['email']=$row['email'];
+			$_REQUEST['ud']['IP']=$row['IP'];
+			$_REQUEST['ud']['status']=$row['status'];
+		    $_REQUEST['ud']['api_key']=$row['api_key'];
+			$_REQUEST['ud']['ref_adr']=$row['ref_adr'];
+			$_REQUEST['ud']['tstamp']=$row['tstamp'];
+			$_REQUEST['ud']['unread_esc']=$row['unread_esc'];
+			$_REQUEST['ud']['unread_events']=$row['unread_events'];
+			$_REQUEST['ud']['unread_mes']=$row['unread_mes'];
+			$_REQUEST['ud']['unread_trans']=$row['unread_trans'];
 			 
 			if ($row['adr']=="")
 			{
@@ -108,6 +112,8 @@ class CUserData
 				$_REQUEST['ud']['travel']=$row['travel'];  
 				$_REQUEST['ud']['travel_cou']=$row['travel_cou'];  
 				$_REQUEST['ud']['work']=$row['work'];  
+				$_REQUEST['ud']['pol_party']=$row['pol_party'];  
+				$_REQUEST['ud']['premium']=$row['premium'];  
 			
 			    // Calculate balance
 			    $_REQUEST['ud']['balance']=$row['balance']; 

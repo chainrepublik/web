@@ -177,7 +177,7 @@ class CRefs
 		          FROM web_users AS us
 				  JOIN adr ON adr.adr=us.adr
 				  JOIN countries AS cou ON cou.code=adr.cou
-				 WHERE us.refID=? 
+				 WHERE adr.ref_adr=? 
 				   AND us.day=? 
 				   AND us.month=? 
 				   AND us.year=?";

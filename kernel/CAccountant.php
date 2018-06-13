@@ -8,17 +8,42 @@ class CAccountant
 	}
 	
 	
-	function getTax($prod, $categ="ID_TRANSFER")
+	function getTaxVal($tax)
 	{
+		// Load tax data
 		$query="SELECT * 
 		          FROM taxes 
-				 WHERE prod='".$prod."' 
-				   AND categ='ID_TRANSFER'";
+				 WHERE tax='".$tax."'";
 	    $result=$this->kern->execute($query);
-			
-		if (mysqli_num_rows($result)==0) return 0;  
+		
+		// Nothing found
+		if (mysqli_num_rows($result)==0) 
+			return 0;
+		
+		// Load data
 	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Return
 		return $row['value'];
+	}
+	
+	function getBonusVal($bonus)
+	{
+		// Load tax data
+		$query="SELECT * 
+		          FROM bonuses 
+				 WHERE bonus='".$bonus."'";
+	    $result=$this->kern->execute($query);
+		
+		// Nothing found
+		if (mysqli_num_rows($result)==0) 
+			return 0;
+		
+		// Load data
+	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Return
+		return $row['amount'];
 	}
 	
 	function getStoc($adr, $prod)
@@ -251,7 +276,6 @@ class CAccountant
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
 				 WHERE mt.adr=? 
-				   AND cur<>'ID_ENERGY'
 				   AND cur='CRC'
 				ORDER BY ID DESC 
 			     LIMIT 0,20"; 

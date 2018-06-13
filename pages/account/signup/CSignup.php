@@ -97,7 +97,7 @@ class CSignup
 		if (!isset($_SESSION['refID']))
 		{
 		   // Ref address
-		   $ref_adr=$_REQUEST['sd']['node_adr'];
+		   $ref_adr=$_REQUEST['sd']['node_adr']; 
 		}
 		else
 		{
@@ -139,7 +139,7 @@ class CSignup
 		if ($IP=="::1")
 			$IP="127.0.0.1";
 		
-		if ($IP!="109.166.135.48" && $IP!="127.0.0.1")
+		if ($IP!="109.166.128.69" && $IP!="127.0.0.1")
 		{
 		    // Same password
 		    $query="SELECT * 

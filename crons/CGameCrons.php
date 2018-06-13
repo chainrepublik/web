@@ -256,6 +256,135 @@ class CGameCrons
 		$this->updateVoteStats("ID_COM");
 	}
 	
+	function updateSysStats()
+	{
+		// Last block
+		$query="SELECT * FROM net_stat";
+		$result=$this->kern->execute($query);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$last_block=$row['last_block']; 
+		
+		$query="SELECT * FROM sys_stats";
+	    $result=$this->kern->execute($query);
+		
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+			// Init
+			$total_users=0;
+			$total_com=0;
+			$total_24H=0;
+			$total_work=0;
+		    $total_energy=0;
+			$avg_energy=0;
+			$total_pol_inf=0;
+			$avg_pol_inf=0;
+			$total_war_points=0;
+			$avg_war_points=0;
+			
+		    // Total addressess
+			$query="SELECT COUNT(*) AS total 
+			          FROM adr 
+					 WHERE cou=? 
+					   AND LENGTH(name)>5";
+			$cou_res=$this->kern->execute($query, "s", $row['cou']);
+			$cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			$total_users=$cou_row['total'];
+			
+			// Companies
+			$query="SELECT COUNT(*) AS total 
+			          FROM companies AS com 
+					  JOIN adr ON adr.adr=com.adr 
+					 WHERE adr.cou=?";
+			
+			$cou_res=$this->kern->execute($query, "s", $row['cou']);
+			$cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			$total_com=$cou_row['total'];
+			
+			// Workplaces
+			$query="SELECT COUNT(*) AS total 
+			          FROM workplaces AS work
+					  JOIN companies AS com ON com.comID=work.comID
+					  JOIN adr ON adr.adr=com.adr 
+					 WHERE adr.cou=?";
+			
+			$cou_res=$this->kern->execute($query, "s", $row['cou']);
+			$cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			$total_work=$cou_row['total'];
+			
+			// Any users ?
+			if ($total_users>0)
+			{
+			   // New users 24H
+			   $query="SELECT COUNT(*) AS total 
+			          FROM adr 
+					 WHERE cou=? 
+					   AND LENGTH(name)>5 
+					   AND created>".($last_block-1440); 
+			   $cou_res=$this->kern->execute($query, "s", $row['cou']);
+			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			   $total_24H=$cou_row['total'];
+			
+			   // Total energy
+			   $query="SELECT SUM(energy) AS total 
+			             FROM adr 
+				  	    WHERE cou=? 
+					      AND LENGTH(name)>5";
+			   $cou_res=$this->kern->execute($query, "s", $row['cou']);
+			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			   $total_energy=round($cou_row['total']);
+			   $avg_energy=round($total_energy/$total_users, 2);
+			
+			   // Total pol inf
+			   $query="SELECT SUM(pol_inf) AS total 
+			             FROM adr 
+					    WHERE cou=? 
+					      AND LENGTH(name)>5";
+			   $cou_res=$this->kern->execute($query, "s", $row['cou']);
+			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			   $total_pol_inf=round($cou_row['total']);
+			   $avg_pol_inf=round($total_pol_inf/$total_users, 2);
+			
+			   // Total war points
+			   $query="SELECT SUM(war_points) AS total 
+			             FROM adr 
+					    WHERE cou=? 
+					      AND LENGTH(name)>5";
+			   $cou_res=$this->kern->execute($query, "s", $row['cou']);
+			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			   $total_war_points=round($cou_row['total']);
+			   $avg_war_points=round($total_war_points/$total_users, 2);
+			}
+			
+			 $query="UPDATE sys_stats 
+			            SET users=?, 
+						    signups_24h=?, 
+							companies=?, 
+							workplaces=?, 
+							total_energy=?, 
+							avg_energy=?, 
+							total_war_points=?, 
+							avg_war_points=?, 
+							total_pol_inf=?, 
+							avg_pol_inf=? 
+					  WHERE cou=?";
+			
+			$this->kern->execute($query, 
+								 "iiiiididids", 
+								 $total_users, 
+								 $total_24H, 
+								 $total_com, 
+								 $total_work, 
+								 $total_energy, 
+								 $avg_energy, 
+								 $total_war_points, 
+								 $avg_war_points, 
+								 $total_pol_inf, 
+								 $avg_pol_inf, 
+								 $row['cou']);
+		}
+		
+	}
+	
 	// 1 minute
 	function run_cron_1M($cronID)
 	{

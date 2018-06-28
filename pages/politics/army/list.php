@@ -6,19 +6,17 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../CProfiles.php";
-  include "CAccounting.php";
+  include "../../../kernel/CPoint.php";
+  include "../CPolitics.php";
+  include "CArmy.php";
   
   $db=new db();
   $gd=new CGameData($db);
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $profiles=new CProfiles($db, $acc, $template);
-  $acco=new CAccounting($db, $acc, $template);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
-
+  $pol=new CPolitics($db, $acc, $template); 
+  $army=new CArmy($db, $acc, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -49,7 +47,7 @@
     <tr>
       <td align="center">
       <?
-	     $template->showMainMenu(9);
+	     $template->showMainMenu(8);
 	  ?>
       </td>
     </tr>
@@ -62,32 +60,24 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $profiles->showMenu(3);
+			   $pol->showMenu(8);
 			   $template->showLeftAds();
 			?>
             </td>
-            <td width="594" align="center" valign="top">
+            <td width="594" valign="top" align="center">
             
-			 <script>
-		  function menu_clicked(tab)
-		  {
-			  $('#tab_accounts').css('display', 'none');
-			  $('#tab_acc_trans').css('display', 'none');
-			  
-			  switch (tab)
-			  {
-				  case "History" : $('#tab_acc_trans').css('display', 'block'); break;
-				  case "Accounts" : $('#tab_accounts').css('display', 'block'); break;
-			  }
-		  }
-        </script>
-        
-		<?
-		   $template->showHelp("Below are displayed latest player's financial transactions and bank account list. Please note that all financial transactions are done through banks and each transacction is taxed 1%.");
-		    
-			$acco->showMenu();
-		    $acc->showTrans("ID_CIT", $_REQUEST['ID']);
-			$acco->showBankAcc("ID_CIT", $_REQUEST['ID'], false);
+          
+         <?
+		       $template->showHelp("Heavy military equipment such as marine destroyers or aircrafts can be moved only through a <strong>congressional decision</strong>. The movement does not take place immediately and can take up to <strong>4 days</strong> depending on the distance. It also involves a cost of 0.0001 CRC / km. Below is the list of the equipment to be moved along with the required time and the associated costs.");
+			
+			   // Show list
+			   if ($_REQUEST['target']=="ID_MOVE")
+		       $army->showMoveList($_REQUEST['par_1'], 
+				                      $_REQUEST['par_2'], 
+								      $_REQUEST['par_3']);
+				
+			  else
+		      $army->showAttackList($_REQUEST['list']);
 		?>
             
             </td>
@@ -99,11 +89,6 @@
 			?>
             
             </td>
-          </tr>
-          <tr>
-            <td align="right" valign="top">&nbsp;</td>
-            <td height="50" align="center" valign="top">&nbsp;</td>
-            <td align="center" valign="top">&nbsp;</td>
           </tr>
         </tbody>
       </table>        </td></tr></tbody><table width="100%" border="0" cellspacing="0" cellpadding="0">

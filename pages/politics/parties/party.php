@@ -66,6 +66,10 @@
             
              <?
 		          $template->showHelp("Political parties in ChainRepunlik are predefined and bear the name of political parties in the real world. You can participate in political life only if you are a member of a political party. You can endorse only members of your own political party. If you move to another political party, your political infuence and endorsment will be reset to zero. ");
+				
+				  // Default page
+				  if (!isset($_REQUEST['page']))
+					  $_REQUEST['page']="members";
 		         
 				  // Action
 				  switch ($_REQUEST['act'])

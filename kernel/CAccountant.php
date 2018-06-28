@@ -609,5 +609,18 @@ class CAccountant
 		// Return
 		return $row['total'];
 	}
+	
+	function getBudget($cou)
+	{
+		// Is country
+		if (!$this->kern->isCountry($cou))
+			throw new Exception("Invalid country");
+		
+		// Country address
+		$cou_adr=$this->kern->getCouAdr($cou);
+		
+		// Balance
+		return $this->getTransPoolBalance($cou_adr, "CRC");
+	}
 }
 ?>

@@ -201,7 +201,7 @@
 						               $press->showPost($_REQUEST['tweetID']);
 						               
 									   // Comments
-									   $press->showComments("ID_TWEET", $_REQUEST['tweetID']);
+									   $template->showComments("ID_TWEET", $_REQUEST['tweetID']);
 						               break;
 					}
 			   }

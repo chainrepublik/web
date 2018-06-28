@@ -6,19 +6,19 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../CProfiles.php";
-  include "CAccounting.php";
+  include "../../../kernel/CAMarket.php";
+  include "../../../kernel/CAds.php";
+  include "../CWar.php";
+  include "CWars.php";
   
   $db=new db();
   $gd=new CGameData($db);
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $profiles=new CProfiles($db, $acc, $template);
-  $acco=new CAccounting($db, $acc, $template);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
-
+  $mkt=new CAMarket($db, $acc, $template);
+  $war=new CWar($db, $acc, $template);
+  $wars=new CWars($db, $template, $acc);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -49,7 +49,7 @@
     <tr>
       <td align="center">
       <?
-	     $template->showMainMenu(9);
+	     $template->showMainMenu(5);
 	  ?>
       </td>
     </tr>
@@ -60,36 +60,69 @@
       <td height="500" align="center" valign="top" background="../../template/GIF/back_panel.png"><table width="1005" border="0" cellspacing="0" cellpadding="0">
         <tbody>
           <tr>
-            <td width="204" align="right" valign="top">
+            <td width="204" height="600" align="right" valign="top">
             <?
-			   $profiles->showMenu(3);
+			   $war->showMenu(1);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			 <script>
-		  function menu_clicked(tab)
-		  {
-			  $('#tab_accounts').css('display', 'none');
-			  $('#tab_acc_trans').css('display', 'none');
-			  
-			  switch (tab)
-			  {
-				  case "History" : $('#tab_acc_trans').css('display', 'block'); break;
-				  case "Accounts" : $('#tab_accounts').css('display', 'block'); break;
-			  }
-		  }
-        </script>
-        
-		<?
-		   $template->showHelp("Below are displayed latest player's financial transactions and bank account list. Please note that all financial transactions are done through banks and each transacction is taxed 1%.");
-		    
-			$acco->showMenu();
-		    $acc->showTrans("ID_CIT", $_REQUEST['ID']);
-			$acco->showBankAcc("ID_CIT", $_REQUEST['ID'], false);
-		?>
-            
+			<?
+			   $template->showHelp("Below are listed details about this war. Note that as the war is approaching the end, the damage caused by the fighters / congress <strong>decreases by 0.05% / block</strong>. If in the first minutes of war your damage is equal to the attack / defense score, in the last hour of war with the same points you will produce damage up to <strong>90% lower</strong>.");
+              
+			   // Fight
+			   if ($_REQUEST['act']=="ID_FIGHT")
+				   $wars->fight($_REQUEST['ID'], $_REQUEST['type']);
+				
+			   // War panel
+			   $wars->showWarPanel($_REQUEST['ID']);
+			
+			   // Sel
+			   if (!isset($_REQUEST['page']))
+				   $sel=1;
+				
+				// Selected
+				switch ($_REQUEST['page'])
+				{
+					// Attackers
+					case "attackers" : $sel=1; 
+						               break;
+						
+					// Defenders
+					case "defenders" : $sel=2; 
+						               break;
+					
+					// Fights
+					case "fights" : $sel=3; 
+						            break;
+				}
+				
+			   // Sub menu
+			   print "<br>";
+			   $template->showSmallMenu($sel, 
+										"Top Attackers", "war.php?page=attackers", 
+										"Top Defenders", "war.php?page=defenders",
+									    "Last Fights", "war.php?page=fights");
+				
+				// Details
+				switch ($sel)
+				{
+					// Attackers
+					case 1 : $wars->showFighters($_REQUEST['ID'], "ID_AT"); 
+						     break;
+						
+					// Defenders
+					case 2 : $wars->showFighters($_REQUEST['ID'], "ID_DEF"); 
+						     break;
+						
+					// Last fights
+					case 3 : $wars->showFighters($_REQUEST['ID'], "ID_LAST"); 
+						     break;
+				}
+			?>
+			
+<br /><br /><br /><br />
             </td>
             <td width="206" align="center" valign="top">
             
@@ -100,13 +133,10 @@
             
             </td>
           </tr>
-          <tr>
-            <td align="right" valign="top">&nbsp;</td>
-            <td height="50" align="center" valign="top">&nbsp;</td>
-            <td align="center" valign="top">&nbsp;</td>
-          </tr>
         </tbody>
-      </table>        </td></tr></tbody><table width="100%" border="0" cellspacing="0" cellpadding="0">
+       </table>        
+      </td></tr></tbody>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tbody>
             <tr>
               <td height="300" align="center" valign="top" bgcolor="#3b424b">

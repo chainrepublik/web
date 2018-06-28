@@ -1,13 +1,9 @@
 <?
-  session_start(); 
-  
-  include "../../../kernel/db.php";
+  session_start(); include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "../CHome.php";
   include "CSearch.php";
   
@@ -17,8 +13,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $home=new CHome($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
   $search=new CSearch($db, $template);
 ?>
 
@@ -39,58 +33,137 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
-<? 
-   $template->showTop(); 
-   $template->showMainMenu();
-   $template->showTicker();
+<body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
+
+<?
+   $template->showTop();
 ?>
 
 <table width="1020" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="700" align="center" valign="top" background="../../template/GIF/main_middle.png"><table width="1020" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="210" align="right" valign="top">
-        
-        <?
-		  $home->showMenu(1);
-		  $template->showWorkPanel();
-		  $template->showFxAcademy(); 
-		?>
-        
-          
-        </td>
-        <td width="601" height="500" align="center" valign="top">
-        
-       <?
-	      $search->showMenu();
-		  $search->showPlayers($_REQUEST['txt_bar_search']);
-		  $search->showCompanies($_REQUEST['txt_bar_search']);
-		  $search->showSec($_REQUEST['txt_bar_search']);
-		  $search->showArticles($_REQUEST['txt_bar_search']);
-	   ?>
-         
-          </td>
-        <td width="209" valign="top">
-		<?
-		   $template->showRightPanel();
-		   $template->showAds(); 
-		?>
-          
-        
-          
-          </td>
-      </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td height="75" background="../../template/GIF/main_bottom.png">&nbsp;</td>
-  </tr>
-</table>
-<br />
-<br />
-<?
-  $template->showBottomMenu();
-?>
+  <tbody>
+    <tr>
+      <td align="center">
+      <?
+	     $template->showMainMenu(1);
+	  ?>
+      </td>
+    </tr>
+    <tr>
+      <td><img src="../../template/GIF/bar.png" width="1020" height="20" alt=""/></td>
+    </tr>
+    <tr>
+      <td height="500" align="center" valign="top" background="../../template/GIF/back_panel.png"><table width="1005" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td width="204" align="right" valign="top">
+            <?
+			   $home->showMenu(15);
+			   $template->showLeftAds();
+			?>
+            </td>
+            <td width="594" align="center" valign="top">
+            <br>
+				
+            <? 
+			   // Default target
+			   if (!isset($_REQUEST['target']))	
+				   $_REQUEST['target']="players";
+				
+				// Select
+				switch ($_REQUEST['target'])
+				{
+					// Players
+					case "players" : $sel=1; 
+						             break;
+						
+					// Articles
+					case "articles" : $sel=2; 
+						             break;
+						
+					// Companies
+					case "companies" : $sel=3; 
+						             break;
+						
+					// Assets
+					case "assets" : $sel=4; 
+						             break;
+						
+					// Packets
+					case "packets" : $sel=5; 
+						             break;
+				}
+				
+               $search->showSmallMenu($sel, 
+										"Addressess", "main.php?target=players&txt_src_box=".$_REQUEST['txt_src_box'], 
+										"Articles", "main.php?target=articles&txt_src_box=".$_REQUEST['txt_src_box'],
+										"Companies", "main.php?target=companies&txt_src_box=".$_REQUEST['txt_src_box'],
+										"Assets", "main.php?target=assets&txt_src_box=".$_REQUEST['txt_src_box'],
+									    "Packets", "main.php?target=packets&txt_src_box=".$_REQUEST['txt_src_box']);
+				
+				// Display
+				switch ($sel)
+				{
+					// Players
+					case 1 : $search->showPlayers($_REQUEST['txt_src_box']); 
+						     break;
+						
+					// Articles
+					case 2 : $search->showArticles($_REQUEST['txt_src_box']); 
+						     break;
+						
+					// Companies
+					case 3 : $search->showCompanies($_REQUEST['txt_src_box']); 
+						     break;
+						
+					// Assets
+					case 4 : $search->showAssets($_REQUEST['txt_src_box']); 
+						     break;
+						
+					// PAckets
+					case 5 : $search->showPackets($_REQUEST['txt_src_box']); 
+						     break;
+				}
+		   
+		      
+           ?>
+            
+            </td>
+            <td width="206" align="center" valign="top">
+            
+			<?
+			   $template->showRightPanel();
+			   $template->showAds();
+			?>
+            
+            </td>
+          </tr>
+        </tbody>
+      </table>        </td></tr></tbody><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr>
+              <td height="300" align="center" valign="top" bgcolor="#3b424b">
+              <br />
+              
+			  <?
+			     $template->showBottomMenu(false);
+			  ?>
+              
+              <table width="1000" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b"><hr /></td>
+                  </tr>
+                  <tr>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">Copyright 2018, ANNO1777 Labs, All Rights Reserved</td>
+                  </tr>
+                  <tr>
+                    <td height="0" align="center" class="font_12" style="color:#818d9b">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table></td>
+            </tr>
+          </tbody>
+    </table>
+
 </body>
 </html>

@@ -6,6 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
+  include "../../../kernel/CPoint.php";
   include "../CPolitics.php";
   include "CLaws.php";
   
@@ -69,11 +70,11 @@
 		        $template->showHelp("Below are displayed details about this law. After proposal, the laws can be voted for <strong>24 hours</strong>. Only members of congress can vote a law. The law is aproved if <strong>minimum 51% of vote points</strong> aprove it. Not all congressmen votes are equal. The vote points are calculated based on <strong>political endorsment</strong>. A law can also be aproved / rejected in less than 24 hour if receives <strong>at least 50%</strong> of total voting power. Let's say the total political endorsement of congressmen is 100.000 points. Any law will be <strong>instantly</strong> aproved / rejected if it receives more than 50.000 aproval / disaproval points.");		   
 		   
 		        // Vote
-		        if ($_REQUEST['act']=="vote")
+		        if ($_REQUEST['act']=="vote_law")
 		           $laws->vote($_REQUEST['ID'], $_REQUEST['vote']);
 		   
 		        // Laws
-		        $laws->showLawPage($_REQUEST['ID']);
+				$laws->showLawPage($_REQUEST['ID']);
 		    ?>
 				
             </td>

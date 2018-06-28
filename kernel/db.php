@@ -27,7 +27,125 @@
          ini_set("display_errors", "1");
 	}
 	
-	  
+	  function getResult($query, 
+	                   $types="", 
+					   $par_1="", 
+					   $par_2="", 
+					   $par_3="", 
+					   $par_4="", 
+					   $par_5="", 
+					   $par_6="", 
+					   $par_7="", 
+					   $par_8="", 
+					   $par_9="",
+					   $par_10="",
+					   $par_11="", 
+					   $par_12="", 
+					   $par_13="", 
+					   $par_14="", 
+					   $par_15="",
+					   $par_16="",
+					   $par_17="",
+					   $par_18="",
+					   $par_19="",
+					   $par_20="",
+					   $par_21="",
+					   $par_22="",
+					   $par_23="",
+					   $par_24="",
+					   $par_25="")
+	  {
+		  $result=$this->execute($query, 
+	                             $types, 
+					             $par_1, 
+					             $par_2, 
+					             $par_3, 
+					             $par_4, 
+					             $par_5, 
+					             $par_6, 
+					             $par_7, 
+					             $par_8, 
+					             $par_9,
+					             $par_10,
+					             $par_11, 
+					             $par_12, 
+					             $par_13, 
+					             $par_14, 
+					             $par_15,
+					             $par_16,
+					             $par_17,
+					             $par_18,
+					             $par_19,
+					             $par_20,
+					             $par_21,
+					             $par_22,
+					             $par_23,
+					             $par_24,
+					             $par_25);
+		  
+		  return $result;
+	  }
+	 
+	  function getRows($query, 
+	                   $types="", 
+					   $par_1="", 
+					   $par_2="", 
+					   $par_3="", 
+					   $par_4="", 
+					   $par_5="", 
+					   $par_6="", 
+					   $par_7="", 
+					   $par_8="", 
+					   $par_9="",
+					   $par_10="",
+					   $par_11="", 
+					   $par_12="", 
+					   $par_13="", 
+					   $par_14="", 
+					   $par_15="",
+					   $par_16="",
+					   $par_17="",
+					   $par_18="",
+					   $par_19="",
+					   $par_20="",
+					   $par_21="",
+					   $par_22="",
+					   $par_23="",
+					   $par_24="",
+					   $par_25="")
+	  {
+		  $result=$this->getResult($query, 
+	                               $types, 
+					               $par_1, 
+					               $par_2, 
+					               $par_3, 
+					               $par_4, 
+					               $par_5, 
+					               $par_6, 
+					               $par_7,  
+					               $par_8, 
+					               $par_9,
+					               $par_10,
+					               $par_11, 
+					               $par_12, 
+					               $par_13, 
+					               $par_14, 
+					               $par_15,
+					               $par_16,
+					               $par_17,
+					               $par_18,
+					               $par_19,
+					               $par_20,
+					               $par_21,
+					               $par_22,
+					               $par_23,
+					               $par_24,
+					               $par_25);
+		  
+		  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		  return $row;
+	  }
+	 
 	  function execute($query, 
 	                   $types="", 
 					   $par_1="", 
@@ -2846,7 +2964,7 @@
 			case "ID_RENT_ITEM_PACKET" : return "Rent Item Packet"; break;
 				
 			// Endorse packet
-			case "ID_ENDORSE_PACKET" : return "Endorse Packet"; break;
+			case "ID_ENDORSE_ADR_PACKET" : return "Endorse Packet"; break;
 				
 		    // New law packet
 			case "ID_NEW_LAW_PACKET" : return "New Law Packet"; break;
@@ -2865,6 +2983,9 @@
 				
 			// Vote org prop packet
 			case "ID_VOTE_ORG_PROP_PACKET" : return "Vote Organization Proposal"; break;
+				
+		    // Fight packet
+			case "ID_FIGHT_PACKET" : return "Fight in War Packet"; break;
 		}
 	}
 	 
@@ -3201,9 +3322,395 @@
 			 $total_pol_endorsed>=25)
 			 return true;
 		 else
-			 return false;
+			 return true;
 	 }
 	 
-
+	 
+	 function isStateWeapon($weapon)
+     {
+         if ($weapon!="ID_TANK_ROUND" && 
+             $weapon!="ID_TANK" && 
+             $weapon!="ID_MISSILE_AIR_SOIL" && 
+             $weapon!="ID_MISSILE_SOIL_SOIL" && 
+             $weapon!="ID_MISSILE_BALISTIC_SHORT" && 
+             $weapon!="ID_MISSILE_BALISTIC_MEDIUM" && 
+             $weapon!="ID_MISSILE_BALISTIC_LONG" && 
+             $weapon!="ID_MISSILE_BALISTIC_INTERCONTINENTAL" && 
+             $weapon!="ID_NAVY_DESTROYER" && 
+             $weapon!="ID_AIRCRAFT_CARRIER" && 
+             $weapon!="ID_JET_FIGHTER")
+        return false;
+         else
+        return true;
+     }
+     
+     function isAttackWeapon($weapon)
+     {
+		if ($weapon=="ID_KNIFE" ||
+            $weapon=="ID_PISTOL" || 
+            $weapon=="ID_REVOLVER" || 
+            $weapon=="ID_RIFFLE" || 
+            $weapon=="ID_MACHINE_GUN" || 
+            $weapon=="ID_GRENADE_LAUNCHER")
+        return true;
+         else
+        return false; 
+     }
+     
+     function isDefenseWeapon($weapon)
+     {
+         if ($weapon=="ID_GLOVES" ||
+             $weapon=="ID_GLASSES" || 
+             $weapon=="ID_HELMET" ||
+             $weapon=="ID_BOOTS" ||
+             $weapon=="ID_VEST" ||
+             $weapon=="ID_SHIELD")
+        return true;
+         else
+        return false;
+     }
+     
+     function getWeaponDamage($weapon)
+     {
+        // Damage
+        $damage=0;
+         
+        // Is weapon ?
+        if (!$this->isAttackWeapon($weapon) && 
+            !$this->isDefenseWeapon($weapon))
+        throw new Exception ("Invalid weapon, db.java, line 2191");
+        
+        // Select weapon
+        switch ($weapon)
+        {
+            // Knife
+            case "ID_KNIFE" :  $damage=100; break;
+            
+            // Pistoc
+            case "ID_PISTOL" :  $damage=200; break;
+            
+            // Revolver
+            case "ID_REVOLVER" :  $damage=300; break;
+            
+            // Riffle
+            case "ID_RIFFLE" :  $damage=400; break;
+            
+            // Machine gun
+            case "ID_MACHINE_GUN" :  $damage=500; break;
+            
+            // Grenade launcher
+            case "ID_GRENADE_LAUNCHER" :  $damage=600; break;
+            
+            // Gloves
+            case "ID_GLOVES" :  $damage=100; break;
+            
+            // Glasses
+            case "ID_GLASSES" :  $damage=200; break;
+            
+            // Helmet
+            case "ID_HELMET" :  $damage=300; break;
+            
+            // Boots
+            case "ID_BOOTS" :  $damage=400; break;
+            
+            // Vest
+            case "ID_VEST" :  $damage=500; break;
+            
+            // Schield
+            case "ID_SHIELD" :  $damage=600; break;
+        }
+        
+        return $damage;
+     }
+     
+     function isAmmo($ammo)
+     {
+        if ($ammo!="ID_TANK_ROUND" && 
+            $ammo!="ID_MISSILE_AIR_SOIL" && 
+            $ammo!="ID_MISSILE_SOIL_SOIL" && 
+            $ammo!="ID_MISSILE_BALISTIC_SHORT" && 
+            $ammo!="ID_MISSILE_BALISTIC_MEDIUM" && 
+            $ammo!="ID_MISSILE_BALISTIC_LONG" && 
+            $ammo!="ID_MISSILE_BALISTIC_INTERCONTINENTAL")
+        return false;
+          else
+        return true;
+     }
+     
+     function getAmmoDamage($ammo)
+     {
+         // Damage
+         $damage=0;
+         
+         // Ammo
+        if (!$this->isAmmo($ammo))
+           throw new Exception ("Invalid ammo, CUtils.java, line 2191");
+         
+         switch ($ammo)
+         {
+             // Tank round
+             case "ID_TANK_ROUND" : $damage=250; break;
+             
+             // Air to soil missile
+             case "ID_MISSILE_AIR_SOIL" : $damage=1000; break;
+             
+             // Soil to soil missile
+             case "ID_MISSILE_SOIL_SOIL" : $damage=1000; break;
+             
+             // Balistic short
+             case "ID_MISSILE_BALISTIC_SHORT" : $damage=2500; break;
+             
+             // Balistic medium
+             case "ID_MISSILE_BALISTIC_MEDIUM" : $damage=5000; break;
+             
+             // Balistic long
+             case "ID_MISSILE_BALISTIC_LONG" : $damage=7500; break;
+             
+             // Balistic intercontinental
+             case "ID_MISSILE_BALISTIC_INTERCONTINENTAL" : $damage=10000; break;
+         }
+         
+         return $damage;
+     }
+     
+     function getAmmoRange($ammo)
+     {
+         // Range
+         $range=0;
+         
+         if ($ammo!="ID_TANK_ROUND" && 
+             $ammo!="ID_MISSILE_AIR_SOIL" && 
+             $ammo!="ID_MISSILE_SOIL_SOIL" && 
+             $ammo!="ID_MISSILE_BALISTIC_SHORT" && 
+             $ammo!="ID_MISSILE_BALISTIC_MEDIUM" && 
+             $ammo!="ID_MISSILE_BALISTIC_LONG" && 
+             $ammo!="ID_MISSILE_BALISTIC_INTERCONTINENTAL")
+        throw new Exception ("Invalid ammo, db.php, line 2191");
+         
+         switch ($ammo)
+         {
+             // Tank round
+             case "ID_TANK_ROUND" : $range=0; break;
+             
+             // Air to soil missile
+             case "ID_MISSILE_AIR_SOIL" : $range=1000; break;
+             
+             // Soil to soil missile
+             case "ID_MISSILE_SOIL_SOIL" : $range=1000; break;
+             
+             // Balistic short
+             case "ID_MISSILE_BALISTIC_SHORT" : $range=2500; break;
+             
+             // Balistic medium
+             case "ID_MISSILE_BALISTIC_MEDIUM" : $range=5000; break;
+             
+             // Balistic long
+             case "ID_MISSILE_BALISTIC_LONG" : $range=7500; break;
+             
+             // Balistic intercontinental
+             case "ID_MISSILE_BALISTIC_INTERCONTINENTAL" : $range=10000; break;
+         }
+         
+         return $range;
+     }
+     
+     function isSea($seaID) 
+     {
+         $query="SELECT * 
+		           FROM seas 
+				  WHERE seaID=?";
+		 
+		 $result=$this->execute($query, "i", $seaID);
+         
+         // Has data ?
+         if (mysqli_num_rows($result)==0)
+             return false;
+         else
+             return true;
+     }
+     
+     function getCouPos($cou)
+     {
+         // Is country ?
+         if (!$this->isCountry($cou))
+             throw new Exception ("Invalid country, db.php, line 3536");
+         
+         // Load country data
+         $query="SELECT * 
+		           FROM countries 
+				  WHERE code=?";
+         
+         $result=$this->execute($query, 
+									  "s", 
+									  $cou);
+		 
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+         
+         // Return
+         return new CPoint($row['x'], $row['y']);
+     }
+     
+     function getSeaPos($seaID)
+     {
+         // Is country ?
+         if (!$this->isSea($seaID))
+             throw new Exception ("Invalid sea, db.php, line 1959");
+         
+         // Load country data
+         $query="SELECT * 
+		           FROM seas 
+				  WHERE seaID=?";
+         
+		 // Result
+         $result=$this->execute($query, 
+									  "i", 
+									  $seaID);
+		 
+		 // Row data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+         
+         // Return
+         return new CPoint($row['posX'], $row['posY']);
+     }
+     
+     function getWeaponPos($stocID)
+     {
+         // Stoc valid
+         if (!$this->isStoc($stocID))
+            throw new Exception ("Invalid ID, CUtils.java, line 1959"); 
+         
+         // Result
+         $result=$this->execute("SELECT * 
+		                           FROM stocuri 
+								  WHERE stocID=?", 
+							    "i", 
+							    $stocID);
+		 
+		 // Row data
+		 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+         
+         // Return
+         return $this->getLocPos($row["war_loc_type"], $row["war_locID"]);
+     }
+     
+     function getLocPos($loc_type, $locID)
+     {
+		if ($loc_type!="ID_LAND" && 
+            $loc_type!="ID_SEA" && 
+            $loc_type!="ID_NAVY_DESTROYER" &&
+            $loc_type!="ID_AIRCRAFT_CARRIER")
+        throw new Exception ("Invalid location type, CUtils.java, line 1959");
+        
+        // Land ?
+        if ($loc_type=="ID_LAND")
+            return $this->getCouPos($locID);
+        
+        // Sea ?
+        if ($loc_type=="ID_SEA")
+            return $this->getSeaPos($locID);
+        
+        // Navy destroyer or carier ?
+        if ($loc_type=="ID_NAVY_DESTROYER" || 
+            $loc_type=="ID_AIRCRAFT_CARRIER")
+        return $this->getWeaponPos($locID);
+        
+        return new CPoint(0, 0);
+     }
+     
+     function getPointDist($p1, $p2)
+     {
+		 $abs_x=abs($p1->x-$p2->x); 
+         $abs_y=abs($p1->y-$p2->y);
+         $powX=round($abs_x*$abs_x);
+         $powY=round($abs_y*$abs_y);
+         
+         return round(sqrt($powX+$powY)*8);
+     }
+     
+     function isStoc($stocID)
+     {
+        // Query
+        $query="SELECT * 
+		          FROM stocuri 
+				 WHERE stocID=?";
+		 
+		 // Result
+         $result=$this->execute($query, 
+									  "i", 
+									  $stocID);
+        
+        // Has data ?
+        if (mysqli_num_rows($result))
+            return true;
+        else
+            return false;
+     }
+     
+     function getAdrAttack($adr)
+     {
+         // Attack
+         $attack=0;
+         
+         // Address valid
+         if (!$this->isAdr($adr))
+            throw new Exception ("Invalid address, CUtils.java, line 1959");
+         
+         // Load inventory
+         $query="SELECT * 
+		           FROM stocuri 
+				  WHERE adr=? 
+				    AND in_use>? 
+					AND qty>0";
+		 
+		 // Result
+         $result=$this->execute($query, 
+									  "si", 
+									  $adr,
+									  0);
+         
+         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+            if ($this->isAttackWeapon($row["tip"]))
+                $attack=$attack+$this->getWeaponDamage($row['tip']);
+         
+         // Return
+         return $attack;
+     }
+     
+     function getAdrDefense($adr)
+     {
+         // Defense
+         $defense=0;
+         
+         // Address valid
+         if (!$this->isAdr($adr))
+            throw new Exception ("Invalid address, CUtils.java, line 1959");
+         
+         // Load inventory
+         $query="SELECT * 
+		           FROM stocuri 
+				  WHERE adr=? 
+				    AND in_use>? 
+					AND qty>0";
+		 
+		 // Result
+         $result=$this->execute($query, 
+									  "si", 
+									  $adr,
+									  0);
+         
+         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+            if ($this->isDefenseWeapon($row["tip"]))
+                $defense=$defense+$this->getWeaponDamage($row['tip']);
+         
+         // Return
+         return $defense;
+     }
+	 
+	 function formatCou($cou)
+	 {
+		 return ucfirst(strtolower($cou));
+	 }
+	 
+	 
 }
 ?>

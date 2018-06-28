@@ -7,8 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "CProfile.php";
   
   $db=new db();
@@ -17,8 +15,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
   $profile=new CProfile($db, $acc, $template, $_REQUEST['ID']);
   
   if (!$db->isAdr($db->decode($_REQUEST['adr'])))
@@ -42,7 +38,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();

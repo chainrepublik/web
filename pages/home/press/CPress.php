@@ -1240,10 +1240,7 @@ class CPress
 		
 		// Retweet odal
 		$this->showRetweetModal();
-		
-		// Vote modal
-		$this->showVoteModal("ID_TWEET", $ID);
-		
+	
 		// New comment modal
 		$this->template->showNewCommentModal("ID_POST", $ID);
 	  

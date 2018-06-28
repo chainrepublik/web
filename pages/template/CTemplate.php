@@ -1150,21 +1150,29 @@ class CTemplate
             <tr>
             <td width="200">
             <a href="../../../index.php">
-            <img src="../../template/GIF/logo.png" width="200" alt=""/>
+            <img src="../../template/GIF/logo.png" width="250" alt=""/>
             </a>
             </td>
 				<td width="105" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
-            <td width="448" align="center"><table width="200" border="0" cellspacing="0" cellpadding="0">
-              <tbody>
-                <tr>
-                  <td width="20%" align="center"><a href="https://twitter.com/chainrepublik" target="_blank"><img src="../../template/GIF/twitter.png" width="30" height="31" alt=""/></a></td>
-                  <td width="20%" align="center"><a href="https://www.facebook.com/chainrepublik" target="_blank"><img src="../../template/GIF/facebook.png" width="30" height="30" alt=""/></a></td>
-                  <td width="20%" align="center"><a href="https://t.me/joinchat/IdoQlEuEDknfU5pf6Q8tdw" target="_blank"><img src="../../template/GIF/telegram.png" width="30" height="30" alt=""/></a></td>
-                  <td width="20%" align="center"><a href="https://github.com/chainrepublik" target="_blank"><img src="../../template/GIF/github.png" width="35" height="35" alt=""/></a></td>
-                  <td width="20%" align="center">&nbsp;</td>
-                </tr>
-              </tbody>
-            </table></td>
+            <td width="448" align="center">
+			
+			<form action="../../home/search/main.php" method="post" name="form_search" id="form_search">
+			<input class="form-control" style="width:300px" placeholder="Search players, companies, articles..." id="txt_src_box" name="txt_src_box"> 
+			</form>
+				
+			<script>
+				$('#txt_src_box').keypress(function(event) 
+				{
+                    if (event.keyCode == 13 || event.which == 13) 
+					{
+                       $('#form_search').submit();
+                       event.preventDefault();
+                    }
+                });
+			</script>
+			
+				
+			</td>
             <td width="247" align="right">
 			<?
 			   if ($this->kern->isLoggedIn()==false)
@@ -1224,6 +1232,27 @@ class CTemplate
 		print "</select>";
 	}
 	
+	function showSeasDD($name="dd_cou", $width="300px", $loc=false, $onChange="")
+	{
+		print "<select id='".$name."' name='".$name."' class='form-control' style='width:".$width."' onChange='".$onChange."'>";
+		
+		$query="SELECT * 
+		          FROM seas 
+			  ORDER BY name ASC";
+		
+		$result=$this->kern->execute($query);	
+	    
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+			if ($loc==false)
+		       print "<option value='".$row['seaID']."'>".$row['name']."</option>";
+			else
+			   print "<option value='".$row['seaID'].",".$row['posX'].",".$row['posY']."'>".$row['name']."</option>";
+		}
+		
+		print "</select>";
+	}
+	
 	function showPlayerBottomMenu($index=true)
 	{
 		?>
@@ -1237,7 +1266,20 @@ class CTemplate
                           <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
                         </tr>
                         <tr>
-                          <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/btc_accepted.png"; else print "../../template/GIF/btc_accepted.png"; ?>" width="100" height="44" alt=""/></td>
+                          <td height="70" align="center">
+							
+						<table width="170" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                        <td width="20%" align="center"><a href="https://twitter.com/chainrepublik" target="_blank"><img src="../../template/GIF/twitter.png" width="30" height="31" alt=""/></a></td>
+                        <td width="20%" align="center"><a href="https://www.facebook.com/chainrepublik" target="_blank"><img src="../../template/GIF/facebook.png" width="30" height="30" alt=""/></a></td>
+                        <td width="20%" align="center"><a href="https://t.me/joinchat/IdoQlEuEDknfU5pf6Q8tdw" target="_blank"><img src="../../template/GIF/telegram.png" width="30" height="30" alt=""/></a></td>
+                        <td width="20%" align="center"><a href="https://github.com/chainrepublik" target="_blank"><img src="../../template/GIF/github.png" width="35" height="35" alt=""/></a></td>
+                        </tr>
+                        </tbody>
+                        </table>	
+							
+						</td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1444,7 +1486,20 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
                   </tr>
                   <tr>
-                    <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/btc_accepted.png"; else print "../../template/GIF/btc_accepted.png"; ?>" width="100" height="44" alt=""/></td>
+                    <td height="70" align="center">
+					  
+					<table width="170" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                    <td width="20%" align="center"><a href="https://twitter.com/chainrepublik" target="_blank"><img src="../../template/GIF/twitter.png" width="30" height="31" alt=""/></a></td>
+                    <td width="20%" align="center"><a href="https://www.facebook.com/chainrepublik" target="_blank"><img src="../../template/GIF/facebook.png" width="30" height="30" alt=""/></a></td>
+                    <td width="20%" align="center"><a href="https://t.me/joinchat/IdoQlEuEDknfU5pf6Q8tdw" target="_blank"><img src="../../template/GIF/telegram.png" width="30" height="30" alt=""/></a></td>
+                    <td width="20%" align="center"><a href="https://github.com/chainrepublik" target="_blank"><img src="../../template/GIF/github.png" width="35" height="35" alt=""/></a></td>
+                    </tr>
+                    </tbody>
+                    </table>  
+					  
+					</td>
                   </tr>
                 </tbody>
               </table></td>
@@ -3506,7 +3561,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==6) print $img_6_on; else print $img_6_off; ?>" onClick="window.location='<? print $link_6; ?>'" style="cursor:pointer" title="<? print $desc_5; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<? if ($sel==6) print $img_6_on; else print $img_6_off; ?>" onClick="window.location='<? print $link_6; ?>'" style="cursor:pointer" title="<? print $desc_6; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
                <?
 				   }

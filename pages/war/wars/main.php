@@ -71,8 +71,29 @@
 			<?
 			   $template->showHelp("Wars between countries are <strong>started by governemnts</strong>. Wars <strong>take 24 hours</strong> during wich time you can actively participate in the battle. Governments may also participate using <strong>air strikes, artillery, or navy attacks</strong>. When you fight, your military influence increases and you can advance in rank faster. To be able to participate in a war you have to move to the attacked country. Below are listed active / ended wars.");
                
-			   // WIP
-			   $template->showWIP("April");
+			   // Status
+			   if (!isset($_REQUEST['status'])) 
+				   $_REQUEST['status']="ID_ACTIVE";
+				
+			   // Selection
+			   switch ($_REQUEST['status'])
+			   {
+				   // Active
+				   case "ID_ACTIVE" : $sel=1; 
+					                  break;
+					   
+				   // Closed
+				   case "ID_CLOSED" : $sel=2; 
+					                  break;
+			   }
+				
+				// Sub menu
+				$template->showSmallMenu(1, 
+									   "Active", "war.php?status=ID_ACTIVE", 
+									   "Closed", "war.php?status=ID_CLOSED");
+				
+			   // Wars
+			   $wars->showWars($_REQUEST['status']);
 			?>
             
            

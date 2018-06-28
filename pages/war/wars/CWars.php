@@ -7,5 +7,357 @@ class CWars
 		$this->template=$template;
 		$this->acc=$acc;
 	}
+	
+	function fight($warID, $type)
+	{
+		// War ID valid ?
+		$result=$this->kern->getResult("SELECT wars.*, 
+		                                     at.country AS at_name, 
+											 de.country AS de_name, 
+											 ta.country AS ta_name  
+		                                FROM wars 
+										LEFT JOIN countries AS at ON at.code=wars.attacker
+										LEFT JOIN countries AS de ON de.code=wars.defender
+										LEFT JOIN countries AS ta ON ta.code=wars.target
+									   WHERE wars.warID=? 
+										 AND wars.status=?", 
+									   "is", 
+									   $warID,
+									   "ID_ACTIVE");
+		
+		// Load war data
+		$war_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		// Type valid
+		if ($type!="ID_AT" && 
+			$type!="ID_DE")
+		{
+			$this->template->showErr("Invalid type");
+			return false;
+		}
+		
+		// Can't fight against own country
+		if ($row['defender']==$_REQUEST['ud']['cou'] && 
+			$type=="ID_AT")
+		{
+			$this->template->showErr("You can't fight against your own country");
+			return false;
+		}
+		
+		if ($row['attacker']==$_REQUEST['ud']['cou'] && 
+			$type=="ID_DE")
+		{
+			$this->template->showErr("You can't fight against your own country");
+			return false;
+		}
+		
+		// Check location
+		if ($_REQUEST['ud']['loc']!=$war_row['target'])
+		{
+			$this->template->showErr("You need to move to ".ucfirst(strtolower($war_row['ta_name']))." in order to fight");
+			return false;
+		}
+		
+		// Has attack / defense
+		$has_attack=false;
+		$has_defense=false;
+	    	
+		// At least one attack / defense weapon
+		$result=$this->kern->getResult("SELECT * 
+		                                  FROM stocuri 
+										 WHERE (adr=? OR rented_to=?) 
+										   AND in_use>? 
+										   AND qty>?", 
+									   "ssii", 
+									   $_REQUEST['ud']['adr'],
+									   $_REQUEST['ud']['adr'],
+									   0, 0);
+		
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+			// Attack weapon
+			if ($this->kern->isAttackWeapon($row['tip']))
+              $has_attack=true;
+			
+			// Defense weapon
+			if ($this->kern->isDefenseWeapon($row['tip']))
+              $has_defense=true;
+		}
+		
+		// Has weapons ?
+		if ($has_attack==false)
+		{
+			$this->template->showErr("You need at least one attack weapon");
+			return false;
+		}
+		
+		if ($has_defense==false)
+		{
+			$this->template->showErr("You need at least one defense weapon");
+			return false;
+		}
+		
+		// Energy
+		if ($_REQUEST['ud']['energy']<10)
+		{
+			$this->template->showErr("Minimum energy to fight is 10 points");
+			return false;
+		}
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Fight in a war (ID : $warID)");
+		   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								par_2=?,
+								status=?, 
+								tstamp=?";  
+			
+	       $this->kern->execute($query, 
+		                        "isssissi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_FIGHT", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$warID,
+								$type,
+								"ID_PENDING", 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->template->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->template->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
+	function showWars($status)
+	{
+		$result=$this->kern->execute("SELECT wars.*, 
+		                                     at.country AS at_name, 
+											 de.country AS de_name, 
+											 ta.country AS ta_name  
+		                                FROM wars 
+										LEFT JOIN countries AS at ON at.code=wars.attacker
+										LEFT JOIN countries AS de ON de.code=wars.defender
+										LEFT JOIN countries AS ta ON ta.code=wars.target
+									   WHERE status=?", 
+									 "s", 
+									 $status);
+		
+		if (mysqli_num_rows($result)==0)
+		{
+			print "<span class='font_14'>No results found</span>";
+			return false;
+		}
+		
+		// Bar
+		$this->template->showTopBar("War", "60%", "Ends", "20%", "Winner", "20%");
+		
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+			?>
+
+                <table width="550px">
+					<tr>
+						<td width="40px"><img src="../../template/GIF/flags/35/RO.gif"></td>
+						<td width="45px"><img src="../../template/GIF/flags/35/HU.gif"></td>
+						<td class="font_14" width="45%"><? print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); ?><br><span class="font_10" style="color: #999999"><? print "Status ".$row['attacker_points']."/".$row['defender_points']; ?></span></td>
+						<td class="font_14" width="20%" align="center"><? print $this->kern->timeFromBlock($row['block']+1440); ?></td>
+						<td class="font_14" align="center"><a href="war.php?ID=<? print $row['warID']; ?>" class="btn btn-primary btn-sm" style="width: 80px">Fight</a></td>
+					</tr>
+					<tr><td colspan="5"><hr></td></tr>
+                </table>
+
+            <?
+		}
+	}
+	
+	function showWarPanel($warID)
+	{
+		$row=$this->kern->getRows("SELECT wars.*, 
+		                                     at.country AS at_name, 
+											 de.country AS de_name, 
+											 ta.country AS ta_name  
+		                                FROM wars 
+										LEFT JOIN countries AS at ON at.code=wars.attacker
+										LEFT JOIN countries AS de ON de.code=wars.defender
+										LEFT JOIN countries AS ta ON ta.code=wars.target 
+								  WHERE wars.warID=?", 
+								  "i", 
+								  $warID);
+		
+		// Total points
+		$total=$row['attacker_points']+$row['defender_points'];
+		
+		// Attacker
+		if ($total>0)
+		{
+	 	   $at_p=round($row['attacker_points']*100/$total);
+		   $def_p=round($row['defender_points']*100/$total);
+		}
+		else
+		{
+		    $at_p=50;
+			$def_p=50;
+		}
+		
+		// Attack points
+		$at=$this->kern->getAdrAttack($_REQUEST['ud']['adr']);
+		$de=$this->kern->getAdrDefense($_REQUEST['ud']['adr']);
+		
+		$at=$at*0.6+$de*0.4;
+		$de=$at*0.4+$de*0.6;
+		
+		?>
+
+               <table width="550" border="0" cellspacing="0" cellpadding="0">
+			  <tbody>
+			    <tr>
+			      <td height="354" align="center" valign="top" background="GIF/back.png">
+				  <table width="500" border="0" cellspacing="0" cellpadding="0">
+			        <tbody>
+			          <tr>
+			            <td>&nbsp;</td>
+			            </tr>
+			          <tr>
+						  <td align="center" background="GIF/top_panel.png" class="font_14" style="color: #ffffff; text-shadow: 1px 1px #000000"><strong>
+							  <? 
+		                           print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); 
+							  ?>
+					     </strong></td>
+			            </tr>
+			          <tr>
+			            <td height="75" align="center"><table width="500" border="0" cellspacing="0" cellpadding="0">
+			              <tbody>
+			                <tr>
+			                  <td width="44" align="left"><img src="../../template/GIF/flags/35/<? print $row['attacker']; ?>.gif" width="37" height="37" alt=""/></td>
+			                  <td width="90" align="center" background="GIF/points_panel.png" class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><? print $row['attacker_points']; ?></td>
+			                  <td width="232" align="center"><table width="90%">
+			                    <tr>
+			                      <td align="left" class="font_10" style="color: #ffffff; text-shadow: 1px 1px #000000" width="50%">
+								  <? 
+		                             print $at_p."%"; 
+								  ?>
+								  </td>
+			                      <td width="50%" align="right" class="font_10" style="color: #990000;"><strong>
+								  <? 
+		                             print $def_p."%"; 
+								  ?>	  
+								  </strong></td>
+			                      </tr>
+			                    <tr>
+			                      <td colspan="2"><div class="progress" style="width :100%">
+			                        <div class="progress-bar" style="width: <? print $at_p; ?>%;"></div>
+			                        <div class="progress-bar progress-bar-danger" style="width: <? print $def_p; ?>%;"></div>
+			                        </div></td>
+			                      </tr>
+			                    </table></td>
+			                  <td width="90" align="center" background="GIF/points_panel.png"class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><? print $row['defender_points']; ?></td>
+			                  <td width="44" height="44" align="right"><img src="../../template/GIF/flags/35/<? print $row['defender']; ?>.gif" width="37" height="37" alt=""/></td>
+			                  </tr>
+			                </tbody>
+			              </table></td>
+			            </tr>
+			          <tr>
+			            <td height="150">&nbsp;</td>
+			            </tr>
+			          <tr>
+			            <td align="center"><table width="500" border="0" cellspacing="0" cellpadding="0">
+			              <tbody>
+			                <tr>
+			                  <td width="147" align="left">
+								  <?
+		                              if ($row['status']=="ID_ACTIVE")
+									  {
+		                          ?>
+								  
+								        <a href="war.php?ID=<? print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_AT">
+								        <img src="GIF/at_but.png" width="137" height="45" alt=""/>
+								        </a>
+								  
+								  <?
+									  }
+								  ?>
+								</td>
+			                  <td width="102" align="center">
+								
+								<table width="80" border="0" cellspacing="0" cellpadding="0">
+			                    <tbody>
+			                      <tr>
+									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Attack</span><br><span class="font_14"><strong><? print $at; ?></strong></span></td>
+			                        </tr>
+			                      </tbody>
+			                    </table>
+							  
+							  </td>
+			                  <td width="105" align="center">
+								
+								<table width="80" border="0" cellspacing="0" cellpadding="0">
+			                    <tbody>
+			                      <tr>
+									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Defense</span><br><span class="font_14"><strong><? print $de; ?></strong></span></td>
+			                        </tr>
+			                      </tbody>
+			                    </table>
+								  
+								</td>
+			                  <td width="146" align="right">
+								   <?
+		                              if ($row['status']=="ID_ACTIVE")
+									  {
+		                          ?>
+								  
+								         <a href="war.php?ID=<? print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_DE">
+								         <img src="GIF/def_but.png" width="137" height="45" alt=""/>
+								         </a>
+								  
+								  <?
+									  }
+								  ?>
+							  </td>
+			                  </tr>
+			                </tbody>
+			              </table></td>
+			            </tr>
+			          </tbody>
+			        </table></td>
+			      </tr>
+			    </tbody>
+			  </table>
+
+        <?
+	}
+	
+	function showFighters($warID, $type)
+	{
+		
+	}
+	
+	function showLastFights($warID)
+	{
+		
+	}
 }
 ?>

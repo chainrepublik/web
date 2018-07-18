@@ -461,7 +461,7 @@
 		?>
         
                <tr class="font_14">
-               <td><? print $this->template->formatAdr($row['adr']); ?></td>
+               <td><? print $this->template->formatAdr($row['adr'], 14, true); ?></td>
                <td style="color:#999999" align="center">
                
 			   <?
@@ -486,6 +486,9 @@
 						   // Comments Reward
 					       case "ID_COM" : print "Comments Reward"; break;
 							   
+						   // Voters Reward
+					       case "ID_VOTERS" : print "Voters Reward"; break;
+							   
 						   // Affiliates Reward
 					       case "ID_REFS" : print "Affiliates Reward"; break;
 							   
@@ -509,7 +512,7 @@
                
                </td>
                
-               <td align="center"><strong style="color:#009900"><? print "$".round($row['amount']*$_REQUEST['sd']['MSK_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><? print $row['amount']." MSK"; ?></span></td>
+               <td align="center"><strong style="color:#009900"><? print "$".round($row['amount']*$_REQUEST['sd']['coin_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><? print $row['amount']." CRC"; ?></span></td>
              
                <td align="center" style="color:#999999"><? print $row['block']; ?><br><span style="font-size:10px">~<? print $this->kern->timeFromBlock($row['block']); ?> ago</span></td>
                </tr>
@@ -524,39 +527,23 @@
         <?
 	}
 	
-	function vote($net_fee_adr, $adr, $delegate, $type)
+	function vote($delegate, $type)
 	{
 		// Delegate from domain 
-		$delegate=$this->kern->adrFromDomain($delegate);
+		$delegate=$this->kern->adrFromName($delegate);
 		
-		// Valid addresses ??
-		if ($this->kern->isAdr($net_fee_adr)==false || 
-		    $this->kern->isAdr($adr)==false || 
-			$this->kern->isAdr($delegate)==false)
-			{
-				$this->template->showErr("Invalid entry data");
-				return false;
-			}
-			
-	    // Mine ?
-		if ($this->kern->isMine($net_fee_adr)==false || 
-		    $this->kern->isMine($adr)==false)
-	    {
-			$this->template->showErr("Invalid entry data");
-			return false;
-		}
-		
-		// Can spend
-		if ($this->kern->canSpend($net_fee_adr)==false)
-		{
-			$this->template->showErr("Network fee address can't spend coins");
-			return false;
-		}
+		 // Basic check
+		 if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+	                                 $_REQUEST['ud']['adr'],
+						             0.0001, 
+						             $this->template,
+					      	         $this->acc)==false)
+		 return false;	
 		
 		// Min balance
-		if ($this->kern->getBalance($adr)<10)
+		if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<100)
 		{
-			$this->template->showErr("Minimum balance is 10 MSK");
+			$this->template->showErr("Minimum balance is 100 MSK");
 			return false;
 		}
 		
@@ -565,6 +552,24 @@
 	        $type!="ID_DOWN")
 		{
 			$this->template->showErr("Invalid vote type");
+			return false;
+		}
+		
+		// Already voted ?
+		$result=$this->kern->getResult("SELECT * 
+		                                  FROM del_votes 
+										 WHERE adr=? 
+										   AND delegate=? 
+										   AND type=?", 
+									   "sss", 
+									   $_REQUEST['ud']['adr'], 
+									   $delegate, 
+									   $type);
+		
+		// Has data ?
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already voted this delegate");
 			return false;
 		}
 		
@@ -578,21 +583,31 @@
 		   
 		   // Insert to stack
 		   $query="INSERT INTO web_ops 
-			               SET user='".$_REQUEST['ud']['user']."', 
-							   op='ID_VOTE_DELEGATE', 
-							   fee_adr='".$net_fee_adr."', 
-							   target_adr='".$adr."',
-							   par_1='".$delegate."',
-							   par_2='".$type."',
-							   status='ID_PENDING', 
-							   tstamp='".time()."'";
-	       $this->kern->execute($query); 
+			               SET userID=?, 
+							   op=?, 
+							   fee_adr=?, 
+							   target_adr=?,
+							   par_1=?,
+							   par_2=?,
+							   status=?, 
+							   tstamp=?";
+			
+	       $this->kern->execute($query, 
+								"issssssi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_VOTE_DELEGATE", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$delegate, 
+								$type, 
+								"ID_PENDING", 
+								time()); 
 		
 		   // Commit
 		   $this->kern->commit();
 		   
 		   // Confirm
-		   $this->template->showOk("Your request has been succesfully recorded", 550);
+		   $this->template->confirm();
 	   }
 	   catch (Exception $ex)
 	   {
@@ -618,21 +633,9 @@
                <tr>
                <td width="20%" align="left">
                
-               <div class="btn-group">
-               <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <span class="glyphicon glyphicon-refresh"></span>&nbsp;<span class="caret"></span>
-               </button>
-               <ul class="dropdown-menu">
-               <li><a href="index.php?type=real_time">Real time delegates table</a></li>
-               <li><a href="index.php?type=active">Active delegates table</a></li>
-               </ul>
-               </div>
-               
                </td>
                <td width="70%" align="right"><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/upvote.png'); $('#txt_vote_type').val('ID_UP'); $('#txt_vote_delegate').val('');" class="btn btn-success"><span class="glyphicon glyphicon-upload"></span>&nbsp;&nbsp;Vote New Delegate</a></td>
                <td width="1%">&nbsp;</td>
-               <td width="1%"><a href="last_votes.php" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Last votes">
-               <span class="glyphicon glyphicon-list"></span></a></td>
                </tr>
                </tbody>
                </table>
@@ -661,61 +664,57 @@
 	
 	function showDelegates($type="real_time")
 	{
-		// QR Modal
-		$this->template->showQRModal();
-		
-		// Vote Modal
+		// Vote modal
 		$this->showVoteModal();
 		
 		// Find block
 		$block=$this->getLogBlock();
 		
-		if ($type=="real_time")
-		    $query="SELECT * 
-		              FROM delegates 
-			      ORDER BY power DESC 
-			         LIMIT 0,100";
-		else
-		   $query="SELECT * 
-		             FROM delegates_log 
-					WHERE block='".$block."'
-			     ORDER BY power DESC 
-			        LIMIT 0,100";
+		
+		$query="SELECT * 
+		         FROM delegates_log 
+		        WHERE block=?
+			 ORDER BY power DESC 
+			    LIMIT 0,100"; 
 		
 		// Execute		 
-		$result=$this->kern->execute($query);	
+		$result=$this->kern->execute($query, "i", $block);	
 	    
+		// Top bar
+		$this->template->showTopBar("Delegate", "60%", "Power", "20%", "Actions", "20%");
 		
 		?>
         
         
-        <br><br>
+    
         <table style="width:90%">
-        <tr><td height="40px" class="font_18" align="left" style="color:#aaaaaa">
-        <? 
-		    if ($type=="real_time") 
-			    print "Real Time Delegates Table"; 
-		    else 
-			    print "Active Delegates Table"; ?>
-        
-        </td></tr>
-        
+       
 		<?
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		?>
         
               <tr>
-              <td class="font_14" width="85%"><a href="delegate.php?ID=<? print $row['ID']; ?>"><? print $this->template->formatAdr($row['delegate']); ?></a></td>
-              <td class="font_14" style="color:#009900" width="18%"><strong><? print $row['power']." MSK"; ?></strong></td>
+              <td class="font_14" width="60%"><a href="delegate.php?ID=<? print $row['ID']; ?>"><? print $this->template->formatAdr($row['delegate']); ?></a></td>
               
-              <td width="5%"><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/upvote.png'); $('#txt_vote_type').val('ID_UP'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>'); " class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span></a></td>
+			  <td class="font_14" style="color:#009900" width="20%" align="center"><strong><? print $row['power']." CRC"; ?></strong></td>
               
-              <td>&nbsp;</td>
-              <td width="5%"><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/downvote.png'); $('#txt_vote_type').val('ID_DOWN'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span></a></td>
+              <td width="20%" align="right">
+				<div class="btn-group">
+               <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <span class="glyphicon glyphicon-cog"></span>&nbsp;<span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu">
               
-              <td>&nbsp;</td>
-              <td width="5%"><a href="delegate.php?ID=<? print $row['ID']; ?>" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></a></td>
+				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/upvote.png'); $('#txt_vote_type').val('ID_UP'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>'); ">Upvote delegate</a></li>
+               
+				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/downvote.png'); $('#txt_vote_type').val('ID_DOWN'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>');">Downvote delegate</a></li>
+			   
+				   <li><a href="delegate.php?adr=<? print $this->kern->encode($row['delegate']); ?>">Details</a></li>
+               </ul>
+               </div>
+			   </td>
+				  
               </tr>
               <tr><td colspan="4"><hr></td></tr>
         
@@ -774,7 +773,7 @@
 	
 	function showVoteModal()
 	{
-		$this->template->showModalHeader("modal_vote_delegate", "Vote Delegate", "act", "vote", "vote_delegate", "");
+		$this->template->showModalHeader("modal_vote_delegate", "Vote Delegate", "act", "vote_delegate", "delegate", "");
 		?>
             
             <input type="hidden" value="" id="txt_vote_type" name="txt_vote_type">

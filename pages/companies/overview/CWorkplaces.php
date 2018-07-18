@@ -173,8 +173,8 @@ class CWorkplaces
 									$status,
 									$wage,
 									$prod,
-								    $com_adr, 
-								    $com_adr, 
+								    $_REQUEST['ud']['adr'], 
+								    $_REQUEST['ud']['adr'], 
 								    'ID_PENDING',
 								    time());
 		   
@@ -201,7 +201,7 @@ class CWorkplaces
 		// Basic check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
 		                           $_REQUEST['ud']['adr'], 
-								   0.01*$period, 
+								   $_REQUEST['sd']['work_fee']*$period, 
 								   $this->template, 
 								   $this->acc)==false)
 		return false;
@@ -262,7 +262,7 @@ class CWorkplaces
 		}
 		
 		// Funds
-		$fee=$period*0.1*30;
+		$fee=$period*$_REQUEST['sd']['work_fee']*30;
 		
 		// Has funds ?
 		if ($this->acc->getTransPoolBalance($this->kern->getComAdr($_REQUEST['ID']), "CRC")<$fee)
@@ -270,9 +270,6 @@ class CWorkplaces
 			$this->template->showErr("Insuficient funds");
 			return false;
 		}
-		
-		// Company adr
-		$com_adr=$this->kern->getComAdr($_REQUEST['ID']);
 		
 		try
 	    {
@@ -283,43 +280,10 @@ class CWorkplaces
 		   $tID=$this->kern->getTrackID();
 		
 		   // Action
-		   if ($workplaceID>0)
-		      $this->kern->newAct("Renews a workplace (".$workplaceID.") for company ".$_REQUEST['ID']); 
-		   else
-		      $this->kern->newAct("Rent a new workplace for company ".$_REQUEST['ID']); 
-			  
-		   // Renew ?
-		   if ($workplaceID>0)
-		   {
-			   // Insert to stack
-		       $query="INSERT INTO web_ops 
-			                SET userID=?, 
-							    op=?, 
-								par_1=?,
-								par_2=?,
-								days=?, 
-								fee_adr=?, 
-								target_adr=?, 
-								status=?, 
-								tstamp=?";
-			   
-			  // Execute			 
-	          $this->kern->execute($query, 
-		                           "issiisssi", 
-								    $_REQUEST['ud']['ID'], 
-								   'ID_RENEW',
-								   'ID_WORKPLACE',
-								    $workplaceID, 
-								    $period*30, 
-								    $com_adr, 
-								    $com_adr, 
-								    'ID_PENDING',
-								    time());
-		   }
-		   else
-		   {
-			   // Insert to stack
-		       $query="INSERT INTO web_ops 
+		   $this->kern->newAct("Rent a new workplace for company ".$_REQUEST['ID']); 
+		
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
 			                SET userID=?, 
 							    op=?, 
 								par_1=?, 
@@ -329,18 +293,18 @@ class CWorkplaces
 								status=?, 
 								tstamp=?";
 			   
-			  // Execute			 
-	          $this->kern->execute($query, 
-		                           "isiisssi", 
-								    $_REQUEST['ud']['ID'], 
-								    'ID_RENT_WORKPLACE',
-								    $_REQUEST['ID'],
-								    $period*30, 
-								    $com_adr, 
-								    $com_adr, 
-								    'ID_PENDING',
-								    time());
-		   }
+		   // Execute			 
+	       $this->kern->execute($query, 
+		                        "isiisssi", 
+								$_REQUEST['ud']['ID'], 
+								'ID_RENT_WORKPLACE',
+								$_REQUEST['ID'],
+								$period*30, 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'],
+								'ID_PENDING',
+								time());
+		  
 		   
 		   // Commit
 		   $this->kern->commit();
@@ -361,42 +325,6 @@ class CWorkplaces
 	}
 	
 	
-	
-	function showRenewPanel()
-	{
-		$query="SELECT * 
-		          FROM workplaces 
-				 WHERE comID=? 
-				   AND expires<?";
-				   
-		$result=$this->kern->execute($query, 
-		                             "ii", 
-									 $_REQUEST['ID'], 
-									 $_REQUEST['sd']['last_block']+14400);	
-		
-		// expiress in the next 10 days ?
-		if (mysqli_num_rows($result)==0) 
-		   return false;
-		
-	
-		?>
-             <br>
-             <table width="550" border="0" cellspacing="0" cellpadding="0">
-             <tbody>
-             <tr>
-              <td width="433" height="60" align="center" bgcolor="#ffe8ed"><table width="90%" border="0" cellspacing="0" cellpadding="0">
-                <tbody>
-                  <tr>
-                    <td class="bold_red_12">Some of your company's worplaces will expires soon. If you don't renew the expiring workplaces in the next days, they will be permanently deleted. Click on the red button next to a workplace to renew it.</td>
-                  </tr>
-                </tbody>
-              </table></td>
-              </tr>
-            </tbody>
-            </table>
-        
-        <?
-	}
 	
 	function showNoBuilding()
 	{
@@ -429,6 +357,9 @@ class CWorkplaces
 	
 	function showWorkplaces()
 	{
+		// Renew 
+		$this->template->showRenewModal("ID_WORKPLACE", 0);
+		
 		$query="SELECT work.*, 
 		               tp.name 
 		          FROM workplaces AS work 
@@ -530,7 +461,7 @@ class CWorkplaces
                   <tr>
                     <td align="left">
                     
-                    <a class="btn <? if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="#" onclick="$('#wID').val('<? print $row['ID']; ?>'); $('#new_modal').modal()" data-toggle="tooltip" data-placement="top" title="Renew Workplace" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
+                    <a class="btn <? if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="javascript:void(0)" onclick="$('#txt_renew_targetID').val('<? print $row['workplaceID']; ?>'); $('#renew_modal').modal(); " data-toggle="tooltip" data-placement="top" title="Renew Workplace" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
                     </a>
                     
                     </td>
@@ -711,32 +642,44 @@ class CWorkplaces
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="1" checked="checked" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;1 month</td>
-                <td align="center" bgcolor="#FFFFFF" class="font_14"><strong>3 CRC</strong></td>
+                <td align="center" bgcolor="#FFFFFF" class="font_14"><strong>
+					<? print round($_REQUEST['sd']['work_fee']*30, 2)." CRC"; ?>
+				</strong></td>
               </tr>
               <tr>
                 <td width="8%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" /></td>
                 <td width="60%" height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
-                <td width="32%" align="center" bgcolor="#FFFFFF" class="font_14"><strong>9 CRC</strong></td>
+                <td width="32%" align="center" bgcolor="#FFFFFF" class="font_14"><strong>
+				<? print round($_REQUEST['sd']['work_fee']*90, 2)." CRC"; ?>
+				</strong></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="6" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;6 months </span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>18 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
+				<? print round($_REQUEST['sd']['work_fee']*180, 2)." CRC"; ?>	
+				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="9" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;9 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>27 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
+				<? print round($_REQUEST['sd']['work_fee']*270, 2)." CRC"; ?>	
+				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="12" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;12 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>36 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
+				<? print round($_REQUEST['sd']['work_fee']*365, 2)." CRC"; ?>	
+				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="24" /></td>
                 <td height="40" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;24 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>72 CRC</strong></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
+				<? print round($_REQUEST['sd']['work_fee']*730, 2)." CRC"; ?>
+				</strong></span></td>
               </tr>
             </table></td>
           </tr>

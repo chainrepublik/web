@@ -55,7 +55,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $home->showMenu(9);
+			   $home->showMenu(8);
 			   $template->showLeftAds();
 			?>
             </td>

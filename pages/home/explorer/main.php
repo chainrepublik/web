@@ -148,6 +148,10 @@
 					  break;
 			 }
 			  
+				// Action
+				if ($_REQUEST['act']=="vote_delegate")
+					$explorer->vote($_REQUEST['txt_vote_delegate'], $_REQUEST['txt_vote_type']);
+				
               // Menu
 			  print "<br>";
 	          $template->showImgsMenu($sel, 
@@ -177,12 +181,8 @@
 				case "delegates" :  // Buttons
 	                                $explorer->showAddBut();  
 									
-									// Delegates type
-		                            if (!isset($_REQUEST['type'])) 
-		                               $_REQUEST['type']="real_time";
-	     
-		                            // Show delegates
-		                            $explorer->showDelegates($_REQUEST['type']);
+									// Show delegates
+		                            $explorer->showDelegates();
 		                            break;
 			 }
 			

@@ -7,7 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "CAccounting.php";
   
   $db=new db();
   $gd=new CGameData($db);
@@ -15,9 +14,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $acco=new CAccounting($db, $acc, $template);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
 
 ?>
 
@@ -68,27 +64,43 @@
             </td>
             <td width="594" align="center" valign="top">
             
-			 <script>
-		  function menu_clicked(tab)
-		  {
-			  $('#tab_accounts').css('display', 'none');
-			  $('#tab_acc_trans').css('display', 'none');
-			  
-			  switch (tab)
-			  {
-				  case "History" : $('#tab_acc_trans').css('display', 'block'); break;
-				  case "Accounts" : $('#tab_accounts').css('display', 'block'); break;
-			  }
-		  }
-        </script>
-        
-		<?
-		   $template->showHelp("Below are displayed latest player's financial transactions and bank account list. Please note that all financial transactions are done through banks and each transacction is taxed 1%.");
-		    
-			$acco->showMenu();
-		    $acc->showTrans("ID_CIT", $_REQUEST['ID']);
-			$acco->showBankAcc("ID_CIT", $_REQUEST['ID'], false);
-		?>
+			<?
+		         $template->showHelp("Below are displayed the last address transactions. There are 5 types of tranfers from CRC to energy. Transactions are <strong>removed</strong> from the distributed ledger after 30 days so only transactions newer than a month are displayed.");
+							   
+		          // No page ?
+		          if (!isset($_REQUEST['target']))
+			          $_REQUEST['target']="ID_COINS";
+				
+		          // Page
+		          switch ($_REQUEST['target'])
+		          {
+			         // Coins
+			         case "ID_COINS" : $sel=1; break;
+			   
+			         // Products
+			         case "ID_PRODS" : $sel=2; break;
+				   
+			         // Shares
+			         case "ID_SHARES" : $sel=3; break;
+				    
+			        // Other Assets
+			        case "ID_ASSETS" : $sel=4; break;
+				   
+			       // Energy
+			       case "ID_ENERGY" : $sel=5; break;
+		        }
+				
+		        // Menu
+		        $template->showImgsMenu($sel, 
+				                        "coins_off.png", "coins_on.png", "Coins", "main.php?target=ID_COINS&adr=".$_REQUEST['adr'],               "prods_off.png", "prods_on.png", "Products", "main.php?target=ID_PRODS&adr=".$_REQUEST['adr'],
+								        "shares_off.png", "shares_on.png", "Companies Shares", "main.php?target=ID_SHARES&adr=".$_REQUEST['adr'],
+								        "assets_off.png", "assets_on.png", "Other Assets", "main.php?target=ID_ASSETS&adr=".$_REQUEST['adr'],
+								        "energy_off.png", "energy_on.png", "Energy", "main.php?target=ID_ENERGY&adr=".$_REQUEST['adr']);
+						   
+		        // Show transactions
+		        $acc->showTrans($db->decode($_REQUEST['adr']), $_REQUEST['target']);
+		  
+		    ?>
             
             </td>
             <td width="206" align="center" valign="top">

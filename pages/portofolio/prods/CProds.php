@@ -825,10 +825,6 @@ class CProds
 	{
 	}
 	
-	function showAmmo()
-	{
-	}
-	
 	function showGift($expires)
 	{
 	    ?>

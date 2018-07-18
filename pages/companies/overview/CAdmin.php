@@ -113,6 +113,9 @@ class CAdmin
 	
 	function showPanel()
 	{
+		// Renew
+		$this->template->showRenewModal("ID_COM", $_REQUEST['ID']);
+		
 		// Query
 		$query="SELECT com.*, 
 		               adr.pic 
@@ -138,9 +141,19 @@ class CAdmin
             <form action="admin.php?act=update&ID=<? print $_REQUEST['ID']; ?>" method="post" name="form_update" id="form_update">
             <table width="560" border="0" cellspacing="0" cellpadding="0">
             <tr><td valign="top">
-            <td width="212" height="207" align="center" valign="top">
-            <img src="<? if ($row['pic']!="") print $this->kern->crop($row['pic'], 150, 150); else print "../../template/GIF/empty_pic.png"; ?>" class="img img-circle" width="150" height="150" id="img_profile" name="img_profile"/>
-            </td>
+            <td width="212" height="207" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td align="center"><img src="<? if ($row['pic']!="") print $this->kern->crop($row['pic'], 150, 150); else print "../../template/GIF/empty_pic.png"; ?>" class="img img-circle" width="150" height="150" id="img_profile" name="img_profile"/></td>
+                </tr>
+                <tr>
+                  <td align="center">&nbsp;</td>
+                </tr>
+                <tr>
+					<td align="center"><a href="javascript:void(0)" class="btn btn-danger" onClick="$('#renew_modal').modal()"><span class="glyphicon glyphicon-refresh">&nbsp;</span>Renew</a></td>
+                </tr>
+              </tbody>
+            </table></td>
             </td>
             <td width="348" align="center"><table width="97%" border="0" cellspacing="0" cellpadding="0">
               <tr>

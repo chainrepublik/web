@@ -63,7 +63,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $home->showMenu(11);
+			   $home->showMenu(9);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -79,9 +79,6 @@
 				
 			  // Public Key Modal
 		      $adr->showPublicKeyModal();
-				
-			  // Renew modal
-			  $template->showRenewModal();
 				
 			  // Change pass modal
 			  $sec->showPassModal();
@@ -118,12 +115,6 @@
 					case "update" : $profile->updateProfile($_REQUEST['txt_avatar'], 
 															$_REQUEST['txt_desc']); 
 						            break;
-						
-					// Renew Address
-					case "renew" : $template->renew($_REQUEST['txt_renew_target_type'], 
-											        $_REQUEST['txt_renew_target_ID'], 
-													$_REQUEST['txt_renew_days']);
-						           break;
 						
 					// Change password
 					case "change_pass" : $sec->changePass($_REQUEST['txt_old_pass'], 

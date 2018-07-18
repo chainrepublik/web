@@ -91,9 +91,6 @@
 			  // Factory panel
 			  $work->showFactoryPanel();
 			  
-			  // Renew panel
-			  $work->showRenewPanel();
-			  
 			  // Workplaces
 			  $work->showWorkplaces();
 			  

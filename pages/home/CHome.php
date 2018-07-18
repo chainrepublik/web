@@ -222,22 +222,22 @@ class CHome
                
                 
                 <tr>
-                  <td height="80" align="center" <? if ($sel==8) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="center" <? if ($sel==7) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                     <a href="../../home/accounting/main.php">
                     <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="41%" align="center"><img src="../GIF/icon_trans_<? if ($sel==8) print "on"; else print "off"; ?>.png" width="66" height="65" alt=""/></td>
+                        <td width="41%" align="center"><img src="../GIF/icon_trans_<? if ($sel==7) print "on"; else print "off"; ?>.png" width="66" height="65" alt=""/></td>
                         <td width="50%" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
-                            <td colspan="2"><span class="<? if ($sel==8) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting</span></td>
+                            <td colspan="2"><span class="<? if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting</span></td>
                           </tr>
                           <tr>
-                            <td width="57%"><span class="<? if ($sel==8) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last transactions </span></td>
+                            <td width="57%"><span class="<? if ($sel==7) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last transactions </span></td>
                             <td width="43%"><? $this->template->showBubble($_REQUEST['ud']['unread_trans'], "porto"); ?></td>
                           </tr>
                         </table></td>
-                        <td width="9%"><? if ($sel==8) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="9%"><? if ($sel==7) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -252,22 +252,22 @@ class CHome
                 
                 
                 <tr>
-                  <td height="80" align="center" <? if ($sel==9) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="center" <? if ($sel==8) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                     <a href="../../home/events/main.php">
                     <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="41%" align="center"><img src="../GIF/events_<? if ($sel==9) print "on"; else print "off"; ?>.png" width="69" height="56" alt=""/></td>
+                        <td width="41%" align="center"><img src="../GIF/events_<? if ($sel==8) print "on"; else print "off"; ?>.png" width="69" height="56" alt=""/></td>
                         <td width="50%" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
-                            <td colspan="2"><span class="<? if ($sel==9) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Events</span></td>
+                            <td colspan="2"><span class="<? if ($sel==8) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Events</span></td>
                           </tr>
                           <tr>
-                            <td width="57%"><span class="<? if ($sel==9) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last events </span></td>
+                            <td width="57%"><span class="<? if ($sel==8) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last events </span></td>
                             <td width="43%"><? $this->template->showBubble($_REQUEST['ud']['unread_events'], "porto"); ?></td>
                           </tr>
                         </table></td>
-                        <td width="9%"><? if ($sel==9) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="9%"><? if ($sel==8) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -282,15 +282,15 @@ class CHome
 				  
 				  
 				  <tr>
-                  <td height="80" align="center" <? if ($sel==11) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="center" <? if ($sel==9) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                     <a href="../../home/settings/main.php">
                     <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="41%" align="left"><img src="../GIF/ico_settings_<? if ($sel==11) print "on"; else print "off"; ?>.png" width="70" alt=""/></td>
-                        <td width="50%" valign="middle"><span class="<? if ($sel==11) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Settings</span><br />
-                          <span class="<? if ($sel==11) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Account settings & notifications</span></td>
-                        <td width="9%"><? if ($sel==11) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="41%" align="left"><img src="../GIF/ico_settings_<? if ($sel==9) print "on"; else print "off"; ?>.png" width="70" alt=""/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==9) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Settings</span><br />
+                          <span class="<? if ($sel==9) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Account settings & notifications</span></td>
+                        <td width="9%"><? if ($sel==9) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -318,6 +318,27 @@ class CHome
                         <td width="50%" valign="middle"><span class="<? if ($sel==10) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Explorer</span><br />
                           <span class="<? if ($sel==10) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Blockchain explorer</span></td>
                         <td width="9%"><? if ($sel==10) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </a>
+                  </td>
+                </tr>
+				  
+				   <tr>
+                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
+                </tr>
+				  
+				  <tr>
+                  <td height="80" align="center" <? if ($sel==11) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                    <a href="../../home/exchange/main.php">
+                    <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="41%" align="left"><img src="../GIF/ico_exchange_<? if ($sel==11) print "on"; else print "off"; ?>.png" width="70" height="59" alt=""/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==11) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Exchange</span><br />
+                          <span class="<? if ($sel==11) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Buy and sell CRC for real cash</span></td>
+                        <td width="9%"><? if ($sel==11) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>

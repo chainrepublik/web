@@ -83,9 +83,8 @@
           </td>
         <td width="601" height="500" valign="top" align="center">
         <?
-		   $template->showHelp("Below are listed company's licenses. Remember that a license expires and must be renewed after a period. A company needs the license to produce a particular type of product. Licenses are not transferable and can only be rented from the game fund. Click Available tab to check what licenses you can purchase to extend the product range of the company.");
-		   
-		
+			$template->showHelp("Below are listed company's licenses. Remember that a license expires and must be renewed after a period. A company needs the license to produce a particular type of product. Licenses are not transferable and can only be rented from the game fund. Click Available tab to check what licenses you can purchase to extend the product range of the company.");
+		  	
 		  // Modals
 		  $lic->showProdRentModal();
 		  
@@ -95,12 +94,6 @@
 			                                   $_REQUEST['licence'], 
 											   $_REQUEST['period']);
 							  break;
-				
-									 
-				case "renew" : $lic->renewLicence($_REQUEST['licID'], 
-				                                  $_REQUEST['renew_period']);
-									 break;
-				   
 			}
 			
 			// Default

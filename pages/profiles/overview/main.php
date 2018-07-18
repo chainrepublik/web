@@ -69,92 +69,16 @@
             <td width="594" align="center" valign="top">
             
 			  <?
+				 $template->showHelp("Below is displayed the adress overview. You can send encrypted messages to any address. If you want more info about this address use the left menu. In case you find suspect transactions / inventory items please send a message to customer support.");
+				
+				 // PRofile panel
 				 $profile->showProfile($db->decode($_REQUEST['adr']));
+				
+				 // Political party nd military unit
+				 $profile->showPanels($db->decode($_REQUEST['adr']));
 			  ?>
 				
-			  <table width="90%" border="0" cellspacing="0" cellpadding="0">
-			    <tbody>
-			      <tr>
-			        <td width="250" height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
-			          <tbody>
-			            <tr>
-			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Political Endorsment</td>
-			              </tr>
-			            <tr>
-							<td height="70" align="center" class="font_30" style="color:#009900"><strong>4345</strong></td>
-			              </tr>
-			            <tr>
-			              <td align="center" class="font_12" style="color:#999999">Endorsed by 43 citizens. Rejected by 2 citizens. </td>
-			              </tr>
-			            <tr>
-							<td height="50" align="center" valign="bottom"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-							  <tbody>
-							    <tr>
-									<td align="center"><a href="#" class="btn btn-primary btn-sm" style="width: 80px">Endorse</a></td>
-							      <td align="center"><a href="#" class="btn btn-danger btn-sm" style="width: 80px">Reject</a></td>
-							      </tr>
-							    </tbody>
-						    </table></td>
-			              </tr>
-			            </tbody>
-		            </table></td>
-			        <td width="35">&nbsp;</td>
-			        <td width="250" height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
-			          <tbody>
-			            <tr>
-			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Military Rank</td>
-			              </tr>
-			            <tr>
-			              <td height="100" align="center" class="font_30" style="color:#009900"><img src="../../template/GIF/ranks/no_rank.png" width="100" alt=""/></td>
-			              </tr>
-			            <tr>
-							<td align="center" class="font_14" style="color:#999999"><strong>No Rank</strong></td>
-			              </tr>
-			            <tr>
-			              <td align="center" class="font_12" style="color:#999999">Needs 323 military points to advance in rank.</td>
-			              </tr>
-			            </tbody>
-		            </table></td>
-		          </tr>
-			      <tr>
-			        <td>&nbsp;</td>
-			        <td>&nbsp;</td>
-			        <td>&nbsp;</td>
-		          </tr>
-			      <tr>
-			        <td height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
-			          <tbody>
-			            <tr>
-			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Political Party</td>
-			              </tr>
-			            <tr>
-			              <td height="100" align="center" class="font_30" style="color:#009900"><img src="GIF/no_party.png" width="80" height="95" alt=""/></td>
-			              </tr>
-			            <tr>
-			              <td align="center" class="font_14" style="color:#888888"><strong>No political affiliation</strong><br><span class="font_12" style="color: #999999">This citizen is not a member of a political party.</span></td>
-			              </tr>
-			            </tbody>
-		            </table></td>
-			        <td>&nbsp;</td>
-			        <td height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
-			          <tbody>
-			            <tr>
-			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Military Unit</td>
-			              </tr>
-			            <tr>
-			              <td height="100" align="center" class="font_30" style="color:#009900"><img src="GIF/no_unit.png" width="80" height="78" alt=""/></td>
-			              </tr>
-			            <tr>
-			              <td align="center" class="font_14" style="color:#999999"><strong>No military affiliation</strong></td>
-			              </tr>
-			            <tr>
-			              <td align="center" class="font_12" style="color:#999999">This citizen is not a member of a military unit.</td>
-			              </tr>
-			            </tbody>
-		            </table></td>
-		          </tr>
-		        </tbody>
-	        </table></td>
+			  </td>
             <td width="206" align="center" valign="top">
             
 			<?

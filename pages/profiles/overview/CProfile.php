@@ -9,44 +9,117 @@ class CProfile
 		$this->userID=$userID;
 	}
     
+	function showPanels($adr)
+	{
+		$row=$this->kern->getRows("SELECT adr.*,
+		                                  party.name as party_name,
+										  party.description as party_desc,
+										  unit.name as unit_name,
+										  unit.description as unit_desc
+		                             FROM adr 
+									 LEFT JOIN orgs AS party ON party.orgID=adr.pol_party
+									 LEFT JOIN orgs AS unit ON unit.orgID=adr.pol_party
+									WHERE adr.adr=?", 
+								  "s", 
+								  $adr);
+		?>
+
+              <table width="90%" border="0" cellspacing="0" cellpadding="0">
+			    <tbody>
+			      <tr>
+			        <td width="250">&nbsp;</td>
+			        <td width="35">&nbsp;</td>
+			        <td width="250">&nbsp;</td>
+		          </tr>
+			      <tr>
+			        <td height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
+			          <tbody>
+			            <tr>
+			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Political Party</td>
+			              </tr>
+			            <tr>
+			              <td height="100" align="center" class="font_30" style="color:#009900">
+							  <?
+		                         if ($row['pol_party']==0)
+									 print "<img src=\"GIF/no_party.png\" width=\"80\" height=\"95\" />";
+		                         else
+									print "<img src=\"../../politics/GIF/avatars/".$row['avatar'].".png\" width=\"80\" height=\"95\" />";
+		                      ?>
+						  </td>
+			              </tr>
+			            <tr>
+			              <td align="center" class="font_14" style="color:#888888">
+							  
+							  <?
+		                          if ($row['pol_party']==0)
+								  print "<strong>No political affiliation</strong><br><span class=\"font_12\" style=\"color: #999999\">This citizen is not a member of a political party.</span>";
+							      else
+								  print "<strong>".base64_decode($row['party_name'])."</strong><br><span class=\"font_12\" style=\"color: #999999\">".base64_decode($row['party_desc'])."</span>";
+							  ?>
+							
+							</td>
+			              </tr>
+			            </tbody>
+		            </table></td>
+			        <td>&nbsp;</td>
+			        <td height="250" align="center" valign="top" background="GIF/paper.png"><table width="80%" border="0" cellspacing="0" cellpadding="0">
+			          <tbody>
+			            <tr>
+			              <td height="40" align="center" valign="bottom" class="font_14" style="color:#999999">Military Unit</td>
+			              </tr>
+			            <tr>
+			              <td height="100" align="center" class="font_30" style="color:#009900">
+							  <?
+		                         if ($row['pol_party']==0)
+									 print "<img src=\"GIF/no_unit.png\" width=\"80\" height=\"95\" />";
+		                         else
+									print "<img src=\"".base64_decode($row['avatar'])."\" width=\"80\" height=\"95\" />";
+		                      ?>
+						  </td>
+			              </tr>
+			            <tr>
+			              <td align="center" class="font_14" style="color:#999999">
+						  <?
+		                          if ($row['mil_unit']==0)
+								  print "<strong>No military affiliation</strong><br><span class=\"font_12\" style=\"color: #999999\">This citizen is not a member of a military unit.</span>";
+							      else
+								  print "<strong>".base64_decode($row['unit_name'])."</strong><br><span class=\"font_12\" style=\"color: #999999\">".base64_decode($row['unit_desc'])."</span>";
+						  ?>
+							</td>
+			              </tr>
+			            <tr>
+			              <td align="center" class="font_12" style="color:#999999">&nbsp;</td>
+		                </tr>
+			            </tbody>
+		            </table></td>
+		          </tr>
+		        </tbody>
+	        </table>
+
+        <?
+	}
+	
 	function showProfile($adr)
 	{
-		// Articles number
-		$query="SELECT COUNT(*) AS total 
-		          FROM tweets 
-				 WHERE adr=?";
+		// Affiliates number
+		$row=$this->kern->getRows("SELECT COUNT(*) AS total 
+		                             FROM adr 
+									WHERE ref_adr=?", 
+								  "s", 
+								  $adr);
+		
+		// Afiliates
+		$aff=$row['total'];
+		
+		// Endorsers
+		$row=$this->kern->getRows("SELECT COUNT(*) AS total 
+		                             FROM endorsers 
+								    WHERE endorsed=?", 
+							 	  "s", 
+							 	  $adr);
 		
 		// Result
-		$result=$this->kern->execute($query, 
-									 "s", 
-									 $adr);
-		
-		// Row
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
-		
-		// Articles
-		$articles=$row['total'];
-		
-		// Zero ?
-		if ($articles=="") 
-			$articles=0;
-	
-		
-		// Comments number
-		$query="SELECT COUNT(*) AS total 
-		          FROM comments
-				 WHERE adr=?";
-		
-		// Result
-		$result=$this->kern->execute($query, 
-									 "s", 
-									 $adr);
-		
-		// Row
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
-		
-		// Articles
-		$comments=$row['total'];
+		$end=$row['total'];
 		
 		$query="SELECT adr.*, 
 		               cit.country AS cetatenie, 
@@ -130,8 +203,8 @@ class CProfile
 			                          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                            <tbody>
 			                              <tr>
-											  <td width="33%" align="center"><a href="" class="btn btn-primary btn-sm" style="width: 100px">Send Coins</a></td>
-											  <td width="33%" align="center"><a href="" class="btn btn-warning btn-sm" style="width: 100px">Message</a></td>
+											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<? print $row['adr']; ?>'); " class="btn btn-primary btn-sm" style="width: 100px">Send Coins</a></td>
+											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_mes_modal').modal(); $('#txt_rec').val('<? print $row['adr']; ?>')" class="btn btn-warning btn-sm" style="width: 100px">Message</a></td>
 			                                </tr>
 			                              </tbody>
 			                            </table></td>
@@ -180,7 +253,7 @@ class CProfile
 		                            ?>
 									</strong></td>
 			                    <td align="center">&nbsp;</td>
-			                    <td align="center"><strong><? print $row['aff']; ?></strong></td>
+			                    <td align="center"><strong><? print $aff; ?></strong></td>
 			                    </tr>
 			                  </tbody>
 			                </table></td>
@@ -194,15 +267,15 @@ class CProfile
 			              <td align="center" valign="top"><table width="95%" border="0" cellspacing="0" cellpadding="0">
 			                <tbody>
 			                  <tr>
-			                    <td width="47%" align="left" class="font_12">Citizenship : <strong><? print $row['cetatenie']; ?></strong></td>
+			                    <td width="47%" align="left" class="font_12">Citizenship : <strong><? print $this->kern->formatCou($row['cetatenie']); ?></strong></td>
 			                    <td width="5%">&nbsp;</td>
-			                    <td width="48%"><span class="font_12">Location : <strong><? print $row['location']; ?></strong></span></td>
+			                    <td width="48%"><span class="font_12">Location : <strong><? print $this->kern->formatCou($row['location']); ?></strong></span></td>
 			                    </tr>
 			                  <tr>
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Referer : <strong>killam</strong></span></td>
+			                    <td align="left"><span class="font_12">Referer : <strong><? print $row['refferer']; ?></strong></span></td>
 			                    <td>&nbsp;</td>
 			                    <td><span class="font_12">Server :<strong>
 									<? 
@@ -233,9 +306,9 @@ class CProfile
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Articles: <strong><? print $articles; ?></strong></span></td>
+			                    <td align="left"><span class="font_12">Political Endorsement: <strong><? print $row['pol_endorsed']; ?></strong></span></td>
 			                    <td>&nbsp;</td>
-			                    <td><span class="font_12">Comments: <strong><? print $comments; ?></strong></span></td>
+			                    <td><span class="font_12">Endorsers: <strong><? print $end; ?></strong></span></td>
 			                    </tr>
 			                  </tbody>
 			                </table></td>

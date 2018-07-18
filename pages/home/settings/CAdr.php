@@ -216,6 +216,7 @@ class CAdr
 	
 	function showAdrPage()
 	{
+		$this->template->showRenewModal("ID_ADR", $_REQUEST['ud']['adr']);
 		?>
 
             <table width="550" border="0" cellspacing="0">

@@ -145,7 +145,7 @@ class CHome
             <tr><td align="right">
             <a href="javascript:void(0)" onClick="$('#trust_modal').modal()" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;Trust Asset</a></td></tr>
             </table>
-            
+            <br>
 
         <?
 		}

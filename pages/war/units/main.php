@@ -9,6 +9,7 @@
   include "../../../kernel/CVMarket.php";
   include "../../../kernel/CAds.php";
   include "../CWar.php";
+  include "CUnits.php";
   
   $db=new db();
   $gd=new CGameData($db);
@@ -17,6 +18,7 @@
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
   $war=new CWar($db, $acc, $template);
+  $units=new CUnits($db, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,7 +38,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -69,9 +71,8 @@
 			<?
 			   $template->showHelp("Just like political parties, military units are organizations administered by members. There are only three military units in each country (recruits, advanced and elite unit). Depending on the military influence you will be automatically assigned to a military unit. It is not mandatory to be part of a military unit but you can not participate in wars if you are not a member. Below are displayed country's military units.");
                
-			   // WIP
-			   $template->showWIP("April");
-			 
+		       // Show units
+			   $units->showUnits($db->getCou());
 			?>
             
             </td>

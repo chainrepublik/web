@@ -108,7 +108,7 @@ class CCountries
 			          FROM countries AS cou 
 					  JOIN adr ON adr.adr=cou.adr 
 				  ORDER BY adr.balance DESC 
-				     LIMIT 0,30";
+				     LIMIT 0,50";
 		else
 		    $query="SELECT * 
 		              FROM sys_stats AS ss

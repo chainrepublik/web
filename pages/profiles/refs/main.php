@@ -7,8 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "CRefs.php";
   
   $db=new db();
@@ -17,11 +15,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
-  $refs=new CRefs($db, $acc, $template, $_REQUEST['ID']);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
+  $refs=new CRefs($db, $acc, $template);
 
 ?>
 
@@ -42,7 +36,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -73,13 +67,12 @@
             <td width="594" align="center" valign="top">
             
 			<?
-		   $sel=1;
-		   
-		   $template->showHelp("Below are displayed all player's affiliates. Affiliates are players who enroll in chainrepublik using your affiliate link. All players have an affiliate link. Affiliates are the easiest source of income because you will pay up to 10% of all profit you were playing chainrepublik. Affiliates can also be sold or leased.");
+		         $template->showHelp("Below are displayed the last address affiliates. Afiliates are accounts that were open using the address afiliate link. Depending on afiliates total energy, the address is <strong>rewarded every 24 blocks</strong>. Afiliates can't be transferred / sold.");
 							   
-		   $refs->showStat();
-		   $refs->showRefs();
-		?>
+		         // Refs
+		         $refs->showRefs($db->decode($_REQUEST['adr']));
+		  
+		    ?>
             
             </td>
             <td width="206" align="center" valign="top">

@@ -7,8 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "CInventory.php";
   
   $db=new db();
@@ -17,12 +15,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
-  $inv=new CInventory($db, $acc, $template, $_REQUEST['ID']);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
-
+  $prods=new CInventory($db, $acc, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -42,7 +35,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -73,15 +66,77 @@
             <td width="594" align="center" valign="top">
             
 			<?
-		   $template->showHelp("Below are displayed virtual holdings of a player like houses, cars or precious metals. The more goods a player has, the greater will be the income and taxes generated. Remember that silver, gold and platinum are 100% covered in reality the actual precious metal. You can always turn virtual gold in real gold.");
+		         $template->showHelp("Below are displayed the last address transactions. There are 5 types of tranfers from CRC to energy. Transactions are <strong>removed</strong> from the distributed ledger after 30 days so only transactions newer than a month are displayed.");
 							   
-		   $inv->showWine();
-		   $inv->showInventory("clothes");
-		   $inv->showInventory("jewelry");
-		   $inv->showInventory("cars");
-		   $inv->showInventory("houses");
-		   $inv->showMetals();
-		?>
+		          // Target
+			      if (!isset($_REQUEST['target']))
+			          $_REQUEST['target']="energy";
+				  
+			      // Selection
+			      switch ($_REQUEST['target'])
+			      {
+				     // Local press
+				     case "energy" : $sel=1; break;
+				   
+				     // International press
+				     case "clothes" : $sel=2; break;
+				   
+				     // My articles
+				     case "weapons" : $sel=3; break;
+				   
+				     // Write article
+				     case "tickets" : $sel=4; break;
+			      }
+				  
+				  // Menu
+				  $template->showImgsMenu($sel, 
+				                         "menu_label_energy_off.png", "menu_label_energy_on.png", "Instant Energy Boosters", "main.php?target=energy&adr=".$_REQUEST['adr'],
+										 "menu_label_clothes_off.png", "menu_label_clothes_on.png", "Long Term Energy Items", "main.php?target=clothes&adr=".$_REQUEST['adr'],
+										 "menu_label_weapons_off.png", "menu_label_weapons_on.png", "Weapons & Ammunition", "main.php?target=weapons&adr=".$_REQUEST['adr'],
+										 "menu_label_tickets_off.png", "menu_label_tickets_on.png", "Travel Tickets and Other Items", "main.php?target=tickets&adr=".$_REQUEST['adr']);
+			      
+				  // Instant energy
+				  if ($sel==1)
+				  {
+			         // Cigars
+			         $prods->showConsumeItems("ID_CIGARS", $db->decode($_REQUEST['adr']));
+			   
+			         // Drinks
+			         $prods->showConsumeItems("ID_DRINKS", $db->decode($_REQUEST['adr']));
+			   
+			         // Food
+			         $prods->showConsumeItems("ID_FOOD", $db->decode($_REQUEST['adr']));
+			   
+			         // Wine
+			         $prods->showConsumeItems("ID_WINE", $db->decode($_REQUEST['adr']));
+				  }
+				  
+				  if ($sel==2)
+				  {
+			         // Clothes
+			         $prods->showRentItems("ID_CLOTHES");
+			   
+			        // Jewelry
+			        $prods->showRentItems("ID_JEWELRY");
+			   
+			        // Cars
+			        $prods->showRentItems("ID_CARS");
+			   
+			        // Houses
+			        $prods->showRentItems("ID_HOUSES");
+				 
+				  }
+				  
+				  if ($sel==3)
+				  {
+				     // Guns
+			         $prods->showGuns();
+				  }
+				  
+				  if ($sel==4)
+				      $prods->showMisc();
+		  
+		    ?>
             
             </td>
             <td width="206" align="center" valign="top">

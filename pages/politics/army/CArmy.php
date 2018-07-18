@@ -101,7 +101,7 @@ class CArmy
 			                     if ($row['war_status']=="ID_READY")
 									 print "<strong>ready</strong>";
 			                     else 
-									 print $this->kern->timeFromBlock($row['war_arrive']);
+									 print  "<strong style='color:#990000'>In transit</strong><br><span class='font_10'>".$this->kern->timeFromBlock($row['war_arrive'])."</span>";
 			                 ?>
 						 </td>
 					 </tr>

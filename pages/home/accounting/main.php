@@ -60,7 +60,7 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $home->showMenu(8);
+			   $home->showMenu(7);
 			   $template->showLeftAds();
 			?>
             </td>
@@ -93,6 +93,9 @@
 			   // Energy
 			   case "ID_ENERGY" : $sel=5; break;
 		   }
+				
+		   // Escrowed		
+		   $acco->showEscrowedBut();		
 				
 		   // Menu
 		   $template->showImgsMenu($sel, 

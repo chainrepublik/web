@@ -685,9 +685,9 @@ class CTemplate
 								target_adr=?,
 								par_1=?,
 								par_2=?,
-								par_3=?, 
-								days=?, 
-								bid=?, 
+								par_3=?,
+								par_4=?,
+								par_5=?,
 								status=?, 
 								tstamp=?"; 
 			
@@ -700,8 +700,8 @@ class CTemplate
 								$title, 
 								$mes, 
 								$link, 
-								$hours, 
-								$bid, 
+								$hours,
+								$bid,
 								"ID_PENDING", 
 								time()); 
 		
@@ -755,7 +755,7 @@ class CTemplate
                 <td align="left" class="simple_blue_14" valign="top" height="30px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="73%" align="left"><strong>Message</strong>&nbsp;&nbsp;<span class="simple_gri_10">(50-70 characters)</span></td>
-                    <td width="27%" align="right"><span class="simple_gri_10" id="td_chars" name="td_chars">0 characters</span></td>
+                    <td width="27%" align="right"><span class="simple_gri_10" id="td_ad_chars" name="td_ad_chars">0 characters</span></td>
                   </tr>
                 </table></td>
               </tr>
@@ -806,9 +806,9 @@ class CTemplate
 		    $('#txt_ads_mes').keyup(
 			function() 
 			{ 
-			   var str=String($('#txt_ads_mes').val());
+			   var str=String($('#txt_ads_mes').val()); 
 			   var length=str.length;
-			   $('#td_chars').text(length+" characters");
+			   $('#td_ad_chars').text(length+" characters");
 			});
 		</script>
 		
@@ -1009,7 +1009,7 @@ class CTemplate
 		?>
         
            <table width="700" border="0" cellspacing="0" cellpadding="0">
-          <tr>s
+          <tr>
            <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
              <tr>
                <td align="center"><img src="../../template/GIF/wallet.png" width="200" /></td>
@@ -2288,7 +2288,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                          <td align="left">
                          <a href="<? print base64_decode($row['link']); ?>" style="font-size:14px; color:#dddddd; text-shadow:1px 1px 1px #333333"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></a>
                          <br><span style="font-size:12px; color:#bbbbbb"><? print $this->kern->noescape(base64_decode($row['message'])); ?></span> 
-                         <br><span class="font_10" style="color:#999999"><? print $row['mkt_bid']." CRC / hour, expire ~ ".$this->kern->timeFromBlock($row['expire']); ?></span>
+                         <br><span class="font_10" style="color:#999999"><? print $row['mkt_bid']." CRC / hour, expire ~ ".$this->kern->timeFromBlock($row['expires']); ?></span>
                          </td></tr><tr>
                          <td align="left"><hr></td>
                          </tr>
@@ -2403,9 +2403,6 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		// Send message modal
 		$this->showSendMesModal();
 		
-		// Renew Modal
-		$this->showRenewModal();
-		
 		// QR modal
 		$this->showQRModal();
 		
@@ -2481,7 +2478,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		  // Renew
 		  case "renew" : $this->renew($_REQUEST['txt_renew_target_type'], 
 			                          $_REQUEST['txt_renew_targetID'], 
-						       	      $_REQUEST['txt_renew_days']);
+						       	      $_REQUEST['txt_renew_days']); 
 				         break;
 				
 		  // Endorse
@@ -3070,246 +3067,13 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 	}
 	
 	
-	function showAdModal()
-	{
-		$this->showModalHeader("ads_modal", 
-		                       "Post an advertising message", 
-							   "act", "new_ad", 
-							   "", "", 
-							   "", "", 
-							   "", "", 
-							   "../../home/overview/ads.php");
-		?>
-           
-           
-           <table width="550" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
-		    <td width="88" align="left"><img src="../../template/GIF/help.png" width="75" height="75" /></td>
-		    <td width="462" align="left" valign="top" class="font_12">From this page you can create a new advertising message. Keep in mind that all messages are preaproved by our team. advertising external sites, services or products is forbidden. Only pages inside chainrepublik can be targeted by your ad. You can post only one message / hour.</td>
-		    </tr>
-		  <tr>
-		    <td colspan="2" align="left" ><hr></td>
-		    </tr>
-		  </table>
-          <br />
-           <table width="550" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
-		    <td width="173" align="center" valign="top"><table width="150" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td align="center"><img src="../../template/GIF/post_ad.png" width="150" height="206" /></td>
-	          </tr>
-		      <tr>
-		        <td align="center">&nbsp;</td>
-	          </tr>
-		      <tr>
-		        <td align="center"><table width="90%" border="0" cellspacing="2" cellpadding="0">
-		          <tr>
-		            <td height="25" align="center" bgcolor="#f9f9f9" class="font_12">Price per ad (GOLD)</td>
-	              </tr>
-		          <tr>
-		            <td height="70" align="center" class="font_28"><? print "".$price; ?></td>
-	              </tr>
-		          </table></td>
-	          </tr>
-		      </table></td>
-		    <td width="377" height="300" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td height="30" align="left" valign="top" class="font_14">Title (5-25 characters)</td>
-	          </tr>
-		      <tr>
-		        <td align="left"><input class="form-control" placeholder="Title" id="txt_title" name="txt_title"/></td>
-	          </tr>
-		      <tr>
-		        <td align="left">&nbsp;</td>
-	          </tr>
-		      <tr>
-		        <td height="30" align="left" valign="top" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-		          <tr>
-		            <td width="70%" align="left" class="font_14">Message (70-80 characters)</td>
-		            <td width="30%" align="right" class="font_12" id="td_chars">0 charcaters</td>
-	              </tr>
-	            </table></td>
-	          </tr>
-		      <tr>
-		        <td align="left"><textarea class="form-control" id="txt_mes" rows="5" name="txt_mes" placeholder="Message"></textarea></td>
-	          </tr>
-		      <tr>
-		        <td align="left">&nbsp;</td>
-	          </tr>
-		      <tr>
-		        <td height="30" align="left" valign="top" class="font_14">Link</td>
-	          </tr>
-		      <tr>
-		        <td align="left"><input class="form-control" placeholder="http://www.ChainRepublik/" id="txt_link" name="txt_link"/></td>
-	          </tr>
-		      <tr>
-		        <td align="left">&nbsp;</td>
-	          </tr>
-		      </table></td>
-		    </tr>
-		  </table>
-          
-          <script>
-		    $('#txt_mes').keyup(
-			function() 
-			{ 
-			   var str=String($('#txt_mes').val());
-			   var length=str.length;
-			   $('#td_chars').text(length+" characters");
-			});
-		</script>
-          
-           </div>
-             <div class="modal-footer">
-             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-             <button type="submit" class="btn btn-primary btn-success" onclick="encode()">Aprove</button>
-             </div>
-             </form>
-             </div></div></div>
-             
-        <?
-	}
 	
 	function showNoRes()
 	{
-		print "<br><span class='bold_red_10'>No records fund</span>";
+		print "<br><span class='font_14' style='color:#999999'>No records fund</span>";
 	}
 	
 	
-	
-	function showReport($cols, 
-	                    $data, 
-						$bottom, 
-						$hints, 
-						$text="Report", 
-						$result="+$100", 
-						$color="bold_green_18")
-	{
-		$max=0;
-		
-		for ($a=1; $a<=$cols; $a++)
-		{
-			if (abs($data[$a])>$max) $max=abs($data[$a]); 
-		}
-		
-		$w=round(100/$cols);
-		
-		?>
-           
-         <table width="560" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td align="left" class="bold_gri_18"><? print $text; ?></td>
-            <td align="right" class="<? print $color; ?>"><? print $result; ?></td>
-          </tr>
-        </table>
-        <br />
-           <table width="560" border="0" cellspacing="0" cellpadding="0">
-            <?
-			    if ($cols<20)
-				{
-			       print "<tr>";
-                   for ($a=1; $a<=$cols; $a++)
-				     if ($data[$a]>=0)
-				       print "<td height=\"30\" align=\"center\" valign=\"middle\" style=\"border-right:solid; border-color:#ffffff\" class=\"simple_green_12\"><strong>+".$data[$a]."</strong></td>";
-					  else
-					   print "<td height=\"30\" align=\"center\" valign=\"middle\" style=\"border-right:solid; border-color:#ffffff\" class=\"font_12\"><strong>$0</strong></td>";
-				   print "</tr>";
-				}
-				
-				// ---------------------------------------------------------
-				print "<tr>";
-				for ($a=1; $a<=$cols; $a++)
-				{
-					if ($data[$a]>0)
-					{
-						$p=round($data[$a]*100/$max);
-			?>
-            
-                       <td width="<? print $w; ?>%" height="100px" align="center" valign="bottom" bgcolor="#edffe9" style="border-right:solid; border-color:#ffffff" title="<? print $hints[$a]; ?>" data-toggle="tooltip" data-placement="top" data-container="body">
-                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                       <tr>
-                       <td bgcolor="#009900" height="<? print round(abs($p)); ?>">&nbsp;</td>
-                       </tr>
-                       </table>
-                       </td>
-            
-            <?
-					}
-					else
-					{
-						?>
-                        
-                         <td width="<? print $w; ?>%" height="100" align="center" valign="bottom" bgcolor="#edffe9" style="border-right:solid; border-color:#ffffff" title="<? print $hints[$a]; ?>" data-toggle="tooltip" data-placement="top" data-container="body">&nbsp;
-                         </td>
-                        
-						<?
-					}
-				}
-				print "</tr>";
-				
-				// ----------------------------------------------------------
-				print "<tr>"; 
-				for ($a=1; $a<=$cols; $a++)
-				{
-					if ($data[$a]<0)
-					{
-						$p=round(abs($data[$a])*100/$max);
-					?>
-                        
-                        <td valign="top" bgcolor="#fff2f5" width="<? print $w; ?>%" height="100px" style="border-right:solid; border-top:solid; border-color:#ffffff" title="<? print $hints[$a]; ?>" data-toggle="tooltip" data-placement="top" data-container="body">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                        <td bgcolor="#aa0000" height="<? print round(abs($p)); ?>px">&nbsp;</td>
-                        </tr>
-                        </table>
-                        </td>
-                        
-                       
-                    <?
-					}
-					else
-					{
-						?>
-                        
-                        <td valign="top" bgcolor="#fff2f5" width="<? print $w; ?>%" height="100px" style="border-right:solid; border-top:solid; border-color:#ffffff" title="<? print $hints[$a]; ?>" data-toggle="tooltip" data-placement="bottom" data-container="body">&nbsp;
-                        
-                        </td>
-                        
-						<?
-					}
-				}
-				print "</tr>";
-				
-				// ---------------------------------------------------------------
-				if ($cols<20)
-				{
-				  print "<tr>";
-				 
-				  for ($a=1; $a<=$cols; $a++)
-				  {
-					if ($data[$a]<0)
-				       print "<td height=\"30\" align=\"center\" valign=\"middle\" style=\"border-right:solid; border-top:solid; border-color:#ffffff\" class=\"bold_red_12\">-".$data[$a]."</td>";
-					   else
-					   print "<td height=\"30\" align=\"center\" valign=\"middle\" style=\"border-right:solid; border-top:solid; border-color:#ffffff\" class=\"bold_gri_12\">$0</td>";
-				  }
-				  print "</tr>";
-				}
-				
-				if ($cols<40)
-				{
-				// ---------------------------------------------------------------
-				print "<tr>";
-				for ($a=1; $a<=$cols; $a++)
-				    print "<td height=\"30\" align=\"center\" bgcolor=\"#fafafa\" style=\"border-right:solid; border-top:solid; border-color:#ffffff\" class=\"font_12\">".$bottom[$a]."</td>";
-				print "</tr>";
-				
-				}
-			?>
-            
-            </table>
-        
-        <?
-	}
 	
 	function showQRModal()
 	{
@@ -3334,7 +3098,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		$this->showModalFooter("Close");
 	}
 	
-	function formatAdr($adr, $size=14, $link=false)
+	function formatAdr($adr, $size=14, $link=false, $full=true)
 	{
 		// No content
 		if ($adr=="") return "";
@@ -3354,7 +3118,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 			{
 				// Link ?  
 		        if ($link==true) 
-		            return "<a style='font-size:".$size."px' href='../../explorer/adr/adr.php?adr=".urlencode($adr)."'>".$row['name']."</a><a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class='font_10' style='color:#999999'>&nbsp;&nbsp;full address</a>";
+		            return "<a style='font-size:".$size."px' href='../../profiles/overview/main.php?adr=".$this->kern->encode($adr)."'>".$row['name']."</a><a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class='font_10' style='color:#999999'>&nbsp;&nbsp;full address</a>";
 		   
 		        else
 		            return "<span style='font-size:".$size."'>".$row['name']."</span><a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class='font_10' style='color:#999999'>&nbsp;&nbsp;full address</a>";
@@ -3362,7 +3126,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 	  	   else 
 		   {
 			    if ($link==true)
-			    return "...<a style='font-size:".$size."px' href='../../explorer/adr/adr.php?adr=".urlencode($adr)."'>".substr($adr, 40, 20)."</a>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
+			    return "...<a style='font-size:".$size."px' href='../../profile/overview/main.php?adr=".$this->kern->encode($adr)."'>".substr($adr, 40, 20)."</a>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
 			
 			    else
 			    return "...<span style='font-size:".$size."'>".substr($adr, 40, 20)."</span>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
@@ -3371,7 +3135,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		else 
 		{
 			    if ($link==true)
-			    return "...<a style='font-size:".$size."px' href='../../explorer/adr/adr.php?adr=".urlencode($adr)."'>".substr($adr, 40, 20)."</a>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
+			    return "...<a style='font-size:".$size."px' href='../../profiles/overview/adr.php?adr=".$this->kern->encode($adr)."'>".substr($adr, 40, 20)."</a>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
 			
 			    else
 			    return "...<span style='font-size:".$size."'>".substr($adr, 40, 20)."</span>...<a href=\"javascript:void(0)\" onclick=\"$('#qr_img').attr('src', '../../../qr/qr.php?qr=".$adr."'); $('#txt_plain').val('".$adr."'); $('#modal_qr').modal();\" class=\"font_10\" style=\"color:#999999\">&nbsp;&nbsp;full address</a>";
@@ -3884,15 +3648,15 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         <?
 	}
 	
-	function showRenewModal()
+	function showRenewModal($target_type, $targetID)
 	{
 		// Modal
-		$this->showModalHeader("renew_modal", "Renew", "act", "renew");
+		$this->showModalHeader("renew_modal", "Rernew", "act", "renew");
 		
 		?>
               
-         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="">
-         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="">
+         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="<? print $target_type; ?>">
+         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="<? print $targetID; ?>">
           <table width="550" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
@@ -3947,9 +3711,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		
 		?>
               
-         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="">
-         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="">
-          <table width="550" border="0" cellspacing="0" cellpadding="5">
+         <table width="550" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
@@ -4214,20 +3976,118 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 	
 	function renew($target_type, $targetID, $days)
 	{
-		 // Address
+		// Address
 		 if ($target_type!="ID_ADR" && 
 			 $target_type!="ID_ASSET" && 
-			 $target_type!="ID_ASSET_MKT")
+			 $target_type!="ID_COM" && 
+			 $target_type!="ID_WORKPLACE" && 
+			 $target_type!="ID_LIC")
 		 {
 			 $this->showErr("Invalid renew target type");
 			 return false;
 		 }
+		 
+		 // Address ?
+		 if ($target_type=="ID_ADR")
+		 {
+			 if (!$this->kern->isAdr($targetID) || 
+				 !$this->kern->isRegistered($targetID))
+			 {
+				 $this->showErr("Invalid address");
+			     return false;
+			 }
+			 
+			 // Fee
+			 $fee=$days*0.0001;
+		 }
 		
+		 // Company
+		 if ($target_type=="ID_COM")
+		 {
+			// Result
+			 $result=$this->kern->getResult("SELECT * 
+			                                   FROM companies 
+					                          WHERE comID=? 
+					                            AND owner=?", 
+											"is", 
+											$_REQUEST['ID'], 
+											$_REQUEST['ud']['adr']);
+			 
+			 // Has data
+			 if (mysqli_num_rows($result)==0)
+			 {
+				 $this->showErr("Invalid company");
+			     return false;
+			 }
+			 
+			 // Fee
+			 $fee=$days*$_REQUEST['sd']['com_price'];
+		 }
+		
+		 // Workplcae ?
+		 if ($target_type=="ID_WORKPLACE")
+		 {
+			 // Load workplace
+			 $result=$this->kern->getResult("SELECT * 
+			                                   FROM workplaces 
+											  WHERE workplaceID=?", 
+											"i", 
+											$targetID);
+			 
+			 // Has data
+			 if (mysqli_num_rows($result)==0)
+			 {
+				 $this->showErr("Invalid workplace ID");
+			     return false;
+			 }
+			 
+			 // Fee
+			 $fee=$days*$_REQUEST['sd']['work_fee'];
+		 }
+		
+		 // Licence ?
+		 if ($target_type=="ID_LIC")
+		 {
+			 // Load workplace
+			 $result=$this->kern->getResult("SELECT * 
+			                                   FROM stocuri 
+											  WHERE stocID=?", 
+											"i", 
+											$targetID); 
+			 
+			 // Has data
+			 if (mysqli_num_rows($result)==0)
+			 {
+				 $this->showErr("Invalid licence ID");
+			     return false;
+			 }
+			 
+			 // Load row
+			 $row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
+			 
+			 // Is licence ?
+			 if (!$this->kern->isLic($row['tip']))
+			 {
+				$this->showErr("Invalid licence ID");
+			    return false; 
+			 }
+			 
+			 // Fee
+			 $fee=$days*$_REQUEST['sd']['lic_fee'];
+		 }
+		 
 		 // Days
 		 if ($days<30)
 		 {
 			 $this->showErr("Minimum renew days is 30");
 			 return false;
+		 }
+		
+		 // Funds
+		 if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$fee+0.0001)
+		 {
+			$this->showErr("Insuficient funds");
+			return false; 
 		 }
 		
 		 try
@@ -4822,7 +4682,6 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 									$target_type, 
 									$targetID);	
 	  
-	    
 		
 		?>
         
@@ -4880,7 +4739,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
        <td width="733" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
          <tbody>
            <tr>
-             <td align="left"><a class="font_14"><strong><? print $this->formatAdr($row['adr']); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+             <td align="left"><a class="font_14"><strong><? print $this->formatAdr($row['adr'], 14, true); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
                <p class="font_14"><? print  nl2br($this->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
            </tr>
            <tr>

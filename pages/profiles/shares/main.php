@@ -7,8 +7,6 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
   include "CShares.php";
   
   $db=new db();
@@ -17,11 +15,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
-  $ads=new CAds($db, $template);
-  $shares=new CShares($db, $acc, $template, $_REQUEST['ID']);
-  
-  if (!isset($_REQUEST['ID']) || $_REQUEST['ID']==0) die ("Invalid entry data");
+  $shares=new CShares($db, $acc, $template);
 
 ?>
 
@@ -42,7 +36,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -66,18 +60,50 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $profiles->showMenu(6);
+			   $profiles->showMenu(5);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
 			<?
-		       $sel=1;
+		   $sel=1;
 		   
-		       $template->showHelp("Every company has 1000 shares that can be traded by players. Shares in companies bring profits because shareholders receive dividends every time the company owner withdraws profits. In this page are displayed all the shares the player owns in various companies.");
-							   
-		       $shares->showShares();
+		   $template->showHelp("Below are displayed the last articles and comments of this address. Keep in mind that articles and comments are removed from the distributed ledger after <strong>30 days</strong> so only the active content is displayed.");
+		
+		   // Default page
+		   if (!isset($_REQUEST['page']))
+              $_REQUEST['page']="ID_ART"; 
+				
+			// Sel
+			switch ($_REQUEST['page'])
+			{
+				// Articles
+				case "ID_ASSETS" : $sel=1; 
+					            break;
+					
+				// Comments
+				case "ID_SHARES" : $sel=2; 
+					            break;
+			}
+			   
+		   // Menu
+	       $template->showSmallMenu($sel, 
+								  "Assets", "main.php?adr=".$_REQUEST['adr']."&page=ID_ASSETS", 
+								  "Shares", "main.php?adr=".$_REQUEST['adr']."&page=ID_SHARES");
+				
+		   // Data
+		   switch ($sel)
+		   {
+			   // Articles
+			   case 1 : $shares->showAssets($db->decode($_REQUEST['adr']), "ID_ASSETS");
+				        break;
+				   
+			   // Comments
+			   case 2 : $shares->showAssets($db->decode($_REQUEST['adr']), "ID_SHARES");
+				        break;
+		   }
+		   
 		?>
             
             </td>

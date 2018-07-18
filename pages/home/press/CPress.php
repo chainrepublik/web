@@ -596,7 +596,7 @@ class CPress
 				    ?>" width="100" height="100" alt="" class="img img-responsive img-rounded"/></td>
                    <td width="3%" valign="top">&nbsp;</td>
                    <td width="80%" valign="top"><strong>
-                   <a href="main.php?target=<? print $_REQUEST['target']; ?>&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
+                   <a href="../../home/press/main.php?target=<? print $_REQUEST['target']; ?>&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
 				   <? 
 				      $title=base64_decode($row['title']); 
 					 
@@ -691,7 +691,7 @@ class CPress
                        <tr>
                          <td align="left" style="color:#999999" class="<? if ($adr=="all") print "font_12"; else print "font_10"; ?>">
 						 <? 
-						    print "Posted by ".$this->template->formatAdr($row['adr'], 10).",  ".$this->kern->timeFromBlock($row['block'])." ago";
+						    print "Posted by ".$this->template->formatAdr($row['adr'], 10, true).",  ".$this->kern->timeFromBlock($row['block'])." ago";
 						 ?>
                          </td>
                         
@@ -1363,7 +1363,7 @@ class CPress
        <td width="78%" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
          <tbody>
            <tr>
-             <td><span class="font_18"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span><br><span class="font_12"><? print "Posted by ".$this->template->formatAdr($row['adr'])." ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></p></td>
+             <td><span class="font_18"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span><br><span class="font_12"><? print "Posted by ".$this->template->formatAdr($row['adr'], 12, true)." ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></p></td>
            </tr>
            <tr>
              <td><hr></td>

@@ -85,6 +85,9 @@
 	               $template->trust($_REQUEST['txt_trust_symbol'], 
 								     $_REQUEST['txt_trust_days']);
 				
+				// Name
+				$name="dd_min_".$_REQUEST['wID'];
+				
 				// Work ?
 			    if ($_REQUEST['act']=="work")
 		           $work->work($_REQUEST['wID'], 

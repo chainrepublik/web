@@ -192,7 +192,7 @@ class CRefs
 		// No result
 		if (mysqli_num_rows($result)==0)
 		{
-		   print "<div class='bold_red_12'>No results found</div>";
+		   print "<div class='font_12' style='color:#999999'>No results found</div>";
 		   return;
 		}
 		

@@ -181,8 +181,8 @@ class CWars
 
                 <table width="550px">
 					<tr>
-						<td width="40px"><img src="../../template/GIF/flags/35/RO.gif"></td>
-						<td width="45px"><img src="../../template/GIF/flags/35/HU.gif"></td>
+						<td width="40px"><img src="../../template/GIF/flags/35/<? print $row['attacker']; ?>.gif"></td>
+						<td width="45px"><img src="../../template/GIF/flags/35/<? print $row['defender']; ?>.gif"></td>
 						<td class="font_14" width="45%"><? print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); ?><br><span class="font_10" style="color: #999999"><? print "Status ".$row['attacker_points']."/".$row['defender_points']; ?></span></td>
 						<td class="font_14" width="20%" align="center"><? print $this->kern->timeFromBlock($row['block']+1440); ?></td>
 						<td class="font_14" align="center"><a href="war.php?ID=<? print $row['warID']; ?>" class="btn btn-primary btn-sm" style="width: 80px">Fight</a></td>

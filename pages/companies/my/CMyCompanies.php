@@ -19,11 +19,11 @@ class CMyCompanies
 				  JOIN tipuri_companii AS tc ON tc.tip=com.tip
 				  JOIN adr ON adr.adr=com.adr
 	              JOIN countries AS cou ON cou.code=adr.cou			  
-				 WHERE com.adr IN (SELECT adr 
-				                     FROM my_adr 
-									WHERE userID=?)"; 
+				 WHERE com.owner=?"; 
 									
-	    $result=$this->kern->execute($query, "i", $_REQUEST['ud']['ID']);	
+	    $result=$this->kern->execute($query, 
+									 "s", 
+									 $_REQUEST['ud']['adr']);	
 	    
 		?>
         

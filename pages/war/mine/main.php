@@ -18,7 +18,7 @@
   $acc=new CAccountant($db, $template);
   $mkt=new CVMarket($db, $acc, $template);
   $war=new CWar($db, $acc, $template);
-  $my_wars=new CMyWars($db, $acc, $template);
+  $my_wars=new CMyWars($db, $template);
   
 ?>
 
@@ -39,7 +39,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();
@@ -72,9 +72,8 @@
 			<?
 			   $template->showHelp("Below are the wars in which you participated and the <strong>damage</strong> you inflicted. The damage depends on what kind of <strong>weapons / ammunition</strong> you have used. Keep in mind that your <strong>damage</strong> in the war is gradually <strong>decreasing</strong> towards the end of the war. For maximum impact, try to fight <strong>in the first hour<strong> after the war has been triggered.");
                
-			   // WIP
-			   $template->showWIP("April");
-			 
+			   // Show Last fights
+			   $my_wars->showLastFights();
 			?>
             
             </td>

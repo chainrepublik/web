@@ -1,321 +1,411 @@
 <?
 class CInventory
 {
-	function CInventory($db, $acc, $template, $userID)
+	function CInventory($db, $acc, $template)
 	{
 		$this->kern=$db;
 		$this->acc=$acc;
 		$this->template=$template;
-		$this->userID=$userID;
 	}
 	
-	function showWine()
+	function showConsumeItems($type="ID_CIGARS", $adr)
 	{
-		$query="SELECT * 
-		          FROM stocuri 
-				 WHERE owner_type='ID_CIT' 
-				   AND ownerID='".$this->userID."' 
-				   AND tip LIKE '%WINE%'";
-		 $result=$this->kern->execute($query);	
-	     
+		switch ($type)
+		{
+			case "ID_CIGARS" : $prods="'ID_CIG_CHURCHILL', 'ID_CIG_PANATELA', 'ID_CIG_TORPEDO', 'ID_CIG_CORONA', 'ID_CIG_TORO'"; 
+			                   $act="Smoke";
+			                   break;
+							   
+			case "ID_DRINKS" : $prods="'ID_SAMPANIE', 'ID_MARTINI', 'ID_MARY', 'ID_SINGAPORE', 'ID_MOJITO', 'ID_PINA'"; 
+			                   $act="Drink";
+							   break;
+							   
+			case "ID_FOOD" : $prods="'ID_CROISANT', 'ID_HOT_DOG', 'ID_PASTA', 'ID_BURGER', 'ID_BIG_BURGER', 'ID_PIZZA'"; 
+			                 $act="Eat";
+							 break;
+							 
+			case "ID_WINE" : $prods="'ID_WINE'"; 
+			                 $act="Drink";
+							 break;
+		}
+		
+		$query="SELECT st.*, 
+		               tp.name 
+		          FROM stocuri AS st 
+				  JOIN tipuri_produse AS tp ON tp.prod=st.tip 
+				 WHERE st.tip IN (".$prods.") 
+				   AND st.adr=?";
+				   
+		$result=$this->kern->execute($query, 
+		                            "s", 
+									$adr);	
+		
+		// No items
+		if (mysqli_num_rows($result)==0) 
+		   return false;
 	  
 		?>
-        
-            <table width="560" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
-		    <td width="120" valign="top"><table width="120" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td align="center"><img src="GIF/wine.png" width="120" /></td>
-		        </tr>
-		      <tr>
-		        <td height="35" align="center" valign="bottom" class="bold_">Wine</td>
-		        </tr>
-		      <tr>
-		        <td align="center"></td>
-		        </tr>
-		      </table></td>
-		    <td width="440" align="right" valign="top">
-            
-            <table width="95%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
-            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          
+          <br>
+          <table width="560" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
               <tr>
-                <td width="75%" class="bold_shadow_white_14">Product</td>
-                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="22%" align="center" class="bold_shadow_white_14">Old</td>
-                </tr>
+                <td class="simple_blue_deschis_24">
+                <?
+				   switch ($type)
+				   {
+					   case "ID_CIGARS" : print "Cigars"; break; 
+					   case "ID_DRINKS" : print "Drinks"; break; 
+					   case "ID_FOOD" : print "Food"; break; 
+					   case "ID_WINE" : print "Wine"; break; 
+				   }
+				?>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+<table width="560" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
+            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="52%" class="bold_shadow_white_14">Item</td>
+                <td width="3%">&nbsp;</td>
+                <td width="6%" align="center">&nbsp;</td>
+                <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                <td width="12%" align="center" class="bold_shadow_white_14">Energy</td>
+              </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
           </tr>
           </table>
-         
-          <?
-		     if (mysqli_num_rows($result)==0) 
-			    print "<br><table width='90%'><tr><td align='center'><span class='bold_red_14'>No records found</span></td></tr></table>";
-			 else 
-			 {
-			    print "<table width='90%' border='0' cellspacing='0' cellpadding='5'>";
-				
-		        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-			    {
-		  ?>
-          
-                <tr>
-                <td width="73%" class="font_14">Wine Bottle</td>
-                <td width="27%" align="center" class="bold_verde_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
-                </tr>
-                <tr>
-                <td colspan="2" ><hr></td>
-                </tr>
-          
-          <?
-			     }
-			 
-			     print " </table>";
-			 }
-		  ?>
           
          
+          <table width="540" border="0" cellspacing="0" cellpadding="5">
+          
+          
+          <?
+		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			  {
+		  ?>
+          
+              <tr>
+              <td width="52%" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+              <td width="18%" align="left">
+              <img src="../../companies/overview/GIF/prods/big/<? print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
+              <td width="82%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br /><span class="simple_blue_10">
+              <img src="../../template/GIF/stars_0.png" height="20" alt=""/></span></td>
+              </tr>
+              </tbody>
+              </table></td>
+              <td width="11%" align="center">&nbsp;</td>
+              <td width="15%" align="center" class="font_14"><span class="simple_green_14"><strong>
+			  <? 
+			      print "+";
+				  
+				  if ($row['tip']!="ID_WINE")
+				   print $this->kern->getProdEnergy($row['tip']); 
+				  else
+				    print round(5+$row['energy'], 4);
+				?>
+              
+              </strong></span> <br />
+              <span class="simple_green_10">points</span></td>
+            </tr>
+              <tr>
+              <td colspan="3"><hr></td>
+              </tr>
+          
+          <?
+	         }
+		  ?>
+          
+</table>
+          <br>
+        
+        <?
+	}
+	
+	function showRentItems($type, $visible=true)
+	{
+		$p="";
+		
+		switch ($type)
+		{
+			case "ID_CLOTHES" : $prods="'ID_SOSETE_Q1', 'ID_CAMASA_Q1', 'ID_GHETE_Q1', 'ID_PANTALONI_Q1', 'ID_PULOVER_Q1', 'ID_PALTON_Q1',
+			                            'ID_SOSETE_Q2', 'ID_CAMASA_Q2', 'ID_GHETE_Q2', 'ID_PANTALONI_Q2', 'ID_PULOVER_Q2', 'ID_PALTON_Q2',
+										'ID_SOSETE_Q3', 'ID_CAMASA_Q3', 'ID_GHETE_Q3', 'ID_PANTALONI_Q3', 'ID_PULOVER_Q3', 'ID_PALTON_Q3'"; 
+			                    break;
+							 
+			case "ID_JEWELRY" : $prods="'ID_INEL_Q1', 'ID_CERCEL_Q1', 'ID_COLIER_Q1', 'ID_CEAS_Q1', 'ID_BRATARA_Q1'"; 
+			                    break;
+							 
+			case "ID_CARS" : $prods="'ID_CAR_Q1', 'ID_CAR_Q2', 'ID_CAR_Q3'"; 
+			                 break;
+							 
+			case "ID_HOUSES" : $prods="'ID_HOUSE_Q1', 'ID_HOUSE_Q2', 'ID_HOUSE_Q3'"; 
+			                   break;
+		}
+		
+		
+		$query="SELECT st.*, 
+		               tp.name, 
+					   adr.name AS rented_to
+			      FROM stocuri AS st
+				  JOIN tipuri_produse AS tp ON tp.prod=st.tip
+				  LEFT JOIN adr ON adr.adr=st.rented_to
+			     WHERE (st.adr=? 
+				    OR st.rented_to=?)
+				   AND st.tip IN (".$prods.") 
+			  ORDER BY st.ID DESC"; 
+		
+	    $result=$this->kern->execute($query, 
+									 "ss", 
+									 $_REQUEST['ud']['adr'], 
+									 $_REQUEST['ud']['adr']);
+		
+		// No products	
+		if (mysqli_num_rows($result)==0) 
+			return false;	
+		?>
             
-            </td>
-		    </tr>
-		  <tr>
-		    <td colspan="2" background="../../template/GIF/lc.png">&nbsp;</td>
-		    </tr>
-	      </table>
-          <br /><br />
-        
-        <?
-	}
-	
-	function showInventory($prod)
-	{
-		// Clothes
-		if ($prod=="clothes")
-		   $query="SELECT tp.name, st.ownerID, tp.prod 
-		             FROM stocuri AS st 
-					 JOIN tipuri_produse AS tp ON tp.prod=st.tip 
-					WHERE ((st.owner_type='ID_CIT' 
-					      AND st.ownerID='".$this->userID."') 
-					      OR st.rented_to='".$this->userID."') 
-					  AND tp.produced_by='ID_COM_CLOTHES'"; 
-		
-		// Jewelry
-		if ($prod=="jewelry")
-		   $query="SELECT tp.name, st.ownerID, tp.prod  
-		             FROM stocuri AS st 
-					 JOIN tipuri_produse AS tp ON tp.prod=st.tip 
-					WHERE ((st.owner_type='ID_CIT' 
-					      AND st.ownerID='".$this->userID."') 
-					      OR st.rented_to='".$this->userID."') 
-					  AND tp.produced_by='ID_COM_JEWELRY'";
-					  
-		// Cars
-		if ($prod=="cars")
-		   $query="SELECT * 
-		             FROM stocuri AS st
-					  JOIN tipuri_produse AS tp ON tp.prod=st.tip
-					WHERE ((st.owner_type='ID_CIT' 
-					      AND st.ownerID='".$this->userID."') 
-					      OR st.rented_to='".$this->userID."') 
-					  AND tip LIKE '%_CAR_%'"; 
-					  
-		// Houses
-		if ($prod=="houses")
-		   $query="SELECT * 
-		             FROM stocuri AS st
-					  JOIN tipuri_produse AS tp ON tp.prod=st.tip
-					WHERE ((st.owner_type='ID_CIT' 
-					      AND st.ownerID='".$this->userID."') 
-					      OR st.rented_to='".$this->userID."') 
-					  AND tip LIKE '%_HOUSE_%'"; 
-		
-		 $result=$this->kern->execute($query);	
-	
-		?>
-        
-           <table width="560" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
-		    <td width="120" valign="top"><table width="120" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td align="center"><img src="GIF/<? print $prod; ?>.png" width="100" /></td>
-	          </tr>
-		      <tr>
-		        <td height="35" align="center" valign="middle" class="bold_"><? print ucfirst($prod); ?></td>
-	          </tr>
-		      <tr>
-		        <td align="center"></td>
-	          </tr>
-		      </table></td>
-		    <td width="440" align="right" valign="top"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
-		        <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-		          <tr>
-		            <td width="75%" class="bold_shadow_white_14">Product</td>
-		            <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-		            <td width="22%" align="center" class="bold_shadow_white_14">Quality</td>
-	              </tr>
-		          </table></td>
-		        <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
-	          </tr>
-		      </table>
-		      
-             <?
-		     if (mysqli_num_rows($result)==0) 
-			    print "<br><table width='90%'><tr><td align='center'><span class='bold_red_14'>No records found</span></td></tr></table>";
-			 else 
-			 {
-			    print "<table width='90%' border='0' cellspacing='0' cellpadding='5'>";
-				
-		        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-			    {
-					if (strpos($row['prod'], "_Q1")>0) $q=1;
-					if (strpos($row['prod'], "_Q2")>0) $q=2;
-					if (strpos($row['prod'], "_Q3")>0) $q=3;
-		  ?>
+            <br>
+            <table width="560" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="simple_blue_deschis_24">&nbsp;&nbsp;&nbsp;
+                <?
+				   switch ($type)
+				   {
+					   case "ID_CLOTHES" : print "Clothes"; $act="Wear"; break; 
+					   case "ID_JEWELRY" : print "Jewelry"; $act="Wear"; break; 
+					   case "ID_CARS" : print "Cars"; $act="Use"; break; 
+					   case "ID_HOUSES" : print "Houses"; $act="Use"; break; 
+				   }
+				?>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+<table width="550" border="0" cellspacing="0" cellpadding="0" style="<? if ($visible==false) print "display:none"; ?>">
+            <tr>
+            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
+            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="55%" class="bold_shadow_white_14">Product</td>
+                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                
+				<td width="10%" align="center" class="bold_shadow_white_14">Rent</td>
+                <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+				  
+                <td width="10%" align="center" class="bold_shadow_white_14">Status</td>
+              </tr>
+            </table></td>
+            <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
+          </tr>
+          </table>
           
-                <tr>
-                <td width="73%">
-                <span class="font_14"><? print $row['name']; ?></span><br />
-                <span class="font_10"><? if ($row['ownerID']==$this->userID) print "Owned"; else print "Rented";  ?></span></td>
-                <td width="27%" align="center" class="bold_verde_14"><img src="../../template/GIF/stars_<? print $q; ?>.png" /></td>
-                </tr>
-                <tr>
-                <td colspan="2" ><hr></td>
-                </tr>
+          <table width="540" border="0" cellspacing="0" cellpadding="0">
           
           <?
-			     }
-			 
-			     print " </table>";
+			 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			 {
+				 $q=0;
+				 
+				 if (strpos($row['tip'], "Q1")>0) 
+		            { 
+		              $q=1; 
+		              $title="Low Quality Product"; 
+		            }
+		
+		            if (strpos($row['tip'], "Q2")>0) 
+		            { 
+		              $q=2; 
+		              $title="Medium Quality Product"; 
+		            }
+		
+		            if (strpos($row['tip'], "Q3")>0) 
+		            {  
+		              $q=3; 
+		              $title="High Quality Product"; 
+		            }
+				 
+				
+				 if ($row['expire']>0)
+				 {
+				      $dif=$row['expire']-$row['tstamp'];
+				      $remain=$row['expire']-time();
+				      $d=100-round($remain*100/$dif);
+				 }
+				 else $d=0;
+		  ?>
+          
+              
+               <tr>
+                 <td width="10%">
+                 <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
+				 </td>
+				   
+                <td width="50%"><span class="font_14"><? print $row['name']; ?></span><br />
+                
+                <table width="120" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+					<td><img src="../../template/GIF/stars_<? print $q; ?>.png" width="60" data-toggle="tooltip" data-placement="top" title="<? print $title; ?>" /></td>
+                <td align="right">
+				<span class="simple_green_10">
+				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy"; ?>
+                </span>
+                </td></tr>
+                </table>
+                
+                </td>
+                
+				<td width="10%" align="center" class="font_14">
+                <?
+                        if ($row['rented_expires']==0) 
+							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
+				        else
+							print "<img src='GIF/rent_on.png' title='Rented to ".$row['rented_to']." for the next ".$this->kern->timeFromBlock($row['rented_expires'])."' width='40px' data-toggle='tooltip' data-placement='top'>";
+					?>
+				</td>
+				   
+                <td width="10%" align="center" class="font_14">
+					<?
+                        if ($row['in_use']==0) 
+							print "<img src='GIF/use_off.png' title='Not Used' width='40px' data-toggle='tooltip' data-placement='top'>";
+				        else
+							print "<img src='GIF/use_on.png' title='In use' width='40px' data-toggle='tooltip' data-placement='top'>";
+					?>
+				</td>
+                
+              </tr>
+				   <tr><td colspan="4"><hr></td></tr>
+            
+            
+             
+          
+          <?
 			 }
 		  ?>
-              
-              
-              </td>
-		    </tr>
-		  <tr>
-		    <td colspan="2" background="../../template/GIF/lc.png">&nbsp;</td>
-		    </tr>
-	      </table>
-          <br /><br />
+          
+        </table>
         
         <?
 	}
 	
-	function showMetals()
+	function showGift($expires)
 	{
-		// Silver
-		$query="SELECT * 
-		          FROM stocuri 
-				 WHERE owner_type='ID_CIT' 
-				   AND ownerID='".$this->userID."' 
-				   AND tip='ID_SILVER'";
-		$result=$this->kern->execute($query);	
-	    if (mysqli_num_rows($result)==0)
-		{
-		  $silver=0;
-		}
-		else
-		{
-		   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	       $silver=$row['qty'];
-		}
+	    ?>
+
+            <table width="100" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <? print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
+            </tr>
+</tbody></table>
+
+        <?
+	}
+	
+	function showTicket($prod, $qty)
+	{
+		$q=$this->kern->getQuality($prod);
+	   ?>
+
+            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <? print $q; ?> stars" data-toggle="tooltip" data-placement="top">
+	        <table width="90" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+            <td height="90" align="center">&nbsp;</td>
+            </tr>
+            <tr>
+            <td align="center" valign="bottom"><img src="../../template/GIF/stars_1.png" width="90" height="20" alt=""/></td>
+            </tr>
+            <tr>
+			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><? print $qty; ?></strong></td>
+            </tr></tbody></table></td></tr></table>
+
+       <?
+	}
+	
+	function showMisc()
+	{
+		$n=0;
 		
-		// Gold
 		$query="SELECT * 
 		          FROM stocuri 
-				 WHERE owner_type='ID_CIT' 
-				   AND ownerID='".$this->userID."' 
-				   AND tip='ID_GOLD'";
-		$result=$this->kern->execute($query);	
-	    if (mysqli_num_rows($result)==0)
-		{
-		  $gold=0;
-		}
-		else
-		{
-		   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	       $gold=$row['qty'];
-		}
+				 WHERE (tip=?
+				       OR tip=?
+					   OR tip=?
+					   OR tip=?
+					   OR tip=?
+					   OR tip=?) 
+					   AND adr=?";
 		
-		// Platinum
-		$query="SELECT * 
-		          FROM stocuri 
-				 WHERE owner_type='ID_CIT' 
-				   AND ownerID='".$this->userID."' 
-				   AND tip='ID_PLATINUM'";
-		$result=$this->kern->execute($query);	
-	    if (mysqli_num_rows($result)==0)
-		{
-		  $platinum=0;
-		}
-		else
-		{
-		   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	       $platinum=$row['qty'];
-		}
+		$result=$this->kern->execute($query, 
+									 "sssssss", 
+									 "ID_TRAVEL_TICKET_Q1", 
+									 "ID_TRAVEL_TICKET_Q2", 
+									 "ID_TRAVEL_TICKET_Q3", 
+									 "ID_TRAVEL_TICKET_Q4", 
+									 "ID_TRAVEL_TICKET_Q5", 
+									 "ID_GIFT",
+									 $_REQUEST['ud']['adr']);
+		
 		
 		?>
-        
-           <table width="560" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
-		    <td width="120" valign="top"><table width="120" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td align="center"><img src="GIF/metals.png" width="120" /></td>
-	          </tr>
-		      <tr>
-		        <td height="35" align="center" valign="bottom" class="bold_">Preciuos Metals</td>
-	          </tr>
-		      <tr>
-		        <td align="center"></td>
-	          </tr>
-	        </table></td>
-		    <td width="440" align="right" valign="top"><table width="95%" border="0" cellspacing="0" cellpadding="0">
-		      <tr>
-		        <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
-		        <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-		          <tr>
-		            <td width="75%" class="bold_shadow_white_14">Product</td>
-		            <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-		            <td width="22%" align="center" class="bold_shadow_white_14">Quantity</td>
-	              </tr>
-		          </table></td>
-		        <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
-	          </tr>
-		      </table>
-		      <table width="90%" border="0" cellspacing="0" cellpadding="5">
-		        <tr>
-		          <td width="14%"><img src="GIF/silver.png" width="42" height="35" /></td>
-		          <td width="61%"><span class="font_14"><strong>Silver</strong></span></td>
-		          <td width="25%" align="center" class="bold_verde_14"><? print $silver; ?> gr</td>
-	            </tr>
-		        <tr>
-		          <td colspan="3" ><hr></td>
-	            </tr>
-		        <tr>
-		          <td><img src="GIF/gold.png" width="37" height="35" /></td>
-		          <td><span class="font_14"><strong>Gold</strong></span></td>
-		          <td align="center"><span class="bold_verde_14"><? print $gold; ?> gr</span></td>
-	            </tr>
-		        <tr>
-		          <td colspan="3" ><hr></td>
-	            </tr>
-		        <tr>
-		          <td><img src="GIF/platinum.png" width="32" height="35" /></td>
-		          <td><span class="font_14"><strong>Platinum</strong></span></td>
-		          <td align="center"><span class="bold_verde_14"><? print $platinum; ?> gr</span></td>
-	            </tr>
-		        <tr>
-		          <td colspan="3" ><hr></td>
-	            </tr>
-            </table></td>
-		    </tr>
-		  </table>
-        
-<?
+          
+          <br>
+          <table width="550" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  
+				  <?
+		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			         {
+						 $n++;
+		          ?>
+					
+		               <td width="100" align="center" valign="top">
+						
+						   <?
+						    if (strpos($row['tip'], "TICKET")>0)
+								$this->showTicket($row['tip'], $row['qty']);
+						    else
+								$this->showGift($row['expires']);
+						?>
+						   
+		          </td>
+				        <td align="center">&nbsp;</td>
+                  
+				  <?
+	                 }
+		
+		             for ($a=1; $a<=5-$n; $a++)
+					 {
+						 ?>
+					
+					         <td width="100" align="center" valign="top">&nbsp;</td>
+				             <td align="center">&nbsp;</td>
+					
+					     <?
+					 }
+		
+		          ?>
+					
+                </tr>
+              </tbody>
+</table>
+
+        <?
+	}
+	
+	function showGuns()
+	{
+		
 	}
 }
 ?>

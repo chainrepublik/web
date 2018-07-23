@@ -6,17 +6,19 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CPoint.php";
-  include "../CPolitics.php";
-  include "CArmy.php";
+  include "../../../kernel/CAssetsMkt.php";
+  include "../../../kernel/CAds.php";
+  include "../CMarket.php";
+  include "CGuns.php";
   
   $db=new db();
   $gd=new CGameData($db);
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $pol=new CPolitics($db, $acc, $template); 
-  $army=new CArmy($db, $acc, $template);
+  $market=new CMarket($db, $acc, $template);
+  $guns=new CGuns($db, $acc, $template);
+  $asset_mkts=new CAssetsMkt($db, $acc, $template);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -29,9 +31,10 @@
 <script src="../../../flat/js/flat-ui.js"></script>
 <link rel="stylesheet"./ href="../../../flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="../../../flat/css/flat-ui.css" rel="stylesheet">
-<link href="style.css" rel="stylesheet">
+<link href="../cars/style.css" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="../../../utils.js"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
@@ -47,7 +50,7 @@
     <tr>
       <td align="center">
       <?
-	     $template->showMainMenu(8);
+	     $template->showMainMenu(4);
 	  ?>
       </td>
     </tr>
@@ -60,71 +63,34 @@
           <tr>
             <td width="204" align="right" valign="top">
             <?
-			   $pol->showMenu(8);
+			   $market->showMenu(12);
 			   $template->showLeftAds();
 			?>
             </td>
-            <td width="594" valign="top" align="center">
+            <td width="594" align="center" valign="top">
             
-          
-         <?
-		   $template->showHelp("Congress can <strong>buy and use</strong> military equipment like war ships, aircrfats or balistic missiles. Military equipment can be <strong>deployed</strong>to conflict areas. Sometime moving military equipment is <strong>required</strong> by weapon's range. For example a soil to soil balisitc missile have a <strong>1000 km range</strong>. Attacking a country 5000 km away can be achieved obly if you <strong>deploy</strong> the missile on a navy destroyer and move the destroyer in a gulf less than 1000 km from the target. Below are <strong>listed</strong> country's army military equipment and their position by category. Congress can buy / use weapons by voting.");
+			<?
+			    $template->showHelp("Below are displayed the available <strong>attack weapons</strong> offerts. You can own an <strong>unlimited number</strong> of attack weapons. All weapons <strong>expire</strong> after 30 days. Weapons can also be <strong>rented</strong>. You will need at least one attack and one defense weapons to fight in wars. When you fight, your war points increases and you will receive <strong>bigger rewards</strong>.", 70, 70);
 				
-		   // Country
-		   $cou=$db->getCou();
-				
-		   if (!isset($_REQUEST['page']))
-			   $_REQUEST['page']="navy";
-				
-		    switch ($_REQUEST['page'])
-		   {
-			   // Navy
-			   case "navy" : $sel=1; 
-				             $weapon="ID_NAVY_DESTROYER";
-				             break;
-					
-			   // Navy
-			   case "carier" : $sel=2; 
-				             $weapon="ID_AIRCRAFT_CARRIER";
-				             break;
+				// Product
+				if (!isset($_REQUEST['trade_prod'])) 
+				   $_REQUEST['trade_prod']="ID_KNIFE";
 				   
-			   // Air
-			   case "air" : $sel=3; 
-				            $weapon="ID_JET_FIGHTER";
-				            break;
-				   
-			   // Tanks
-			   case "tanks" : $sel=4; 
-				              $weapon="ID_TANK";
-				              break;
-				   
-			   // Missiles
-			   case "missiles" : $sel=5; 
-				                 $weapon="ID_MISSILE_BALLISTIC";
-				                 break;
-					
-			   // Missiles
-			   case "ammo" : $sel=6; 
-				                 $weapon="ID_AMMO";
-				                 break;
-		   }
+				if ($_REQUEST['act']=="trade")
+				   $mkt->trade("ID_CIT", 
+				               $_REQUEST['ud']['ID'], 
+							   "ID_PROD",
+				               $_REQUEST['trade_prod'], 
+				               $_REQUEST['trade_type'], 
+							   $_REQUEST['txt_trade_qty']);
 				
-		   
-		   $template->showImgsMenu($sel, 
-								   "ship_off.png", "ship_on.png", "Navy Destroyers", "main.php?page=navy",
-								   "carier_off.png", "carier_on.png", "Aircraft Carriers", "main.php?page=carier",
-								   "f16_off.png", "f16_on.png", "Military Aircrafts", "main.php?page=air",
-								   "tank_off.png", "tank_on.png", "Tanks", "main.php?page=tanks",
-								   "rocket_off.png", "rocket_on.png", "Balistic Missiles", "main.php?page=missiles",
-								   "ammo_off.png", "ammo_on.png", "Ammunition & Missiles", "main.php?page=ammo");
-		
+				// Menu
+			    $guns->showSelectMenu($_REQUEST['trade_prod']);
 				
-		   // Show weapons
-		   if ($sel<6)
-		      $army->showWeapons($cou, $weapon); 
-		   else
-			  $army->showWeapons($cou, "ID_AMMO");
-		?>
+				// Market
+				$asset_mkts->showMarket($db->getMarketID($_REQUEST['trade_prod']), false, "user");
+			?>
+            
             
             </td>
             <td width="206" align="center" valign="top">

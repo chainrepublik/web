@@ -210,6 +210,73 @@ class CMarket
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
+				  
+				  
+				 <tr>
+                  <td height="80" align="right" <? if ($sel==12) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <a href="../../market/attack/main.php">
+                  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="41%" align="left"><img src="../GIF/guns_<? if ($sel==12) print "on"; else print "off"; ?>.png" width="65"/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==12) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Attack</span><br />
+                          <span class="<? if ($sel==12) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Buy attack weapons</span></td>
+                        <td width="9%"><? if ($sel==12) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </a>
+                  </td>
+                </tr>
+               
+               
+                <tr>
+                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
+                </tr>
+				  
+				   <tr>
+                  <td height="80" align="right" <? if ($sel==13) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <a href="../../market/defense/main.php">
+                  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="41%" align="left"><img src="../GIF/defense_<? if ($sel==13) print "on"; else print "off"; ?>.png" width="65"/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==13) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Defense</span><br />
+                          <span class="<? if ($sel==13) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Buy defense weapons</span></td>
+                        <td width="9%"><? if ($sel==13) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </a>
+                  </td>
+                </tr>
+               
+               
+                <tr>
+                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
+                </tr>
+				  
+				  <tr>
+                  <td height="80" align="right" <? if ($sel==14) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <a href="../../market/big_guns/main.php">
+                  <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <td width="41%" align="left"><img src="../GIF/rocket_<? if ($sel==14) print "on"; else print "off"; ?>.png" width="65"/></td>
+                        <td width="50%" valign="middle"><span class="<? if ($sel==14) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Big Guns</span><br />
+                          <span class="<? if ($sel==14) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Tanks and other big guns</span></td>
+                        <td width="9%"><? if ($sel==14) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </a>
+                  </td>
+                </tr>
+               
+               
+                <tr>
+                  <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
+                </tr>
                 
               </tbody>
             </table>

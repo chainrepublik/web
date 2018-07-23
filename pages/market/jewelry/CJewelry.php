@@ -18,8 +18,8 @@ class CJewelry
 		    <td align="center"><table width="90%" border="0" cellspacing="0" cellpadding="0">
 		      <tr>
 		        <td width="85" align="center">
-                <a href="main.php?trade_prod=ID_RING_Q1">
-                <img src="./GIF/inel_<? if ($this->kern->skipQuality($prod)=="ID_RING") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Rings" data-toggle="tooltip" data-placement="top"/>
+                <a href="main.php?trade_prod=ID_INEL_Q1">
+                <img src="./GIF/inel_<? if ($this->kern->skipQuality($prod)=="ID_INEL") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Rings" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        

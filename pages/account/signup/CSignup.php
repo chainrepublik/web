@@ -12,9 +12,7 @@ class CSignup
 	function signup($user, $pass, $re_pass, $email)
 	{
 		// User
-		if (strlen($user)<5 || 
-			strlen($user)>15 || 
-			!$this->kern->isValidName($user))
+		if (!$this->kern->isValidName($user))
 		{
 			$this->template->showErr("Invalid username length (5-15 characters)", 510);
 			return false;

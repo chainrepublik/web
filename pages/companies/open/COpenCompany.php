@@ -793,42 +793,20 @@ class COpenCompany
             <td colspan="3" align="center" valign="top" ><hr></td>
           </tr>
           <tr>
-            <td align="left" valign="top"><img src="GIF/ammo.png" width="80" /></td>
-            <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
-              <tr>
-                <td align="left" class="">Ammunition Factory<span class="bold_green_14"> -  6 CRC / month</span></td>
-              </tr>
-              <tr>
-                <td align="left" class="font_12">Ammunition factories produce bullets. You will need oil, electricity, natural gas, iron and gunpowder as raw materials.</td>
-              </tr>
-            </table></td>
-            <td align="center" valign="top">
-            
-            <a href="#" onclick="javascript:$('#td_name').text('Ammunition Factory'); 
-                                            $('#com_type').val('ID_COM_AMMO'); 
-                                            $('#open_modal').modal();" class="btn btn-primary" disabled>Open</a>
-            
-            </td>
-          </tr>
-          
-          <tr>
-            <td colspan="3" align="center" valign="top" ><hr></td>
-          </tr>
-          <tr>
             <td align="left" valign="top"><img src="GIF/guns.png" width="80" /></td>
             <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td align="left" class="">Guns Factory<span class="bold_green_14"> -  6 CRC / month</span></td>
+                <td align="left" class="">Small Weapons Factory<span class="bold_green_14"> -  6 CRC / month</span></td>
               </tr>
               <tr>
-                <td align="left" class="font_12">Guns factories produce guns. You will need oil, electricity, natural gas, iron, wood and plastic as raw materials.</td>
+                <td align="left" class="font_12">Small factories produce weapons for personal use like knifes or pistols. You will need oil, electricity, natural gas, iron, wood and plastic as raw materials.</td>
               </tr>
             </table></td>
             <td align="center" valign="top">
             
-            <a href="#" onclick="javascript:$('#td_name').text('Guns Factory'); 
-                                            $('#com_type').val('ID_COM_GUNS'); 
-                                            $('#open_modal').modal();" class="btn btn-primary" disabled>Open</a>
+            <a href="#" onclick="javascript:$('#td_name').text('Small Weapons Factory'); 
+                                            $('#com_type').val('ID_COM_SMALL_WEAPONS'); 
+                                            $('#open_modal').modal();" class="btn btn-primary">Open</a>
             
             </td>
           </tr>
@@ -837,6 +815,23 @@ class COpenCompany
           
           <tr>
             <td colspan="3" align="center" valign="top" ><hr></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" ><img src="GIF/heavy_wepons.png" width="80" /></td>
+            <td align="center" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+                <td align="left" class="">Heavy Weapons Factory<span class="bold_green_14"> -  6 CRC / month</span></td>
+              </tr>
+              <tr>
+                <td align="left" class="font_12">Small factories produce weapons for personal use like knifes or pistols. You will need oil, electricity, natural gas, iron, wood and plastic as raw materials.</td>
+              </tr>
+            </table></td>
+            <td align="center" valign="top" ><a href="#" onclick="javascript:$('#td_name').text('Heavy Weapons Factory'); 
+                                            $('#com_type').val('ID_COM_HEAVVY_WEAPONS'); 
+                                            $('#open_modal').modal();" class="btn btn-primary">Open</a></td>
+          </tr>
+          <tr>
+            <td colspan="3" align="center" valign="top" >&nbsp;</td>
           </tr>
         </table>
        

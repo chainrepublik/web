@@ -169,6 +169,13 @@ class CTemplate
 								    $this->acc)==false)
 		   return false;
 		
+		// Endorse yourself ?
+		if ($adr==$_REQUEST['ud']['adr'])
+		{
+			$this->showErr("You can't endorse yourself");
+			return false;
+		}
+		
 		// Type
 		if ($type!="ID_UP" && 
 			$type!="ID_DOWN")
@@ -2188,26 +2195,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                 <tr>
                   <td height="0" align="center">&nbsp;</td>
                 </tr>
-                <tr>
-                  <td align="center" valign="top" height="350">
-			       <table border="0" cellspacing="0" cellpadding="0" width="180">
-                    <tbody>
-                      <tr>
-                        <td height="350" align="center" valign="top" background="../../template/GIF/testers_off.png" id="td_test_back" name="td_test_back" data-content="When the official network will be launched, 100.000 real coins will be distributed to testers depending on their test coins balance. All you have to do is get as many test coins as you can. If you need help, you can buy test coins for only $0.25 / coin. Click for more details." data-original-title="Testers are rewarded">
-						<table width="160" border="0" cellspacing="0" cellpadding="0">
-                          <tbody>
-                            <tr>
-                              <td height="290" align="center">&nbsp;</td>
-                            </tr>
-                            <tr>
-								<td align="center"><a href="../../testers/top/main.php" class="btn btn-default btn-sm" style="width: 130px" name="test_buy_but" id="test_buy_but">Buy Test Coins</a></td>
-                            </tr>
-                          </tbody>
-                        </table></td>
-                      </tr>
-                    </tbody>
-                  </table></td>
-                </tr>
+              
               </tbody>
             </table>
 			</td>

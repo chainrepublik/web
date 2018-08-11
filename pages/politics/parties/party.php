@@ -106,7 +106,8 @@
 					  case "articles" : break;
 						  
 					  // Proposals
-					  case "proprosals" :  break;
+					  case "proposals" :  $party->showProps($_REQUEST['orgID'], "ID_VOTING"); 
+						                   break;
 						  
 					  // Accounting
 					  case "accounting" : $party->showAccPanel($_REQUEST['orgID']); 

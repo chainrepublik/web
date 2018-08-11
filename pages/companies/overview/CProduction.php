@@ -145,7 +145,7 @@ class CProduction
              <td width="65%" align="left" class="font_14">
              <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="16%"><img src="../overview/GIF/prods/big/<? print $row['tip']; ?>.png"  width="50" height="50" class="img-rounded"/></td>
+                <td width="19%"><img src="../overview/GIF/prods/big/<? print $row['tip']; ?>.png"  width="60" height="60" class="img img-circle"/></td>
                 <td width="84%" align="left"><strong class="font_14"><? print $row['name']; ?></strong>
                   <p class="bold_verde_10">Market price : <? print $row['price']; ?> gold / <? print $row['unitate']; ?></p></td>
               </tr>
@@ -232,12 +232,16 @@ class CProduction
              <td width="53%" align="left" class="font_14">
              <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="21%"><img src="../overview/GIF/prods/big/
+                <td width="25%"><img src="../overview/GIF/prods/big/
 				<? 
 				    if (strpos($row['tip'], "_CAR")>0 || 
 						strpos($row['tip'], "_HOUSE")>0)
 					{
 						$prod=$row['tip'];
+					}
+					else if (strpos($row['tip'], "_TOOLS_PROD")>0)
+					{
+						$prod="ID_TOOLS";
 					}
 					else
 					{
@@ -255,7 +259,7 @@ class CProduction
 				    // Prod
 				    print $prod;
 					
-				?>.png"  width="50" height="50"/></td>
+				?>.png"  width="60" height="60" class="img img-circle"/></td>
                 <td width="79%" align="left"><strong class="font_14"><? print $row['name']; ?></strong><br />
                   <span class="bold_verde_10">Market price : <? print $row['price']; ?> CRC / <? print $row['unitate']; ?></span></td>
               </tr>

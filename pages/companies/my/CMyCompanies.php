@@ -12,6 +12,7 @@ class CMyCompanies
 	{
 		$query="SELECT com.*, 
 		               adr.balance, 
+					   adr.pic AS adr_pic,
 					   tc.name AS tip_name, 
 					   tc.pic,
 					   cou.country
@@ -55,13 +56,14 @@ class CMyCompanies
                  <tr>
                  <td width="11%" class="simple_blue_14">
                  <img src="
-				 <? 
-				     if ($row['com_pic']=="") 
+				<? 
+				     if ($row['adr_pic']=="") 
 					    print "../overview/GIF/prods/big/".$row['pic'].".png";
 					 else
-					    print "../../../uploads/".$row['com_pic']; 
-				 ?>" 
-                 width="50" height="50" class="img-circle" /></td>
+					    print base64_decode($row['adr_pic']); 
+				 ?>
+                
+                " width="50" height="50" class="img-rounded" /></td>
 					 <td width="38%" class="font_14"><a href="#" class=""><strong><? print base64_decode($row['name']); ?> </strong></a><br />
                  <span class="font_10"><? print $row['tip_name'].", ".ucfirst(strtolower($row['country'])); ?></span></td>
                  <td width="16%" align="center" class="font_14"><? print $row['symbol']; ?></td>

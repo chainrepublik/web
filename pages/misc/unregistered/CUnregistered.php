@@ -94,12 +94,14 @@ class CUnregistered
 								par_2=?,
 								par_3=?,
 								par_4=?,
+								par_5=?,
+								par_6=?,
 								days=?,
 								status=?, 
 								tstamp=?"; 
 								
 	       $this->kern->execute($query, 
-		                        "isssssssisi", 
+		                        "isssssssssisi", 
 								$_REQUEST['ud']['ID'], 
 								"ID_REGISTER_ADR", 
 								$_REQUEST['ud']['adr'], 
@@ -107,13 +109,15 @@ class CUnregistered
 								$cou,
 								$name,
 								$desc,
+								$_REQUEST['sd']['node_adr'],
+								$_REQUEST['sd']['node_adr'],
 								$avatar,
 								$days,
 								"ID_PENDING", 
 								time());
 		
 		     // Commit
-		     $this->kern->rollback();
+		     $this->kern->commit();
 		     
 			 // Confirmed
 		     $this->template->confirm();

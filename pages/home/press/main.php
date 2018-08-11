@@ -81,18 +81,12 @@
 													   $_REQUEST['dd_categ'],
 													   $_REQUEST['dd_cou'], 
 						                               $_REQUEST['dd_days'], 
-						                               0, 
 						                               $_REQUEST['txt_tweet_pic'],
 													   $_REQUEST['pol_party'],
 													   $_REQUEST['mil_unit']);
 						               break;
 									   
-				      case "vote" : $press->vote($_REQUEST['vote_target_type'], 
-				                                 $_REQUEST['vote_targetID'], 
-				                                 $_REQUEST['vote_type']);
-				                break;
-			 
-			      
+				    
 			       case "follow" : $press->follow($_REQUEST['adr'], 
 											      $_REQUEST['dd_months']); 
 			                       break;

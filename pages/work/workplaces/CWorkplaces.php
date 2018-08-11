@@ -93,6 +93,22 @@ class CWorkplaces
 			 return false;
 		}
 		
+		// Worked 8 hours ?
+		$row=$this->kern->getRows("SELECT SUM(end-start) AS total 
+		                             FROM work_procs 
+									WHERE adr=? 
+									  AND start>?", 
+								  "si", 
+								  $_REQUEST['ud']['adr'], 
+								  $_REQUEST['sd']['last_block']-1440);
+		
+		// More than 8 hours ?
+		if ($row['total']+$minutes>480)
+		{
+			$this->template->showErr("You already worked for 8 hours today. You can still work up to ".(480-$row['total'])." minutes");
+			return false;
+		}
+		
 		try
 	    {
 			 // Begin
@@ -151,13 +167,14 @@ class CWorkplaces
 		// Query
 		if ($comID==0)
 		{
-		$query="SELECT wp.*, 
-		               com.name AS com_name, 
-					   com.tip, 
-					   com.symbol,
-					   tc.name, 
-					   tc.pic,
-					   cou.country 
+		       $query="SELECT wp.*, 
+		                      com.name AS com_name, 
+					          com.tip, 
+					          com.symbol,
+					          tc.name, 
+					          tc.pic,
+							  adr.pic AS adr_pic,
+					          cou.country 
 		          FROM workplaces AS wp 
 				  JOIN companies AS com ON com.comID=wp.comID 
 				  JOIN adr AS adr ON adr.adr=com.adr
@@ -182,6 +199,7 @@ class CWorkplaces
 					   com.symbol,
 					   tc.name, 
 					   tc.pic,
+					   adr.pic AS adr_pic,
 					   cou.country 
 		          FROM workplaces AS wp 
 				  JOIN companies AS com ON com.comID=wp.comID 
@@ -196,10 +214,10 @@ class CWorkplaces
 		
 			// Result	  
 		    $result=$this->kern->execute($query, 
-		                             "si", 
-									 "ID_FREE", 
-									 time(),
-									 $comID);	
+		                                 "sii", 
+									     "ID_FREE", 
+									     time(),
+									     $comID);	
 		}
 		
 		
@@ -250,13 +268,13 @@ class CWorkplaces
                 <td width="11%" class="font_14">
                 <img src="
 				<? 
-				
-				   if ($row['com_pic']!="") 
-				      print "../../../uploads/".$row['com_pic']; 
-				    else
-					  print "../../companies/overview/GIF/prods/big/".$row['pic'].".png"; 
-					  
-				?>" width="50" height="50" class="img-circle"/></td>
+				     if ($row['adr_pic']=="") 
+					    print "../../companies/overview/GIF/prods/big/".$row['pic'].".png";
+					 else
+					    print base64_decode($row['adr_pic']); 
+				 ?>
+                
+                " width="50" height="50" class="img-rounded" /></td>
                 <td width="28%" class="font_14"><a href="../../companies/overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['com_name']); ?></strong></a><br />
                 <span class="font_10"><? print $row['name'].", ".$row['country']; ?></span></td>
                 <td width="20%" align="center"><span class="bold_verde_14"><? print "".$row['wage']; ?></span><br />
@@ -268,22 +286,22 @@ class CWorkplaces
 				   {
 				?>
                 
-                <form method="post" action="main.php?act=work&wID=<? print $row['workplaceID']; ?>" id="form_<? print $row['workplaceID']; ?>" name="form_<? print $row['ID']; ?>">
-                <select class="form-control" style="width:100px" id="dd_min_<? print $row['ID']; ?>" name="dd_min_<? print $row['workplaceID']; ?>">
-                <? if ($_REQUEST['ud']['energy']>=1) print "<option value='5'>5 Minutes</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=3) print "<option value='15'>15 Minutes</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=6) print "<option value='30'>30 Minutes</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=9) print "<option value='45'>45 Minutes</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=12) print "<option value='60'>1 Hour</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=24) print "<option value='120'>2 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=36) print "<option value='180'>3 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=48) print "<option value='240'>4 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=60) print "<option value='300'>5 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=72) print "<option value='360'>6 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=84) print "<option value='420'>7 Hours</option>"; ?>
-                <? if ($_REQUEST['ud']['energy']>=96) print "<option value='480'>8 Hours</option>"; ?>
-                </select>
-                </form>
+                        <form method="post" action="main.php?act=work&wID=<? print $row['workplaceID']; ?>&ID=<? print $_REQUEST['ID']; ?>" id="form_<? print $row['workplaceID']; ?>" name="form_<? print $row['ID']; ?>">
+                        <select class="form-control" style="width:100px" id="dd_min_<? print $row['ID']; ?>" name="dd_min_<? print $row['workplaceID']; ?>">
+                        <? if ($_REQUEST['ud']['energy']>=1) print "<option value='5'>5 Minutes</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=3) print "<option value='15'>15 Minutes</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=6) print "<option value='30'>30 Minutes</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=9) print "<option value='45'>45 Minutes</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=12) print "<option value='60'>1 Hour</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=24) print "<option value='120'>2 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=36) print "<option value='180'>3 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=48) print "<option value='240'>4 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=60) print "<option value='300'>5 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=72) print "<option value='360'>6 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=84) print "<option value='420'>7 Hours</option>"; ?>
+                        <? if ($_REQUEST['ud']['energy']>=96) print "<option value='480'>8 Hours</option>"; ?>
+                        </select>
+                        </form>
                 
                 <?
 				   }

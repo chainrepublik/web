@@ -492,12 +492,12 @@ class CSearch
 				     if ($row['adr_pic']=="") 
 					    print "../../companies/overview/GIF/prods/big/".$row['pic'].".png";
 					 else
-					    print "../../../uploads/".$row['adr_pic']; 
+					    print base64_decode($row['adr_pic']); 
 				 ?>
                 
-                " width="50"  class="img-rounded" /></td>
+                " width="50" height="50"  class="img-rounded" /></td>
                 <td width="86%" align="left">
-                <a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
+                <a href="../../companies/overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
                 <br />
                 <span class="font_10">Symbol : <? print $row['symbol']; ?></span>
                 </td>

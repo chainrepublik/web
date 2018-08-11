@@ -15,8 +15,10 @@ class CHome
 		$this->template->showQRModal();
 		
 		// Load company data
-		$query="SELECT * 
-		          FROM companies 
+		$query="SELECT com.*,
+		               adr.pic AS adr_pic
+		          FROM companies AS com 
+				  JOIN adr ON adr.adr=com.adr
 				 WHERE comID=?";
 				 
 		// Result
@@ -31,10 +33,10 @@ class CHome
 		$expire=round(($com_row['expires']-$_REQUEST['sd']['last_block'])/1440);
 		
 		// CRC balance
-		$balance=$this->acc->getNetBalance($com_row['adr'], "CRC");
+		$balance=$this->acc->getTransPoolBalance($com_row['adr'], "CRC");
 		
 		// Workplaces
-		$query="SELECT COUNT(*) AS total 
+		$query="SELECT * 
 		          FROM workplaces 
 				 WHERE comID=?";
 		
@@ -44,7 +46,7 @@ class CHome
 									 $_REQUEST['ID']);
 									 
 		// Result
-		$workplaces=mysqli_num_rows($result);
+		$workplaces=mysqli_num_rows($result); 
 		
 		// Share price
 		$price=0;
@@ -60,7 +62,7 @@ class CHome
               <tr>
                 <td height="220" align="center"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="33%"><img src="<? if ($this->com['com_pic']=="") print "./GIF/blank_photo.png"; else print "../../../uploads/".$this->com['com_pic']; ?>" width="150" height="150" <? if ($this->com['com_pic']!="") print "class=\"img-circle\""; ?> /></td>
+                    <td width="33%"><img src="<? if ($com_row['adr_pic']=="") print "./GIF/blank_photo.png"; else print base64_decode($com_row['adr_pic']); ?>" width="150" height="150" <? if ($com_row['adr_pic']!="") print "class=\"img img-rounded\""; ?> /></td>
                     <td width="67%" align="left" valign="top">
                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
@@ -91,21 +93,21 @@ class CHome
                   </tr>
                   <tr>
                     <td>&nbsp;</td>
-                    <td height="50" align="center" valign="bottom" class="bold_shadow_white_32">
+                    <td height="40" align="center" valign="bottom" class="bold_shadow_white_32">
 					
 					<? 
 					   print $expire;
 	  		        ?>
                     
                     </td>
-                    <td align="center" valign="bottom">&nbsp;</td>
-                    <td align="center" valign="bottom">
+                    <td height="40" align="center" valign="bottom">&nbsp;</td>
+                    <td height="40" align="center" valign="bottom">
                     <span class="bold_shadow_white_32"><? $v=explode(".", round($balance, 4)); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><? if (sizeof($v)==2) print ".".$v[1]; else print ".0000"; ?></span>
                     </td>
-                    <td align="center" valign="bottom">&nbsp;</td>
-                    <td align="center" valign="bottom"><span class="bold_shadow_white_32"><? print $workplaces; ?></span></td>
-                    <td align="center" valign="bottom">&nbsp;</td>
-                    <td align="center" valign="bottom">
+                    <td height="40" align="center" valign="bottom">&nbsp;</td>
+                    <td height="40" align="center" valign="bottom"><span class="bold_shadow_white_32"><? print $workplaces; ?></span></td>
+                    <td height="40" align="center" valign="bottom">&nbsp;</td>
+                    <td height="40" align="center" valign="bottom">
                     <span class="bold_shadow_white_32"><? $v=explode(".", $price); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><? if (sizeof($v)>1) print ".".$v[1]; else print ".00"; ?></span>
                     </td>
                     <td>&nbsp;</td>

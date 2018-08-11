@@ -10,8 +10,14 @@ class CRewards
 	
 	function showEnergyReward()
 	{
+		// Load total energy
+		$row=$this->kern->getRows("SELECT SUM(energy) AS total FROM adr");
+		
+		// Total energy
+		$total=round($row['total']);
+		
 		// Percent
-		$p=$_REQUEST['ud']['energy']*100/$_REQUEST['sd']['total_energy'];
+		$p=$_REQUEST['ud']['energy']*100/$total;
 		
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_ENERGY"); 
@@ -25,7 +31,7 @@ class CRewards
 		// Reward panel
 		$this->template->showRewardPanel("Energy Reward", 
 							             "./GIF/img_food.png", 80, 
-						         	     "Total Energy", $_REQUEST['sd']['total_energy'], "points", 
+						         	     "Total Energy", $total, "points", 
 							             "My Energy", round($_REQUEST['ud']['energy'], 2), "points",
 							             $amount,
 										"The energy bonus is payed each day to all players with a minimum of 1 point of energy. The bonus amount  depends on your energy level. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. Energy can be increased by consuming energy boosters like food or drinks, or by using items like cars, houses, clothes. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";

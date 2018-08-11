@@ -77,9 +77,9 @@
 				   {
 					   // Change bonus
 					   case "ID_CHG_BONUS" : $laws->proposeLaw($_REQUEST['dd_type'], 
+															   "ID_BUY_BONUS",
 															   $_REQUEST['dd_bonus'], 
 															   $_REQUEST['txt_bonus_amount'],
-															   "",
 															   $_REQUEST['txt_expl']); 
 						                     break;
 						
@@ -117,7 +117,7 @@
 				   	   
 					   // Distribute   
 					   case "ID_DISTRIBUTE" : $laws->proposeLaw($_REQUEST['dd_type'], 
-															    $_REQUEST['txt_dist_amount'], 
+															    $_REQUEST['txt_distribute_amount'], 
 															    "", 
 															    "",
 															    $_REQUEST['txt_expl']); 

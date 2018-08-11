@@ -45,7 +45,7 @@ class CLaws
                             $tax_amount, 
                             $prod)
     {
-         // Max default tax
+		 // Max default tax
          if ($tax_amount<0 || $tax_amount>25) 
             return false;
             
@@ -57,56 +57,59 @@ class CLaws
 		}
                                    
         // Product ?
-        if (!$prod!="")
+        if ($prod!="")
+		{
            if (!$this->kern->isProd($prod))
 		   {
 			  $this->template->showErr("Invalid product");
 			  return false; 
 		   }
-        
+		}
+		
         // Return
         return true;
     }
     
-     function isCit($user, $cou)
-    {
-        $query="SELECT * 
+     function isCit($name, $cou)
+     {
+		 $query="SELECT * 
 		          FROM adr 
 				 WHERE name=? 
 				   AND cou=?";
 		 
 		 // Execute
-		$result=$this->kern->execute($query);
+		$result=$this->kern->execute($query, 
+									 "ss", 
+									 $name, 
+									 $cou);
 		
-	    if (mysqli_num_rows($result)==0)
-        {
-			$this->template->showErr($user." is not a citizen");
-			return false;
-		}
-        else
-            return false;
+	    if (mysqli_num_rows($result)>0)
+        return true;
+		   else
+		return false;
     }
     
     
-    function checkPremiumLaw($cou, $list)
+    function checkPremiumLaw($list)
     {
         // Explode
-        $v=explode(",", $list);
+		$v=explode(",", $list);
         
         // Parse
         for ($a=0; $a<=sizeof($v)-1; $a++)
         {
-            // Is address ?
-            if (!$this->kern->isDomain($v[$a]))
-			{
-			   $this->template->showErr($v[$a]." is not a citizen");
-			   return false;	
-			}
+			// User
+			$user=trim($v[$a]); 
+			
+			// Is address ?
+            if (!$this->kern->isName($user))
+			  return false;	
+			
             
             // Citizen ?
-            if (!$this->isCit($v[$a], $cou))
-                return false;
-        }
+			if (!$this->isCit($user, $_REQUEST['ud']['cou']))
+               return false;	
+		}
         
         // Return
         return true;
@@ -151,17 +154,17 @@ class CLaws
         return true;
     }
     
-    function checkDonationLaw($cou, $adr, $amount)
+    function checkDonationLaw($adr, $amount)
     {
-        // Check address
-        if ($this->isAdr($adr))                  
+		// Check address
+        if (!$this->kern->isAdr($adr))                  
         {
 			$this->template->showErr("Invalid address");
 			return false;
 		}
                                   
         // State budget
-        $budget=$this->getBudget($cou, "CRC");
+        $budget=$this->acc->getBudget($_REQUEST['ud']['cou'], "CRC");
                                   
         // Only 5% of budget can be donated
         if ($budget/20<$amount)
@@ -174,10 +177,10 @@ class CLaws
         return true;
     }
     
-    function checkDistributeLaw($cou, $amount)
+    function checkDistributeLaw($amount)
     {
-        // State budget
-        $budget=$this->getBudget($cou, "CRC");
+		// State budget
+        $budget=$this->acc->getBudget($_REQUEST['ud']['cou'], "CRC");
 		
 		// Amount
 		if ($amount<1)
@@ -605,7 +608,7 @@ class CLaws
             $dist=$this->kern->getPointDist($w_pos, $target_pos); 
             
             // Cost
-            $cost=$cost+$dist*0.0001;
+            $cost=$cost+$dist*0.0001; 
         }
         
         // Check balance
@@ -681,7 +684,7 @@ class CLaws
         for ($a=0; $a<=sizeof($weapons)-1; $a++)
         {
             // Weapon ID
-            $wID=$weapons[$a];
+            $wID=trim($weapons[$a]);
             
             // Owns weapon ?
 			if (!$this->ownsWeapon($cou, $wID))
@@ -857,6 +860,13 @@ class CLaws
 		// Load law data
 		$law_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
+		// Proposed by same address ?
+		if ($law_row['adr']==$_REQUEST['ud']['adr'])
+		{
+			$this->template->showErr("You can't vote your own law");
+			return false;
+		}
+		
 		// Check type
 		if ($type!="ID_YES" && 
 		   $type!="ID_NO")
@@ -953,7 +963,14 @@ class CLaws
 								    $this->acc)==false)
 		return false;
 		
-	
+	    
+		// Minimum political endorsement
+		if ($_REQUEST['ud']['pol_endorsed']<100)
+		{
+			$this->template->showErr("Minimum political endorsement is 100");
+			return false;
+		}
+		
 		// Another pending proposal ?
 		$query="SELECT * 
 		          FROM laws 
@@ -970,6 +987,24 @@ class CLaws
 		if (mysqli_num_rows($result)>0)
 		{
 			$this->template->showErr("You already have a law on voting");
+			return false;
+		}
+		
+		// Rejected law in the last 5 days ?
+		$row=$this->kern->getRows("SELECT COUNT(*) AS total 
+		                             FROM laws 
+									WHERE adr=? 
+									  AND status=? 
+									  AND block>?", 
+								  "ssi", 
+								  $_REQUEST['ud']['adr'], 
+								  "ID_REJECTED", 
+								  $_REQUEST['sd']['last_block']-7200);
+		
+		// Has data ?
+		if ($row['total']>0)
+		{
+			$this->template->showErr("You have a rejected law in the last 5 days");
 			return false;
 		}
 		
@@ -1021,13 +1056,21 @@ class CLaws
 		
 		if ($type=="ID_ADD_PREMIUM" || 
 			$type=="ID_REMOVE_PREMIUM")
-		    if (!$this->checkPremium($par_1))
-				return false;
+		    if (!$this->checkPremiumLaw($par_1))
+			{
+				$this->template->showErr("Check failed");
+			    return false;
+			}
 		
 		  // Donation
 		  if ($type=="ID_DONATION")
+		  {
+			  // Format address
+	       	  $par_1=$this->kern->adrFromName($par_1); 
+			  
 		      if (!$this->checkDonationLaw($par_1, $par_2))
 				return false;
+		  }
 		
 		  // Distribute law
 		  if ($type=="ID_DISTRIBUTE")
@@ -1452,6 +1495,12 @@ class CLaws
 														      WHERE amp.orderID=?", "i", base64_decode($row['par_1']));
 							  
 							  print "<strong>".$row['name']."</strong> is proposing to <strong>buy ".base64_decode($row['par_2'])."x ".$pos_row['name']."</strong> at the price of <strong>".$pos_row['price']." CRC / piece</strong>. Do you agree ?";
+						  }
+		
+		                  // DISTRIBUTE
+		                  if ($row['type']=="ID_DISTRIBUTE")
+						  {
+							  print "<strong>".$row['name']."</strong> is proposing to equally distribute <strong>".base64_decode($row['par_1'])." CRC</strong> to country's premium citizens. Do you agree ?";
 						  }
 		
 		                  // Attack
@@ -1967,7 +2016,8 @@ class CLaws
 						  <?
 		                      // Query
 						      $query="SELECT * 
-							            FROM bonuses 
+							            FROM bonuses AS bon
+							   	   LEFT JOIN tipuri_produse AS tp ON tp.prod=bon.prod
 									   WHERE cou=?"; 
 	                          
 		                      // Result
@@ -1977,7 +2027,13 @@ class CLaws
 		                      
 		                      // Loop
 		                      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
-		                           print "<option value='".$row['prod']."'>".$row['title']." (".$row['amount']." CRC)</option>";
+							  {
+								  // Bonus name
+								  if ($row['bonus']=="ID_BUY_BONUS")
+									  $title=$row['name']." Aquisition Bonus";
+									  
+		                           print "<option value='".$row['prod']."'>".$title." (".$row['amount']." CRC)</option>";
+							  }
 						  ?>
 					  </select>
 					  </td>
@@ -2163,7 +2219,7 @@ class CLaws
                     </tr>
                     <tr>
                       <td height="30" align="left">
-						  <textarea id="txt_premium" name="txt_premium" class="form-control" style="width: 100%" rows="5">&nbsp;</textarea>
+						  <textarea id="txt_premium" name="txt_premium" class="form-control" style="width: 100%" rows="5"></textarea>
 					  </td>
                     </tr>
 					  <tr><td>&nbsp;</td></tr>
@@ -2178,7 +2234,7 @@ class CLaws
 		$cou=$this->kern->getCou();
 		?>
 			   
-			   <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_premium" name="tab_premium" style="display: none">
+			   <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_distribute" name="tab_distribute" style="display: none">
                   <tbody>
                     <tr>
 						<td height="35" align="left"><strong>Amount</strong></td>

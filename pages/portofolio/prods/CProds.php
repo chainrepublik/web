@@ -214,6 +214,15 @@ class CProds
 									$this->acc)==false)
 		   return false;
 		
+		// Already consumed ?
+		if ($this->kern->reserved("ID_CONSUME_ITEM_PACKET", 
+								   "par_2_val", 
+									base64_encode($itemID)))
+		{
+			$this->template->showErr("You already consumed this item");
+			return false;
+		}
+			
 		// Item ID exist and is owned ?
 		$query="SELECT * 
 		          FROM stocuri 
@@ -532,9 +541,10 @@ class CProds
 		                            "s", 
 									$_REQUEST['ud']['adr']);	
 		
-		// No items
+		// No products	
 		if (mysqli_num_rows($result)==0) 
-		   return false;
+		    return false;
+		
 	  
 		?>
           
@@ -582,6 +592,10 @@ class CProds
           <?
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
+				  if (!$this->kern->reserved("ID_CONSUME_ITEM_PACKET", 
+											 "par_2_val", 
+											 base64_encode($row['stocID'])))
+				  {
 		  ?>
           
               <tr>
@@ -589,9 +603,8 @@ class CProds
               <tr>
               <td width="18%" align="left">
               <img src="../../companies/overview/GIF/prods/big/<? print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
-              <td width="82%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br /><span class="simple_blue_10">
-              <img src="../../template/GIF/stars_0.png" height="20" alt=""/></span></td>
-              </tr>
+              <td width="82%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br /><span class="font_10">
+              Expires : <? print $this->kern->timeFromBlock($row['expires']); ?>
               </tbody>
               </table></td>
               <td width="11%" align="center">&nbsp;</td>
@@ -614,6 +627,7 @@ class CProds
               </tr>
           
           <?
+				  }
 	         }
 		  ?>
           
@@ -663,7 +677,8 @@ class CProds
 		
 		// No products	
 		if (mysqli_num_rows($result)==0) 
-			return false;	
+		   return false;
+		
 		?>
             
             <br>
@@ -747,14 +762,14 @@ class CProds
                  <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
 				 </td>
 				   
-                <td width="50%"><span class="font_14"><? print $row['name']; ?></span><br />
+				   <td width="50%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br />
                 
-                <table width="120" border="0" cellspacing="0" cellpadding="0">
+                <table width="200" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-					<td><img src="../../template/GIF/stars_<? print $q; ?>.png" width="60" data-toggle="tooltip" data-placement="top" title="<? print $title; ?>" /></td>
-                <td align="right">
+					<td class="font_10" width="100px">Expires : <? print $this->kern->timeFromBlock($row['expires']); ?></td>
+                <td align="left">
 				<span class="simple_green_10">
-				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy"; ?>
+				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; ?>
                 </span>
                 </td></tr>
                 </table>
@@ -817,12 +832,202 @@ class CProds
 		  ?>
           
         </table>
+        <br>
         
         <?
 	}
 	
-	function showGuns()
+	function showWeapons($type, $visible=true)
 	{
+		$p="";
+		
+		switch ($type)
+		{
+		    // Attack
+			case "ID_ATTACK" : $prods="'ID_KNIFE', 'ID_PISTOL', 'ID_REVOLVER', 'ID_SHOTGUN', 'ID_MACHINE_GUN', 'ID_SNIPER'"; 
+			                    break;
+					
+		    // Defense
+			case "ID_DEFENSE" : $prods="'ID_GLOVES', 'ID_GOGGLES', 'ID_BOOTS', 'ID_HELMET', 'ID_VEST', 'ID_SHIELD'"; 
+			                    break;
+		}
+		
+		
+		$query="SELECT st.*, 
+		               tp.name, 
+					   adr.name AS rented_to
+			      FROM stocuri AS st
+				  JOIN tipuri_produse AS tp ON tp.prod=st.tip
+				  LEFT JOIN adr ON adr.adr=st.rented_to
+			     WHERE (st.adr=? 
+				    OR st.rented_to=?)
+				   AND st.tip IN (".$prods.") 
+			  ORDER BY st.ID DESC"; 
+		
+	    $result=$this->kern->execute($query, 
+									 "ss", 
+									 $_REQUEST['ud']['adr'], 
+									 $_REQUEST['ud']['adr']);
+		
+		// No products	
+		if (mysqli_num_rows($result)==0) 
+		   return false;
+		
+		
+		?>
+            
+            
+            <table width="560" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="simple_blue_deschis_24">&nbsp;&nbsp;&nbsp;
+                <?
+				   switch ($type)
+				   {
+					   case "ID_ATTACK" : print "Attack Weapons"; $act="Equip"; break; 
+					   case "ID_DEFENSE" : print "Defense Weapons"; $act="Equip"; break; 
+				   }
+				?>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+            <table width="550" border="0" cellspacing="0" cellpadding="0" style="<? if ($visible==false) print "display:none"; ?>">
+            <tr>
+            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
+            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="55%" class="bold_shadow_white_14">Product</td>
+                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                
+				<td width="10%" align="center" class="bold_shadow_white_14">Rent</td>
+                <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+				  
+                <td width="10%" align="center" class="bold_shadow_white_14">Status</td>
+                <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                
+				<td width="25%" align="center" class="bold_shadow_white_14">Action</td>
+              </tr>
+            </table></td>
+            <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
+          </tr>
+          </table>
+          
+          <table width="540" border="0" cellspacing="0" cellpadding="0">
+          
+          <?
+			 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			 {
+				 $q=0;
+				 
+				 if (strpos($row['tip'], "Q1")>0) 
+		            { 
+		              $q=1; 
+		              $title="Low Quality Product"; 
+		            }
+		
+		            if (strpos($row['tip'], "Q2")>0) 
+		            { 
+		              $q=2; 
+		              $title="Medium Quality Product"; 
+		            }
+		
+		            if (strpos($row['tip'], "Q3")>0) 
+		            {  
+		              $q=3; 
+		              $title="High Quality Product"; 
+		            }
+				 
+				
+				 if ($row['expire']>0)
+				 {
+				      $dif=$row['expire']-$row['tstamp'];
+				      $remain=$row['expire']-time();
+				      $d=100-round($remain*100/$dif);
+				 }
+				 else $d=0;
+		  ?>
+          
+              
+               <tr>
+                 <td width="10%">
+                 <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
+				 </td>
+				   
+				   <td width="50%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br />
+                
+                <table width="200" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+					<td class="font_10" width="100px">Expires : <? print $this->kern->timeFromBlock($row['expires']); ?></td>
+                <td align="left">
+				<span class="simple_green_10">
+				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; ?>
+                </span>
+                </td></tr>
+                </table>
+                
+                </td>
+                
+				<td width="10%" align="center" class="font_14">
+                <?
+                        if ($row['rented_expires']==0) 
+							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
+				        else
+							print "<img src='GIF/rent_on.png' title='Rented to ".$row['rented_to']." for the next ".$this->kern->timeFromBlock($row['rented_expires'])."' width='40px' data-toggle='tooltip' data-placement='top'>";
+					?>
+				</td>
+				   
+                <td width="10%" align="center" class="font_14">
+					<?
+                        if ($row['in_use']==0) 
+							print "<img src='GIF/use_off.png' title='Not Used' width='40px' data-toggle='tooltip' data-placement='top'>";
+				        else
+							print "<img src='GIF/use_on.png' title='In use' width='40px' data-toggle='tooltip' data-placement='top'>";
+					?>
+				</td>
+                
+                <td width="25%" align="center" class="font_14">
+				<div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action <span class="caret"></span>
+                </button>
+               <ul class="dropdown-menu">
+               <li><a href="main.php?target=<? print $_REQUEST['target'] ?>&act=use&itemID=<? print $row['stocID']; ?>">Use Item</a></li>
+               
+				   <?
+				       if ($row['rented_expires']==0)
+					   {
+				    ?>
+				   
+			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $row['stocID']; ?>');">Donate</a></li>
+                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<? print $row['stocID']; ?>'); $('#txt_rent_price').val('<? print $row['rent_price']; ?>');">Set Rent Price</a></li>
+               
+				   <?
+					   }
+				   ?>
+				   
+			   </ul>
+               </div>
+			   </td>
+                
+               
+                
+              
+              </tr>
+				   <tr><td colspan="5"><hr></td></tr>
+            
+            
+             
+          
+          <?
+			 }
+		  ?>
+          
+        </table>
+        <br>
+        
+        <?
 	}
 	
 	function showGift($expires)
@@ -875,14 +1080,19 @@ class CProds
 					   AND adr=?";
 		
 		$result=$this->kern->execute($query, 
-									 "sssssss", 
+									 "sssss", 
 									 "ID_TRAVEL_TICKET_Q1", 
 									 "ID_TRAVEL_TICKET_Q2", 
 									 "ID_TRAVEL_TICKET_Q3", 
-									 "ID_TRAVEL_TICKET_Q4", 
-									 "ID_TRAVEL_TICKET_Q5", 
 									 "ID_GIFT",
 									 $_REQUEST['ud']['adr']);
+		
+		// No products	
+		if (mysqli_num_rows($result)==0) 
+		{
+			$this->template->showNoRes();
+			return false;
+		}
 		
 		
 		?>

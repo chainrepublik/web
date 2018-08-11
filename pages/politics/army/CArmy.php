@@ -182,7 +182,7 @@ class CArmy
                          $dist=$this->kern->getPointDist($w_pos, $target_pos); 
             
                         // Cost
-                        $cost=round($cost+$dist*0.001, 4);
+                        $cost=round($cost+$dist*0.0001, 4);
 						 
 						// Total cost
 						$total_cost=$total_cost+$cost;
@@ -238,7 +238,8 @@ class CArmy
 		$this->template->showTopBar("Weapon", "80%", "Damage", "20%");
 		
 		// Decode
-		$list=base64_decode($par_1);
+		$list=base64_decode($par_1); 
+		$list=str_replace(" ", "", $list); 
 		
 		// Load data
 		$result=$this->kern->getResult("SELECT st.*, 
@@ -249,9 +250,8 @@ class CArmy
 				                          JOIN tipuri_produse AS tp ON tp.prod=st.tip
 				                     LEFT JOIN seas ON seas.seaID=st.war_locID
 			                         LEFT JOIN countries AS cou ON cou.code=st.war_locID
-				                         WHERE st.stocID in (?)", 
-									    "s", 
-									    $list);
+				                         WHERE st.stocID in (".$list.")");
+		
 		
 		?>
              <table width="550px">
@@ -286,6 +286,7 @@ class CArmy
 					 ?>
 					 </td>
 					 </tr>
+				     <tr><td colspan="3"><hr></td></tr>
 				 
 				 <?
 	                 }

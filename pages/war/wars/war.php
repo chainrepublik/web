@@ -101,9 +101,9 @@
 			   // Sub menu
 			   print "<br>";
 			   $template->showSmallMenu($sel, 
-										"Top Attackers", "war.php?page=attackers", 
-										"Top Defenders", "war.php?page=defenders",
-									    "Last Fights", "war.php?page=fights");
+										"Top Attackers", "war.php?page=attackers&ID=".$_REQUEST['ID'], 
+										"Top Defenders", "war.php?page=defenders&ID=".$_REQUEST['ID'],
+									    "Last Fights", "war.php?page=fights&ID=".$_REQUEST['ID']);
 				
 				// Details
 				switch ($sel)

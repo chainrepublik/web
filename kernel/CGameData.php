@@ -73,6 +73,11 @@ class CGameData
         $result=$db->execute($query, "i", $last_block);	
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $last_block_time=$row['tstamp'];
+		
+		// Predefined fees
+		$_REQUEST['sd']['com_fee']=0.2;
+		$_REQUEST['sd']['work_fee']=0.05;
+		$_REQUEST['sd']['lic_fee']=0.1;
 
         if (time()-$last_block_time>1200)
 	    {

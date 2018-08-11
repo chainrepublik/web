@@ -279,12 +279,46 @@ class CParty
 									 $_REQUEST['ud']['adr'],
 									 $orgID, 
 									 "ID_REJECTED",
-									 $_REQUEST['sd']['last_block']-14400);
+									 $_REQUEST['sd']['last_block']-7500);
 		
 		// Has data ?
 		if (mysqli_num_rows($result)>0)
 		{
-			$this->template->showErr("You had a rejected proposal in the last 10 days");
+			$this->template->showErr("You had a rejected proposal in the last 5 days");
+			return false;
+		}
+		
+		// Pending proposal  ?
+		$query="SELECT * 
+		          FROM orgs_props 
+				 WHERE adr=? 
+				   AND orgID=? 
+				   AND status=?";
+		
+		// Load data
+		$result=$this->kern->execute($query, 
+									 "sisi",
+									 $_REQUEST['ud']['adr'],
+									 $orgID, 
+									 "ID_PENDING");
+		
+		// Has data ?
+		if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already have a pending proposal");
+			return false;
+		}
+		
+		// Minimum 25 members ?
+		$row=$this->kern->getRows("SELECT COUNT(*) AS total 
+		                             FROM adr 
+									WHERE pol_party=? 
+									   OR mil_unit=?");
+		
+		// Total
+		if ($row['total']<25)
+		{
+			$this->template->showErr("Organization need minimum 25 members");
 			return false;
 		}
 		
@@ -1307,7 +1341,7 @@ class CParty
 					}
 			    ?>
 			</td>
-            <td width="17%" align="center" class="bold_verde_14"><a href="prop.php?ID=<? print $row['propID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
+            <td width="17%" align="center" class="bold_verde_14"><a href="../my_party/prop.php?ID=<? print $row['propID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
 			 
           </tr>
 		

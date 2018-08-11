@@ -271,11 +271,11 @@ class CAccountant
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM my_trans AS mt
+		          FROM trans AS mt
 		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.adr=? 
+				 WHERE mt.src=? 
 				   AND cur='CRC'
 				ORDER BY ID DESC 
 			     LIMIT 0,20"; 
@@ -286,7 +286,7 @@ class CAccountant
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM my_trans AS mt
+		          FROM trans AS mt
 		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
@@ -302,7 +302,7 @@ class CAccountant
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM my_trans AS mt
+		          FROM trans AS mt
 		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
@@ -320,7 +320,7 @@ class CAccountant
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM my_trans AS mt
+		          FROM trans AS mt
 		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
@@ -338,7 +338,7 @@ class CAccountant
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM my_trans AS mt
+		          FROM trans AS mt
 		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
 			 LEFT JOIN assets ON assets.symbol=mt.cur
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
@@ -363,7 +363,7 @@ class CAccountant
                      
                           <tr>
                           <td width="55%" align="left">
-							  <a href="../../explorer/packets/packet.php?hash=<? print $row['hash']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['adr']); ?></strong></a><p class="font_10" style="color: #999999"><? print $this->kern->getAbsTime($row['tstamp'])."ago, ".substr(base64_decode($row['expl']), 0, 40)."..."; if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
+							  <a href="../../explorer/packets/packet.php?hash=<? print $row['hash']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['src']); ?></strong></a><p class="font_10" style="color: #999999"><? print $this->kern->getAbsTime($row['tstamp'])."ago, ".substr(base64_decode($row['expl']), 0, 40)."..."; if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
                           <td width="5%" align="center" class="font_14" style="color:#999999">
                           <?
 						      if ($row['mes']!="") 
@@ -508,7 +508,7 @@ class CAccountant
 		 if ($this->kern->isProd($cur))
 		 {
 			 // Query
-			 $query="SELECT * 
+			 $query="SELECT SUM(qty) AS total
 			           FROM stocuri 
 					  WHERE adr=? 
 					    AND tip=?";
@@ -523,7 +523,7 @@ class CAccountant
 	        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			
 			// Return
-			return $row['qty'];
+			return $row['total'];
 		 }
 	}
 	

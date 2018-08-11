@@ -151,7 +151,7 @@ class CAssetsMkt
 		// Has data ?
 		if (mysqli_num_rows($result)==0)
 		{
-			$this->template->showErr("Invalid entry data");
+			$this->template->showErr("Invalid order ID");
 			return false;
 		}
 		
@@ -161,8 +161,22 @@ class CAssetsMkt
 		// Rights
 		if ($this->kern->isMine($row['adr'])==false)
 		{
-			$this->template->showErr("Invalid entry data");
-			return false;
+			// Company address ?
+			if (!$this->kern->isCompanyAdr($row['adr']))
+			{
+			   $this->template->showErr("Invalid rights");
+			   return false;	
+			}
+				
+			// Company ID
+			$comID=$this->kern->getComID($row['adr']); 
+			
+			// Owner ?
+			if (!$this->kern->ownedCom($comID))
+			{
+			   $this->template->showErr("Invalid rights");
+			   return false;	
+			}
 		}
 		
 		try
@@ -259,8 +273,8 @@ class CAssetsMkt
 		}
 		
 		// Basic check
-		if ($this->kern->basicCheck($adr, 
-		                            $adr, 
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'],
 								    $fee, 
 						            $this->template,
 									$this->acc)==false)
@@ -387,7 +401,7 @@ class CAssetsMkt
 		                        "isssisddisi", 
 								$_REQUEST['ud']['ID'], 
 								"ID_NEW_REGULAR_MKT_POS", 
-								$adr, 
+								$_REQUEST['ud']['adr'], 
 								$adr, 
 								$mktID, 
 								$tip, 
@@ -757,11 +771,13 @@ class CAssetsMkt
 			               am.asset, 
 						   am.cur, 
 						   tp.name,
-						   com.name AS com_name
+						   com.name AS com_name,
+						   adr.pic AS adr_pic
 			          FROM assets_mkts_pos AS amp
 					  JOIN assets_mkts AS am ON am.mktID=amp.mktID
 				  LEFT JOIN tipuri_produse AS tp ON tp.prod=am.asset
 				  LEFT JOIN companies AS com ON com.adr=amp.adr
+				  LEFT JOIN adr ON com.adr=adr.adr
 					 WHERE amp.tip=?
 					   AND am.mktID=?
 				  ORDER BY price DESC 
@@ -778,11 +794,13 @@ class CAssetsMkt
 			               am.asset, 
 						   am.cur, 
 						   tp.name,
-						   com.name AS com_name
+						   com.name AS com_name,
+						   adr.pic AS adr_pic
 			          FROM assets_mkts_pos AS amp
 					  JOIN assets_mkts AS am ON am.mktID=amp.mktID
 				 LEFT JOIN tipuri_produse AS tp ON tp.prod=am.asset
 				 LEFT JOIN companies AS com ON com.adr=amp.adr
+				 LEFT JOIN adr ON com.adr=adr.adr
 					 WHERE amp.tip=?
 					   AND am.mktID=?
 				  ORDER BY price ASC 
@@ -820,7 +838,18 @@ class CAssetsMkt
 		   ?>
            
                  <tr>
-                 <td width="10%"><img class="img img-responsive img-circle" src="../../template/GIF/empty_pic.png"></td>
+                 <td width="10%">
+					 
+				<img src="
+				<? 
+				     if ($row['adr_pic']=="") 
+					    print "../../template/GIF/empty_pic.png";
+					 else
+					    print base64_decode($row['adr_pic']); 
+				 ?>
+                
+                 " width="50"  height="50" class="img-circle" />	 
+				 </td>
                  <td>&nbsp;&nbsp;&nbsp;</td>
                  <td width="39%">
                  <a href="#" class="font_14">

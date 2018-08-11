@@ -14,17 +14,17 @@ class CLicences
 	                     $lic, 
 						 $period)
 	{
-		// Logged
-		if ($this->kern->isLoggedIn()==false)
-		{
-			$this->template->showErr("You need to login to execute this operation");
-			return false;
-		}
-		
 		// Company
 		if ($this->kern->ownedCom($comID)==false)
 		{
 			$this->template->showErr("Only company owner can execte this operation");
+			return false;
+		}
+		
+		// Energy
+		if (!$this->kern->checkEnergy(0.1))
+		{
+			$this->template->showErr("Insuficient energy to execute this action");
 			return false;
 		}
 		

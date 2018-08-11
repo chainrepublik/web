@@ -432,6 +432,23 @@ class COpenCompany
                                                                    $('#com_type').val('ID_COM_PRECIOUS_METALS'); 
                                                                    $('#open_modal').modal();" class="btn btn-primary">Open</a></td>
           </tr>
+          <tr>
+            <td colspan="3" align="center" valign="top"><hr></td>
+            </tr>
+          <tr>
+            <td align="center" valign="top"><img src="GIF/gunpowder.png" width="80" /></td>
+            <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+              <tr>
+                <td align="left" class="">Gunpowder Company<span class="bold_green_14"> -  6 CRC / month</span></td>
+              </tr>
+              <tr>
+                <td align="left" class="font_12">Gunpowder is used in weapons and dynamite production. Gunpowder companies use electricity and oil as raw materials.</td>
+              </tr>
+            </table></td>
+            <td align="center" valign="top"><a href="#" onclick="javascript:$('#td_name').text('Gunpowder Companies'); 
+                                                                   $('#com_type').val('ID_COM_GUNPOWDER'); 
+                                                                   $('#open_modal').modal();" class="btn btn-primary">Open</a></td>
+          </tr>
         </table>
        
        <?
@@ -827,7 +844,7 @@ class COpenCompany
               </tr>
             </table></td>
             <td align="center" valign="top" ><a href="#" onclick="javascript:$('#td_name').text('Heavy Weapons Factory'); 
-                                            $('#com_type').val('ID_COM_HEAVVY_WEAPONS'); 
+                                            $('#com_type').val('ID_COM_HEAVY_WEAPONS'); 
                                             $('#open_modal').modal();" class="btn btn-primary">Open</a></td>
           </tr>
           <tr>

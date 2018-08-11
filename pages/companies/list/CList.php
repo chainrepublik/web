@@ -139,15 +139,15 @@ class CList
                 <tr>
                 <td width="77%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                <td width="14%"><img src="
+                <td width="16%"><img src="
 				<? 
 				     if ($row['adr_pic']=="") 
 					    print "../overview/GIF/prods/big/".$row['pic'].".png";
 					 else
-					    print "../../../uploads/".$row['adr_pic']; 
+					    print base64_decode($row['adr_pic']); 
 				 ?>
                 
-                " width="50"  class="img-rounded" /></td>
+                " width="50" height="50" class="img-rounded" /></td>
                 <td width="86%" align="left">
                 <a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
                 <br />

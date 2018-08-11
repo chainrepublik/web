@@ -90,7 +90,7 @@
 				// Sub menu
 				$template->showSmallMenu($sel, 
 									   "Active", "main.php?status=ID_ACTIVE", 
-									   "Closed", "main.php?status=ID_CLOSED");
+									   "Closed", "main.php?status=ID_ENDED");
 				
 			   // Wars
 			   $wars->showWars($_REQUEST['status']);

@@ -161,10 +161,11 @@
 				  if ($sel==3)
 				  {
 				     // Guns
-			         $prods->showGuns();
+			         $prods->showWeapons("ID_ATTACK");
+					  
+					  // Guns
+			         $prods->showWeapons("ID_DEFENSE");
 				 
-				     // Ammunition
-			         $prods->showAmmo();
 				  }
 				  
 				  if ($sel==4)

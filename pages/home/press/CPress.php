@@ -22,7 +22,7 @@ class CPress
 					  $mes, 
 					  $categ, 
 					  $cou,
-					  $days=30,
+					  $days,
 					  $pic,
 					  $pol_party,
 					  $mil_unit)
@@ -36,9 +36,9 @@ class CPress
 	   	return false;
 		
 		// Pic 1
-		if ($pic_1!="")
+		if ($pic!="")
 		{
-		  if (filter_var($pic_1, FILTER_VALIDATE_URL) === false) 
+		  if (filter_var($pic, FILTER_VALIDATE_URL) === false) 
 		  {
 			$this->template->showErr("Invalid pic 1 link", 550);
 			return false;
@@ -169,7 +169,7 @@ class CPress
 							   tstamp=?"; 
 							   
 	       $this->kern->execute($query, 
-		                        "issssssssssisi", 
+		                        "issssssssiiisi", 
 								$_REQUEST['ud']['ID'],
 								'ID_NEW_TWEET',
 								$_REQUEST['ud']['adr'], 
@@ -183,7 +183,7 @@ class CPress
 								$pol_party,
 								$days, 
 								"ID_PENDING", 
-								time());
+								time()); 
 		
 		   // Commit
 		   $this->kern->commit();

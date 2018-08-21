@@ -176,7 +176,7 @@
 		           $_REQUEST['page']="ID_VOTING";
 				
 			   // Sub menu
-			   $laws->showSubMenu();
+			   $laws->showSubMenu($db->getCou());
 				
 				// Country ?
 		        if ($_REQUEST['cou']=="")
@@ -185,7 +185,7 @@
 			        $cou=$_REQUEST['cou'];
 			
 		       // Show Laws
-			   $laws->showLaws($_REQUEST['page']);
+			   $laws->showLaws($_REQUEST['page'], $db->getCou());
             ?>
 				
             </td>

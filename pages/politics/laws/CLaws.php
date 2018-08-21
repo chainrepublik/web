@@ -963,12 +963,36 @@ class CLaws
 								    $this->acc)==false)
 		return false;
 		
-	    
-		// Minimum political endorsement
-		if ($_REQUEST['ud']['pol_endorsed']<100)
+	    // Not a private country
+		if (!$this->kern->isPrivate($_REQUEST['ud']['cou']))
 		{
-			$this->template->showErr("Minimum political endorsement is 100");
-			return false;
+		   // Minimum political endorsement
+		   if ($_REQUEST['ud']['pol_endorsed']<100)
+		   {
+			   $this->template->showErr("Minimum political endorsement is 100");
+			   return false;
+		   }
+		
+		   // Congress active ?
+		   if (!$this->kern->isCongressActive($_REQUEST['ud']['cou']))
+		   {
+			   $this->template->showErr("Congress is not active");
+			   return false;
+		   }
+		
+		   // Congressman ?
+		   if (!$this->kern->isCongressman($_REQUEST['ud']['adr']))
+		   {
+			   $this->template->showErr("You are not a congressman");
+			   return false;
+		   }
+		
+		   // Explanation
+		   if (strlen($expl)>250 || strlen($expl)<10)
+		   {
+			 $this->template->showErr("Invalid description");
+			 return false;
+		   }
 		}
 		
 		// Another pending proposal ?
@@ -1005,20 +1029,6 @@ class CLaws
 		if ($row['total']>0)
 		{
 			$this->template->showErr("You have a rejected law in the last 5 days");
-			return false;
-		}
-		
-		// Congress active ?
-		if (!$this->kern->isCongressActive($_REQUEST['ud']['cou']))
-		{
-			$this->template->showErr("Congress is not active");
-			return false;
-		}
-		
-		// Congressman ?
-		if (!$this->kern->isCongressman($_REQUEST['ud']['adr']))
-		{
-			$this->template->showErr("You are not a congressman");
 			return false;
 		}
 		
@@ -1109,14 +1119,6 @@ class CLaws
 				  return false;
 		
 		
-		  // Explanation
-		  if (strlen($expl)>250 || strlen($expl)<10)
-		  {
-			$this->template->showErr("Invalid description");
-			return false;
-		  }
-		
-		
 		try
 	    {
 		   // Begin
@@ -1171,7 +1173,7 @@ class CLaws
 	   }
 	}
 	
-	function showLaws($status)
+	function showLaws($status, $cou)
 	{
 		$query="SELECT laws.*, 
 		               adr.name AS adr_name, 
@@ -1181,9 +1183,13 @@ class CLaws
 				  JOIN adr ON adr.adr=laws.adr 
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=laws.par_2
 				 WHERE laws.status=? 
+				   AND laws.country=? 
 			  ORDER BY laws.block DESC"; 
 		
-        $result=$this->kern->execute($query, "s", $status);	
+        $result=$this->kern->execute($query, 
+									 "ss", 
+									 $status, 
+									 $cou);	
 	    
 	  
 		?>
@@ -2320,7 +2326,7 @@ class CLaws
 	}
 	
 	
-	function showSubMenu()
+	function showSubMenu($cou)
 	{
 		// No page ?
 		if ($_REQUEST['page']=="")
@@ -2359,9 +2365,15 @@ class CLaws
 					   <td width="48%" valign="bottom" align="right">
 					   <?
 		                   // Propose button
-		                   if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
-							   $this->kern->isCongressman($_REQUEST['ud']['adr']))
-						      print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
+		                   if (!$this->kern->isPrivate($cou))
+						   {
+		                       if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
+							       $this->kern->isCongressman($_REQUEST['ud']['adr']))
+						        print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
+						   }
+		                   else 
+						   if ($this->kern->isCouOwner($_REQUEST['ud']['adr'], $cou))
+							   print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
 					   ?>
 					   </td>
 				   </tr>

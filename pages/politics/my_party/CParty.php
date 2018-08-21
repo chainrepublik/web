@@ -135,6 +135,13 @@ class CParty
 								    $this->acc)==false)
 		return false;
 		
+		// Minimum political influence ?
+		if ($_REQUEST['ud']['pol_inf']<250)
+		{
+			$this->template->showErr("Minimum political influence is 250 points");
+			return false;
+		}
+		
 		// Org valid
 		$query="SELECT * 
 		          FROM orgs 
@@ -154,7 +161,7 @@ class CParty
 			return false;
 		}
 		
-		// Party data
+		// Org data
 		$p_row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// Same political party ?
@@ -312,8 +319,9 @@ class CParty
 		// Minimum 25 members ?
 		$row=$this->kern->getRows("SELECT COUNT(*) AS total 
 		                             FROM adr 
-									WHERE pol_party=? 
-									   OR mil_unit=?");
+									WHERE pol_party=?",
+								  "i", 
+								  $orgID);
 		
 		// Total
 		if ($row['total']<25)
@@ -438,7 +446,7 @@ class CParty
 	       $this->kern->execute($query, 
 		                        "issssi", 
 								$_REQUEST['ud']['ID'], 
-								"ID_LEAVE_PARTY", 
+								"ID_LEAVE_ORG", 
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
 								"ID_PENDING", 
@@ -542,7 +550,7 @@ class CParty
 	       $this->kern->execute($query, 
 		                        "isssisi", 
 								$_REQUEST['ud']['ID'], 
-								"ID_JOIN_PARTY", 
+								"ID_JOIN_ORG", 
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
 								$orgID, 
@@ -1429,7 +1437,7 @@ class CParty
 						  
 		                   // Remove premium citizens
 		                   if ($row['prop_type']=="ID_CHG_DESC")
-						     print "<strong>".$row['name']."</strong> is proposing to change the party description to ".base64_decode($row['par_1']).". Do you agree ?";
+						     print "<strong>".$row['name']."</strong> is proposing to change the party description to <strong>\" ".base64_decode($row['par_1'])."\"</strong>. Do you agree ?";
 						   
 						   // Donation
 		                   if ($row['prop_type']=="ID_DONATE")

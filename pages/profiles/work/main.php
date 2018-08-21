@@ -7,8 +7,8 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../CProfiles.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
+  
+  
   include "CWork.php";
   
   $db=new db();
@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $profiles=new CProfiles($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
+  
   $ads=new CAds($db, $template);
   $work=new CWork($db, $acc, $template, $_REQUEST['ID']);
   

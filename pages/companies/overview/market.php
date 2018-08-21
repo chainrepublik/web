@@ -3,11 +3,9 @@
   
   include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
-  include "../../../kernel/CAMarket.php";
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CDropDown.php";
   include "../../../kernel/CAssetsMkt.php";
   include "../CCompanies.php";
   include "CMarket.php";

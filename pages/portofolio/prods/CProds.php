@@ -384,6 +384,47 @@ class CProds
 			return false;
 		}
 		
+		// Gift ?
+		if ($item=="ID_GIFT")
+		{
+			// Receiver inventory
+			$result=$this->kern->getResult("SELECT * 
+			                                  FROM stocuri 
+										     WHERE adr=?", 
+										   "s", 
+										   $rec_adr);
+			
+			// Has data ?
+			if (mysqli_num_rows($result)>0)
+			{
+				$this->template->showErr("Receiver inventory is not empty. Gifts can be donated only to new addressess.");
+			    return false;
+			}
+			
+			// Receiver creation date
+			if ($this->kern->getAdrData($rec_adr, "created")<$_REQUEST['sd']['last_block']-2880)
+			{
+				$this->template->showErr("Receiver adress was registered more than 48 hours ago.");
+			    return false;
+			}
+			
+			// Sender has at least 2 gifts ?
+			$rows=$this->kern->getRows("SELECT SUM(qty) AS total 
+			                              FROM stocuri 
+										 WHERE adr=? 
+										   AND tip=?", 
+									   "ss", 
+									   $_REQUEST['ud']['adr'], 
+									   "ID_GIFT");
+			
+			// Qty
+			if ($rows['total']<2)
+			{
+				$this->template->showErr("You need at least 2 gifts in your inventory.");
+			    return false;
+			}
+		}
+		
 		try
 	    {
 			 // Begin
@@ -962,7 +1003,13 @@ class CProds
 					<td class="font_10" width="100px">Expires : <? print $this->kern->timeFromBlock($row['expires']); ?></td>
                 <td align="left">
 				<span class="simple_green_10">
-				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; ?>
+				<?
+				    if (!$this->kern->isAttackWeapon($row['tip']) && 
+						!$this->kern->isDefenseWeapon($row['tip']))
+				        print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; 
+				    else
+						print "+".$this->kern->getWeaponDamage($row['tip'])." damage"; 
+				?>
                 </span>
                 </td></tr>
                 </table>
@@ -1030,7 +1077,7 @@ class CProds
         <?
 	}
 	
-	function showGift($expires)
+	function showGift($stocID, $expires)
 	{
 	    ?>
 
@@ -1039,12 +1086,13 @@ class CProds
             <tr>
             <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <? print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
             </tr>
+				<tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $stocID; ?>');">Donate</a></td></tr>
             </tbody></table>
 
         <?
 	}
 	
-	function showTicket($prod, $qty)
+	function showTicket($stocID, $prod, $qty)
 	{
 		$q=$this->kern->getQuality($prod);
 	   ?>
@@ -1060,7 +1108,10 @@ class CProds
             </tr>
             <tr>
 			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><? print $qty; ?></strong></td>
-            </tr></tbody></table></td></tr></table>
+            </tr>
+			</tr>	
+			</tbody></table></td></tr>
+            <tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $stocID; ?>');">Donate</a></td></table>
 
        <?
 	}
@@ -1073,8 +1124,6 @@ class CProds
 		          FROM stocuri 
 				 WHERE (tip=?
 				       OR tip=?
-					   OR tip=?
-					   OR tip=?
 					   OR tip=?
 					   OR tip=?) 
 					   AND adr=?";
@@ -1106,15 +1155,21 @@ class CProds
 		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			         {
 						 $n++;
+						 
+						 if ($n==5)
+						 {
+							 print "</tr><tr>";
+							 $n=0;
+						 }
 		          ?>
 					
 		               <td width="100" align="center" valign="top">
 						
 						   <?
 						    if (strpos($row['tip'], "TICKET")>0)
-								$this->showTicket($row['tip'], $row['qty']);
+								$this->showTicket($row['stocID'], $row['tip'], $row['qty']);
 						    else
-								$this->showGift($row['expires']);
+								$this->showGift($row['stocID'], $row['expires']);
 						?>
 						   
 				        </td>
@@ -1123,15 +1178,7 @@ class CProds
 				  <?
 	                 }
 		
-		             for ($a=1; $a<=5-$n; $a++)
-					 {
-						 ?>
-					
-					         <td width="100" align="center" valign="top">&nbsp;</td>
-				             <td align="center">&nbsp;</td>
-					
-					     <?
-					 }
+		            
 		
 		          ?>
 					

@@ -55,8 +55,16 @@ class CRewards
 		// My aff energy
 		$my_aff=round($row['total'], 2);
 		
+		// Total energy
+		$rows=$this->kern->getRows("SELECT SUM(energy) AS total 
+		                              FROM adr 
+									 WHERE ref_adr<>''");
+		
+		// Total energy
+		$total=round($rows['total']);
+		
 		// Percent
-		$p=$my_aff*100/$_REQUEST['sd']['total_aff'];
+		$p=$my_aff*100/$row['total'];
 		
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_REFS"); 
@@ -70,7 +78,7 @@ class CRewards
 		// Reward panel
 		$this->template->showRewardPanel("Affiliates Reward", 
 							             "./GIF/img_mouse.png", 80, 
-						         	     "Affiliates Energy", $_REQUEST['sd']['total_aff'], "total points", 
+						         	     "Affiliates Energy", $total, "total points", 
 							             "My Affiliates Energy", round($my_aff, 2), "points",
 							             $amount,
 										"The energy bonus is payed each day to all players having at least one affiliate. The bonus depends on affiliates total energy and it's paid for minimum 10 points of energy. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. Energy can be increased by consuming energy boosters like food or drinks, or by using items like cars, houses, clothes. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";
@@ -79,98 +87,21 @@ class CRewards
 	
 	function showMilitaryReward()
 	{
-		$min=0;
-		$max=1000;
 		
-		// Min / max points
-		if ($_REQUEST['ud']['war_points']>1000 && 
-			$_REQUEST['ud']['war_points']<=3000) 
-		{
-			$min=1000;
-			$max=3000;
-		}
+		// Load total energy
+		$row=$this->kern->getRows("SELECT SUM(war_points) AS total FROM adr");
 		
-		if ($_REQUEST['ud']['war_points']>3000 && 
-			$_REQUEST['ud']['war_points']<6000) 
-		{
-			$min=3000;
-			$max=6000;
-		}
+		// Total energy
+		$total=round($row['total']);
 		
-		if ($_REQUEST['ud']['war_points']>6000 && 
-			$_REQUEST['ud']['war_points']<=10000) 
-		{
-			$min=6000;
-			$max=10000;
-		}
+		// Percent
+		$p=$_REQUEST['ud']['war_points']*100/$total;
 		
-		if ($_REQUEST['ud']['war_points']>10000 && 
-			$_REQUEST['ud']['war_points']<=15000) 
-		{
-			$min=10000;
-			$max=15000;
-		}
-		
-		if ($_REQUEST['ud']['war_points']>15000 && 
-			$_REQUEST['ud']['war_points']<=21000) 
-		{
-			$min=15000;
-			$max=21000;
-		}
-		
-		if ($_REQUEST['ud']['war_points']>21000 && 
-			$_REQUEST['ud']['war_points']<=28000) 
-		{
-			$min=21000;
-			$max=28000;
-		}
-		
-		if ($_REQUEST['ud']['war_points']>28000 && 
-			$_REQUEST['ud']['war_points']<=37000) 
-		{
-			$min=28000;
-			$max=37000;
-		}
-		
-		if ($_REQUEST['ud']['war_points']>37000 && 
-			$_REQUEST['ud']['war_points']<=47000) 
-		{
-			$min=37000;
-			$max=47000;
-		}
-		
-		if ($_REQUEST['ud']['war_points']>47000 && 
-			$_REQUEST['ud']['war_points']<=100000) 
-		{
-			$min=47000;
-			$max=100000;
-		}
-		
-		// Ranks number
-		$query="SELECT COUNT(*) AS total 
-		          FROM adr 
-				 WHERE war_points>? 
-				   AND war_points<=?";
-		
-		// Result
-		$result=$this->kern->execute($query, 
-									 "ii", 
-									 $min,
-									 $max);
-		
-		// Data
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		
-		// No
-		$no=$row['total'];
-			
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_MILITARY"); 
 		
 		// Amount
-		$amount=round($pool/$no, 4);
-		if ($_REQUEST['ud']['war_points']<1000)
-			$amount=0;
+		$amount=round($p*$pool/100, 4);
 		
 		// Next block
 		$next_block=(floor($_REQUEST['sd']['last_block']/1440)+1)*1440; 
@@ -178,7 +109,7 @@ class CRewards
 		// Reward panel
 		$this->template->showRewardPanel("War Reward", 
 							             "./GIF/img_medal.png", 60, 
-						         	     "Total Ranks", $no, "total ranks", 
+						         	     "Total War Points", $total, "total ranks", 
 							             "My War Points", $_REQUEST['ud']['war_points'], "points",
 							             $amount,
 										"The military reward is payed each day to all players having at least <strong>1000 war points</strong>. The reward aount depends on total number of players having the same rank as you. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. You can increase your war points by fighting in wars. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";
@@ -186,8 +117,15 @@ class CRewards
 	
 	function showPolInfReward()
 	{
+		// Total energy
+		$rows=$this->kern->getRows("SELECT SUM(pol_inf) AS total 
+		                              FROM adr");
+		
+		// Total energy
+		$total=round($rows['total']);
+		
 		// Percent
-		$p=$_REQUEST['ud']['pol_inf']*100/$_REQUEST['sd']['total_pol_inf'];
+		$p=$_REQUEST['ud']['pol_inf']*100/$total;
 		
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_POL_INF"); 
@@ -201,7 +139,7 @@ class CRewards
 		// Reward panel
 		$this->template->showRewardPanel("Political Influence Reward", 
 							             "./GIF/img_pol_inf.png", 60, 
-						         	     "Total Influence", $_REQUEST['sd']['total_pol_inf'], "points", 
+						         	     "Total Influence", $total, "points", 
 							             "My Influence", round($_REQUEST['ud']['pol_inf'], 2), "points",
 							             $amount,
 										"The political influence reward is payed each day to all players with a minimum of 10 points of political influnce. The bonus amount  depends on your politcal influence points. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. Political influence points can be increased by working. After each work session, your political influence will be increased depending on consumed energy. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";
@@ -209,8 +147,15 @@ class CRewards
 	
 	function showPolendReward()
 	{
+		// Total energy
+		$rows=$this->kern->getRows("SELECT SUM(pol_endorsed) AS total 
+		                              FROM adr");
+		
+		// Total energy
+		$total=round($rows['total']);
+		
 		// Percent
-		$p=$_REQUEST['ud']['pol_end']*100/$_REQUEST['sd']['total_pol_end'];
+		$p=$_REQUEST['ud']['pol_endorsed']*100/$total;
 		
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_POL_END"); 
@@ -224,8 +169,8 @@ class CRewards
 		// Reward panel
 		$this->template->showRewardPanel("Political Endorsment Reward", 
 							             "./GIF/img_pol_end.png", 60, 
-						         	     "Total Influence", $_REQUEST['sd']['total_pol_end'], "points", 
-							             "My Influence", round($_REQUEST['ud']['pol_end'], 2), "points",
+						         	     "Total Endorsement", $total, "points", 
+							             "My Influence", round($_REQUEST['ud']['pol_endorsed'], 2), "points",
 							             $amount,
 										"The political endorsment reward is payed each day to all players with a minimum of 1000 points of political endorsment. The bonus amount  depends on your politcal endorsment points. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. Your political endorsemnt points increase when another player endorses you to become a governor, depending on player's political influence. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";
 	}

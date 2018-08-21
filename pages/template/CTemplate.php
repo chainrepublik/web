@@ -925,7 +925,7 @@ class CTemplate
             </td>
             <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==7) print "on"; else print "off"; ?>.png">
             
-            <a href="../../politics/stats/main.php">
+            <a href="../../politics/<? if ($_REQUEST['ud']['ID']>0) print "stats"; else print "countries"; ?>/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
@@ -1296,10 +1296,10 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Overview</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/overview/main.php">Overview</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
                         </tr>
-                        <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
+						<tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/rewards/main.php">Rewards</a></span></td>
                         </tr>
                         <tr>
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/messages/main.php">Messages</a></span></td>
@@ -1311,10 +1311,7 @@ class CTemplate
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ref/main.php">Affiliates</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/partners/main.php">Partners</a></span></td>
-                        </tr>
-                        <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/settings/main.php">Settings</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
                         </tr>
                         <tr>
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/accounting/main.php">Accounting</a></span></td>
@@ -1323,7 +1320,13 @@ class CTemplate
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/events/main.php">Events</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/cashier/main.php">Cashier</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/settings/main.php">Settings</a></span></td>
+                        </tr>
+                        <tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1333,10 +1336,13 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Inventory</td>
                         </tr>
                         <tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/prods/main.php">Products</a></span></td>
+                        </tr>
+						 <tr>
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/assets/main.php">Assets</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/assets/main.php">Shares</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/shares/main.php">Shares</a></span></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1368,7 +1374,7 @@ class CTemplate
                           <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Rum</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
                         </tr>
                         <tr>
                           <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
@@ -1382,21 +1388,36 @@ class CTemplate
                         <tr>
                           <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
                         </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
+                        </tr>  
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
+                        </tr>
                       </tbody>
                     </table></td>
                     <td width="10%" valign="top"><table width="100" border="0" cellspacing="0" cellpadding="0">
                       <tbody>
                         <tr>
-                          <td align="center" class="font_14" style="color:#ffffff">Gold</td>
+                          <td align="center" class="font_14" style="color:#ffffff">War</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/market/main.php">Market</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/mine/main.php">My Fights</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/fund/main.php">Gold Fund</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/exchangers/main.php">Exchangers</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/my_unit/main.php">My Unit</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1421,17 +1442,29 @@ class CTemplate
                         <tr>
                           <td align="center" class="font_14" style="color:#ffffff">Politics</td>
                         </tr>
+					    <tr>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/stats/main.php">Overview</a></span></td>
+                        </tr>
                         <tr>
                           <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/laws/main.php">Laws</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/bonuses/main.php">Bonuses</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/budget/main.php">Budget</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/taxes/main.php">Taxes</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/parties/main.php">Political Parties</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/budget/main.php">Budget</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/my_party/main.php">My Party</a></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/congress/main.php">Congress</a></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></td>
+                        </tr>
+						<tr>
+                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/army/main.php">Army</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1516,19 +1549,19 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Overview</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/overview/main.php">Overview</a></span></td>
-                  </tr>
-                  <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
                   </tr>
                   <tr>
                     <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ranks/main.php">Ranks</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ref/main.php">Affiliates</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/partners/main.php">Partners</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
+                  </tr>
+                  <tr>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -1557,7 +1590,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Rum</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
                   </tr>
                   <tr>
                     <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
@@ -1571,22 +1604,32 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                   <tr>
                     <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
                   </tr>
+			       <tr>
+                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
+                  </tr>
+				   <tr>
+                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
+                  </tr>
+				   <tr>
+                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
+                  </tr>
+				   <tr>
+                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
+                  </tr>
                 </tbody>
               </table></td>
               <td width="10%" valign="top"><table width="100" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
                   <tr>
-                    <td align="center" class="font_14" style="color:#ffffff">Gold</td>
+                    <td align="center" class="font_14" style="color:#ffffff">War</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/market/main.php">Market</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/fund/main.php">Gold Fund</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
                   </tr>
-                  <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>gold/exchangers/main.php">Exchangers</a></td>
-                  </tr>
+                 
                 </tbody>
               </table></td>
               <td width="10%" valign="top"><table width="100" border="0" cellspacing="0" cellpadding="0">
@@ -1608,17 +1651,10 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Politics</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/laws/main.php">Laws</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></span></td>
                   </tr>
-                  <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/bonuses/main.php">Bonuses</a></span></td>
-                  </tr>
-                  <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/taxes/main.php">Taxes</a></td>
-                  </tr>
-                  <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/budget/main.php">Budget</a></td>
-                  </tr>
+				  
+                 
                   <tr>
                     <td height="25" align="center">&nbsp;</td>
                   </tr>
@@ -2054,14 +2090,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                       <tr>
                         <td>&nbsp;</td>
                         
-						  <td><img src="../../template/GIF/flags/56/<? print $_REQUEST['ud']['cou']; ?>_off.png" width="56" height="56" alt="" onMouseOver="$(this).attr('src', '../../template/GIF/flags/56/<? print $_REQUEST['ud']['cou']; ?>_on.png')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/56/<? print $_REQUEST['ud']['cou']; ?>_off.png')" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <? print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship"/></td>
+						  <td><img src="../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['cou']; ?>.png" width="56" height="56" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <? print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print $_REQUEST['ud']['cou']; ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['cou']; ?>.png')"/></td>
                           
 						  <?
 		                       if ($_REQUEST['ud']['travel']==0)
 							   {
 		                  ?>
 						  
-						           <td align="center" height="80"><img src="../../template/GIF/flags/56/<? print $_REQUEST['ud']['loc']; ?>_off.png" id="td_travel" width="56" height="56" alt="" onMouseOver="$(this).attr('src', '../../template/GIF/flags/56/<? print $_REQUEST['ud']['loc']; ?>_on.png')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/56/<? print $_REQUEST['ud']['loc']; ?>_off.png')" data-content="You are a resident of <? print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel"/></td>
+						           <td align="center" height="80"><img src="../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['loc']; ?>.png" id="td_travel" width="56" height="56" alt="" data-content="You are a resident of <? print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print $_REQUEST['ud']['loc']; ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['loc']; ?>.png')"/></td>
 						  
 						  <?
 							   }

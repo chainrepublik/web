@@ -14,7 +14,7 @@
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $market=new CMarket($db, $acc, $template);
+  
   $jewelry=new CJewelry($db, $acc, $template, $market);
   
   switch ($_REQUEST['act'])

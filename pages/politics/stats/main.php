@@ -67,9 +67,16 @@
             
             <?
 		       $template->showHelp("Below are information and statistics related to this country, such as the list of citizens or companies. For other information such as laws, congressmen, etc., use the left menu.");
+				
+				// Buy private country ?
+				if ($_REQUEST['act']=="buy")
+					$stats->buyCou($db->getCou());
 		  
+			   // Private country ?
+			   $stats->showPrivateStatus($db->getCou());
+				
 		       // Panel
-		       $pol->showTopPanel($_REQUEST['cou']);
+		       $pol->showTopPanel($db->getCou());
 				
 			   // Stats
 			   $stats->showStats();

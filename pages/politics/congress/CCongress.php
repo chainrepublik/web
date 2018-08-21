@@ -50,7 +50,7 @@ class CCongress
 	
 	function showCongress()
 	{
-		// Country
+		// Countrya
 		$cou=$this->kern->getCou();
 		
 		// Load data
@@ -60,15 +60,17 @@ class CCongress
 				  JOIN orgs ON orgs.orgID=adr.pol_party
 			     WHERE adr.loc=? 
 			       AND adr.name<>?
-				   AND adr.pol_party>0
-				   AND adr.pol_endorsed>0
+				   AND adr.pol_party>?
+				   AND adr.pol_endorsed>?
 			  ORDER BY adr.pol_endorsed DESC, adr.energy DESC
 			     LIMIT 0, 30"; 
 				
 		$result=$this->kern->execute($query, 
-		                            "ss", 
-									$_REQUEST['ud']['loc'],
-									"");	
+		                            "ssii", 
+									$cou,
+									"",
+									0,
+									0);	
 	  
 		?>
             

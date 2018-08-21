@@ -6,7 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CVMarket.php";
+  
   include "../CPorto.php";
   include "CShares.php";
   
@@ -16,7 +16,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $porto=new CPorto($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
+  
   $shares=new CShares($db, $acc, $template);
 ?>
 
@@ -37,7 +37,7 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
-<body background="../../template/GIF/back.png">
+<body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
 <?
    $template->showTop();

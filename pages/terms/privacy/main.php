@@ -6,8 +6,8 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CVMarket.php";
-  include "../../../kernel/CAds.php";
+  
+  
   include "../CTerms.php";
   
   $db=new db();
@@ -15,7 +15,7 @@
   $ud=new CUserData($db);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
-  $mkt=new CVMarket($db, $acc, $template);
+  
   $terms=new CTerms($db, $acc, $template);
 ?>
 

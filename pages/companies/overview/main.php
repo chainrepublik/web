@@ -5,7 +5,7 @@
   include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
-  include "../../../kernel/CVMarket.php";
+  
   include "../../template/CTemplate.php";
   include "../../market/CMarket.php";
   include "../../market/food/CFood.php";
@@ -19,7 +19,6 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $com=new CCompanies($db, $acc, $template);
-  $vmarket=new CVMarket($db, $acc, $template, "ID_COM", $_REQUEST['ID']);
   $mkt=new CMarket($db, $acc, $template);
   $food=new CFood($db, $acc, $template);
   $work=new CWorkplaces($db, $acc, $template);

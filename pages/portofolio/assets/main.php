@@ -6,7 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CVMarket.php";
+  
   include "../CPorto.php";
   include "CAssets.php";
   
@@ -16,7 +16,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $porto=new CPorto($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
+  
   $assets=new CAssets($db, $template, $acc);
 ?>
 

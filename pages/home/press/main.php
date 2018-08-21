@@ -6,7 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CVMarket.php";
+  
   include "../../home/messages/CMessages.php";
   include "../CHome.php";
   include "CPress.php";
@@ -17,7 +17,7 @@
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $home=new CHome($db, $acc, $template);
-  $mkt=new CVMarket($db, $acc, $template);
+  
   $mes=new CMessages($db, $acc, $template);
   $press=new CPress($db, $acc, $template, $mes);
 ?>

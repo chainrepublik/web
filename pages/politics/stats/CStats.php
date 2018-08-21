@@ -8,6 +8,123 @@ class CStats
 		$this->template=$template;
 	}
 	
+	function buyCou($cou)
+	{
+		// Basic check
+		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
+		                            $_REQUEST['ud']['adr'], 
+								    0.0001, 
+								    $this->template, 
+								    $this->acc)==false)
+		return false;
+		
+		// Energy
+        if (!$this->kern->checkEnergy())
+		{
+			$this->template->showErr("Insuficient energy to execute this action");
+			return false;
+		}
+		
+        // Country is for sale ?
+        $result=$this->kern->getResult("SELECT * 
+		                                  FROM countries 
+								   	     WHERE private=? 
+									       AND owner=?
+									       AND code=?", 
+								       "sss", 
+								       "YES", 
+								       "default",
+								       $cou); 
+        
+        // Has records ?
+        if (mysqli_num_rows($result)==0)
+		{
+			$this->template->showErr("Invalid country code");
+			return false;
+		}
+        
+        // Address owns another country ?
+        $result=$this->kern->getRows("SELECT * 
+		                                FROM countries 
+									   WHERE adr=?", 
+									 "s", 
+									 $_REQUEST['ud']['adr']);
+        
+        // Has records ?
+        if (mysqli_num_rows($result)>0)
+		{
+			$this->template->showErr("You already own a private country");
+			return false;
+		}
+        
+        // Finds price
+        $row=$this->kern->getRows("SELECT COUNT(*) AS total 
+		                             FROM countries 
+									WHERE private=? 
+									  AND owner<>?",
+								  "ss",
+								  "YES", 
+								  "default");
+        
+        // Number
+        $no=$row['total'];
+        
+        // Price
+        $price=50*no;
+        
+        // Funds ?
+        if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$price)
+        {
+			$this->template->showErr("Insuficient funds to execute this operation");
+			return false;
+		}
+		
+		try
+	    {
+		   // Begin
+		   $this->kern->begin();
+
+           // Action
+           $this->kern->newAct("Buy a private country");
+		   
+		   // Insert to stack
+		   $query="INSERT INTO web_ops 
+			                SET userID=?, 
+							    op=?, 
+								fee_adr=?, 
+								target_adr=?,
+								par_1=?,
+								status=?, 
+								tstamp=?";  
+			
+	       $this->kern->execute($query, 
+		                        "isssssi", 
+								$_REQUEST['ud']['ID'], 
+								"ID_BUY_COUNTRY", 
+								$_REQUEST['ud']['adr'], 
+								$_REQUEST['ud']['adr'], 
+								$cou,
+								"ID_PENDING", 
+								time());
+		
+		   // Commit
+		   $this->kern->commit();
+		   
+		   // Confirm
+		   $this->template->confirm();
+	   }
+	   catch (Exception $ex)
+	   {
+	      // Rollback
+		  $this->kern->rollback();
+
+		  // Mesaj
+		  $this->template->showErr("Unexpected error.");
+
+		  return false;
+	   }
+	}
+	
 	function showStats()
 	{
 		// Selects country
@@ -537,6 +654,39 @@ class CStats
          </div>
          <br><br><br>
         
+        <?
+	}
+	
+	function showPrivateStatus($cou)
+	{
+		// Active ?
+		if (!$this->kern->isPrivate($cou))
+			return true;
+		
+		?>
+
+           <div class="panel panel-default" style="width: 90%">
+           <div class="panel-body">
+			   <table width="100%">
+				   <tr><td><table width="100%"><tr><td width="35%" align="left" valign="top"><img width="140" src="./GIF/private.png"></td><td width="65%" align="left" class="font_12">This is a private country. Private countries have <strong>no political parties or congress</strong>strong> and all decisions are taken by country ruler, who <strong>has full control</strong>strong> the state budget, taxes, bonuses and all other details. Private countries can be bought from network for a variable fee. The fee increases <strong>50 CRC</strong>strong> after each sold country.</td></tr></table></td></tr>
+				   
+				   <?
+		               if ($this->kern->isCouForSale($cou))
+					   {
+						  
+	            	?>
+				   
+				          <tr><td colspan="2"><hr></td></tr>
+				          <tr><td align="right"><a href="main.php?act=buy&cou=<? print $_REQUEST['cou']; ?>" class="btn btn-primary">Buy Country (<? print $this->kern->getPvtCouPrice(); ?> CRC)</a></td></tr>
+				   
+				   <?
+					   }
+				   ?>
+			   </table>
+           </div>
+           </div>
+           <br>
+
         <?
 	}
 }

@@ -35,7 +35,11 @@ class CWar
                 <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                 
-                
+                <?
+		            if ($_REQUEST['ud']['ID']>0)
+					{
+		        ?>
+
                 <tr>
                   <td height="80" align="right" <? if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../war/mine/main.php">
@@ -56,7 +60,7 @@ class CWar
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 
-
+               
                 <tr>
                   <td height="80" align="right" <? if ($sel==3) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../war/units/main.php">
@@ -76,6 +80,7 @@ class CWar
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
+                
 
                 <tr>
                   <td height="80" align="right" <? if ($sel==4) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
@@ -97,6 +102,9 @@ class CWar
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                 
+                <?
+					}
+				?>
                 
               </tbody>
             </table>

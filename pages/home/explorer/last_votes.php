@@ -6,7 +6,7 @@
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
-  include "../../../kernel/CAds.php";
+  
   include "../CHome.php";
   include "CExplorer.php";
   

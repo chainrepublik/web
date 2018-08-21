@@ -119,7 +119,7 @@ class CCountries
 		$result=$this->kern->execute($query);
 		
 		// Bar
-		$this->template->showTopBar("Country", "60%", $title, "20%", "Details", "20%");
+		$this->template->showTopBar("Country", "40%", "Status", "20%", $title, "20%", "Details", "20%");
 		?>
 
             <table width="550" border="0" cellspacing="0" cellpadding="0">
@@ -136,7 +136,8 @@ class CCountries
 				
                     <tr>
                     <td width="10%"><img src=<? ?>"../../template/GIF/flags/35/<? print $flag; ?>.gif" class="img img-rounded" width="35"></td>
-					<td class="font_14" width="50%" style="color: #777777"><? print ucfirst(strtolower($row['country'])); ?><br><span class="font_10" style="color: #999999"><? print "Free Country"; ?></span></td>
+					<td class="font_14" width="30%" style="color: #777777"><? print ucfirst(strtolower($row['country'])); ?><br><span class="font_10" style="color: #999999"><? if ($row['occupied']==$row['code']) print "Free Country"; else print "Occupied by ".$row['occupied']; ?></span></td>
+				    <td class="font_14" align="center" width="20%"><strong><? if ($row['private']=="YES") print "private"; ?></strong></td>
 					<td class="font_14" align="center" width="20%"><strong><? print $row[$col]; ?></strong></td>
 				    <td align="center"><a class="btn btn-primary btn-sm" href="../stats/main.php?cou=<? print $flag; ?>" target="_blank">Details</a></td>
                     </tr>

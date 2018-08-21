@@ -7,7 +7,7 @@
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
   include "../../../kernel/CAssetsMkt.php";
-  include "../../../kernel/CAds.php";
+  
   include "../CMarket.php";
   include "CGuns.php";
   

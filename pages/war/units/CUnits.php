@@ -30,7 +30,8 @@ class CUnits
 		            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					{
 						// Members
-						$query="SELECT COUNT(*) AS total 
+						$query="SELECT COUNT(*) AS total, 
+						               SUM(war_points) AS total_points
 						          FROM adr 
 								 WHERE mil_unit=?";
 						
@@ -44,8 +45,8 @@ class CUnits
 		        ?>
 				
                     <tr>
-                    <td width="11%"><img src="<? if ($row['avatar']!="") print base64_decode($row['avatar']); else print "../GIF/unit.png"; ?>" class="img img-circle" width="50"></td>
-					<td class="font_14" width="60%"><? print base64_decode($row['name']); ?><br><span class="font_10" style="color: #999999"><? print "Total War Points : 0 points"; ?></span></td>
+                    <td width="11%"><img src="<? if ($row['avatar']!="") print base64_decode($row['avatar']); else print "../GIF/unit.png"; ?>" class="img img-circle" width="50" height="50"></td>
+					<td class="font_14" width="60%"><? print base64_decode($row['name']); ?><br><span class="font_10" style="color: #999999"><? print $this->kern->noEscape(base64_decode($row['description'])); ?></span></td>
 						<td class="font_14" align="center" width="20%"><strong><? print $members; ?></strong></td>
 				    <td align="center"><a class="btn btn-primary btn-sm" href="unit.php?orgID=<? print $row['orgID']; ?>">Details</a></td>
                     </tr>

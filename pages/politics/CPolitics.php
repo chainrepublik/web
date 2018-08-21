@@ -10,11 +10,19 @@ class CPolitics
 	
 	function showMenu($sel=1)
 	{
+		// Private country ?
+		$private=$this->kern->isPrivate($this->kern->getCou());
+		
 		?>
         
            <table width="200" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                
+				<?
+		             if ($_REQUEST['ud']['ID']>0 || $_REQUEST['cou']!="")
+					 {
+		        ?>
+				  
                 <tr>
                   <td height="80" align="right" <? if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../politics/stats/main.php?cou=<? print $_REQUEST['cou']; ?>">
@@ -38,7 +46,7 @@ class CPolitics
 				  
                 <tr>
                   <td height="80" align="right" <? if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/laws/main.php">
+                  <a href="../../politics/laws/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -59,7 +67,7 @@ class CPolitics
                 
                 <tr>
                   <td height="80" align="right" <? if ($sel==3) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/budget/main.php">
+                  <a href="../../politics/budget/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -79,10 +87,14 @@ class CPolitics
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 				  
+				  <?
+					   if (!$private)
+					   {
+				  ?>
 				  
 				  <tr>
                   <td height="80" align="right" <? if ($sel==4) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/parties/main.php">
+                  <a href="../../politics/parties/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -96,17 +108,21 @@ class CPolitics
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 				  
-				  
+				<?
+					   }
+					 }
+		             
+		             if ($_REQUEST['ud']['ID']>0 && !$private)
+					 {
+				?>
 				  
 				  <tr>
                   <td height="80" align="right" <? if ($sel==5) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/my_party/main.php">
+                  <a href="../../politics/my_party/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -120,16 +136,21 @@ class CPolitics
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 				  
+				  <?
+					 }
+		
+		             if (($_REQUEST['ud']['ID']>0 || $_REQUEST['cou']!="") && !$private)
+					 {
+				  ?>
+				  
 				  
 				 <tr>
                   <td height="80" align="right" <? if ($sel==6) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/congress/main.php">
+                  <a href="../../politics/congress/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -143,16 +164,18 @@ class CPolitics
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 				  
+				<?
+					 }
+					 
+				?>
 				  
 				<tr>
                   <td height="80" align="right" <? if ($sel==7) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/countries/main.php">
+                  <a href="../../politics/countries/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -166,15 +189,19 @@ class CPolitics
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
 				  
+				 
+				<?
+		            if ($_REQUEST['ud']['ID']>0 || $_REQUEST['cou']!="")
+					{
+		        ?>
+				  
 				<tr>
                   <td height="80" align="right" <? if ($sel==8) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
-                  <a href="../../politics/army/main.php">
+                  <a href="../../politics/army/main.php?cou=<? print $_REQUEST['cou']; ?>">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
@@ -188,13 +215,13 @@ class CPolitics
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                
-               
+               <?
+					}
+			   ?>
                
               </tbody>
             </table>

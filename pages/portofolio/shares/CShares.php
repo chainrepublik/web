@@ -23,7 +23,7 @@ class CShares
 					  JOIN adr ON adr.adr=com.adr
 				     WHERE LENGTH(ao.symbol)=?
 				       AND ao.owner=?
-			         LIMIT 0,20"; 
+			         LIMIT 0,50"; 
 			
 			$result=$this->kern->execute($query, 
 										 "is",

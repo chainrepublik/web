@@ -32,13 +32,16 @@ class CCompanies
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                 
                 
+				<?
+		            if ($_REQUEST['ud']['ID']>0)
+					{
+		        ?>
+				  
                 <tr>
                   <td height="80" align="right" <? if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../companies/open/main.php">
@@ -77,13 +80,13 @@ class CCompanies
                   </a>
                   </td>
                 </tr>
-                
-                
                 <tr>
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                
-               
+               <?
+					}
+			   ?>
                
               </tbody>
             </table>

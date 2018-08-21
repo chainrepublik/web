@@ -352,7 +352,128 @@ class CWars
 	
 	function showFighters($warID, $type)
 	{
+		if ($type!="ID_LAST")
+		{
+		    // Load data
+	  	    $query="SELECT wf.adr, 
+		                   adr.pic,
+					       adr.name,
+		                   sum(wf.damage) AS total_damage, 
+		                   cou.code AS cit_cou,
+					       cou.country AS cit_country,
+					       guv.code AS guv_cou,
+				    	   guv.country AS guv_country
+		              FROM wars_fighters AS wf
+			     LEFT JOIN adr ON adr.adr=wf.adr
+			     LEFT JOIN countries AS cou ON cou.code=adr.cou
+			     LEFT JOIN countries AS guv on guv.adr=adr.adr
+			         WHERE wf.warID=? 
+				       AND wf.type=?
+			      GROUP BY adr
+			      ORDER BY total_damage DESC
+			         LIMIT 0, 25"; 
+				
+		    $result=$this->kern->execute($query, 
+		                                 "is", 
+									     $warID, 
+									     $type);	
+		}
+		else
+		{
+			// Load data
+	  	    $query="SELECT wf.adr, 
+		                   adr.pic,
+					       adr.name,
+		                   wf.damage AS total_damage, 
+		                   cou.code AS cit_cou,
+					       cou.country AS cit_country,
+					       guv.code AS guv_cou,
+				    	   guv.country AS guv_country
+		              FROM wars_fighters AS wf
+			     LEFT JOIN adr ON adr.adr=wf.adr
+			     LEFT JOIN countries AS cou ON cou.code=adr.cou
+			     LEFT JOIN countries AS guv on guv.adr=adr.adr
+			         WHERE wf.warID=? 
+			      ORDER BY damage DESC
+			         LIMIT 0, 25"; 
+				
+		    $result=$this->kern->execute($query, 
+		                                 "i", 
+									     $warID);
+		}
 		
+		?>
+            
+             <br>
+          <table width="560" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
+            <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="80%" class="bold_shadow_white_14">Player</td>
+                <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
+                <td width="20%" align="center" class="bold_shadow_white_14">Points</td>
+				
+              </tr>
+            </table></td>
+            <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
+          </tr>
+          </table>
+         
+          <table width="540" border="0" cellspacing="0" cellpadding="5">
+         
+          <?
+		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			 {
+				
+		  ?>
+          
+              <tr>
+              <td width="80%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13%">
+                <img src="
+						  <? 
+				              if ($row['guv_cou']=="")
+							  {
+				                  if ($row['pic']=="") 
+								     print "../../template/GIF/empty_pic.png"; 
+				                  else 
+								     print $this->kern->crop($row['pic']); 
+							  }
+				              else
+							     print "../../template/GIF/flags/all/".$row['guv_cou'].".svg"; 
+				              
+				          ?>
+						  
+						  " width="50" height="50" class="img-circle" />
+                </td>
+                <td width="70%" align="left">
+                <a href="<? if ($row['guv_cou']!="") print "../../politics/stats/main.php?cou=".$row['guv_cou']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><? if ($row['guv_cou']=="") print $row['name']; else print $this->kern->formatCou($row['guv_country'])." Congress"; ?></strong>
+                </a>
+                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['cit_country'])); ?></span></td>
+              </tr>
+              </table></td>
+              
+             
+              <td width="20%" align="center" class="font_14" style="color: <? if ($row['pol_inf']==0) print "#999999"; else print "#009900"; ?>"><strong>
+			  <? 
+			     print $row['total_damage'];
+			  ?>
+              </strong></td>
+				  
+			  </tr>
+			  <tr><td colspan="3"><hr></td></tr>
+          
+          <?
+	          }
+		  ?>
+          </table>
+         
+        
+        <?
 	}
 	
 	function showLastFights($warID)

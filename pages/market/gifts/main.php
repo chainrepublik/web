@@ -67,7 +67,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Below are displayed the available travel tickets offerts. You need travel tickets to <strong>move from one country to another</strong>. You will have to travel to other countries to <strong>manage your local companies</strong> or to fight in wars. Depending on <strong>quality</strong>, a travel ticket allows you to travel up to 20.000 km.", 70, 70);
+			    $template->showHelp("A gift are a special kin of items that can be donated only to accounts created less than 24 hours ago. When you send a gift, the receiver will have his/her energy increased by 25 points, instantly. Gifts will give you up to 10 points of energy / day and they last for 30 days.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 

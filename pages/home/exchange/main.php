@@ -80,6 +80,10 @@
 								  $_REQUEST['txt_order_contact'], 
 								  $_REQUEST['txt_order_days']);
 				
+				// Remove order
+			   if ($_REQUEST['act']=="remove")
+				   $ex->removeOrder($_REQUEST['orderID']);
+				
 			   // Default page
 			   if (!isset($_REQUEST['page']))
 				   $_REQUEST['page']="sellers";
@@ -129,7 +133,7 @@
 						             break;
 					
 					// Orders
-					case "orders" :  $ex->showOrders();
+					case "orders" :  $ex->showMyOrders();
 						             break;
 						
 				    // New order

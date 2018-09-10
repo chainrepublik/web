@@ -62,20 +62,6 @@ class CWorkplaces
 			return false;
 		 }
 		 
-		 // Company has building ?
-		 if (!$this->kern->hasBuilding($work_row['comID']))
-		 {
-			 $this->template->showErr("Company has no building");
-			 return false;
-		 }
-		 
-		 // Company has tools ?
-		 if (!$this->kern->hasTools($work_row['comID']))
-		 {
-			 $this->template->showErr("Company has no tools");
-			 return false;
-		 }
-	
 		 $query="SELECT * 
 		           FROM work_procs 
 				  WHERE adr=? 

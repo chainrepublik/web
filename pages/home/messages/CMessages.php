@@ -194,7 +194,7 @@ class CMessages
                         </tr>
                       <tr>
                         <td>&nbsp;</td>
-                        <td align="right"><a href="javascript:void(0)" onclick="$('#txt_rec').val('<? print $this->kern->getAdrName($row['from_adr']); ?>'); $('#txt_subject').val('<? print "Re:".base64_decode($row['subject']); ?>'); $('#send_mes_modal').modal();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Reply</a></td>
+                        <td align="right"><a href="javascript:void(0)" onclick="$('#txt_rec').val('<? print $this->kern->nameFromAdr($row['from_adr']); ?>'); $('#txt_subject').val('<? print "Re:".base64_decode($row['subject']); ?>'); $('#send_mes_modal').modal();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Reply</a></td>
                       </tr>
                     </tbody>
                   </table></td>

@@ -14,7 +14,7 @@ class CParties
 		$query="SELECT * 
 		          FROM orgs  
 				 WHERE type=? 
-				   AND country=?";
+				   AND country=?"; 
 		
 		$result=$this->kern->execute($query, 
 									 "ss", 

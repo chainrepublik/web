@@ -689,7 +689,7 @@ class CProds
 										'ID_SOSETE_Q3', 'ID_CAMASA_Q3', 'ID_GHETE_Q3', 'ID_PANTALONI_Q3', 'ID_PULOVER_Q3', 'ID_PALTON_Q3'"; 
 			                    break;
 							 
-			case "ID_JEWELRY" : $prods="'ID_INEL_Q1', 'ID_CERCEL_Q1', 'ID_COLIER_Q1', 'ID_CEAS_Q1', 'ID_BRATARA_Q1'"; 
+			case "ID_JEWELRY" : $prods="'ID_INEL_Q1', 'ID_CERCEI_Q1', 'ID_COLIER_Q1', 'ID_CEAS_Q1', 'ID_BRATARA_Q1'"; 
 			                    break;
 							 
 			case "ID_CARS" : $prods="'ID_CAR_Q1', 'ID_CAR_Q2', 'ID_CAR_Q3'"; 

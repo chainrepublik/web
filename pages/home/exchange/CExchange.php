@@ -219,7 +219,7 @@ class CExchange
 	    // Standard check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
 	                                $_REQUEST['ud']['adr'], 
-			            			$days*0.0001, 
+			            			0.0001, 
 						            $this,
 						            $this->acc)==false)
 		return false;
@@ -229,7 +229,7 @@ class CExchange
 		                                  FROM exchange 
 										 WHERE exID=? 
 										   AND adr=?", 
-									   "", 
+									   "is", 
 									   $orderID, 
 									   $_REQUEST['ud']['adr']);
 		
@@ -261,7 +261,7 @@ class CExchange
 	       $this->kern->execute($query, 
 		                        "isssisi", 
 								$_REQUEST['ud']['ID'], 
-								'ID_NEW_EX_ORDER', 
+								'ID_REMOVE_EX_ORDER', 
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
 								$orderID, 
@@ -715,7 +715,7 @@ class CExchange
 				   </td>
 			       <td width="16%" class="font_14" align="center"><a href="order.php?orderID=<? print $row['exID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
 			   </tr>
-			   <tr><td colspan="4"><br></td></tr>
+			   <tr><td colspan="4"><hr></td></tr>
 			   
 			   <?
 				   }
@@ -726,9 +726,86 @@ class CExchange
 		
 	}
 	
-	function showOrders()
+	function showMyOrders()
 	{
+		// New order
 		$this->showNewOrderBut();
+		
+		// Load orders
+		$result=$this->kern->getResult("SELECT * 
+		                                  FROM exchange AS ex 
+										  JOIN adr ON adr.adr=ex.adr 
+										  JOIN countries AS cou ON cou.code=adr.cou 
+										 WHERE adr.adr=? 
+									  ORDER BY ex.ID DESC 
+									     LIMIT 0,25", 
+									   "s", 
+									   $_REQUEST['ud']['adr']);
+		
+		
+		// Has data ?
+		if (mysqli_num_rows($result)==0)
+		{
+			print "<br><span class='font_14'>No results found</span>";
+			return false;
+		}
+		
+		// Show bar
+		$this->template->showTopBar("Trader", "40%", 
+									"Method", "15%", 
+									"Price", "15%", 
+									"Details", "10%");
+		
+		?>
+
+             <table width="550px">
+			   
+			   <?
+		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			       {
+		       ?>
+			   
+			       <tr>
+				   <td width="9%">
+                   <img src="
+				   <? 
+				              
+				                  if ($row['pic']=="") 
+								     print "../../template/GIF/empty_pic.png"; 
+				                  else 
+								     print $this->kern->crop($row['pic']); 
+							  
+				   ?>
+			       " width="41" height="41" class="img-circle" />
+                   </td>
+				   <td width="37%" class="font_14" align="left"><? print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
+				   <td width="16%" class="font_14" align="center"><? print $this->getMethodName($row['method']); ?></td>
+				   <td width="19%" class="font_14" align="center">
+				   <?
+					   if ($row['price_type']=="ID_FIXED")
+					   {
+						   print "$".$row['price'];
+					   }
+					   else
+					   {
+						   if ($row['side']=="ID_BUY")
+						       print "$".round($_REQUEST['sd']['coin_price']-$_REQUEST['sd']['coin_price']*$row['margin']/100, 2);
+						   else
+							   print "$".round($_REQUEST['sd']['coin_price']+$_REQUEST['sd']['coin_price']*$row['margin']/100, 2);
+					   }
+				   ?>
+				   </td>
+			       <td width="16%" class="font_14" align="center"><a href="main.php?page=orders&act=remove&orderID=<? print $row['exID']; ?>" class="btn btn-primary btn-sm">Remove</a></td>
+			   </tr>
+			   <tr><td colspan="4"><br></td></tr>
+			   
+			   <?
+				   }
+			   ?>
+           </table>
+
+        <?
+		
 	}
 	
 	function showNewOrderForm()
@@ -751,7 +828,7 @@ class CExchange
 						       <td height="30" align="left">
 							   <select id="dd_order_type" name="dd_order_type" class="form-control" onChange="sideChanged()">
 								   <option value="ID_BUY">Buy Order</option>
-								   <option value="ID_SALE">Sale Order</option>
+								   <option value="ID_SELL">Sale Order</option>
 							   </select>
 							   </td>
 					         </tr>

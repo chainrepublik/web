@@ -70,7 +70,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Below are displayed the available guns offerts. You can own only one gun type at a time. Keep in mind that unlike pistols that never expire, shotguns expire after <strong>250 shots</strong> and AKM expires after <strong>1000 shots</strong>.", 70, 70);
+			    $template->showHelp("Big weapons like ballistic missiles or tanks can be bought / used only by governments. Citizens can own only regular small weapons like pistols. Only congressmen can propose the aquisition of big weapons. If the proposal is aproved the network will transfer the items to country's army.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 

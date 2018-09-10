@@ -68,10 +68,7 @@
 		          $template->showHelp("Political parties in ChainRepunlik are predefined and bear the name of political parties in the real world. You can participate in political life only if you are a member of a political party. You can endorse only members of your own political party. If you move to another political party, your political infuence and endorsment will be reset to zero. ");
 		          
 				 // Country
-				 if (!isset($_REQUEST['cou']))
-					$cou=$_REQUEST['ud']['loc'];
-				 else
-					$cou=$_REQUEST['cou'];
+				 $cou=$db->getCou();
 				
 				 // Top bar
 				 $pol->showTopPanel($cou);

@@ -75,6 +75,15 @@ class CWorkplaces
 			return false;
 		}
 		
+		// Status null ?
+		if ($work_row['status']=="ID_OCCUPIED")
+		{
+			$this->template->showErr("The workplace is occupied. It can't be modified.");
+			return false;
+		}
+		   
+		
+		
 		if ($status=="ID_FREE")
 		{
 		    // Has raw materials
@@ -139,6 +148,7 @@ class CWorkplaces
 		
 		// Company address
 		$com_adr=$this->kern->getComAdr($_REQUEST['ID']);
+		
 		
 		try
 	    {
@@ -516,7 +526,7 @@ class CWorkplaces
         <table width="560" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="29%" align="left">
-            <a href="#" onclick="javascript:$('#new_modal').modal()" class="btn btn-primary" style="width:150px;">
+            <a href="#" onclick="javascript:$('#new_modal').modal()" class="btn btn-primary" style="width:150px;" <? if ($this->kern->isLoggedIn()==false || $this->kern->ownedCom($_REQUEST['ID'])==false) print "disabled"; ?>>
             <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;New Workplace</a></td>
             <td width="38%" align="left">
             

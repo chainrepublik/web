@@ -53,7 +53,7 @@ class CRewards
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		// My aff energy
-		$my_aff=round($row['total'], 2);
+		$my_aff=round($row['total'], 2); 
 		
 		// Total energy
 		$rows=$this->kern->getRows("SELECT SUM(energy) AS total 
@@ -61,16 +61,16 @@ class CRewards
 									 WHERE ref_adr<>''");
 		
 		// Total energy
-		$total=round($rows['total']);
+		$total=round($rows['total']); 
 		
 		// Percent
-		$p=$my_aff*100/$row['total'];
+		$p=round($my_aff*100/$rows['total']); 
 		
 		// Pool
 		$pool=$this->kern->getRewardPool("ID_REFS"); 
 		
 		// Amount
-		$amount=round($p*$pool/100, 4);
+		$amount=round($p*$pool/100, 4); 
 		
 		// Next block
 		$next_block=(floor($_REQUEST['sd']['last_block']/1440)+1)*1440; 
@@ -92,9 +92,10 @@ class CRewards
 		$row=$this->kern->getRows("SELECT SUM(war_points) AS total FROM adr");
 		
 		// Total energy
-		$total=round($row['total']);
+		$total=round($row['total']); 
 		
 		// Percent
+		if ($total==0) $total=1;
 		$p=$_REQUEST['ud']['war_points']*100/$total;
 		
 		// Pool
@@ -125,6 +126,7 @@ class CRewards
 		$total=round($rows['total']);
 		
 		// Percent
+		if ($total==0) $total=1;
 		$p=$_REQUEST['ud']['pol_inf']*100/$total;
 		
 		// Pool
@@ -145,7 +147,7 @@ class CRewards
 										"The political influence reward is payed each day to all players with a minimum of 10 points of political influnce. The bonus amount  depends on your politcal influence points. The daily reward pool for this bonus is <strong>".$pool."</strong> CRC. Political influence points can be increased by working. After each work session, your political influence will be increased depending on consumed energy. The bonus will be paid in <strong>~".$this->kern->timeFromBlock($next_block))."</strong>";
 	}
 	
-	function showPolendReward()
+	function showPolEndReward()
 	{
 		// Total energy
 		$rows=$this->kern->getRows("SELECT SUM(pol_endorsed) AS total 
@@ -155,6 +157,7 @@ class CRewards
 		$total=round($rows['total']);
 		
 		// Percent
+		if ($total==0) $total=1;
 		$p=$_REQUEST['ud']['pol_endorsed']*100/$total;
 		
 		// Pool

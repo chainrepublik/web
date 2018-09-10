@@ -143,7 +143,7 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Signer Balance: <strong>".$row['signer_balance']."</strong> MSK"; ?></td></tr>
+		   <? print "Signer Balance: <strong>".$row['signer_balance']."</strong> CRC"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
@@ -229,10 +229,19 @@
 	
 	function showLastPackets()
 	{
+		// Fees
+		$row=$this->kern->getRows("SELECT SUM(amount) AS total 
+		                             FROM trans 
+									WHERE src='default' 
+									  AND amount>0 
+									  AND block>".($_REQUEST['sd']['last_block']-1440));
+		
+		// Fees
+		$fees=$row['total'];
+		
 		// Packets data
 		$query="SELECT COUNT(*) AS total, 
-		               SUM(fee_amount) AS fees, 
-					   AVG(payload_size) AS size
+		               AVG(payload_size) AS size
 				  FROM packets 
 				 WHERE tstamp>?";
 		
@@ -247,7 +256,7 @@
 		// Stats
 		$this->template->showPanels("Packets 24H", $row['total'], "packets", 
 									"Packets / minute", round($row['total']/1440, 2), "average", 
-								    "Fees 24H", round($row['fees'], 2), "CRC",
+								    "Fees 24H", round($fees, 2), "CRC",
 								    "Average size", round($row['size']), "bytes");
 		
 		// Space
@@ -373,7 +382,7 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Fee Amount : <strong>".$row['fee_amount']." MSK</strong>"; ?></td></tr>
+		   <? print "Fee Amount : <strong>".$row['fee_amount']." CRC</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
@@ -543,7 +552,7 @@
 		// Min balance
 		if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<100)
 		{
-			$this->template->showErr("Minimum balance is 100 MSK");
+			$this->template->showErr("Minimum balance is 100 CRC");
 			return false;
 		}
 		
@@ -935,13 +944,13 @@
                   <td width="74%" height="40" align="left" class="font_14">Delegate : <strong><? print $this->template->formatAdr($row['delegate']); ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Upvotes : <strong style="color:#009900"><? print $upvotes_no." (".$upvotes." MSK)"; ?></strong></td>
+                  <td height="40" align="left" class="ffont_14">Upvotes : <strong style="color:#009900"><? print $upvotes_no." (".$upvotes." CRC)"; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Downvotes : <strong style="color:#990000"><? print $downvotes_no." (".$downvotes." MSK)"; ?></strong></td>
+                  <td height="40" align="left" class="font_14">Downvotes : <strong style="color:#990000"><? print $downvotes_no." (".$downvotes." CRC)"; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Net Votes Power : <strong><? print $net; ?> MSK</strong></td>
+                  <td height="40" align="left" class="font_14">Net Votes Power : <strong><? print $net; ?> CRC</strong></td>
                   </tr>
                 <tr>
                   <td height="40" align="left" class="font_14">Default  difficulty : <strong><? print $net_dif; ?></strong></td>
@@ -953,10 +962,10 @@
                   <td height="40" align="left" class="font_14">Blocks mined 24H : <strong><? print $blocks_no; ?> blocks</strong></td>
                 </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Miner revenue 24H : <strong><? print round($reward-$reward/4, 8); ?> MSK</strong></td>
+                  <td height="40" align="left" class="font_14">Miner revenue 24H : <strong><? print round($reward-$reward/4, 8); ?> CRC</strong></td>
                 </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Voters revenue 24H : <strong><? print round($reward/4, 8); ?> MSK</strong></td>
+                  <td height="40" align="left" class="font_14">Voters revenue 24H : <strong><? print round($reward/4, 8); ?> CRC</strong></td>
                 </tr>
               </tbody>
             </table></td>

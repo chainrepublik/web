@@ -121,6 +121,12 @@
 														  $_REQUEST['txt_new_pass'], 
 														  $_REQUEST['txt_new_pass_re']);
 						                 break;
+						
+					// Tranfser address
+					case "transfer_adr" : $adr->transferAdr($_REQUEST['txt_transfer_pass'], 
+															$_REQUEST['txt_transfer_pub'],
+														    $_REQUEST['chk_transfer']);
+						                  break;
 				}
 				
 				// Menu

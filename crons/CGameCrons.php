@@ -182,64 +182,6 @@ class CGameCrons
 	    }
 	}
 	
-	function updateStats()
-	{
-		// Total energy
-		$query="SELECT SUM(energy) AS total 
-		          FROM adr 
-				 WHERE energy>?";
-		$result=$this->kern->execute($query, "i", 0);	
-	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$total_energy=round($row['total']);
-		
-		// Total affiliates
-		$query="SELECT SUM(energy) AS total 
-		          FROM adr 
-				 WHERE ref_adr<>?";
-		$result=$this->kern->execute($query, "s", "");	
-	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$total_aff=round($row['total']);
-		
-		// Total war_points
-		$query="SELECT SUM(war_points) AS total 
-		          FROM adr 
-				 WHERE war_points>?";
-		$result=$this->kern->execute($query, "i", 0);	
-	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$total_war_points=round($row['total']);
-		
-		// Total pol inf
-		$query="SELECT SUM(pol_inf) AS total 
-		          FROM adr 
-				 WHERE pol_inf>?";
-		$result=$this->kern->execute($query, "i", 0);	
-	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$total_pol_inf=round($row['total']);
-		
-		// Total pol end
-		$query="SELECT SUM(pol_endorsed) AS total 
-		          FROM adr 
-				 WHERE pol_endorsed>?";
-		$result=$this->kern->execute($query, "i", 0);	
-	    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$total_pol_end=round($row['total']);
-		
-		// Update
-		$query="UPDATE sys_stats 
-		           SET total_energy=?, 
-				       total_aff=?, 
-					   total_war_points=?, 
-					   total_pol_inf=?, 
-					   total_pol_end=?"; 
-		
-	    $result=$this->kern->execute($query, 
-									 "iiiii", 
-									 $total_energy, 
-									 $total_aff, 
-									 $total_war_points, 
-									 $total_pol_inf, 
-									 $total_pol_end);	
-	}
 	
 	function updateVotes()
 	{
@@ -343,6 +285,16 @@ class CGameCrons
 			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
 			   $total_pol_inf=round($cou_row['total']);
 			   $avg_pol_inf=round($total_pol_inf/$total_users, 2);
+				
+			   // Total pol end
+			   $query="SELECT SUM(pol_endorsed) AS total 
+			             FROM adr 
+					    WHERE cou=? 
+					      AND LENGTH(name)>5";
+			   $cou_res=$this->kern->execute($query, "s", $row['cou']);
+			   $cou_row = mysqli_fetch_array($cou_res, MYSQLI_ASSOC);
+			   $total_pol_end=round($cou_row['total']);
+			   $avg_pol_end=round($total_pol_inf/$total_users, 2);
 			
 			   // Total war points
 			   $query="SELECT SUM(war_points) AS total 
@@ -365,11 +317,13 @@ class CGameCrons
 							total_war_points=?, 
 							avg_war_points=?, 
 							total_pol_inf=?, 
-							avg_pol_inf=? 
+							avg_pol_inf=?,
+							total_pol_end=?, 
+							avg_pol_end=?
 					  WHERE cou=?";
 			
 			$this->kern->execute($query, 
-								 "iiiiididids", 
+								 "iiiiidididids", 
 								 $total_users, 
 								 $total_24H, 
 								 $total_com, 
@@ -380,9 +334,46 @@ class CGameCrons
 								 $avg_war_points, 
 								 $total_pol_inf, 
 								 $avg_pol_inf, 
+								 $total_pol_end,
+								 $avg_pol_end,
 								 $row['cou']);
 		}
 		
+	}
+	
+	
+	function checkSystem()
+	{
+		// Load last block
+		$query="SELECT * FROM net_stat";
+		$result=$this->kern->execute($query);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$last_block=$row['last_block'];
+		
+		// Load block data
+		$query="SELECT * FROM blocks WHERE block=?";
+		$result=$this->kern->execute($query, "i", $last_block);
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$tstamp=$row['tstamp'];
+	
+		
+		// More than 5 min ?
+		if (time()-$tstamp>600 && 
+			time()-$tstamp<720)
+		{
+            $query="INSERT INTO err_log 
+			           SET type=?, 
+					       mes=?, 
+						   tstamp=?";
+			
+			$result=$this->kern->execute($query, 
+										 "ssi", 
+										 "SMS",
+										 "SMS sent",
+										 time());
+			
+			$this->kern->sendSMS("40754386386", $_SERVER['HTTP_HOST']." is down");
+		}
 	}
 	
 	// 1 minute
@@ -393,10 +384,13 @@ class CGameCrons
 		try
 		{
 		  // Stats
-		  $this->updateStats();
+		  $this->updateSysStats();
 			
 		  // Votes stats
-	      $this->updateVotes();		
+	      $this->updateVotes();	
+			
+		  // Check system
+		  $this->checkSystem();
 			
 		  // Mesaj
 		  $this->cronOK($ID);

@@ -290,7 +290,7 @@ class CSettings
                   <?
 				     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					 {
-						 $balance=$this->kern->getBalance($row['adr'], "MSK");
+						 $balance=$this->kern->getBalance($row['adr'], "CRC");
 				  ?>
                   
                         <tr>
@@ -311,11 +311,11 @@ class CSettings
 						<? 
 						   
 						   if ($balance=="") 
-						      print "0 MSK"; 
+						      print "0 CRC"; 
 							else
-							  print round($balance, 8)." MSK"; 
+							  print round($balance, 8)." CRC"; 
 						?>
-                        </strong><p class="font_10"><? print "$".round($row['balance']*$_REQUEST['sd']['MSK_price'], 2); ?></p></td>
+                        </strong><p class="font_10"><? print "$".round($row['balance']*$_REQUEST['sd']['CRC_price'], 2); ?></p></td>
                         <td width="25%" align="center" class="simple_maro_12">
                         
                        

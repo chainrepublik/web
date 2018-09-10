@@ -81,7 +81,7 @@
 					             "main.php?target=rewards", "Rewards", "",
 					             "main.php?target=delegates", "Delegates", "");
 	 				   
-	          $template->showHelp("Below are listed the last delegates votes. Any stakeholder (any address holding at least 10 MSK), can upvote any other addresses as delegate. An address that has received many votes will mine at a smaller difficulty - the owner will not need powerful computers to find a new block. 
+	          $template->showHelp("Below are listed the last delegates votes. Any stakeholder (any address holding at least 10 CRC), can upvote any other addresses as delegate. An address that has received many votes will mine at a smaller difficulty - the owner will not need powerful computers to find a new block. 
 An address that has not received a vote or a small number of votes will need more powerfull / dedicated mining hardware. A new vote will be get activated (counted) in 200 blocks.");
      
 	         $explorer->showLastVotes();    

@@ -32,6 +32,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="refresh" content="5">
 <title>ChainRepublik</title>
 <link rel="stylesheet" href="../../../style.css" type="text/css">
 <script src="../../../../flat/js/vendor/jquery.min.js"></script>
@@ -42,7 +43,6 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../template/GIF/favico.ico"/>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557d86153ff482a3" async="async"></script>
 </head>
 
 <body style="background-color: #245d92">

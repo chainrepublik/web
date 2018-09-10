@@ -68,7 +68,37 @@
 			 <?
 		       $template->showHelp("As in real life, companies in the game <strong>pay dividends</strong> to shareholders from time to time. Payment of dividends is initiated by the company's administrator. Shareholders are paid according to the number of shares held. Below are listed dividends paid by the company lately.", 70, 70); 
 		       
-			   $div->showDividends();
+				
+			   if (!isset($_REQUEST['page']))
+				   $_REQUEST['page']="dividends";
+				
+				switch ($_REQUEST['page'])
+                {
+					// Dividends
+					case "dividends" : $sel=1; 
+						               break;
+						
+					// Shareholders
+					case "shareholders" : $sel=2; 
+						                  break;
+				}
+				
+				// Sub menu
+				$template->showSmallMenu($sel, 
+										 "Dividends", "dividends.php?page=dividends&ID=".$_REQUEST['ID'], 
+										 "Shareholders", "dividends.php?page=shareholders&ID=".$_REQUEST['ID']);
+
+				switch ($sel)
+				{
+					// Dividends
+					case 1 : $div->showDividends(); 
+						     break;
+						
+					// Shareholders
+					case 2 : $div->showShareholders(); 
+						     break;
+				}
+				
 		    ?>
             
             </td>

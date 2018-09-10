@@ -8,6 +8,77 @@ class CDividends
 		$this->template=$template;
 	}
 	
+	function showShareHolders()
+	{
+		// Load company data
+		$row=$this->kern->getRows("SELECT * 
+		                             FROM companies 
+									WHERE comID=?", 
+								  "i", 
+								  $_REQUEST['ID']);
+		
+		// Symbol
+		$sym=$row['symbol'];
+		
+		// Load shareholders
+		$result=$this->kern->getResult("SELECT * 
+		                                  FROM assets_owners AS ao 
+										  JOIN adr ON adr.adr=ao.owner 
+										  JOIN countries AS cou ON cou.code=adr.cou 
+										 WHERE ao.symbol=? 
+									  ORDER BY ao.qty DESC 
+										 LIMIT 0,25", 
+									   "s", 
+									   $sym);
+		
+		// Has data ?
+		if (mysqli_num_rows($result)==0)
+		{
+			print "<br><span class='font_14'>No results found</span>";
+			return false;
+		}
+		
+		// Show bar
+		$this->template->showTopBar("Owner", "40%", 
+									"Qty", "15%", 
+									"Percent", "15%");
+		
+		?>
+
+             <table width="550px">
+			   
+			   <?
+		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+			       {
+		       ?>
+			   
+			       <tr>
+				   <td width="9%">
+                   <img src="
+				   <? 
+				              
+				                  if ($row['pic']=="") 
+								     print "../../template/GIF/empty_pic.png"; 
+				                  else 
+								     print $this->kern->crop($row['pic']); 
+							  
+				   ?>
+			       " width="41" height="41" class="img-circle" />
+                   </td>
+				   <td width="37%" class="font_14" align="left"><? print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
+				   <td width="16%" class="font_14" align="center"><? print $row['qty']; ?></td>
+				   <td width="19%" class="font_14" align="center"><? print round($row['qty']*100/10000, 2)."%"; ?></td>
+			   </tr>
+			   <tr><td colspan="4"><br></td></tr>
+			   
+			   <?
+				   }
+			   ?>
+           </table>
+
+        <?
+	}
+	
 	function showDividends()
 	{
 		// Top bar

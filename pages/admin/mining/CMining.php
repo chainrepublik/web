@@ -84,7 +84,7 @@ class CMining
        <h3 class="panel-title font_14"> Revenue</h3>
        </div>
        <div class="panel-body font_22" style="color:#009900">
-       <? print "$".round($blocks*$reward*$_REQUEST['sd']['MSK_price']); ?><p class="font_10"><? print $reward." MSK / block"; ?></p>
+       <? print "$".round($blocks*$reward*$_REQUEST['sd']['CRC_price']); ?><p class="font_10"><? print $reward." CRC / block"; ?></p>
        </div>
        </div>
        
@@ -411,7 +411,7 @@ class CMining
         <h3 class="panel-title font_14">Default Network Difficulty</h3>
         </div>
         <div class="panel-body font_14"><strong>
-		   <? print $_REQUEST['sd']['net_dif']; ?></strong><p class="font_10">Default network difficulty applies only to delegates voted by a total of 1 MSK. Network difficulty decreases depending on how many votes a delegates has received. Delegates having a bigger number of votes will be able to mine using a smaller network difficulty.</p>
+		   <? print $_REQUEST['sd']['net_dif']; ?></strong><p class="font_10">Default network difficulty applies only to delegates voted by a total of 1 CRC. Network difficulty decreases depending on how many votes a delegates has received. Delegates having a bigger number of votes will be able to mine using a smaller network difficulty.</p>
         </div>
         </div>
         

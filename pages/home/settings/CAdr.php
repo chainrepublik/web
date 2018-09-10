@@ -21,7 +21,7 @@ class CAdr
 		// Check pass
 		if ($this->checkPass($pass)==false)
 		{
-			$this->template->showErr("Invalid account password");
+			$this->template->showErr("rInvalid account password");
 		    return false;
 		}
 		
@@ -148,12 +148,26 @@ class CAdr
 	   }
 	}
 	
-	function newAdr($pass)
+	function transferAdr($pass, $adr, $chk)
 	{
+		// Accept terms
+		if ($chk!="accept")
+		{
+			$this->template->showErr("You have to read and accept the warning message");
+		    return false;
+		}
+		
 		// Check pass
 		if ($this->checkPass($pass)==false)
 		{
 			$this->template->showErr("Invalid account password");
+		    return false;
+		}
+		
+		// Trace address
+		if ($this->kern->traceAdr($adr))
+		{
+			$this->template->showErr("You can transfer your account only to new and never used addressess");
 		    return false;
 		}
 		
@@ -166,7 +180,7 @@ class CAdr
 		     $tID=$this->kern->getTrackID();
 		     
 			 // Action
-		     $this->kern->newAct("Claims a reward - ".$reward, $tID);
+		     $this->kern->newAct("Transfers account to another address.", $tID);
 		
 		     // Insert to stack
 		     $query="INSERT INTO web_ops 
@@ -175,29 +189,21 @@ class CAdr
 								fee_adr=?, 
 								target_adr=?,
 								par_1=?,
-								par_2=?,
-								par_3=?,
-								par_4=?,
-								days=?,
 								status=?, 
 								tstamp=?"; 
 								
 	       $this->kern->execute($query, 
-		                        "isssssssisi", 
+		                        "isssssi", 
 								$_REQUEST['ud']['ID'], 
-								"ID_REGISTER_ADR", 
+								"ID_TRANSFER_ADR", 
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
-								$cou,
-								$name,
-								$desc,
-								$avatar,
-								$days,
+								$adr,
 								"ID_PENDING", 
 								time());
 		
 		     // Commit
-		     $this->kern->rollback();
+		     $this->kern->commit();
 		     
 			 // Confirmed
 		     $this->template->confirm();
@@ -259,9 +265,9 @@ class CAdr
                   <td height="0" colspan="3" align="left" valign="bottom"><hr></td>
                 </tr>
                 <tr>
-                  <td height="0" align="left" valign="bottom"><span class="font_14">Generate New Address</span></td>
+                  <td height="0" align="left" valign="bottom"><span class="font_14">Transfer Account</span></td>
                   <td height="0" align="left" valign="bottom">&nbsp;</td>
-                  <td height="0" align="center" valign="bottom"><a href="javascript:void(0)" onClick="$('#reset_modal').modal()" class="btn btn-danger btn-sm" style="width: 95%"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;New </a></td>
+                  <td height="0" align="center" valign="bottom"><a href="javascript:void(0)" onClick="$('#reset_modal').modal()" class="btn btn-danger btn-sm" style="width: 95%"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Transfer</a></td>
                 </tr>
                 <tr>
                   <td height="0" colspan="3" align="left" valign="bottom"><hr></td>
@@ -274,7 +280,7 @@ class CAdr
 	function showResetModal()
 	{
 		// Modal
-		$this->template->showModalHeader("reset_modal", "Reset Address", "act", "reset_adr");
+		$this->template->showModalHeader("reset_modal", "Reset Address", "act", "transfer_adr");
 		?>
             
               <table width="550" border="0" cellspacing="0" cellpadding="5">
@@ -292,16 +298,25 @@ class CAdr
             
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
+                <td height="30" align="left" valign="top" class="font_14">New Public Key</td>
+              </tr>
+              <tr>
+                <td height="30" align="left" valign="top" class="font_14"><textarea style="width:100%" class="form-control" rows="5" id="txt_transfer_pub" name="txt_transfer_pub"></textarea></td>
+              </tr>
+              <tr>
+                <td height="30" align="left" valign="top" class="font_14">&nbsp;</td>
+              </tr>
+              <tr>
                 <td height="30" valign="top" class="font_14">Account Password</td>
               </tr>
               <tr>
-                <td><input class="form-control" placeholder="Account Password" name="txt_reset_pass" id="txt_reset_pass" type="password"/></td>
+                <td><input class="form-control" placeholder="Account Password" name="txt_transfer_pass" id="txt_transfer_pass" type="password"/></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td height="30" valign="top" class="font_12" style="color: #990000"><input type="checkbox" id="chk_warn" name="chk_warn" value="accept">&nbsp;&nbsp;&nbsp;I understand that  by resetting the account address, the public / private key of my account will be replaced by a new pair and i will lost all coins or other assets held by my actual address.</td>
+                <td height="30" valign="top" class="font_12" style="color: #990000"><input type="checkbox" id="chk_transfer" name="chk_transfer" value="accept">&nbsp;&nbsp;&nbsp;I understand that  by transfering the account to another address, all my assets / coins / experience will be transfered to the new address. In case i don't own the new address private key, i will loose all assets asociated with my account.</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -314,7 +329,7 @@ class CAdr
     
            
         <?
-		$this->template->showModalFooter("Cancel", "Change");
+		$this->template->showModalFooter("Transfer");
 	}
 	
 	function showPublicKeyModal()

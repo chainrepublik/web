@@ -719,15 +719,8 @@ class CAssets
                               <p class="font_12"><? print substr(base64_decode($row['description']), 0, 250)."..."; ?></p></td>
                             <td width="12%" align="center">
 								
-							 <div class="btn-group">
-                             <button type="button" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                             Action <span class="caret"></span>
-                             </button>
-                             <ul class="dropdown-menu">
-                             <li><a href="javascript:void(0)" onClick="$('#renew_modal').modal(); $('#txt_renew_target_type').val('ID_ASSET'); $('#txt_renew_targetID').val('<? print $row['assetID']; ?>');">Renew</a></li>
-                             <li><a href="javascript:void(0)" onClick="$('#issue_more_modal').modal()">Issue More</a></li>
-                             </ul>
-                             </div>
+							
+                             <a href="javascript:void(0)" onClick="$('#renew_modal').modal(); $('#txt_renew_target_type').val('ID_ASSET'); $('#txt_renew_targetID').val('<? print $row['assetID']; ?>');" class="btn btn-primary">Renew</a>
 								
 							</td>
                             </tr>

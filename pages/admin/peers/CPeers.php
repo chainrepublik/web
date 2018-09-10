@@ -134,7 +134,7 @@
                         <td width="20%" align="center" class="font_14">
                         <?
 						    if ($_REQUEST['ud']['user']=="root")
-						      print "<a href='index.php?act=remove&peer=".$row['peer']."' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-remove'></span>&nbsp;&nbsp;Remove</a>";
+						      print "<a href='main.php?act=remove&peer=".$row['peer']."' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-remove'></span>&nbsp;&nbsp;Remove</a>";
                         ?>
                         </td>
 						</tr>

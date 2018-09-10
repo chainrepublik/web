@@ -2,25 +2,38 @@
   session_start(); 
   
   include "kernel/db.php";
+  include "kernel/CGameData.php";
   include "kernel/CAccountant.php";
   include "pages/template/CTemplate.php";
   include "pages/index/CIndex.php";
   
   $db=new db();
+  $gd=new CGameData($db);
   $template=new CTemplate();
   $index=new CIndex($db, $template);
   
-  // Testnet
-  $testnet=1517942400-time();
+  // ICO
+  $testnet=1531612800-time();
   $testnet_days=floor($testnet/86400);
   $testnet_hours=floor(($testnet-$testnet_days*86400)/3600);
   $testnet_minutes=floor(($testnet-$testnet_days*86400-$testnet_hours*3600)/60);
   
-  // ICO
-  $ico=1517443200-time();
+  // Official launch
+  $ico=1537438522-time();
   $ico_days=floor($ico/86400);
   $ico_hours=floor(($ico-$ico_days*86400)/3600);
   $ico_minutes=floor(($ico-$ico_days*86400-$ico_hours*3600)/60);
+
+  if (isset($_REQUEST['i'])) 
+  {
+	  $_SESSION['refID']=$_REQUEST['i'];
+	  $index->hit();
+  }
+
+  // Logout ?
+  if ($_REQUEST['act']=="logout")
+     unset ($_SESSION['userID']);
+  
 ?>
 
 
@@ -34,7 +47,11 @@
 <link rel="stylesheet"./ href=".//flat/css/vendor/bootstrap/css/bootstrap.min.css">
 <link href="./flat/css/flat-ui.css" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="./pages/template/GIF/favico.ico"/>
 <script>$(document).ready(function() { $("body").tooltip({ selector: '[data-toggle=tooltip]' }); });</script>
+
+	
+	
 </head>
 
 <body style="background-color:#000000; background-image:url(./pages/index/GIF/back.jpg); background-repeat:no-repeat; background-position:top">
@@ -46,14 +63,13 @@
 		<table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
         <tbody>
           <tr>
-            <td width="3%">&nbsp;</td>
             <td width="36%"><img src="pages/template/GIF/logo.png" width="230"  alt=""/></td>
-            <td width="61%" align="right">
-            
-			<?
+            <td width="64%" align="right">
+              
+              <?
 			    $index->showTopMenu();
 			?>
-            
+              
             </td>
           </tr>
         </tbody>
@@ -71,12 +87,12 @@
     </tr>
     <tr>
 	  <td>&nbsp;</td>
-		<td class="font_30" style="color: #ffffff"><strong>The game with no admins or central server</strong></td>
+		<td align="center" class="font_30" style="color: #ffffff"><strong>The game with no admins and no central server</strong></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td><h3>&nbsp;</h3></td>
-		<td class="font_18" style="color: #aaaaaa">ChainRepublik is an economic, political and military simulator game running entirely on the <strong style="color:#ffffff">blockchain</strong>. The game is administered through a decentralized peer-to-peer network with no <strong style="color:#ffffff">centralized authority</strong>. There is no company behind ChainRepublik and players don't need to request any <strong style="color:#ffffff">permission</strong> to play or create the content they want. Also, the network rewards players using a limited supply cryptocurrency called ChainRepublik Coin (CRC), that can be exchanged for <strong style="color:#ffffff">real money</strong>. </td>
+		<td class="font_18" style="color: #aaaaaa">ChainRepublik is an <a style="color:#ffffff" href="https://github.com/chainrepublik" target="_blank"><strong>open source</strong></a> economic, political and military simulator game running entirely on the <strong style="color:#ffffff">blockchain</strong>. The game is administered through a decentralized peer-to-peer network with no <strong style="color:#ffffff">centralized authority</strong>. There is no company behind ChainRepublik and players don't need to request any <strong style="color:#ffffff">permission</strong> to play or create the content they want. Also, the network rewards players using a limited supply cryptocurrency called ChainRepublik Coin (CRC), that can be exchanged for <strong style="color:#ffffff">real money</strong>. </td>
       <td>&nbsp;</td>
     </tr>
 	  <tr>
@@ -86,7 +102,7 @@
     </tr>
 	<tr>
       <td width="400px">&nbsp;</td>
-		<td align="right"><a href="./pages/account/login/main.php" class="btn btn-lg btn-success" style="width: 120px"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Login</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./pages/account/signup/main.php" class="btn btn-lg btn-danger" style="width: 120px"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Signup</a></td>
+		<td align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./pages/account/login/main.php" class="btn btn-lg btn-success" style="width: 120px"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Login</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./pages/account/signup/main.php" class="btn btn-lg btn-warning" style="width: 120px"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Signup</a></td>
       <td>&nbsp;</td>
     </tr>
   </tbody>
@@ -100,9 +116,9 @@
 		  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="2">
 			  <tr>
 				  <td width="5%" height="80">&nbsp;</td>
-				  <td width="37%" height="30" align="center" class="font_18" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>Test Net Launch</strong></td>
+				  <td width="37%" height="30" align="center" class="font_18" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>ICO has ended </strong></td>
 				  <td width="16%">&nbsp;</td>
-				  <td width="37%" align="center" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>ICO Starts</strong></td>
+				  <td width="37%" align="center" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>Official Launch</strong></td>
 				  <td width="5%">&nbsp;</td>
 			  </tr>
 			  
@@ -111,14 +127,14 @@
 				  <td width="37%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 				    <tbody>
 				      <tr>
-						  <td width="25%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><strong><? print $testnet_days; ?></strong></td>
+						  <td width="25%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><strong>0</strong></td>
 				         
 						  <td width="13%" align="center" valign="bottom" >&nbsp;</td>
 				       
-						  <td width="23%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><? print $testnet_hours; ?></td>
+						  <td width="23%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65">0</td>
 				          <td width="12%" align="center" valign="bottom" >&nbsp;</td>
 				        
-						  <td width="27%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><? print $testnet_minutes; ?></td>
+						  <td width="27%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65">0</td>
 			          </tr>
 			        </tbody>
 			      </table></td>
@@ -177,7 +193,7 @@
 	                          <td><img src="pages/index/GIF/img_rewards.png" width="250" height="152" alt=""/></td>
                             </tr>
 	                        <tr>
-								<td height="60" align="center"><a href="#" class="btn btn-danger" style="width:230px">More Info</a></td>
+								<td height="60" align="center"><a href="./pages/home/explorer/main.php?target=rewards" class="btn btn-danger" style="width:230px">More Info</a></td>
                             </tr>
                           </tbody>
                       </table></td>
@@ -234,7 +250,8 @@
 	                    <td height="135" align="center" background="pages/index/GIF/metal_plate.png"><table width="95%" border="0" cellspacing="0" cellpadding="0">
 	                      <tbody>
 	                        <tr>
-							  <td width="33%" align="center"><span class="font_10" style="color: #999999">Max Coins Number</span><br><span class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000">21.000.000</span></td>
+							  <td width="33%" align="center"><span class="font_10" style="color: #999999">Max Coins Number</span><br>
+							  <span class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000">10.000.000</span></td>
 	                          <td width="3%" background="pages/index/GIF/lv.png">&nbsp;</td>
 	                          <td width="64%" valign="top" align="center">
 						      <table width="95%" border="0" cellspacing="0" cellpadding="0">
@@ -320,7 +337,7 @@
 	                      <tbody>
 	                        <tr>
 	                          <td width="33%" align="center"><span class="font_10" style="color: #999999">Daily Distributed Coins</span><br />
-	                            <span class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000">2739</span></td>
+	                            <span class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000">250</span></td>
 	                          <td width="3%" background="pages/index/GIF/lv.png">&nbsp;</td>
 	                          <td width="64%" valign="top" align="center"><table width="95%" border="0" cellspacing="0" cellpadding="0">
 	                            <tbody>
@@ -328,7 +345,7 @@
 	                                <td align="left" style="color: #ffffff" class="font_14">Low Inflation</td>
 	                                </tr>
 	                              <tr>
-	                                <td align="left" class="font_12" style="color: #999999">Only 2739 coins are distributed every day to players  but in the same time players spend coins on a lot of tasks like sending a message or voting an article. Low inflation makes a ChainRepublik Coin a real store of value.</td>
+	                                <td align="left" class="font_12" style="color: #999999">Only 250 coins are distributed every day to players  but in the same time players spend coins on a lot of tasks like sending a message or voting an article. Low inflation makes a ChainRepublik Coin a real store of value.</td>
 	                                </tr>
 	                              </tbody>
 	                            </table></td>
@@ -448,13 +465,25 @@
 	              <table width="97%" border="0" cellspacing="0" cellpadding="0">
 	                <tbody>
 	                  <tr>
-	                    <td width="42%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+	                    <td width="42%" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
 	                      <tbody>
 	                        <tr>
-	                          <td><img src="pages/index/GIF/server.png" width="250" alt=""/></td>
+	                          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+	                            <tbody>
+	                              <tr>
+	                                <td><img src="pages/index/GIF/server.png" width="250" alt=""/></td>
+	                                </tr>
+	                              </tbody>
+                              </table></td>
+                            </tr>
+	                        <tr>
+							  <td align="center"><a href="server.php" class="btn btn-primary btn-sm" style="width: 150px">How to start</a></td>
+                            </tr>
+	                        <tr>
+	                          <td height="60" align="center"><a href="javascript:void(0)" class="btn btn-default btn-sm" style="width: 150px">Server List</a></td>
                             </tr>
                           </tbody>
-	                      </table></td>
+                        </table></td>
 	                    <td width="5%" valign="top">&nbsp;</td>
 	                    <td width="53%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 	                      <tbody>
@@ -462,7 +491,7 @@
 	                          <td align="center" class="font_20" style="color: #ffffff"><strong>Run your own node and start mining</strong></td>
                             </tr>
 	                        <tr>
-	                          <td align="left" class="font_14" style="color: #777777">Running your own ChainRepublik node is a great way to spread the world about this project and make a ton of money. Not only that you can start mining  for ChainRepublik Coin <span class="font_14" style="color: #777777">using</span>  but the network heavily rewards node operators. All you need is a low end linux computer / instance and some free time. The software is free of charge.</td>
+								<td align="left" class="font_14" style="color: #777777">Running your own ChainRepublik node is a great way to spread the world about this project and make a ton of money. Not only that you can start mining  for ChainRepublik Coin <span class="font_14" style="color: #777777">using</span>  but the network heavily rewards node operators. All you need is a low end linux computer / instance and some free time. The software is free of charge. We have also created a step by step tutorial to guide you. For official source code or if you want to contribute, check our <a href="https://github.com/chainrepublik" target="_blank"> <strong>github repository</strong></a>.</td>
                             </tr>
                           </tbody>
 	                      </table></td>
@@ -632,6 +661,19 @@
 	      <td height="100px" align="center" bgcolor="#222222"><table width="500" border="0" cellspacing="0" cellpadding="0">
 	        <tbody>
 	          <tr>
+	            <td height="60" align="center" class="font_12" style="color: #555555"><table width="200" border="0" cellspacing="0" cellpadding="0">
+	              <tbody>
+	                <tr>
+	                  <td width="20%" align="center"><a href="https://twitter.com/chainrepublik" target="_blank"><img src="./pages/template/GIF/twitter.png" width="30" height="31" alt=""/></a></td>
+	                  <td width="20%" align="center"><a href="https://www.facebook.com/chainrepublik" target="_blank"><img src="./pages/template/GIF/facebook.png" width="30" height="30" alt=""/></a></td>
+	                  <td width="20%" align="center"><a href="https://t.me/joinchat/IdoQlEuEDknfU5pf6Q8tdw" target="_blank"><img src="./pages/template/GIF/telegram.png" width="30" height="30" alt=""/></a></td>
+	                  <td width="20%" align="center"><a href="https://github.com/chainrepublik" target="_blank"><img src="./pages/template/GIF/github.png" width="35" height="35" alt=""/></a></td>
+	                  <td width="20%" align="center">&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table></td>
+              </tr>
+	          <tr>
 				  <td align="center" class="font_12" style="color: #555555"><a class="font_12" href="./pages/home/overview/main.php">Home</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Portofolio</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Work</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Market</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Companies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Politics</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="font_12" href="./pages/home/overview/main.php">Wars</a></td>
               </tr>
 	          <tr>
@@ -642,5 +684,19 @@
         </tr>
       </tbody>
       </table>
+	
+		
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116285551-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-116285551-1');
+</script>
+	
+	
+	
 </body>
 </html>

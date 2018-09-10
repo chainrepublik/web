@@ -158,6 +158,13 @@ class CTemplate
 	
 	function endorseAdr($adr, $type="ID_UP")
 	{
+		// Adr exist ?
+		if (!$this->kern->isName($adr))
+		{
+			$this->showErr("Address doesn't exist");
+			return false;
+		}
+		
 		// Address
 		$adr=$this->kern->adrFromName($adr);
 			
@@ -2025,7 +2032,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 							  <? print $_REQUEST['ud']['pol_endorsed']; ?></span></td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_end">0 endorsers</span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_end"><? print $_REQUEST['ud']['endorsers']." endorsers"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -2090,14 +2097,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                       <tr>
                         <td>&nbsp;</td>
                         
-						  <td><img src="../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['cou']; ?>.png" width="56" height="56" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <? print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print $_REQUEST['ud']['cou']; ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['cou']; ?>.png')"/></td>
+						  <td><img src="../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['cou']); ?>.png" width="56" height="56" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <? print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print strtolower($_REQUEST['ud']['cou']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['cou']); ?>.png')"/></td>
                           
 						  <?
 		                       if ($_REQUEST['ud']['travel']==0)
 							   {
 		                  ?>
 						  
-						           <td align="center" height="80"><img src="../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['loc']; ?>.png" id="td_travel" width="56" height="56" alt="" data-content="You are a resident of <? print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print $_REQUEST['ud']['loc']; ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print $_REQUEST['ud']['loc']; ?>.png')"/></td>
+						           <td align="center" height="80"><img src="../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['loc']); ?>.png" id="td_travel" width="56" height="56" alt="" data-content="You are a resident of <? print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print strtolower($_REQUEST['ud']['loc']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['loc']); ?>.png')"/></td>
 						  
 						  <?
 							   }
@@ -2118,7 +2125,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 					    
 						  <td align="center"><a href="javascript:void(0)" onClick="$('#chg_cit_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px">Change</a></td>
                         
-						  <td align="center"><a href="javascript:void(0)" onClick="$('#travel_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px">Travel</a></td>
+						  <td align="center"><a href="javascript:void(0)" onClick="$('#travel_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px" <? if ($_REQUEST['ud']['travel']>0) print "disabled"; ?>>Travel</a></td>
                         <td align="center">&nbsp;</td>
                       </tr>
                     </tbody>
@@ -4303,7 +4310,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		// Energy
 		if ($_REQUEST['ud']['energy']<$energy)
 		{
-			$this->showErr("You need at least ".$energy." energy to change citizenship");
+			$this->showErr("You need at least ".$energy." energy to travel");
 			return false;
 		}
 		
@@ -4325,17 +4332,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		if ($dist<1000) 
 	    	$t="ID_TRAVEL_TICKET_Q1";
 		
-		if ($dist>=1000 && $dist<2000) 
+		if ($dist>=1000 && $dist<5000) 
 			$t="ID_TRAVEL_TICKET_Q2";
 		
-		if ($dist>=2000 && $dist<3000) 
+		if ($dist>5000) 
 			$t="ID_TRAVEL_TICKET_Q3";
-		
-		if ($dist>=3000 && $dist<4000) 
-			$t="ID_TRAVEL_TICKET_Q4";
-		
-		if ($dist>4000) 
-			$t="ID_TRAVEL_TICKET_Q5";
 		
 		// Has travel ticket
 		if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], $t)<1)

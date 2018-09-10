@@ -11,6 +11,7 @@ class CPolitics
 	function showMenu($sel=1)
 	{
 		// Private country ?
+		if ($_REQUEST['ud']['ID']>0)
 		$private=$this->kern->isPrivate($this->kern->getCou());
 		
 		?>

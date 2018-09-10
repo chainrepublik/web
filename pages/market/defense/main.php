@@ -70,7 +70,7 @@
             <td width="594" align="center" valign="top">
             
 			<?
-			    $template->showHelp("Below are displayed the available guns offerts. You can own only one gun type at a time. Keep in mind that unlike pistols that never expire, shotguns expire after <strong>250 shots</strong> and AKM expires after <strong>1000 shots</strong>.", 70, 70);
+			    $template->showHelp("Below are displayed the available <strong>defense weapons</strong> offerts. You can own an <strong>unlimited number</strong> of defense weapons. All weapons <strong>expire</strong> after 30 days. Weapons can also be <strong>rented</strong>. You will need at least one attack and one defense weapons to fight in wars. When you fight, your war points increases and you will receive <strong>bigger rewards</strong>.", 70, 70);
 				
 				// Product
 				if (!isset($_REQUEST['trade_prod'])) 

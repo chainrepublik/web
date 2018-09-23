@@ -113,6 +113,7 @@ class CUserData
 				$_REQUEST['ud']['travel_cou']=$row['travel_cou'];  
 				$_REQUEST['ud']['work']=$row['work'];  
 				$_REQUEST['ud']['pol_party']=$row['pol_party'];  
+				$_REQUEST['ud']['mil_unit']=$row['mil_unit'];  
 				$_REQUEST['ud']['premium']=$row['premium'];  
 			
 			    // Calculate balance
@@ -133,6 +134,16 @@ class CUserData
 										 
 			    // Num rows
 			    $_REQUEST['ud']['aff']=mysqli_num_rows($result);	
+				
+				// Endorsers
+				$result=$this->kern->execute("SELECT * 
+				                                FROM endorsers 
+											   WHERE endorsed=?", 
+											 "s", 
+											 $_REQUEST['ud']['adr']);
+				
+				// No
+				$_REQUEST['ud']['endorsers']=mysqli_num_rows($result);
 			 }
 			 else 
 			 {

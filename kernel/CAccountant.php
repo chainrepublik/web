@@ -8,13 +8,18 @@ class CAccountant
 	}
 	
 	
-	function getTaxVal($tax)
+	function getTaxVal($tax, $cou)
 	{
 		// Load tax data
 		$query="SELECT * 
 		          FROM taxes 
-				 WHERE tax='".$tax."'";
-	    $result=$this->kern->execute($query);
+				 WHERE tax=? 
+				   AND cou=?";
+		
+	    $result=$this->kern->execute($query, 
+									 "ss", 
+									 $tax, 
+									 $cou);
 		
 		// Nothing found
 		if (mysqli_num_rows($result)==0) 
@@ -32,8 +37,11 @@ class CAccountant
 		// Load tax data
 		$query="SELECT * 
 		          FROM bonuses 
-				 WHERE bonus='".$bonus."'";
-	    $result=$this->kern->execute($query);
+				 WHERE bonus=?";
+		
+	    $result=$this->kern->execute($query, 
+									 "s", 
+									 $bonus);
 		
 		// Nothing found
 		if (mysqli_num_rows($result)==0) 
@@ -257,40 +265,41 @@ class CAccountant
 		if ($this->kern->isCompanyAdr($adr))
 		{
 		   $query="UPDATE web_users 
-		              SET unread_trans=0 
+		              SET unread_trans=? 
 				    WHERE ID=?";
 				 
 		   $this->kern->execute($query, 
-		                        "i", 
+		                        "ii",
+								0,
 								$_REQUEST['ud']['ID']);
 		}
 		
 		// Coins ?
 		if ($cur=="ID_COINS")
-		$query="SELECT mt.*, 
+		$query="SELECT trans.*, 
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM trans AS mt
-		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
-			 LEFT JOIN assets ON assets.symbol=mt.cur
-			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.src=? 
+		          FROM trans
+		     LEFT JOIN blocks ON blocks.hash=trans.block_hash
+			 LEFT JOIN assets ON assets.symbol=trans.cur
+			 LEFT JOIN tipuri_produse AS tp ON tp.prod=trans.cur 
+				 WHERE trans.src=? 
 				   AND cur='CRC'
 				ORDER BY ID DESC 
 			     LIMIT 0,20"; 
 		
 		// Products ?
 		if ($cur=="ID_PRODS")
-		$query="SELECT mt.*, 
+		$query="SELECT trans.*, 
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM trans AS mt
-		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
-			 LEFT JOIN assets ON assets.symbol=mt.cur
-			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.adr=? 
+		          FROM trans
+		     LEFT JOIN blocks ON blocks.hash=trans.block_hash
+			 LEFT JOIN assets ON assets.symbol=trans.cur
+			 LEFT JOIN tipuri_produse AS tp ON tp.prod=trans.cur 
+				 WHERE trans.src=? 
 				   AND cur<>'ID_ENERGY'
 				   AND cur LIKE '%ID_%'
 				ORDER BY ID DESC 
@@ -298,15 +307,15 @@ class CAccountant
 		
 		// Assets ?
 		if ($cur=="ID_ASSETS")
-		$query="SELECT mt.*, 
+		$query="SELECT trans.*, 
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM trans AS mt
-		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
-			 LEFT JOIN assets ON assets.symbol=mt.cur
-			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.adr=? 
+		          FROM trans
+		     LEFT JOIN blocks ON blocks.hash=trans.block_hash
+			 LEFT JOIN assets ON assets.symbol=trans.cur
+			 LEFT JOIN tipuri_produse AS tp ON tp.prod=trans.cur 
+				 WHERE trans.src=? 
 				   AND cur<>'ID_ENERGY' 
 				   AND cur NOT LIKE '%ID_%'  
 				   AND cur<>'CRC' 
@@ -316,38 +325,37 @@ class CAccountant
 		
 		// Assets ?
 		if ($cur=="ID_SHARES")
-		$query="SELECT mt.*, 
+		$query="SELECT trans.*, 
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM trans AS mt
-		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
-			 LEFT JOIN assets ON assets.symbol=mt.cur
-			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.adr=? 
-				   AND cur<>'ID_ENERGY' 
-				   AND cur NOT LIKE '%ID_%'  
-				   AND cur<>'CRC' 
-				   AND CHAR_LENGTH(cur)=5
+		          FROM trans
+		     LEFT JOIN blocks ON blocks.hash=trans.block_hash
+			 LEFT JOIN assets ON assets.symbol=trans.cur
+			 LEFT JOIN tipuri_produse AS tp ON tp.prod=trans.cur 
+				 WHERE trans.src=? 
+				   AND trans.cur<>'ID_ENERGY' 
+				   AND trans.cur NOT LIKE '%ID_%'  
+				   AND trans.cur<>'CRC' 
+				   AND CHAR_LENGTH(trans.cur)=5
 				ORDER BY ID DESC 
 			     LIMIT 0,20"; 
 		
 		// Energy ?
 		if ($cur=="ID_ENERGY")
-		$query="SELECT mt.*, 
+		$query="SELECT trans.*, 
 		               blocks.confirmations, 
 					   assets.symbol,
 					   tp.name
-		          FROM trans AS mt
-		     LEFT JOIN blocks ON blocks.hash=mt.block_hash
-			 LEFT JOIN assets ON assets.symbol=mt.cur
-			 LEFT JOIN tipuri_produse AS tp ON tp.prod=mt.cur 
-				 WHERE mt.adr=? 
+		          FROM trans
+		     LEFT JOIN blocks ON blocks.hash=trans.block_hash
+			 LEFT JOIN assets ON assets.symbol=trans.cur
+			 LEFT JOIN tipuri_produse AS tp ON tp.prod=trans.cur
+				 WHERE trans.src=? 
 				   AND cur='ID_ENERGY' 
 			  ORDER BY ID DESC 
 			     LIMIT 0,20"; 
 		
-				 
 		$result=$this->kern->execute($query, "s", $adr);
 		
 		?>

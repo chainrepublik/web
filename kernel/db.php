@@ -12,9 +12,9 @@
 		 
 		 
 		// ---------------------------------
-        $user="root";
+        $user="";
 		$pass="";
-		$db="chainrepublik";
+		$db="";
 		
 	    // ---------------------------------
 		
@@ -174,7 +174,7 @@
 					   $par_24="",
 					   $par_25="")
 	  {
-		   //print $query."  ($par_1, $par_2, $par_3, $par_4, $par_5, $par_6, $par_7, $par_8, $par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25)<br><br>";
+		  //print $query."  ($par_1,$par_2,$par_3,$par_4,$par_5,$par_6,$par_7,$par_8,$par_9, $par_10, $par_11, $par_12, $par_13, $par_14, $par_15, $par_16, $par_17, $par_18, $par_19, $par_20, $par_21, $par_22, $par_23, $par_24, $par_25)<br><br>";
 		   
 		   		  
 		   $stmt = $this->con->prepare($query);
@@ -586,16 +586,13 @@
 	
     function isValidName($name)
 	{
-		// Lowercase
-		$name=strtolower($name); 
-		
 		// Length
 		if (strlen($name)<5 || 
 		    strlen($name)>20)
 	    return false;
 		
 		// Valid ?
-		if (preg_match("%^[a-z0-9A-Z]+$%", $name)==1)
+		if (preg_match("/^[a-zA-Z0-9]{0,20}$/", $name)==1)
 		   return true;
 		else 
 		   return false;
@@ -606,7 +603,7 @@
 		// Length
 		if ($this->isValidName($name)==false)
 		   return false;
-		
+	
 		// Load adr
 		$query="SELECT * 
 		          FROM adr 
@@ -615,7 +612,7 @@
 		// Execute		 
 	    $result=$this->execute($query, 
 	                          "s", 
-				              $name);
+				              $name); 
 									
 		// Has data
 		if (mysqli_num_rows($result)>0)
@@ -1023,9 +1020,9 @@
 		   
 		// No government address or company address ?
 		if ($this->isGovAdr($adr)==false && 
-	       $this->isCompanyAdr($adr)==false &&
-		   $this->isOrgAdr($adr)==false &&
-		   $this->isRegistered($adr)==true)
+	        $this->isCompanyAdr($adr)==false &&
+		    $this->isOrgAdr($adr)==false &&
+		    $this->isRegistered($adr)==true)
 		return true;
 		else
 		return false;
@@ -1124,9 +1121,9 @@
 	function adrFromName($name)
 	{
 		// Valid name ?
-		if ($this->isName($name)==false)
+		if (!$this->isName($name))
 		   return $name;
-	
+		
 		// Load name data
 		$query="SELECT * 
 		          FROM adr 
@@ -1441,6 +1438,15 @@
 	   // Return
 	   return $energy;
 	}
+	 
+	 // Check account energy
+	 function checkEnergy($req=0.1)
+	 {
+		 if ($this->getEnergy($_REQUEST['ud']['adr'])<$req)
+            return false;
+		 else
+		  return true;
+	 }
 	
 	// Is valid product ?
 	function isProd($prod)
@@ -1470,7 +1476,7 @@
 	function isLic($lic)
 	{
 		// String ID ?
-		if ($this->isStringID($prod)==false)
+		if ($this->isStringID($lic)==false)
 		   return false;
 		   
 		// Product exist ?
@@ -1481,7 +1487,7 @@
 		 // Load
 	     $result=$this->execute($query, 
 	                           "s", 
-				               $prod);
+				               $lic);
 							   
 		// Has data ?
 		if (mysqli_num_rows($result)>0)
@@ -1645,7 +1651,8 @@
 	                    $adr, 
 						$fee, 
 						$template,
-						$acc)
+						$acc,
+					    $req_energy=0)
 	{
 		// Logged in ?
 		  if ($this->isLoggedIn()==false)
@@ -1697,6 +1704,23 @@
 		   
 		}
 		
+		// Energy
+		if ($req_energy>0)
+		{
+			// Energy
+			$energy=$this->getAdrData($adr, "energy");
+			
+			// Check
+			if ($energy<$req_energy)
+			{
+				// Message
+		        $template->showErr("Insuficient energy to execute this action");
+		   
+		        // Return
+		        return false;
+			}
+		}
+		
 		
 		// Passed
 		return true;
@@ -1711,22 +1735,17 @@
 	{
 		$query="SELECT *  
 		          FROM companies 
-				 WHERE comID=?";
+				 WHERE comID=? 
+				   AND owner=?";
 		
 		// Result
 		$result=$this->execute($query, 
-		                       "i", 
-							    $comID);	
-		
-		// If no exit
-		if (mysqli_num_rows($result)==0) 
-		   die("Invalid entry data");
-		   
-		// Load data
-		$row=mysqli_fetch_array($result, MYSQLI_ASSOC);
+		                       "is", 
+							    $comID,
+							    $_REQUEST['ud']['adr']);	
 		
 		// Owner
-		if ($this->isMine($row['adr'])==true)
+		if (mysqli_num_rows($result)>0)
 		   return true;
 		else
 		   return false;
@@ -2181,13 +2200,13 @@
 				// --------------------------------- BIJUTERII --------------------------------------------
 				
 				// Ring Q1 - 30 energy
-				case "ID_RING_Q1" : return 1; break;
+				case "ID_INEL_Q1" : return 1; break;
 				
 				// Ring Q2 - 60 energy
-				case "ID_RING_Q2" : return 2; break;
+				case "ID_INEL_Q2" : return 2; break;
 				
 				// Ring Q3  - 90 energy
-				case "ID_RING_Q3" : return 3; break;
+				case "ID_INEL_Q3" : return 3; break;
 				
 				// Earing Q1 - 60 energy
 				case "ID_CERCEI_Q1" : return 2; break;
@@ -2249,6 +2268,9 @@
 				
 				// Wine
 				case "ID_WINE" : return 5; break;
+				
+				// Gift
+				case "ID_GIFT" : return 10; break;
 			}
 			
 			return 0;
@@ -2317,9 +2339,9 @@
             $prod=="ID_PALTON_Q1" ||
 			$prod=="ID_PALTON_Q2" ||
 			$prod=="ID_PALTON_Q3" ||
-            $prod=="ID_RING_Q1" ||
-			$prod=="ID_RING_Q2" ||
-			$prod=="ID_RING_Q3" ||
+            $prod=="ID_INEL_Q1" ||
+			$prod=="ID_INEL_Q2" ||
+			$prod=="ID_INEL_Q3" ||
             $prod=="ID_CERCEI_Q1" ||
 			$prod=="ID_CERCEI_Q2" ||
 			$prod=="ID_CERCEI_Q3" ||
@@ -2338,7 +2360,8 @@
             $prod=="ID_HOUSE_Q1" ||
             $prod=="ID_HOUSE_Q2" ||
             $prod=="ID_HOUSE_Q3" ||
-			$prod=="ID_WINE")
+			$prod=="ID_WINE" ||
+		    $prod=="ID_GIFT")
 		return true;
 			else
         return false;
@@ -2364,9 +2387,9 @@
             $prod=="ID_PALTON_Q1" ||
 			$prod=="ID_PALTON_Q2" ||
 			$prod=="ID_PALTON_Q3" ||
-            $prod=="ID_RING_Q1" ||
-			$prod=="ID_RING_Q2" ||
-			$prod=="ID_RING_Q3" ||
+            $prod=="ID_INEL_Q1" ||
+			$prod=="ID_INEL_Q2" ||
+			$prod=="ID_INEL_Q3" ||
             $prod=="ID_CERCEI_Q1" ||
 			$prod=="ID_CERCEI_Q2" ||
 			$prod=="ID_CERCEI_Q3" ||
@@ -2382,10 +2405,21 @@
             $prod=="ID_CAR_Q1" ||
             $prod=="ID_CAR_Q2" ||
             $prod=="ID_CAR_Q3" ||
-            $prod=="ID_HOUSE_Q1" ||
+			$prod=="ID_HOUSE_Q1" ||
             $prod=="ID_HOUSE_Q2" ||
-            $prod=="ID_HOUSE_Q3" ||
-			$prod=="ID_WINE")
+            $prod=="ID_HOUSE_Q3" || 
+            $prod=="ID_KNIFE" ||
+            $prod=="ID_PISTOL" ||
+            $prod=="ID_REVOLVER" ||
+			$prod=="ID_SHOTGUN" || 
+			$prod=="ID_MACHINE_GUN" || 
+			$prod=="ID_SNIPER" || 
+			$prod=="ID_GLOVES" || 
+			$prod=="ID_GOGGLES" || 
+			$prod=="ID_HELMET" || 
+			$prod=="ID_BOOTS" || 
+			$prod=="ID_SHIELD" || 
+		    $prod=="ID_VEST")
 		return true;
 			else
         return false;
@@ -2517,7 +2551,7 @@
         $u=$this->uCoins();
         
         // Daily reward
-        $daily=$u*0.05/365;
+        $daily=$u*0.01/365;
         
         // Reward type
         switch ($reward)
@@ -2973,10 +3007,10 @@
 			case "ID_VOTE_LAW_PACKET" : return "Vote Law Packet"; break;
 				
 			// Join party packet
-			case "ID_JOIN_PARTY_PACKET" : return "Join Party Packet"; break;
+			case "ID_JOIN_ORG_PACKET" : return "Join Organization Packet"; break;
 				
 			// Leave party packet
-			case "ID_LEAVE_PARTY_PACKET" : return "Leave Party Packet"; break;
+			case "ID_LEAVE_ORG_PACKET" : return "Leave Organization Packet"; break;
 				
 			// New org prop packet
 			case "ID_NEW_ORG_PROP_PACKET" : return "New Organization Proposal"; break;
@@ -2986,6 +3020,18 @@
 				
 		    // Fight packet
 			case "ID_FIGHT_PACKET" : return "Fight in War Packet"; break;
+				
+		    // Transfer adr packet
+			case "ID_TRANSFER_ADR_PACKET" : return "Change Keys Packet"; break;
+				
+			// Update company
+			case "ID_UPDATE_COM_PACKET" : return "Update Company Packet"; break;
+				
+			// Update company
+			case "ID_REMOVE_EX_OFFER_PACKET" : return "Remove Exchange Offer Packet"; break;
+				
+			// Update company
+			case "ID_NEW_EX_OFFER_PACKET" : return "New Exchange Offer Packet"; break;
 		}
 	}
 	 
@@ -3229,7 +3275,7 @@
 			$cou=$_REQUEST['ud']['loc'];
 		else
 			$cou=$_REQUEST['cou'];
-		 
+		
 		 return $cou;
 	 }
 	 
@@ -3240,6 +3286,11 @@
 		 // Valid address ?
 		 if (!$this->isAdr($adr))
 			 throw new Exception("Invalid address");
+		 
+		 
+		 // Minimum 100
+		 if ($this->getAdrData($adr, "pol_endorsed")<25)
+			 return false;
 		 
 		 // Get address country
 		 $cou=$this->getAdrData($adr, "cou");
@@ -3317,12 +3368,12 @@
 		 $total_pol_endorsed=$row['total'];
 		 
 		 // Return 
-		 if ($total_cit>100 && 
-			 $total_pol_inf>10000 && 
-			 $total_pol_endorsed>=25)
+		 if ($total_cit>25 && 
+			 $total_pol_inf>250 && 
+			 $total_pol_endorsed>=10)
 			 return true;
 		 else
-			 return true;
+			 return false;
 	 }
 	 
 	 
@@ -3349,9 +3400,9 @@
 		if ($weapon=="ID_KNIFE" ||
             $weapon=="ID_PISTOL" || 
             $weapon=="ID_REVOLVER" || 
-            $weapon=="ID_RIFFLE" || 
+            $weapon=="ID_SHOTGUN" || 
             $weapon=="ID_MACHINE_GUN" || 
-            $weapon=="ID_GRENADE_LAUNCHER")
+            $weapon=="ID_SNIPER")
         return true;
          else
         return false; 
@@ -3360,7 +3411,7 @@
      function isDefenseWeapon($weapon)
      {
          if ($weapon=="ID_GLOVES" ||
-             $weapon=="ID_GLASSES" || 
+             $weapon=="ID_GOGGLES" || 
              $weapon=="ID_HELMET" ||
              $weapon=="ID_BOOTS" ||
              $weapon=="ID_VEST" ||
@@ -3384,40 +3435,40 @@
         switch ($weapon)
         {
             // Knife
-            case "ID_KNIFE" :  $damage=100; break;
+            case "ID_KNIFE" :  $damage=10; break;
             
             // Pistoc
-            case "ID_PISTOL" :  $damage=200; break;
+            case "ID_PISTOL" :  $damage=20; break;
             
             // Revolver
-            case "ID_REVOLVER" :  $damage=300; break;
+            case "ID_REVOLVER" :  $damage=30; break;
             
             // Riffle
-            case "ID_RIFFLE" :  $damage=400; break;
+            case "ID_SHOTGUN" :  $damage=40; break;
             
             // Machine gun
-            case "ID_MACHINE_GUN" :  $damage=500; break;
+            case "ID_MACHINE_GUN" :  $damage=50; break;
             
             // Grenade launcher
-            case "ID_GRENADE_LAUNCHER" :  $damage=600; break;
+            case "ID_SNIPER" :  $damage=60; break;
             
             // Gloves
-            case "ID_GLOVES" :  $damage=100; break;
+            case "ID_GLOVES" :  $damage=10; break;
             
             // Glasses
-            case "ID_GLASSES" :  $damage=200; break;
+            case "ID_GOGGLES" :  $damage=20; break;
             
             // Helmet
-            case "ID_HELMET" :  $damage=300; break;
+            case "ID_HELMET" :  $damage=30; break;
             
             // Boots
-            case "ID_BOOTS" :  $damage=400; break;
+            case "ID_BOOTS" :  $damage=40; break;
             
             // Vest
-            case "ID_VEST" :  $damage=500; break;
+            case "ID_VEST" :  $damage=50; break;
             
             // Schield
-            case "ID_SHIELD" :  $damage=600; break;
+            case "ID_SHIELD" :  $damage=60; break;
         }
         
         return $damage;
@@ -3711,6 +3762,326 @@
 		 return ucfirst(strtolower($cou));
 	 }
 	 
+	 function checkAccPass($pass)
+	 {
+		 $result=$this->getResult("SELECT * 
+		                             FROM web_users 
+				                    WHERE user=? 
+				                      AND pass=?", 
+								  "ss", 
+								  $_REQUEST['ud']['user'], 
+								  hash("sha256", $pass));
+		 
+		 // Has data ?
+		 if (mysqli_num_rows($result)>0)
+			 return true;
+		 else
+			 return false;
+	 }
 	 
+	 function isTax($tax)
+	 {
+		 if ($tax=="ID_DIVIDENDS_TAX" || 
+			 $tax=="ID_RENT_TAX" || 
+			 $tax=="ID_REWARDS_TAX" || 
+			 $tax=="ID_SALARY_TAX" || 
+			 $tax=="ID_SALE_TAX")
+		 return true;
+		 else
+		 return false;
+	 }
+	 
+	 function isPrivate($cou)
+	 {
+		 // Check code
+		 if (!$this->isCountry($cou))
+		    throw new Exception ("Invalid address, CUtils.java, line 1959");
+		 
+		 // Load country data
+		 $row=$this->getRows("SELECT * 
+		                        FROM countries 
+							   WHERE code=?", 
+							 "s", 
+							 $cou);
+		 
+		 // Private ?
+		 if ($row['private']=="YES")
+			 return true;
+		 else
+			 return false;
+	 }
+	 
+	 function isCouForSale($cou)
+	 {
+		 // Check code
+		 if (!$this->isCountry($cou))
+		    throw new Exception ("Invalid address, CUtils.java, line 1959");
+		 
+		 // Load country data
+		 $row=$this->getRows("SELECT * 
+		                        FROM countries 
+							   WHERE code=?", 
+							 "s", 
+							 $cou);
+		 
+		 // Private ?
+		 if ($row['owner']!="")
+			 return true;
+		 else
+			 return false;
+	 }
+	 
+	 function getPvtCouPrice()
+	 {
+		 // Number of sold private countries
+		 $row=$this->getRows("SELECT COUNT(*) AS total 
+		                        FROM countries 
+							   WHERE private=? 
+							     AND owner<>?", 
+							 "ss", 
+							 "YES", 
+							 "default");
+		 
+		 // Price
+		 $price=$row['total']*50;
+		 
+		 // Minimum
+		 if ($price<50)
+			 $price=50;
+		 
+		 // Return
+		 return $price;
+	 }
+	 
+	 function isCouOwner($adr, $cou)
+	 {
+		 // Check adr
+		 if (!$this->isAdr($adr))
+		    throw new Exception ("Invalid address, CUtils.java, line 1959");
+		 
+		 // Check country
+		 if (!$this->isCountry($cou))
+		    throw new Exception ("Invalid country, CUtils.java, line 1959");
+		 
+		 // Load country data
+		 $result=$this->getResult("SELECT * 
+		                             FROM countries 
+									WHERE private=? 
+									  AND owner=? 
+									  AND code=?", 
+								  "sss", 
+								  "YES", 
+								  $adr, 
+								  $cou);
+		 
+		 // Has data ?
+		 if (mysqli_num_rows($result)>0)
+			 return true;
+		 else
+			 return false;
+	 }
+	 
+	 function hasRecords($adr, 
+                         $table, 
+                         $col)
+    {
+        // Load data
+        $result=$this->getResult("SELECT * FROM ".$table." WHERE ".$col."='".$adr."'");
+        
+        // Has data
+        if (mysqli_num_rows($result)>0)
+            return true;
+        
+        // No rows
+        return false;
+    }
+    
+    function traceAdr($adr)
+    {
+        // Address valid
+         if (!$this->isAdr($adr))
+            throw new Exception ("Invalid address, CUtils.java, line 1959");
+        
+        // Adr
+        if ($this->hasRecords($adr, "adr", "adr") || 
+            $this->hasRecords($adr, "adr", "ref_adr") || 
+            $this->hasRecords($adr, "adr", "node_adr"))
+        return true;
+        
+        // Adr attr
+        if ($this->hasRecords($adr, "adr_attr", "adr"))
+            return true;
+        
+        // Ads
+        if ($this->hasRecords($adr, "ads", "adr"))
+            return true;
+        
+        // Assets
+        if ($this->hasRecords($adr, "assets", "adr"))
+            return true;
+        
+        // Assets
+        if ($this->hasRecords($adr, "assets", "adr"))
+            return true;
+        
+        // Assets mkts
+        if ($this->hasRecords($adr, "assets_mkts", "adr"))
+            return true;
+        
+        // Assets mkts pos
+        if ($this->hasRecords($adr, "assets_mkts_pos", "adr"))
+            return true;
+        
+        // Assets owners
+        if ($this->hasRecords($adr, "assets_owners", "owner"))
+            return true;
+        
+        // Blocks
+        if ($this->hasRecords($adr, "blocks", "signer"))
+            return true;
+        
+        // Comments
+        if ($this->hasRecords($adr, "comments", "adr"))
+            return true;
+        
+        // Companies
+        if ($this->hasRecords($adr, "companies", "adr") || 
+            $this->hasRecords($adr, "companies", "owner"))
+            return true;
+        
+        // Countries
+        if ($this->hasRecords($adr, "countries", "adr") || 
+            $this->hasRecords($adr, "countries", "owner"))
+            return true;
+        
+        // Del votes
+        if ($this->hasRecords($adr, "del_votes", "delegate") || 
+            $this->hasRecords($adr, "del_votes", "adr"))
+            return true;
+        
+        // Delegates
+        if ($this->hasRecords($adr, "delegates", "delegate"))
+            return true;
+        
+        // Delegates log
+        if ($this->hasRecords($adr, "delegates_log", "delegate"))
+            return true;
+        
+        // Endorsers
+        if ($this->hasRecords($adr, "endorsers", "endorser") || 
+            $this->hasRecords($adr, "endorsers", "endorsed"))
+            return true;
+        
+        // Escrowed
+        if ($this->hasRecords($adr, "escrowed", "sender_adr") || 
+            $this->hasRecords($adr, "escrowed", "rec_adr") || 
+            $this->hasRecords($adr, "escrowed", "escrower"))
+            return true;
+        
+        // Events
+        if ($this->hasRecords($adr, "events", "adr"))
+            return true;
+        
+        // Exchange
+        if ($this->hasRecords($adr, "exchange", "adr"))
+            return true;
+        
+        // Items consumed
+        if ($this->hasRecords($adr, "items_consumed", "adr"))
+            return true;
+        
+        // Laws
+        if ($this->hasRecords($adr, "laws", "adr"))
+            return true;
+        
+        // Laws votes
+        if ($this->hasRecords($adr, "laws_votes", "adr"))
+            return true;
+        
+        // Mes
+        if ($this->hasRecords($adr, "mes", "from_adr") || 
+            $this->hasRecords($adr, "mes", "to_adr"))
+            return true;
+        
+        // My adr
+        if ($this->hasRecords($adr, "my_adr", "adr"))
+            return true;
+        
+        // My trans
+        if ($this->hasRecords($adr, "my_trans", "adr") || 
+            $this->hasRecords($adr, "my_trans", "adr_assoc"))
+            return true;
+        
+        // Orgs
+        if ($this->hasRecords($adr, "orgs", "adr"))
+            return true;
+        
+        // Orgs props
+        if ($this->hasRecords($adr, "orgs_props", "adr"))
+            return true;
+        
+        // Orgs props votes
+        if ($this->hasRecords($adr, "orgs_props_votes", "adr"))
+            return true;
+        
+        // Rent contracts
+        if ($this->hasRecords($adr, "rent_contracts", "from_adr") || 
+            $this->hasRecords($adr, "rent_contracts", "to_adr"))
+            return true;
+        
+        // Rewards
+        if ($this->hasRecords($adr, "rewards", "adr"))
+            return true;
+        
+        // Stocuri
+        if ($this->hasRecords($adr, "stocuri", "adr"))
+            return true;
+        
+        // Trans
+        if ($this->hasRecords($adr, "trans", "src"))
+            return true;
+        
+        // Trans pool
+        if ($this->hasRecords($adr, "trans_pool", "src"))
+            return true;
+        
+        // Tweets
+        if ($this->hasRecords($adr, "tweets", "adr"))
+            return true;
+        
+        // Tweets follow
+        if ($this->hasRecords($adr, "tweets_follow", "adr") || 
+            $this->hasRecords($adr, "tweets_follow", "follows"))
+            return true;
+       
+        // Votes
+        if ($this->hasRecords($adr, "votes", "adr"))
+            return true;
+        
+        // War fighters
+        if ($this->hasRecords($adr, "wars_fighters", "adr"))
+            return true;
+        
+        // Web ops
+        if ($this->hasRecords($adr, "web_ops", "fee_adr") || 
+            $this->hasRecords($adr, "web_ops", "target_adr"))
+            return true;
+        
+        // Web sys data
+        if ($this->hasRecords($adr, "web_sys_data", "node_adr") || 
+            $this->hasRecords($adr, "web_sys_data", "mining_adr"))
+            return true;
+        
+        // Web users
+        if ($this->hasRecords($adr, "web_users", "adr"))
+            return true;
+        
+        // Work procs
+        if ($this->hasRecords($adr, "work_procs", "adr"))
+            return true;
+        
+        // Return
+        return false;
+    }
 }
 ?>

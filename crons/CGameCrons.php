@@ -6,6 +6,25 @@ class CGameCrons
 		$this->kern=$db;
 	}
     
+	function getCRCPrice()
+	{
+		// Get price
+		$data=file_get_contents("http://www.crcexchange.com/ticker.php");
+		
+		// Decode
+		$json=json_decode($data);
+		
+		// Price
+		$price=round($json->last_price, 2); 
+		
+	    // Update
+	    if ($price>0.1)
+	    $this->kern->execute("UPDATE web_sys_data 
+	                            SET coin_price=?", 
+							"d", 
+							$price);
+	}
+	
 	function getTargetVotes($target_type, $targetID, $vote="ID_UP", $type="ID_NO")
 	{
 		// Query
@@ -391,6 +410,9 @@ class CGameCrons
 			
 		  // Check system
 		  $this->checkSystem();
+			
+		  // CRC price
+		  $this->getCRCPrice();
 			
 		  // Mesaj
 		  $this->cronOK($ID);

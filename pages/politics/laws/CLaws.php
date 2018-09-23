@@ -280,23 +280,23 @@ class CLaws
     function ownsWeapon($cou, $wID)
     {
         // Country address
-        $cou_adr=$this->kern->getCouAdr($cou);
+        $cou_adr=$this->kern->getCouAdr($cou); 
         
         // Load inventory
         $result=$this->kern->getResult("SELECT * 
 		                                  FROM stocuri 
 								         WHERE adr=? 
 								           AND stocID=? 
-									       AND qty>? 
+									       AND qty=? 
 									       AND war_status=?", 
 								       "siis", 
 								       $cou_adr, 
 								       $wID, 
-							       	   0,
+							       	   1,
 								       "ID_READY");
         
         // Has data ?
-        if (mysqli_num_rows($result)==0)
+		if (mysqli_num_rows($result)==0)
         {
 			$this->template->showErr("You don't own this weapon");
 			return false;
@@ -321,17 +321,23 @@ class CLaws
                            $loc_type, 
                            $locID)
     {
+		// Country address
+		$adr=$this->kern->getCouAdr($cou);
+			
+		// Load weapons
         $row=$this->kern->getRows("SELECT SUM(qty) AS total 
 		                             FROM stocuri 
-							        WHERE cou=? 
+							        WHERE adr=? 
 							          AND tip=? 
-								      AND loc_type=? 
-								      AND locID=?", 
-							      "sssi", 
-							      $cou, 
+								      AND war_loc_type=? 
+								      AND war_locID=? 
+									  AND war_status=?", 
+							      "sssss", 
+							      $adr, 
 							      $type, 
 							      $loc_type, 
-							      $locID);
+							      $locID,
+								  "ID_READY");
          
         // Return 
         return $row['total'];
@@ -408,27 +414,18 @@ class CLaws
                                         break;
                                              
             // Missile soil soil
-            case "ID_MISSILE_SOIL_SOIL" : if ($target_type!="ID_LAND" && 
-                                             $target_type!="ID_NAVY_DESTROYER") 
-				                          $allow=false; 
+            case "ID_MISSILE_SOIL_SOIL" : if ($target_type!="ID_SEA") 
+				                              $allow=false; 
             
-                                          // Navy destroyer ?
-                                          if ($target_type!="ID_NAVY_DESTROYER")
-                                          {
-                                              $row=$this->kern->getRows("SELECT SUM(qty) AS total 
-											                               FROM stocuri 
-																		  WHERE war_loc_type=? 
-																		    AND war_locID=?", 
-																	    "si", 
-																		"ID_NAVY_DESTROYER", 
-																		$targetID);
-                                              
-                                              // Total
-                                              $total=$row['total'];
-                                              
-                                              if ($total>250)
-                                                  $allow=false;
-                                          }
+                                          // Missiles
+                                         $missiles=$this->getWeaponsQty($cou, 
+                                                                       "ID_MISSILE_SOIL_SOIL", 
+                                                                       $target_type, 
+                                                                       $targetID);
+                                   
+                                        // Max 100 missiles / tank
+                                        if ($missiles>=100)
+                                            $allow=false;
                                           
                                           break;  
                                              
@@ -498,8 +495,7 @@ class CLaws
 		 // Check target type
         if ($target_type!="ID_LAND" && 
             $target_type!="ID_SEA" && 
-            $target_type!="ID_AIRCRAFT_CARRIER" && 
-            $target_type!="ID_NAVY_DESTROYER")
+            $target_type!="ID_WEAPON")
         return false;
 
         // Check land
@@ -532,24 +528,22 @@ class CLaws
 		}
 		
         // Airraft carrier or destroyer
-        if ($target_type=="ID_AIRCRAFT_CARRIER" || 
-            $target_type=="ID_NAVY_DESTROYER")
+	    if ($target_type=="ID_NAVY_DESTROYER" || 
+		   $target_type=="ID_AIRCRAFT_CARRIER")
         {
             // Country adress;
             $cou_adr=$this->kern->getCouAdr($cou);
             
 			// Result
-            $result=$this->kern->executeQuery("SELECT * 
-			                                      FROM stocuri 
-												 WHERE adr=? 
-												   AND tip=? 
-												   AND stocID=? 
-												   AND qty>?", 
-											   "ssii", 
-											   $cou_adr, 
-											   $target_type, 
-											   $targetID, 
-											   0);
+            $result=$this->kern->getResult("SELECT * 
+			                                  FROM stocuri 
+										     WHERE adr=? 
+											   AND stocID=? 
+											   AND tip=?", 
+										   "si", 
+										   $cou_adr, 
+										   $targetID,
+										   $target_type);
             
             // Has data ?
             if (mysqli_num_rows($result)==0)
@@ -557,7 +551,7 @@ class CLaws
 			   $this->template->showErr("Invalid target");
 			   return false;
 		   }
-        }
+		}
         
         
         // Return
@@ -967,7 +961,7 @@ class CLaws
 		if (!$this->kern->isPrivate($_REQUEST['ud']['cou']))
 		{
 		   // Minimum political endorsement
-		   if ($_REQUEST['ud']['pol_endorsed']<100)
+		   if ($_REQUEST['ud']['pol_endorsed']<25)
 		   {
 			   $this->template->showErr("Minimum political endorsement is 100");
 			   return false;
@@ -1184,7 +1178,7 @@ class CLaws
 			 LEFT JOIN tipuri_produse AS tp ON tp.prod=laws.par_2
 				 WHERE laws.status=? 
 				   AND laws.country=? 
-			  ORDER BY laws.block DESC"; 
+			  ORDER BY (laws.voted_yes-laws.voted_no) DESC"; 
 		
         $result=$this->kern->execute($query, 
 									 "ss", 
@@ -1276,8 +1270,8 @@ class CLaws
               </tr>
             </table></td>
           
-		   <td width="12%" align="center" class="font_14" style="color: #009900"><? print $row['voted_yes']; ?></td>
-           <td width="14%" align="center" class="font_14"  style="color: #990000"><? print $row['voted_no']; ?></td>
+			  <td width="12%" align="center" class="font_14" style="color: #009900"><strong><? print $row['voted_yes']; ?></strong></td>
+			  <td width="14%" align="center" class="font_14"  style="color: #990000"><strong><? print $row['voted_no']; ?></strong></td>
              
 			<td width="16%" align="center" class="font_14" style="color: 
 	        <?
@@ -1391,23 +1385,27 @@ class CLaws
 		                   // Change bonus ?
 		                   if ($row['type']=="ID_CHG_BONUS")
 						   {
-							   $query="SELECT * 
-							             FROM bonuses 
-										WHERE bonus=? 
-										  AND prod=?";
+							   $query="SELECT bon.*, 
+							                  tp.name 
+							             FROM bonuses AS bon 
+										 JOIN tipuri_produse AS tp on tp.prod=bon.prod
+										WHERE bon.bonus=? 
+										  AND bon.prod=?
+										  AND bon.cou=?";
 							   
 							   $result2=$this->kern->execute($query, 
-									                         "ss", 
+									                         "sss", 
 									                         base64_decode($row['par_1']),
-															 base64_decode($row['par_2']));	
+															 base64_decode($row['par_2']),
+															 $row['country']);	
 		
 	                           $row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
 							   
-							   $par_1=$row2['title'];
+							   $par_1=$row2['name'];
 							   $par_2=$row2['amount']." CRC";
 							   $par_3=base64_decode($row['par_3'])." CRC";
 							   
-							    print "<strong>".$row['name']."</strong> is proposing the change of <strong>".$par_1."</strong> from <strong>".$par_2." </strong> to <strong>".$par_3."</strong><span class=\"simple_gri_16\">. Do you agree ?";
+							    print "<strong>".$row['name']."</strong> is proposing the change of <strong>".$par_1." aquisition bonus</strong> from <strong>".$par_2." </strong> to <strong>".$par_3."</strong><span class=\"simple_gri_16\">. Do you agree ?";
 						   }
 		
 		                   // Change tax ?
@@ -1432,7 +1430,7 @@ class CLaws
 							    $par_1=$this->getTaxName(base64_decode($row['par_1']));
 							   
 							   // Par 2
-							   $par_2=$this->acc->getTaxVal(base64_decode($row['par_1']))."%";
+							   $par_2=$this->acc->getTaxVal(base64_decode($row['par_1']), $row['country'])."%";
 							     
 							   // Par 3
 							   $par_3=base64_decode($row['par_2'])."%";
@@ -1842,7 +1840,6 @@ class CLaws
 					<option value="ID_REMOVE_PREMIUM">Remove premium citizens</option>
 					<option value="ID_DONATION">Donation Law</option>
 					<option value="ID_DISTRIBUTE">Distribute funds to premium citizens</option>
-					<option value="ID_OFICIAL_ART">Make article official declaration</option>
 					<option value="ID_START_WAR">Start a war</option>
 					<option value="ID_MOVE_WEAPONS">Move weapons</option>
 					<option value="ID_ATTACK">Order an attack</option>
@@ -2367,7 +2364,7 @@ class CLaws
 		                   // Propose button
 		                   if (!$this->kern->isPrivate($cou))
 						   {
-		                       if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
+							   if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
 							       $this->kern->isCongressman($_REQUEST['ud']['adr']))
 						        print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
 						   }
@@ -2384,7 +2381,11 @@ class CLaws
 	
 	function showMoveWeapons()
 	{
+		// Country
 		$cou=$this->kern->getCou();
+		
+		// Address
+		$adr=$this->kern->getCouAdr($cou); 
 		?>
 			   
 			   <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_move_weapons" name="tab_move_weapons" style="display: none">
@@ -2394,7 +2395,7 @@ class CLaws
                     </tr>
                     <tr>
                       <td height="30" align="left">
-						  <textarea rows="5" class="form-control" name="txt_move_weapons_list" id="txt_move_weapons_list" style="width: 100%" placeholder="Comma separated IDs">Comma separated weapons IDS (3565433, 3456565, 2234409034)...</textarea>
+						  <textarea rows="5" class="form-control" name="txt_move_weapons_list" id="txt_move_weapons_list" style="width: 100%" placeholder="Comma separated weapons IDs (ex : 3565433, 3456565, 2234409034)..."></textarea>
 					  </td>
                     </tr>
                     <tr>
@@ -2408,6 +2409,7 @@ class CLaws
 						  <select id="dd_move_weapons_target_type" name="dd_move_weapons_target_type" onChange="dd_weapons_move_changed()" class="form-control"> 
 							  <option value="ID_SEA">On Sea</option>
 							  <option value="ID_LAND">On Land</option>
+							  <option value="ID_WEAPON">On Other Weapon</option>
 						  </select>
 					  </td>
                     </tr>
@@ -2438,6 +2440,44 @@ class CLaws
 									  print "<option value='".$row['seaID']."'>".$row['name']."</option>";
 		                      ?>
 						  </select>
+						  
+						  <select id="dd_move_weapon_targetID" name="dd_move_weapon_targetID" class="form-control"  style="display: none"> 
+							  <?
+		                        
+		                        
+		                          // Query
+		                          $result=$this->kern->getResult("SELECT st.*, 
+								                                         cou.country AS cou_name, 
+																		 seas.name AS sea_name 
+								                                    FROM stocuri AS st 
+														       LEFT JOIN countries AS cou ON cou.code=st.war_locID
+														   	   LEFT JOIN seas ON seas.seaID=st.war_locID
+																   WHERE st.adr=? 
+																     AND (st.tip=? OR st.tip=?)", 
+																 "sss", 
+																 $adr, 
+																 "ID_AIRCRAFT_CARRIER", 
+																 "ID_NAVY_DESTROYER");
+		
+		                          while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+								  {
+									  // Location
+									  if ($row['war_loc_type']=="ID_SEA")
+										  $loc=$row['sea_name'];
+									  else
+										  $loc=$row['cou_name'];
+									  
+									  // Name
+									  if ($row['tip']=="ID_NAVY_DESTROYER")
+										  $name="Navy Destroyer - ".$loc;
+									  else
+										  $name="ID_AIRCRAFT_CARRIER - ".$loc;
+										 
+									  // Option
+									  print "<option value='".$row['stocID']."'>".$name."</option>";
+								  }
+		                      ?>
+						  </select>
 					  </td>
                     </tr>
                     <tr>
@@ -2452,15 +2492,24 @@ class CLaws
 						// Hide both
 						$('#dd_move_sea_targetID').css('display', 'none');
 						$('#dd_move_land_targetID').css('display', 'none');
+						$('#dd_move_weapon_targetID').css('display', 'none');
 						
 						// Value
-						var sel=$('#dd_move_weapons_target_type').val();
+						var sel=$('#dd_move_weapons_target_type').val(); 
 						
 						// Show
-						if (sel=="ID_SEA")
-							$('#dd_move_sea_targetID').css('display', 'block');
-						else
-							$('#dd_move_land_targetID').css('display', 'block');
+						switch (sel)
+						{
+							case "ID_SEA" : $('#dd_move_sea_targetID').css('display', 'block'); 
+								            break;	
+								
+							case "ID_LAND" : $('#dd_move_land_targetID').css('display', 'block'); 
+								            break;	
+								
+							case "ID_WEAPON" : $('#dd_move_weapon_targetID').css('display', 'block'); 
+								            break;	
+						}
+						
 					}
                 </script>
 			   
@@ -2649,8 +2698,20 @@ class CLaws
 									  $targetID);
 			return $row['name'];
 		}
+		
+		if ($target_type=="ID_NAVY_DESTROYER" || 
+		   $target_type=="ID_AIRCRAFT_CARRIER")
+		{
+			$row=$this->kern->getRows("SELECT seas.name  
+			                             FROM stocuri AS st 
+										 JOIN seas ON seas.seaID=st.war_locID
+										WHERE st.stocID=?", 
+									  "i", 
+									  $targetID);
+			
+			return "a navy destroyer (".$row['name'].")";
+		}
 	}
-	
-	
+
 }
 ?>

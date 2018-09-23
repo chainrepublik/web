@@ -292,7 +292,7 @@ class CBudget
 					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><? print $row['amount']." CRC"; ?></strong></td>
                    </tr>
                    <tr>
-                   <td colspan="2">&nbsp;</td>
+                   <td colspan="2"><hr></td>
                    </tr>
 			  
 			<?
@@ -335,7 +335,7 @@ class CBudget
 					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><? print $row['value']."%"; ?></strong></td>
                    </tr>
                    <tr>
-                   <td colspan="2">&nbsp;</td>
+                   <td colspan="2"><hr></td>
                    </tr>
 			  
 			<?

@@ -142,8 +142,10 @@
 					   // Move weapons   
 					   case "ID_MOVE_WEAPONS" : if ($_REQUEST['dd_move_weapons_target_type']=="ID_LAND")
 			                                        $targetID=$_REQUEST['dd_move_land_targetID'];
-	                                       	    else
+	                                       	    else if ($_REQUEST['dd_move_weapons_target_type']=="ID_SEA")
 		         	                                $targetID=$_REQUEST['dd_move_sea_targetID'];
+						                        else
+													$targetID=$_REQUEST['dd_move_weapon_targetID'];
 						                        
 						                        // Laws
 						                        $laws->proposeLaw($_REQUEST['dd_type'], 

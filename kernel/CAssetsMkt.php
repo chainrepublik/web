@@ -620,7 +620,7 @@ class CAssetsMkt
 			$show_sell=false;
 		
 		// Asset ?
-		if (strlen($asset)==5 && 
+		if ((strlen($asset)==5 || strlen($asset)==6) && 
 			strpos($asset, "_")==false)
 		{
 		   $show_buy=true;
@@ -635,7 +635,7 @@ class CAssetsMkt
         
         <br>
         <table width="90%">
-          <tr><td width="70%" align="left" class="font_20"><? print $row['name']."<br><span class='font_10'>".$row['description']."</span>"; ?></td>
+          <tr><td width="70%" align="left" class="font_20"><? print base64_decode($row['name'])."<br><span class='font_10'>".base64_decode($row['description'])."</span>"; ?></td>
           <td width="30%" class="font_10" align="right">
           <?
 		     if ($this->kern->isEnergyProd($row['asset'])==true)
@@ -643,7 +643,7 @@ class CAssetsMkt
 			 
 			 if ($this->kern->isEnergyBooster($row['asset'])==true)
 			    print " <strong>instant</strong>";
-			 else if ($this->kern->isUsable($row['asset'])==true)
+			 else if ($this->kern->isUsable($row['asset'])==true || $row['asset']=="ID_GIFT")
 			    print " per day";
           ?>
           </td>
@@ -659,15 +659,15 @@ class CAssetsMkt
 		     if ($this->kern->canRent($row['asset'])==true)
 			 {
 				   // Sel
-				   if ($_REQUEST['target']=="ID_SALE")
+				   if ($_REQUEST['tip']=="ID_SALE")
 					   $sel=1;
-				   else if ($_REQUEST['target']=="ID_RENT")
+				   else if ($_REQUEST['tip']=="ID_RENT")
 					   $sel=2;
 				   else $sel=1;
 				 
 			       $this->template->showSmallMenu($sel,
-			                                      "For Sale", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_SALE", 
-										          "For Rent", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=ID_RENT");
+			                                      "For Sale", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=".$_REQUEST['target']."&tip=ID_SALE", 
+										          "For Rent", "main.php?trade_prod=".$_REQUEST['trade_prod']."&target=".$_REQUEST['target']."&tip=ID_RENT");
 			 }
 		  ?>
           
@@ -1291,7 +1291,7 @@ class CAssetsMkt
 		  }
 		  
 		  // Navigation
-		  if ($_REQUEST['target']!="ID_RENT")
+		  if ($_REQUEST['tip']!="ID_RENT")
 		  {
 		      switch ($section)
 		      {
@@ -1410,7 +1410,7 @@ class CAssetsMkt
 		   ?>
            
                  <tr>
-                 <td width="9%"><img class="img img-responsive img-circle" src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop(base64_decode($row['pic'])); ?>"></td>
+                 <td width="9%"><img class="img img-responsive img-circle" src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($row['pic']); ?>" width="50px"></td>
                  <td>&nbsp;&nbsp;&nbsp;</td>
                  <td width="39%">
                  <a href="#" class="font_14">

@@ -19,7 +19,7 @@
   $testnet_minutes=floor(($testnet-$testnet_days*86400-$testnet_hours*3600)/60);
   
   // Official launch
-  $ico=1537438522-time();
+  $ico=1538352000-time();
   $ico_days=floor($ico/86400);
   $ico_hours=floor(($ico-$ico_days*86400)/3600);
   $ico_minutes=floor(($ico-$ico_days*86400-$ico_hours*3600)/60);

@@ -981,10 +981,10 @@ class CProds
 		            }
 				 
 				
-				 if ($row['expire']>0)
+				 if ($row['expires']>0)
 				 {
-				      $dif=$row['expire']-$row['tstamp'];
-				      $remain=$row['expire']-time();
+				      $dif=$row['expires']-$row['tstamp'];
+				      $remain=$row['expires']-time();
 				      $d=100-round($remain*100/$dif);
 				 }
 				 else $d=0;
@@ -1008,7 +1008,7 @@ class CProds
 						!$this->kern->isDefenseWeapon($row['tip']))
 				        print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; 
 				    else
-						print "+".$this->kern->getWeaponDamage($row['tip'])." damage"; 
+						print "+".$this->kern->getWeaponDamage($row['tip'])." damage ";
 				?>
                 </span>
                 </td></tr>

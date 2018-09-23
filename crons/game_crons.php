@@ -7,6 +7,5 @@ include "CGameCrons.php";
  $crons=new CGameCrons($db);
  $crons->run();
 
-
 print "Done.";
 ?>

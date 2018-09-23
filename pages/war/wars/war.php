@@ -113,7 +113,7 @@
 						     break;
 						
 					// Defenders
-					case 2 : $wars->showFighters($_REQUEST['ID'], "ID_DEF"); 
+					case 2 : $wars->showFighters($_REQUEST['ID'], "ID_DE"); 
 						     break;
 						
 					// Last fights

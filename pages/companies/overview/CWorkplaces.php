@@ -17,10 +17,11 @@ class CWorkplaces
 	{
 		// Basic check
 		if ($this->kern->basicCheck($_REQUEST['ud']['adr'], 
-		                           $_REQUEST['ud']['adr'], 
-								   0.0001, 
-								   $this->template, 
-								   $this->acc)==false)
+		                            $_REQUEST['ud']['adr'], 
+								    0.0001, 
+								    $this->template, 
+								    $this->acc,
+								    0.1)==false)
 		return false;
 		
 		// Own company ?
@@ -213,7 +214,8 @@ class CWorkplaces
 		                           $_REQUEST['ud']['adr'], 
 								   $_REQUEST['sd']['work_fee']*$period, 
 								   $this->template, 
-								   $this->acc)==false)
+								   $this->acc,
+								   0.1)==false)
 		return false;
 		
 		// Owner ?

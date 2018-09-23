@@ -1124,33 +1124,7 @@ class CTemplate
 		
 	}
 	
-	function showCashierButs()
-	{
-		$this->showSendModal();
-		?>
-        
-           <table width="200px" border="0" cellspacing="0" cellpadding="0">
-              <tbody>
-                <tr>
-                  <td align="right">
-                  <table width="210" border="0" cellspacing="0" cellpadding="0">
-                    <tbody>
-                      <tr>
-                        <td width="105px" height="52" align="center">
-                        <a class="btn btn-xl btn-success" href="javascript:void(0)" onClick="$('#send_coins_modal').modal()" style="width:150px"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp;Send Coins</a>
-                        </td>
-						  
-						 
-                      </tr>
-                    </tbody>
-                  </table></td>
-                  
-                </tr>
-              </tbody>  
-              </table>
-        
-        <?
-	}
+	
 	
 	function showTop()
 	{
@@ -1162,13 +1136,13 @@ class CTemplate
             <td height="75" align="center" background="../../template/GIF/top_bar.png"><table width="1000" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
-            <td width="200">
+            <td width="250">
             <a href="../../../index.php">
             <img src="../../template/GIF/logo.png" width="250" alt=""/>
             </a>
             </td>
-				<td width="105" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
-            <td width="448" align="center">
+				<td width="142" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
+            <td width="387" align="left">
 			
 			<form action="../../home/search/main.php" method="post" name="form_search" id="form_search">
 			<input class="form-control" style="width:300px" placeholder="Search players, companies, articles..." id="txt_src_box" name="txt_src_box"> 
@@ -1187,13 +1161,14 @@ class CTemplate
 			
 				
 			</td>
-            <td width="247" align="right">
+            <td width="221" align="right">
+			
 			<?
 			   if ($this->kern->isLoggedIn()==false)
 			     $this->showTopButs();
-			   else
-			     $this->showCashierButs();
+		       else $this->showPrice();
 			?>
+				
             </td>
             </tr>
             </tbody>
@@ -1207,6 +1182,22 @@ class CTemplate
 	}
 	
 	
+	function showPrice()
+	{
+	    ?>
+    
+             <table style="width: 140px">
+				 <tr>
+					 <td name="td_live_price" id="td_live_price" data-content="Live price of ChainRepublik Coin (CRC). Feed is provided live by crcexchange.com. Click to start trading CRC." rel="popover" data-placement="bottom" data-original-title="CRC Live Price"  height="50" background="../../template/GIF/price.png" align="right"><a style="text-shadow: 1px 1px #000000; color: #ffffff" class="font_16" href="http://www.crcexchange.com" target="_blank"><? print "$".$_REQUEST['sd']['coin_price']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+				 </tr>
+             </table>
+
+             <script> 
+				  $('#td_live_price').popover({ trigger : "hover"});
+             </script>
+
+        <?
+	}
 	
 	function showTicker()
 	{
@@ -1840,7 +1831,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		// Modals
 		$this->showChgCitModal();
 		$this->showTravelModal();
-		
+		$this->showSendModal();
 	
 		
 		?>
@@ -1866,10 +1857,20 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     </tbody>
                   </table></td>
                 </tr>
-                <tr>
-                  <td align="center">&nbsp;</td>
+              
+              
+				 <tr>
+                    <td align="center">
+					  <table width="90%">
+						  <tr><td valign="bottom" colspan="2" height="60px" align="center"><a href="javascript:void(0)" onclick="$('#send_coins_modal').modal()" style="width: 170px" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp;Send Coins</a></td></tr>
+						  <tr><td height="60" align="center">
+							  <a href="http://www.crcexchange.com" target="_blank" class="btn btn-info" style="width: 80px"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;&nbsp;Buy</a></td>
+						  <td align="center">
+							  <a href="http://www.crcexchange.com" target="_blank" style="width: 80px" class="btn btn-info"><span class="glyphicon glyphicon-minus-sign"></span>&nbsp;&nbsp;&nbsp;Sell</a></td></tr>
+					  </table>
+				  </td>
                 </tr>
-                <tr>
+				 <tr>
                   <td align="center"><img src="../../template/GIF/sep_bar_left.png" width="200" height="2" alt=""/></td>
                 </tr>
                
@@ -1947,7 +1948,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 						      </span></td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><? print round($_REQUEST['ud']['energy_block']-$_REQUEST['ud']['energy']*0.0008, 4)." / minute"; ?></span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><? print round($_REQUEST['ud']['energy_block']-$_REQUEST['ud']['energy']*0.0005, 4)." / minute"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -4115,7 +4116,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		 }
 		
 		 // Funds
-		 if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$fee+0.0001)
+		 if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC"))
 		 {
 			$this->showErr("Insuficient funds");
 			return false; 

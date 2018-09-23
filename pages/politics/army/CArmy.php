@@ -95,6 +95,45 @@ class CArmy
 										 print $this->getWeaponName($row['war_locID']);
 								
 							?>
+							 <br><span class="font_10">
+							 <?
+			                     if ($row['tip']=="ID_NAVY_DESTROYER")
+								 {
+			                         $res=$this->kern->getResult("SELECT * 
+							 	                                FROM stocuri 
+														       WHERE tip=? 
+														  	     AND war_locID=?", 
+															"si", 
+															"ID_MISSILE_SOIL_SOIL", 
+															$row['stocID']);
+			
+			                         print mysqli_num_rows($res)." missiles";
+								 }
+			
+			                     if ($row['tip']=="ID_AIRCRAFT_CARRIER")
+								 {
+			                         $res=$this->kern->getResult("SELECT * 
+							 	                                    FROM stocuri 
+														           WHERE tip=? 
+														  	         AND war_locID=?", 
+														   	     "si", 
+															     "ID_JET_FIGHTER", 
+															     $row['stocID']);
+			
+			                         print mysqli_num_rows($res)." jet fighters, ";
+									 
+									 $res=$this->kern->getResult("SELECT * 
+							 	                                    FROM stocuri 
+														           WHERE tip=? 
+														  	         AND war_locID=?", 
+														   	     "si", 
+															     "ID_MISSILE_AIR_SOIL", 
+															     $row['stocID']);
+			
+			                         print mysqli_num_rows($res)." missiles";
+								 }
+			                 ?>
+							 </span>
 						 </td>
 						 <td width="20%" class="font_14" align="center" <? if ($row['war_status']=="ID_READY") print "style='color : #009900'"; ?>>
 							 <? 

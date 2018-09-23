@@ -354,7 +354,7 @@ class CWars
 	{
 		if ($type!="ID_LAST")
 		{
-		    // Load data
+			// Load data
 	  	    $query="SELECT wf.adr, 
 		                   adr.pic,
 					       adr.name,
@@ -394,7 +394,7 @@ class CWars
 			     LEFT JOIN countries AS cou ON cou.code=adr.cou
 			     LEFT JOIN countries AS guv on guv.adr=adr.adr
 			         WHERE wf.warID=? 
-			      ORDER BY damage DESC
+			      ORDER BY wf.ID DESC
 			         LIMIT 0, 25"; 
 				
 		    $result=$this->kern->execute($query, 

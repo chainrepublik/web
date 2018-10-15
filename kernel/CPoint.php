@@ -1,4 +1,4 @@
-<?
+<?php
 class CPoint
 {
 	function CPoint($x, $y)

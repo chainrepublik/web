@@ -7310,10 +7310,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
 Holder - client side image placeholders
 Version 2.4.0+bxlim
-© 2014 Ivan Malopinsky - http://imsky.co
+© 2014 Ivan Malopinsky - http://iCRCy.co
 
-Site:     http://imsky.github.io/holder
-Issues:   https://github.com/imsky/holder/issues
+Site:     http://iCRCy.github.io/holder
+Issues:   https://github.com/iCRCy/holder/issues
 License:  http://opensource.org/licenses/MIT
 
 */

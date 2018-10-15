@@ -2,14 +2,12 @@
  class db
   {
 	 var $html=array("<", ">", "http://", "http:", "http", "javascript");
-
+  
 	 function db()
 	 {
 		 //die ("Maintainanance in progress. We will be up in 3-4 hours.");
 		 //if ($_SERVER['HTTP_CF_CONNECTING_IP']!="109.166.135.48")
 		 //    die ("Maintainance in progress. Pls come back in a few hours.");
-		 
-		 
 		 
 		// ---------------------------------
         $user="";
@@ -296,28 +294,28 @@
       { 	   
       ?>
 
-          <table width="<? print $size; ?>" border="0" cellspacing="0" cellpadding="0">
+          <table width="<?php print $size; ?>" border="0" cellspacing="0" cellpadding="0">
           <tr>
           <td width="50"><img src="../../template/GIF/panel_err_left.png" /></td>
-          <td width="<? print ($size-55); ?>" background="../../template/GIF/panel_err_middle.png" class="<? print $class; ?>" align="left">
-          <? print $err; ?></td>
+          <td width="<?php print ($size-55); ?>" background="../../template/GIF/panel_err_middle.png" class="<?php print $class; ?>" align="left">
+          <?php print $err; ?></td>
           <td width="5"><img src="../../template/GIF/panel_err_right.png" /></td>
           </tr>
           </table>
 
-   <?
+   <?php
    }
    
    function showOk($err, $size=550, $class="inset_green_14")
    {
    ?>
         <br />
-        <table width="<? print $size; ?>" border="0" cellspacing="0" cellpadding="0">
+        <table width="<?php print $size; ?>" border="0" cellspacing="0" cellpadding="0">
         <tr>
         <td width="50"><img src="../../template/GIF/panel_ok_left.gif" /></td>
-        <td width="<? print ($size-55); ?>" background="../../template/GIF/panel_ok_middle.gif" class="<? print $class; ?>">
+        <td width="<?php print ($size-55); ?>" background="../../template/GIF/panel_ok_middle.gif" class="<?php print $class; ?>">
         <div align="left">
-		<? 
+		<?php 
 		   print $err; 
 		?>
         </div>
@@ -327,7 +325,7 @@
         </table>
         <br />
 
-   <?
+   <?php
 }
 
 	
@@ -3185,14 +3183,14 @@
           </table>
          <table width="90%" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
           
                 <tr>
                 <td width="82%" class="simple_gri_14">
-                <?
+                <?php
 				   if ($row['viewed']==0)
 				     print "<strong>".$row['evt']."</strong>";
 				   else
@@ -3200,7 +3198,7 @@
 				?>
                 </td>
                 <td width="18%" align="center" class="font_14">
-                 <?
+                 <?php
 				   if ($row['viewed']==0)
 				     print "<strong>".$this->timeFromBlock($row['block'])."</strong>";
 				   else
@@ -3212,13 +3210,13 @@
                 <td colspan="2" ><hr></td>
                 </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
             
         </table>
         
-        <?
+        <?php
 		
 		// Set unread events to zero
 		$query="UPDATE web_users 
@@ -3368,9 +3366,9 @@
 		 $total_pol_endorsed=$row['total'];
 		 
 		 // Return 
-		 if ($total_cit>25 && 
-			 $total_pol_inf>250 && 
-			 $total_pol_endorsed>=10)
+		 if ($total_cit>100 && 
+			 $total_pol_inf>10000 && 
+			 $total_pol_endorsed>=25)
 			 return true;
 		 else
 			 return false;
@@ -3500,7 +3498,7 @@
          switch ($ammo)
          {
              // Tank round
-             case "ID_TANK_ROUND" : $damage=250; break;
+             case "ID_TANK_ROUND" : $damage=100; break;
              
              // Air to soil missile
              case "ID_MISSILE_AIR_SOIL" : $damage=1000; break;
@@ -3753,7 +3751,7 @@
             if ($this->isDefenseWeapon($row["tip"]))
                 $defense=$defense+$this->getWeaponDamage($row['tip']);
          
-         // Return
+		 // Return
          return $defense;
      }
 	 
@@ -3825,7 +3823,7 @@
 							 $cou);
 		 
 		 // Private ?
-		 if ($row['owner']!="")
+		 if ($row['owner']=="default")
 			 return true;
 		 else
 			 return false;

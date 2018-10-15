@@ -1,4 +1,4 @@
-<?
+<?php
 class CGameCrons
 {
 	function CGameCrons($db)

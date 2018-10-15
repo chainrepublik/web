@@ -1,4 +1,4 @@
-<?
+<?php
  include "../kernel/db.php";
  include "CTwits.php";
  $db=new db();

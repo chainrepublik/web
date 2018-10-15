@@ -1,4 +1,4 @@
-<?
+<?php
 class CAssetsMkt
 {
 	function CAssetsMkt($db, $acc, $template)
@@ -445,31 +445,31 @@ class CAssetsMkt
             <div class="panel-body">
             <table width="100%">
             <tr>
-            <td width="12%"><img src="<? if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print "../../../crop.php?src=".base64_decode($row['pic'])."&w=150&h=150"; ?>"  class="img-circle img-responsive"/></td>
+            <td width="12%"><img src="<?php if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print "../../../crop.php?src=".base64_decode($row['pic'])."&w=150&h=150"; ?>"  class="img-circle img-responsive"/></td>
             <td width="2%">&nbsp;</td>
-            <td width="72%" valign="top"><span class="font_16"><strong><? print base64_decode($row['name']); ?></strong></span>
-            <p class="font_14"><? print base64_decode($row['description']); ?></p></td>
+            <td width="72%" valign="top"><span class="font_16"><strong><?php print base64_decode($row['name']); ?></strong></span>
+            <p class="font_14"><?php print base64_decode($row['description']); ?></p></td>
             </tr>
             <tr><td colspan="3"><hr></td></tr>
             <tr><td colspan="3">
     
             <table class="table-responsive" width="100%">
              <tr>
-            <td width="30%" align="center"><span class="font_12">Address&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><? print $this->template->formatAdr($row['adr']); ?></a></strong></span></td>
-            <td width="40%" class="font_12" align="center">Asset&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['asset']; ?></strong></td>
-            <td width="30%" class="font_12" align="center">Currency Fee&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['cur']; ?></strong></td>
+            <td width="30%" align="center"><span class="font_12">Address&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><?php print $this->template->formatAdr($row['adr']); ?></a></strong></span></td>
+            <td width="40%" class="font_12" align="center">Asset&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['asset']; ?></strong></td>
+            <td width="30%" class="font_12" align="center">Currency Fee&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['cur']; ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             <tr>
-            <td width="30%" align="center" class="font_12"><span class="font_12">Decimals</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['decimals']; ?></strong></td>
-            <td width="40%" class="font_12" align="center">Issued&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['block'])." (block ".$row['block'].")"; ?></strong></td>
-            <td width="30%" class="font_12" align="center">expires&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['expires'])." (block ".$row['expires'].")"; ?></strong></td>
+            <td width="30%" align="center" class="font_12"><span class="font_12">Decimals</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['decimals']; ?></strong></td>
+            <td width="40%" class="font_12" align="center">Issued&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print "~ ".$this->kern->timeFromBlock($row['block'])." (block ".$row['block'].")"; ?></strong></td>
+            <td width="30%" class="font_12" align="center">expires&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print "~ ".$this->kern->timeFromBlock($row['expires'])." (block ".$row['expires'].")"; ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             <tr>
-            <td width="30%" align="center" class="font_12"><span >Market ID</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['mktID']; ?></strong></td>
-            <td width="40%" class="font_12" align="center">Ask&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print round($row['ask'], 8)." ".$row['cur']; ?></strong></td>
-            <td width="30%" class="font_12" align="center">Bid&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print round($row['bid'], 8)." ".$row['cur']; ?></strong></td>
+            <td width="30%" align="center" class="font_12"><span >Market ID</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['mktID']; ?></strong></td>
+            <td width="40%" class="font_12" align="center">Ask&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print round($row['ask'], 8)." ".$row['cur']; ?></strong></td>
+            <td width="30%" class="font_12" align="center">Bid&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print round($row['bid'], 8)." ".$row['cur']; ?></strong></td>
             </tr>
             
            
@@ -484,7 +484,7 @@ class CAssetsMkt
             </div>
             <br>
             
-        <?
+        <?php
 	}
 	
 	function showReport($mktID)
@@ -544,22 +544,22 @@ class CAssetsMkt
             <table>
             <tr>
             <td width="25%" valign="top" align="center"><span class="font_10">Owned Asset</span><br><span class="font_20">
-			<? print round($owned_assets, 8)." <span class='font_12'>".$mkt_row['asset']."</span>"; ?></span></td>
+			<?php print round($owned_assets, 8)." <span class='font_12'>".$mkt_row['asset']."</span>"; ?></span></td>
             <td style="border-left: solid 1px #aaaaaa;">&nbsp;</td>
             <td width="25%" valign="top" align="center"><span class="font_10">Owned Currency</span><br><span class="font_20">
-			<? print round($owned_cur, 8)." <span class='font_12'>".$mkt_row['cur']."</span>"; ?></span></td>
+			<?php print round($owned_cur, 8)." <span class='font_12'>".$mkt_row['cur']."</span>"; ?></span></td>
             <td style="border-left: solid 1px #aaaaaa;">&nbsp;</td>
             <td width="25%" valign="top" align="center"><span class="font_10">Last Price</span><br><span class="font_20">
-			<? print round($mkt_row['last_price'], 8)." <span class='font_12'>".$mkt_row['cur']."</span>"; ?></span></td>
+			<?php print round($mkt_row['last_price'], 8)." <span class='font_12'>".$mkt_row['cur']."</span>"; ?></span></td>
             <td style="border-left: solid 1px #aaaaaa;">&nbsp;</td>
             <td width="25%" valign="top" align="center"><span class="font_10">Trades 24H</span><br><span class="font_20">
-			<? print $trades; ?></span></td>
+			<?php print $trades; ?></span></td>
             </tr>
             </table>
             </div>
             </div>
         
-        <?
+        <?php
 	} 
 	
 	
@@ -635,9 +635,9 @@ class CAssetsMkt
         
         <br>
         <table width="90%">
-          <tr><td width="70%" align="left" class="font_20"><? print base64_decode($row['name'])."<br><span class='font_10'>".base64_decode($row['description'])."</span>"; ?></td>
+          <tr><td width="70%" align="left" class="font_20"><?php print base64_decode($row['name'])."<br><span class='font_10'>".base64_decode($row['description'])."</span>"; ?></td>
           <td width="30%" class="font_10" align="right">
-          <?
+          <?php
 		     if ($this->kern->isEnergyProd($row['asset'])==true)
 			    print "<strong style='color : #009900; font-size:14px'>+".$this->kern->getProdEnergy($row['asset'])."</strong> energy points";
 			 
@@ -655,7 +655,7 @@ class CAssetsMkt
           <tr>
           <td width="40%" align="left">
           
-		  <?
+		  <?php
 		     if ($this->kern->canRent($row['asset'])==true)
 			 {
 				   // Sel
@@ -674,7 +674,7 @@ class CAssetsMkt
           </td>
           <td width="30%" align="center" valign="bottom">
           
-          <?
+          <?php
 		      if (strpos($row['asset'], "Q1")>0 || 
 			      strpos($row['asset'], "Q2")>0 || 
 				  strpos($row['asset'], "Q3")>0)
@@ -696,7 +696,7 @@ class CAssetsMkt
           
           
          
-                 <?
+                 <?php
 				     if ($show_sell==true && 
 						 $_REQUEST['target']!="ID_RENT" && 
 						 $this->kern->isLoggedIn())
@@ -717,7 +717,7 @@ class CAssetsMkt
                   <span class="glyphicon glyphicon-minus"></span>&nbsp;&nbsp;Sell Order</a>
                   </td>
                   
-                 <?
+                 <?php
 					 }
 				 ?>
                  
@@ -726,7 +726,7 @@ class CAssetsMkt
           
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			  
-			  <?
+			  <?php
 				     if ($show_buy==true &&
 						 $_REQUEST['target']!="ID_RENT" &&
 						  $this->kern->isLoggedIn())
@@ -745,7 +745,7 @@ class CAssetsMkt
                  <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Buy Order</a>
                  </td>
 			  
-			  <?
+			  <?php
 					 }
 	     	  ?>
 			  
@@ -753,7 +753,7 @@ class CAssetsMkt
           </table>
           <br><br><br>
         
-        <?
+        <?php
 	}
 	
 	function showTraders($mktID, $tip, $visible=true)
@@ -830,7 +830,7 @@ class CAssetsMkt
            
            <br>
            
-           <?
+           <?php
 		      $a=0;
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
@@ -841,7 +841,7 @@ class CAssetsMkt
                  <td width="10%">
 					 
 				<img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../../template/GIF/empty_pic.png";
 					 else
@@ -853,23 +853,23 @@ class CAssetsMkt
                  <td>&nbsp;&nbsp;&nbsp;</td>
                  <td width="39%">
                  <a href="#" class="font_14">
-			     <? 
+			     <?php 
 				      if ($row['com_name']!="") 
 						  print base64_decode($row['com_name']); 
 				      else 
 						  print $this->template->formatAdr($row['adr']); 
 				 ?>
 			     </a><br>
-                 <span class="font_10"><? print "Placed ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
-                 <? if ($this->kern->hasQuality($row['asset'])==true) $this->template->showStars($row['asset']); ?>
+                 <span class="font_10"><?php print "Placed ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+                 <?php if ($this->kern->hasQuality($row['asset'])==true) $this->template->showStars($row['asset']); ?>
                  </td>
                  <td class="font_14" width="16%">
-				 <? 
+				 <?php 
 				      print round($row['qty'], 8); 
 			     ?>
                  </td>
                  <td class="font_14" width="17%">
-				 <? 
+				 <?php 
 				      print round($row['price'], 8)." <span class='font_10'>".$row['cur']."</span>"; 
 			     ?>
                  </td>
@@ -877,7 +877,7 @@ class CAssetsMkt
                  
                  <td class="font_16" width="10%">
                  
-                <?
+                <?php
 				    // Show remove
 				    $show_remove=false;
 				  
@@ -900,7 +900,7 @@ class CAssetsMkt
                  </tr>
                  <tr><td colspan="7"><hr></td></tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
@@ -910,7 +910,7 @@ class CAssetsMkt
             <br><br><br>
            
         
-<?
+<?php
 	}
 	
 	
@@ -944,7 +944,7 @@ class CAssetsMkt
            
            <br>
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 				  
@@ -952,26 +952,26 @@ class CAssetsMkt
            
                  <tr>
                  <td width="30%">
-                 <a href="#" class="font_14"><? print $this->template->formatAdr($row['buyer'])."<br>"; ?></a>
+                 <a href="#" class="font_14"><?php print $this->template->formatAdr($row['buyer'])."<br>"; ?></a>
                 
                  </td>
                  <td class="font_14" width="30%">
-				 <a href="#" class="font_14"><? print $this->template->formatAdr($row['seller'])."<br>"; ?></a>
+				 <a href="#" class="font_14"><?php print $this->template->formatAdr($row['seller'])."<br>"; ?></a>
                  </td>
                  <td class="font_14" width="10%">
-				 <? 
+				 <?php 
 				      print round($row['qty'], 8)." ".$row['asset']; 
 			     ?>
                  </td>
                  <td class="font_14" width="10%">
-				 <? 
+				 <?php 
 				      print round($row['price'], 8)." ".$row['cur']; 
 			     ?>
                  </td>
                  
                  
                  <td width="15%" class="font_14">
-                 <?
+                 <?php
 				    print "~".$this->kern->timeFromBlock($row['block']);
 				 ?>
                  </td>
@@ -980,14 +980,14 @@ class CAssetsMkt
                  </tr>
                  <tr><td colspan="7"><hr></td></tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
            <br><br><br>
         
-        <?
+        <?php
 	}
     
 	function showNewPosMarketModal($mktID)
@@ -1090,7 +1090,7 @@ class CAssetsMkt
          </table>
          
         
-        <?
+        <?php
 		$this->template->showModalFooter("Trade", "Close");
 	}
 	
@@ -1133,7 +1133,7 @@ class CAssetsMkt
          
 		 
         
-        <?
+        <?php
 		$this->template->showModalFooter("Remove");
 	}
 	
@@ -1175,7 +1175,7 @@ class CAssetsMkt
          
 		 
         
-        <?
+        <?php
 		$this->template->showModalFooter("Rent");
 	}
 	
@@ -1400,7 +1400,7 @@ class CAssetsMkt
            
            <br>
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 				  if ($this->kern->reserved("ID_RENT_ITEM_PACKET", 
@@ -1410,34 +1410,34 @@ class CAssetsMkt
 		   ?>
            
                  <tr>
-                 <td width="9%"><img class="img img-responsive img-circle" src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($row['pic']); ?>" width="50px"></td>
+                 <td width="9%"><img class="img img-responsive img-circle" src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($row['pic']); ?>" width="50px"></td>
                  <td>&nbsp;&nbsp;&nbsp;</td>
                  <td width="39%">
                  <a href="#" class="font_14">
-			     <? 
+			     <?php 
 				      if ($row['com_name']!="") 
 						  print base64_decode($row['com_name']); 
 				      else 
 						  print $this->template->formatAdr($row['adr']); 
 				 ?>
 			     </a><br>
-                 <span class="font_10"><? print ucfirst(strtolower($row['country'])); ?></td>
+                 <span class="font_10"><?php print ucfirst(strtolower($row['country'])); ?></td>
                  <td class="font_14" width="17%"><strong>
-				 <? 
+				 <?php 
 				      print round($row['rent_price'], 4)." </strong><span class='font_10'>CRC</span>"; 
 			     ?>
                  </td>
                  
                  
                  <td class="font_16" width="10%">
-			     <a href="javascript:void(0)" onClick="$('#rent_modal').modal(); $('#rent_itemID').val('<? print $row['stocID']; ?>')" class="btn btn-primary" style="width: 100px">Rent</a>
+			     <a href="javascript:void(0)" onClick="$('#rent_modal').modal(); $('#rent_itemID').val('<?php print $row['stocID']; ?>')" class="btn btn-primary" style="width: 100px">Rent</a>
                  </td>
                 
                  
                  </tr>
                  <tr><td colspan="6"><hr></td></tr>
            
-           <?
+           <?php
 				  }
 			  }
 		   ?>
@@ -1446,7 +1446,7 @@ class CAssetsMkt
            <br><br><br>
        
 
-        <?
+        <?php
 	}
 	
 	function showPanels($asset, $cur, $owned, $ask, $bid, $vol)
@@ -1464,8 +1464,8 @@ class CAssetsMkt
                  <div class="panel-body">
 				   <table width="100%">
 						 <tr><td align="center" class="font_12">You own</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $owned; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $asset?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $owned; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $asset?></td></tr>
 				   </table>
 			     </div>
                  </div>
@@ -1477,8 +1477,8 @@ class CAssetsMkt
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">Ask</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $ask; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $cur; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $ask; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $cur; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -1490,8 +1490,8 @@ class CAssetsMkt
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">Bid</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $bid; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $cur; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $bid; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $cur; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -1504,8 +1504,8 @@ class CAssetsMkt
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">24H Volume</td></tr>
-						 <tr><td align="center" class="font_22" style="color: #009900"><strong><? print $vol; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $asset; ?></td></tr>
+						 <tr><td align="center" class="font_22" style="color: #009900"><strong><?php print $vol; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $asset; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -1515,7 +1515,7 @@ class CAssetsMkt
             </tbody>
             </table>         
           
-        <?
+        <?php
 	}
 	
 } 

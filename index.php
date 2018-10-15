@@ -1,4 +1,5 @@
-<?
+<?php 
+  
   session_start(); 
   
   include "kernel/db.php";
@@ -11,18 +12,6 @@
   $gd=new CGameData($db);
   $template=new CTemplate();
   $index=new CIndex($db, $template);
-  
-  // ICO
-  $testnet=1531612800-time();
-  $testnet_days=floor($testnet/86400);
-  $testnet_hours=floor(($testnet-$testnet_days*86400)/3600);
-  $testnet_minutes=floor(($testnet-$testnet_days*86400-$testnet_hours*3600)/60);
-  
-  // Official launch
-  $ico=1538352000-time();
-  $ico_days=floor($ico/86400);
-  $ico_hours=floor(($ico-$ico_days*86400)/3600);
-  $ico_minutes=floor(($ico-$ico_days*86400-$ico_hours*3600)/60);
 
   if (isset($_REQUEST['i'])) 
   {
@@ -33,6 +22,8 @@
   // Logout ?
   if ($_REQUEST['act']=="logout")
      unset ($_SESSION['userID']);
+
+ 
   
 ?>
 
@@ -66,9 +57,9 @@
             <td width="36%"><img src="pages/template/GIF/logo.png" width="230"  alt=""/></td>
             <td width="64%" align="right">
               
-              <?
-			    $index->showTopMenu();
-			?>
+              <?php 
+				 $index->showTopMenu();
+			  ?>
               
             </td>
           </tr>
@@ -109,55 +100,6 @@
 </table>
 	
 	<br>
-	<table width="950px" border="0" align="center" cellpadding="0" cellspacing="0" >
-    <tbody>
-    <tr>
-      <td width="100%" background="./pages/index/GIF/clocks.png" height="215" valign="top">
-		  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="2">
-			  <tr>
-				  <td width="5%" height="80">&nbsp;</td>
-				  <td width="37%" height="30" align="center" class="font_18" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>ICO has ended </strong></td>
-				  <td width="16%">&nbsp;</td>
-				  <td width="37%" align="center" style="color: #888888; text-shadow: 1px 1px #000000;"><strong>Official Launch</strong></td>
-				  <td width="5%">&nbsp;</td>
-			  </tr>
-			  
-			 <tr>
-				  <td width="5%">&nbsp;</td>
-				  <td width="37%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-				    <tbody>
-				      <tr>
-						  <td width="25%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><strong>0</strong></td>
-				         
-						  <td width="13%" align="center" valign="bottom" >&nbsp;</td>
-				       
-						  <td width="23%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65">0</td>
-				          <td width="12%" align="center" valign="bottom" >&nbsp;</td>
-				        
-						  <td width="27%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65">0</td>
-			          </tr>
-			        </tbody>
-			      </table></td>
-				  <td width="16%">&nbsp;</td>
-				  <td width="37%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-				    <tbody>
-				      <tr>
-				        <td width="25%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><strong><? print $ico_days; ?></strong></td>
-				        <td width="13%" align="center" valign="bottom" >&nbsp;</td>
-				        <td width="23%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><? print $ico_hours; ?></td>
-				        <td width="12%" align="center" valign="bottom" >&nbsp;</td>
-				        <td width="27%" align="center" class="font_30" style="color: #aaaaaa; text-shadow: 1px 1px #000000;" valign="bottom" height="65"><? print $testnet_minutes; ?></td>
-			          </tr>
-			        </tbody>
-			      </table></td>
-				  <td width="5%">&nbsp;</td>
-			  </tr>
-			  
-		  </table>
-	  </td>
-    </tr>
-	</tbody>
-	</table>
 	<table width="925" border="0" align="center" cellpadding="0" cellspacing="0">
 	  <tbody>
 	    <tr>
@@ -170,7 +112,9 @@
 	            <td width="25%" align="center" valign="top">
 					
 					
-				<?
+				<?php // Last withdrawals
+					$index->showLastWth();
+					
 					// Last packets
 					$index->showLastPackets();
 					

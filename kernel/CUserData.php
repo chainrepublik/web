@@ -1,4 +1,4 @@
-<?
+<?php
 class CUserData
 {
 	function CUserData($db, $redirect=true)
@@ -75,7 +75,7 @@ class CUserData
 			 // Address info
 			 $query="SELECT * 
 			               FROM adr 
-					      WHERE adr=?";
+					      WHERE adr=?"; 
 						
 			// Load data
 			$result=$this->kern->execute($query, 

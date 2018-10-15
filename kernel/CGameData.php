@@ -1,4 +1,4 @@
-<?
+<?php
 class CGameData
 {
 	function CGameData($db)
@@ -38,6 +38,7 @@ class CGameData
 		$_REQUEST['sd']['new_acc_reward']=$row['new_acc_reward'];
 		$_REQUEST['sd']['coin_price']=$row['coin_price']; 
 		$_REQUEST['sd']['mining_threads']=$row['mining_threads']; 
+		$_REQUEST['sd']['host']=$row['host']; 
 		
 		// Net stat
 		$query="SELECT * FROM net_stat";

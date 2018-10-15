@@ -1,4 +1,4 @@
-<?
+<?php
 class CAccountant
 {
 	function CAccountant($db, $template)
@@ -364,23 +364,23 @@ class CAccountant
             <div id="div_trans" name="div_trans">
             <table width="90%" border="0" cellspacing="0" cellpadding="0" class="table-responsive">
               <tbody>
-                <?
+                <?php
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					   {
 					?>
                      
                           <tr>
                           <td width="55%" align="left">
-							  <a href="../../explorer/packets/packet.php?hash=<? print $row['hash']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['src']); ?></strong></a><p class="font_10" style="color: #999999"><? print $this->kern->getAbsTime($row['tstamp'])."ago, ".substr(base64_decode($row['expl']), 0, 40)."..."; if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
+							  <a href="../../explorer/packets/packet.php?hash=<?php print $row['hash']; ?>" class="font_14"><strong><?php print $this->template->formatAdr($row['src']); ?></strong></a><p class="font_10" style="color: #999999"><?php print $this->kern->getAbsTime($row['tstamp'])."ago, ".substr(base64_decode($row['expl']), 0, 40)."..."; if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
                           <td width="5%" align="center" class="font_14" style="color:#999999">
-                          <?
+                          <?php
 						      if ($row['mes']!="") 
 							  print "<span id='gly_msg_".rand(100, 10000)."' data-placement='top' class='glyphicon glyphicon-envelope' data-toggle='popover' data-trigger='hover' title='Message' data-content='".base64_decode($row['mes'])."'></span>&nbsp;&nbsp;";
 							
 						  ?>
                           </td>
                           <td width="15%" align="center" class="font_16">
-                          <?
+                          <?php
 						      $confirms=$row['confirmations'];
 							  
 							  if ($confirms=="")
@@ -402,13 +402,13 @@ class CAccountant
                          
                           </td>
                           <td width="25%" align="center" class="font_14" style=" 
-						  <? 
+						  <?php 
 						      if ($row['amount']<0) 
 							     print "color:#990000"; 
 							  else 
 							     print "color:#009900"; 
 						  ?>"><strong>
-						  <? 
+						  <?php 
 						     print round($row['amount'], 8)." "; 
 							 
 							 // CRC
@@ -425,7 +425,7 @@ class CAccountant
 						  ?>
                           </strong>
                           <p class="font_12">
-						  <? 
+						  <?php 
 						      if ($row['cur']=="CRC")
 							  {
 								  if ($row['amount']<0)
@@ -442,7 +442,7 @@ class CAccountant
                           <td colspan="4"><hr></td>
                           </tr>
                     
-                    <?
+                    <?php
 					   }
 					?>
                     
@@ -455,7 +455,7 @@ class CAccountant
             <script>
 			$("span[id^='gly_']").popover();
 			</script>
-        <?
+        <?php
 	}
 	
 	

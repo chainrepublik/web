@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(3);
 	  ?>
       </td>
@@ -61,7 +61,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $admin->showMenu(7);
 			   $template->showLeftAds();
 			?>
@@ -69,7 +69,7 @@
             <td width="594" align="center" valign="top">
             
 				
-			<?
+			<?php
 				$template->showHelp("Network nodes have two initial addresses. One is the official address of the node used to register new users. Nodes reward will be paid to this address, also. The other address is the mining address and can be used to start mining ChainRepublik Coin (CRC) using your computer CPU. All nodes have a CPU miner integrated. These addresses are automatically generated at each software installation but can be replaced with others. Below are listed node's addressess.");
 				
 				// Action
@@ -88,7 +88,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -107,7 +107,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 				 
 			  ?>

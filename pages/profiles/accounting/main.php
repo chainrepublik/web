@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(9);
 	  ?>
       </td>
@@ -57,14 +57,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $profiles->showMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 		         $template->showHelp("Below are displayed the last address transactions. There are 5 types of tranfers from CRC to energy. Transactions are <strong>removed</strong> from the distributed ledger after 30 days so only transactions newer than a month are displayed.");
 							   
 		          // No page ?
@@ -105,7 +105,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -124,7 +124,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -33,7 +33,7 @@
 <body>
 <center>
     
-    <?
+    <?php
 	   $temp->showNav(1);
 	   $temp->showSearch();
 	   $temp->showNewBut("tipuri_produse.php?act=new", "New Product");

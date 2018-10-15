@@ -1,4 +1,4 @@
-<?
+<?php
 class CArticles
 {
 	function CArticles($db, $utils, $acc)
@@ -23,29 +23,29 @@ class CArticles
         
           <table width="340" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="433"><a target="_blank" href="../../home/press/article.php?mode=show&artID=<? print $row['ID']; ?>"><? print base64_decode($row['title']); ?></a></td>
+                <td width="433"><a target="_blank" href="../../home/press/article.php?mode=show&artID=<?php print $row['ID']; ?>"><?php print base64_decode($row['title']); ?></a></td>
                
-                <td width="80"><? print "<a href='#' onclick=\"$('#aprove_modal').modal(); $('#aprove_artID').val('".$row['ID']."'); \" style='width:70px' class='btn btn-success'>Aprove</a>"; ?></td>
+                <td width="80"><?php print "<a href='#' onclick=\"$('#aprove_modal').modal(); $('#aprove_artID').val('".$row['ID']."'); \" style='width:70px' class='btn btn-success'>Aprove</a>"; ?></td>
                
-                <td width="87"><? print "<a href='#' onclick=\"$('#reject_modal').modal(); $('#reject_artID').val('".$row['ID']."');\" style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
+                <td width="87"><?php print "<a href='#' onclick=\"$('#reject_modal').modal(); $('#reject_artID').val('".$row['ID']."');\" style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
                
-                <td width="87"><? print "<a href='articles.php?act=insider&artID=".$row['ID']."' onclick=\"$('#reject_modal').modal(); $('#reject_artID').val('".$row['ID']."');\" style='width:70px' class='btn btn-warning'>Insider</a>"; ?></td>
+                <td width="87"><?php print "<a href='articles.php?act=insider&artID=".$row['ID']."' onclick=\"$('#reject_modal').modal(); $('#reject_artID').val('".$row['ID']."');\" style='width:70px' class='btn btn-warning'>Insider</a>"; ?></td>
                 
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function aprove($artID, $payment, $insider=0)
@@ -210,7 +210,7 @@ class CArticles
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Aprove");
 	}
@@ -262,7 +262,7 @@ class CArticles
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Reject");
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
@@ -35,7 +35,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -43,7 +43,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -56,14 +56,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(11);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-            <? 
+            <?php 
                $template->showHelp("You can also buy or sale ChainRepublik Coins directly from other players using a wide variety of payment methods from local bank transfer, PayPal or even cash in person. To allow a global exchange market we implemented the rules at network levels, so what you see below is a p2p decentralized exchannge. You can buy / sale CRC for a fixed price or let the software adjust the price base on external exchanges live price. Keep in mind that once you send coins to another address, there is no way to recover them. <strong>Always use an escrower when trading CRC</strong>.", 70, 70);
 		       
 			   // New order
@@ -145,7 +145,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -159,7 +159,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -39,7 +39,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -47,7 +47,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(2);
 	  ?>
       </td>
@@ -61,7 +61,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $porto->showMenu(3);
 			   $template->showLeftAds();
 			?>
@@ -69,7 +69,7 @@
             <td width="594" valign="top" align="center">
 			  
 			  
-			 <?
+			 <?php
 			   $template->showHelp("When a company is created <strong>1000 shares are also created</strong>. You can make profits from holding shares because companies <strong>pay dividends</strong> from time to time. Shares behave like any other asset and can be <strong>transferred</strong> to other addresses. You can also trade them on market (when the company is created, a market between the share and CRC is also created). In order to transfer shares to another address, the recipient must <strong>trust</strong> the share.");
 			  
 			   // My shares
@@ -80,7 +80,7 @@
 			</td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -96,7 +96,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

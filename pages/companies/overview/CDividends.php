@@ -1,5 +1,5 @@
 
-<?
+<?php
 class CDividends
 {
 	function CDividends($db, $template)
@@ -47,7 +47,7 @@ class CDividends
 
              <table width="550px">
 			   
-			   <?
+			   <?php
 		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			       {
 		       ?>
@@ -55,7 +55,7 @@ class CDividends
 			       <tr>
 				   <td width="9%">
                    <img src="
-				   <? 
+				   <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -65,18 +65,18 @@ class CDividends
 				   ?>
 			       " width="41" height="41" class="img-circle" />
                    </td>
-				   <td width="37%" class="font_14" align="left"><? print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
-				   <td width="16%" class="font_14" align="center"><? print $row['qty']; ?></td>
-				   <td width="19%" class="font_14" align="center"><? print round($row['qty']*100/10000, 2)."%"; ?></td>
+				   <td width="37%" class="font_14" align="left"><?php print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
+				   <td width="16%" class="font_14" align="center"><?php print $row['qty']; ?></td>
+				   <td width="19%" class="font_14" align="center"><?php print round($row['qty']*100/10000, 2)."%"; ?></td>
 			   </tr>
 			   <tr><td colspan="4"><br></td></tr>
 			   
-			   <?
+			   <?php
 				   }
 			   ?>
            </table>
 
-        <?
+        <?php
 	}
 	
 	function showDividends()
@@ -101,20 +101,20 @@ class CDividends
            <table width="540" border="0" cellspacing="0" cellpadding="0">
            <tbody>
 			
-		   <?
+		   <?php
 		        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 				{
 		   ?>
 			   
                   <tr>
-                  <td class="font_14" width="80%"><? print $this->kern->timeFromBlock($row['block'])." ago<br><span class='font_10'>Block ".$row['block']."</span>"; ?></td>
-                  <td class="font_14" style="color: #009900" width="20%" align="center"><? print round($row['amount'], 4)." CRC"; ?></td>
+                  <td class="font_14" width="80%"><?php print $this->kern->timeFromBlock($row['block'])." ago<br><span class='font_10'>Block ".$row['block']."</span>"; ?></td>
+                  <td class="font_14" style="color: #009900" width="20%" align="center"><?php print round($row['amount'], 4)." CRC"; ?></td>
                   </tr>
                   <tr>
                   <td colspan="2"><hr></td>
                   </tr>
            
-		   <?
+		   <?php
 				}
 		   ?>
 			   
@@ -122,7 +122,7 @@ class CDividends
            </table>
 
 
-        <?
+        <?php
 	}
 }
 ?>

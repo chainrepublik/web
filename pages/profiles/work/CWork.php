@@ -1,4 +1,4 @@
-<?
+<?php
 class CWork
 {
 	function CWork($db, $acc, $template, $userID)
@@ -51,7 +51,7 @@ class CWork
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -60,28 +60,28 @@ class CWork
                <td width="52%">
                <table width="200" border="0" cellspacing="0" cellpadding="0">
                <tr>
-               <td width="53"><img src="../../companies/overview/GIF/prods/big/<? print $row['pic']; ?>.png" width="50" height="50" class="img-circle"/></td>
+               <td width="53"><img src="../../companies/overview/GIF/prods/big/<?php print $row['pic']; ?>.png" width="50" height="50" class="img-circle"/></td>
                <td width="147">
-               <a href="#" class="font_14"><strong><? print $row['name']; ?></strong></a>
+               <a href="#" class="font_14"><strong><?php print $row['name']; ?></strong></a>
                <br />
-               <span class="font_10"><? print $row['tip_name']; ?></span></td>
+               <span class="font_10"><?php print $row['tip_name']; ?></span></td>
                </tr>
                </table></td>
-               <td width="18%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['time']); ?></td>
-               <td width="15%" align="center" class="bold_gri_14"><? print $row['productivity']."%"; ?></td>
-               <td width="15%" align="center" class="bold_verde_14"><? print "".$row['salary']; ?></td>
+               <td width="18%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['time']); ?></td>
+               <td width="15%" align="center" class="bold_gri_14"><?php print $row['productivity']."%"; ?></td>
+               <td width="15%" align="center" class="bold_verde_14"><?php print "".$row['salary']; ?></td>
                </tr>
                <tr>
                <td colspan="4" ><hr></td>
                </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
           
           </table>
         
-        <?
+        <?php
 	}
 }
 ?>

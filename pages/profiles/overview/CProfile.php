@@ -1,4 +1,4 @@
-<?
+<?php
 class CProfile
 {
 	function CProfile($db, $acc, $template, $userID)
@@ -39,7 +39,7 @@ class CProfile
 			              </tr>
 			            <tr>
 			              <td height="100" align="center" class="font_30" style="color:#009900">
-							  <?
+							  <?php
 		                         if ($row['pol_party']==0)
 									 print "<img src=\"GIF/no_party.png\" width=\"80\" height=\"95\" />";
 		                         else
@@ -50,7 +50,7 @@ class CProfile
 			            <tr>
 			              <td align="center" class="font_14" style="color:#888888">
 							  
-							  <?
+							  <?php
 		                          if ($row['pol_party']==0)
 								  print "<strong>No political affiliation</strong><br><span class=\"font_12\" style=\"color: #999999\">This citizen is not a member of a political party.</span>";
 							      else
@@ -69,7 +69,7 @@ class CProfile
 			              </tr>
 			            <tr>
 			              <td height="100" align="center" class="font_30" style="color:#009900">
-							  <?
+							  <?php
 		                         if ($row['pol_party']==0)
 									 print "<img src=\"GIF/no_unit.png\" width=\"80\" height=\"95\" />";
 		                         else
@@ -79,7 +79,7 @@ class CProfile
 			              </tr>
 			            <tr>
 			              <td align="center" class="font_14" style="color:#999999">
-						  <?
+						  <?php
 		                          if ($row['mil_unit']==0)
 								  print "<strong>No military affiliation</strong><br><span class=\"font_12\" style=\"color: #999999\">This citizen is not a member of a military unit.</span>";
 							      else
@@ -96,7 +96,7 @@ class CProfile
 		        </tbody>
 	        </table>
 
-        <?
+        <?php
 	}
 	
 	function showProfile($adr)
@@ -164,7 +164,7 @@ class CProfile
 			                                <td height="35">&nbsp;</td>
 		                                  </tr>
 			                              <tr>
-			                                <td align="left"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 140, 140); ?>" width="115px"></td>
+			                                <td align="left"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 140, 140); ?>" width="115px"></td>
 		                                  </tr>
 		                                </tbody>
 		                              </table></td>
@@ -173,8 +173,8 @@ class CProfile
 			                          <td height="0" align="center" valign="bottom" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                            <tbody>
 			                              <tr>
-			                                <td width="22%"><img src="../../template/GIF/flags/20/<? print $row['cou']; ?>.gif" width="20" height="20" alt=""/></td>
-			                                <td width="78%" align="left"><? print $row['name']; ?></td>
+			                                <td width="22%"><img src="../../template/GIF/flags/20/<?php print $row['cou']; ?>.gif" width="20" height="20" alt=""/></td>
+			                                <td width="78%" align="left"><?php print $row['name']; ?></td>
 			                                </tr>
 		                                </tbody>
 			                            </table></td>
@@ -190,7 +190,7 @@ class CProfile
 			                        <tr>
 			                          <td height="104" align="left" valign="top" class="font_12">
 									  
-									  <?
+									  <?php
 		                                  if ($row['description']=="")
 											  print "No description provided";
 		                                  else
@@ -203,8 +203,8 @@ class CProfile
 			                          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 			                            <tbody>
 			                              <tr>
-											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<? print $row['adr']; ?>'); " class="btn btn-primary btn-sm" style="width: 100px">Send Coins</a></td>
-											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_mes_modal').modal(); $('#txt_rec').val('<? print $row['adr']; ?>')" class="btn btn-warning btn-sm" style="width: 100px">Message</a></td>
+											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<?php print $row['adr']; ?>'); " class="btn btn-primary btn-sm" style="width: 100px">Send Coins</a></td>
+											  <td width="33%" align="center"><a href="javascript:void(0)" onClick="$('#send_mes_modal').modal(); $('#txt_rec').val('<?php print $row['adr']; ?>')" class="btn btn-warning btn-sm" style="width: 100px">Message</a></td>
 			                                </tr>
 			                              </tbody>
 			                            </table></td>
@@ -230,13 +230,13 @@ class CProfile
 			                    </tr>
 			                  <tr>
 								  <td align="center">
-									  <? 
+									  <?php 
 		                                  print $this->kern->split($row['balance'], 2, 18, 14); 
 									  ?>
 								  </td>
 			                    <td align="center">&nbsp;</td>
 			                    <td align="center"><span class="font_16">
-									<? 
+									<?php 
 		                                 print $this->kern->split($row['energy'], 2, 18, 14); 
 									?>
 									</td>
@@ -244,8 +244,8 @@ class CProfile
 									
 								  </td>
 			                    <td align="center">
-									<strong style="color: <? if ($row['premium']==0) print "#990000"; else print "#009900" ?>">
-									<?
+									<strong style="color: <?php if ($row['premium']==0) print "#990000"; else print "#009900" ?>">
+									<?php
 		                                if ($row['premium']==0)
 											print "no";
 		                                else
@@ -253,7 +253,7 @@ class CProfile
 		                            ?>
 									</strong></td>
 			                    <td align="center">&nbsp;</td>
-			                    <td align="center"><strong><? print $aff; ?></strong></td>
+			                    <td align="center"><strong><?php print $aff; ?></strong></td>
 			                    </tr>
 			                  </tbody>
 			                </table></td>
@@ -267,18 +267,18 @@ class CProfile
 			              <td align="center" valign="top"><table width="95%" border="0" cellspacing="0" cellpadding="0">
 			                <tbody>
 			                  <tr>
-			                    <td width="47%" align="left" class="font_12">Citizenship : <strong><? print $this->kern->formatCou($row['cetatenie']); ?></strong></td>
+			                    <td width="47%" align="left" class="font_12">Citizenship : <strong><?php print $this->kern->formatCou($row['cetatenie']); ?></strong></td>
 			                    <td width="5%">&nbsp;</td>
-			                    <td width="48%"><span class="font_12">Location : <strong><? print $this->kern->formatCou($row['location']); ?></strong></span></td>
+			                    <td width="48%"><span class="font_12">Location : <strong><?php print $this->kern->formatCou($row['location']); ?></strong></span></td>
 			                    </tr>
 			                  <tr>
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Referer : <strong><? print $row['refferer']; ?></strong></span></td>
+			                    <td align="left"><span class="font_12">Referer : <strong><?php print $row['refferer']; ?></strong></span></td>
 			                    <td>&nbsp;</td>
 			                    <td><span class="font_12">Server :<strong>
-									<? 
+									<?php 
 		                               if ($row['node_adr']=="") 
 										   print "none"; 
 		                               else 
@@ -290,25 +290,25 @@ class CProfile
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Registered : <strong><? print "~".$this->kern->timeFromBlock($row['created']); ?></strong></span></td>
+			                    <td align="left"><span class="font_12">Registered : <strong><?php print "~".$this->kern->timeFromBlock($row['created']); ?></strong></span></td>
 			                    <td>&nbsp;</td>
-			                    <td><span class="font_12">Expires : <strong><? print "~".$this->kern->timeFromBlock($row['expires']); ?></strong></span></td>
+			                    <td><span class="font_12">Expires : <strong><?php print "~".$this->kern->timeFromBlock($row['expires']); ?></strong></span></td>
 			                    </tr>
 			                  <tr>
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Military Points : <strong><? print $row['war_points']; ?></strong></span></td>
+			                    <td align="left"><span class="font_12">Military Points : <strong><?php print $row['war_points']; ?></strong></span></td>
 			                    <td>&nbsp;</td>
-			                    <td><span class="font_12">Political Influence : <strong><? print $row['pol_inf']; ?></strong></span></td>
+			                    <td><span class="font_12">Political Influence : <strong><?php print $row['pol_inf']; ?></strong></span></td>
 			                    </tr>
 			                  <tr>
 			                    <td colspan="3" align="left" background="GIF/lp.png">&nbsp;</td>
 			                    </tr>
 			                  <tr>
-			                    <td align="left"><span class="font_12">Political Endorsement: <strong><? print $row['pol_endorsed']; ?></strong></span></td>
+			                    <td align="left"><span class="font_12">Political Endorsement: <strong><?php print $row['pol_endorsed']; ?></strong></span></td>
 			                    <td>&nbsp;</td>
-			                    <td><span class="font_12">Endorsers: <strong><? print $end; ?></strong></span></td>
+			                    <td><span class="font_12">Endorsers: <strong><?php print $end; ?></strong></span></td>
 			                    </tr>
 			                  </tbody>
 			                </table></td>
@@ -320,7 +320,7 @@ class CProfile
 		        </tbody>
 	           </table>
 
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 class CWorkplaces
 {
 	function CWorkplaces($db, $acc, $template)
@@ -193,7 +193,7 @@ class CWorkplaces
 				  JOIN countries AS cou ON cou.code=adr.cou
 				  JOIN tipuri_companii AS tc ON tc.tip=com.tip 
 				 WHERE wp.status=? 
-				   AND wp.work_ends<?
+				   AND wp.work_ends<?php
 				   AND com.comID=?
 			  ORDER BY wp.wage DESC, wp.ID ASC 
 			     LIMIT 0,20";
@@ -238,7 +238,7 @@ class CWorkplaces
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     $a=0;
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
@@ -253,7 +253,7 @@ class CWorkplaces
                 <tr>
                 <td width="11%" class="font_14">
                 <img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../../companies/overview/GIF/prods/big/".$row['pic'].".png";
 					 else
@@ -261,40 +261,40 @@ class CWorkplaces
 				 ?>
                 
                 " width="50" height="50" class="img-rounded" /></td>
-                <td width="28%" class="font_14"><a href="../../companies/overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['com_name']); ?></strong></a><br />
-                <span class="font_10"><? print $row['name'].", ".$row['country']; ?></span></td>
-                <td width="20%" align="center"><span class="bold_verde_14"><? print "".$row['wage']; ?></span><br />
+                <td width="28%" class="font_14"><a href="../../companies/overview/main.php?ID=<?php print $row['comID']; ?>" class="font_14"><strong><?php print base64_decode($row['com_name']); ?></strong></a><br />
+                <span class="font_10"><?php print $row['name'].", ".$row['country']; ?></span></td>
+                <td width="20%" align="center"><span class="bold_verde_14"><?php print "".$row['wage']; ?></span><br />
                 <span class="font_10">CRC / hour</span></td>
                 <td width="25%" align="center">
-                <?
+                <?php
 				   if ($a==1 && 
 					   $can_work==true)
 				   {
 				?>
                 
-                        <form method="post" action="main.php?act=work&wID=<? print $row['workplaceID']; ?>&ID=<? print $_REQUEST['ID']; ?>" id="form_<? print $row['workplaceID']; ?>" name="form_<? print $row['ID']; ?>">
-                        <select class="form-control" style="width:100px" id="dd_min_<? print $row['ID']; ?>" name="dd_min_<? print $row['workplaceID']; ?>">
-                        <? if ($_REQUEST['ud']['energy']>=1) print "<option value='5'>5 Minutes</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=3) print "<option value='15'>15 Minutes</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=6) print "<option value='30'>30 Minutes</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=9) print "<option value='45'>45 Minutes</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=12) print "<option value='60'>1 Hour</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=24) print "<option value='120'>2 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=36) print "<option value='180'>3 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=48) print "<option value='240'>4 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=60) print "<option value='300'>5 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=72) print "<option value='360'>6 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=84) print "<option value='420'>7 Hours</option>"; ?>
-                        <? if ($_REQUEST['ud']['energy']>=96) print "<option value='480'>8 Hours</option>"; ?>
+                        <form method="post" action="main.php?act=work&wID=<?php print $row['workplaceID']; ?>&ID=<?php print $_REQUEST['ID']; ?>" id="form_<?php print $row['workplaceID']; ?>" name="form_<?php print $row['ID']; ?>">
+                        <select class="form-control" style="width:100px" id="dd_min_<?php print $row['ID']; ?>" name="dd_min_<?php print $row['workplaceID']; ?>">
+                        <?php if ($_REQUEST['ud']['energy']>=1) print "<option value='5'>5 Minutes</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=3) print "<option value='15'>15 Minutes</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=6) print "<option value='30'>30 Minutes</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=9) print "<option value='45'>45 Minutes</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=12) print "<option value='60'>1 Hour</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=24) print "<option value='120'>2 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=36) print "<option value='180'>3 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=48) print "<option value='240'>4 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=60) print "<option value='300'>5 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=72) print "<option value='360'>6 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=84) print "<option value='420'>7 Hours</option>"; ?>
+                        <?php if ($_REQUEST['ud']['energy']>=96) print "<option value='480'>8 Hours</option>"; ?>
                         </select>
                         </form>
                 
-                <?
+                <?php
 				   }
 				?>
                 
                 <td width="16%" align="center" class="bold_verde_14">
-                <?
+                <?php
 				   if ($a==1 && $can_work==true)
 				    print "<a href='javascript:void(0)' onClick=\"$('#form_".$row['workplaceID']."').submit()\" class='btn btn-primary'><span class='glyphicon glyphicon-time'></span>&nbsp;&nbsp;Work</a>";
 				?>
@@ -306,7 +306,7 @@ class CWorkplaces
                 <td colspan="5" ><hr></td>
                 </tr>
           
-          <?
+          <?php
 				 }
 			  }
 		  ?>
@@ -315,7 +315,7 @@ class CWorkplaces
           <br><br><br>
         
         
-        <?
+        <?php
 	}
 	
 	
@@ -341,8 +341,8 @@ class CWorkplaces
                     <td height="95" align="center" valign="bottom" class="font_15"><strong>You have just won</strong></td>
                   </tr>
                   <tr>
-                    <td height="76" align="center" valign="bottom"><br><br><span class="inset_verde_50"><? print "".round($salary, 4); ?></span><br>
-                    <span class="font_12">gold (<? print "$".$_REQUEST['sd']['gold_price']*$salary; ?>)</span></td>
+                    <td height="76" align="center" valign="bottom"><br><br><span class="inset_verde_50"><?php print "".round($salary, 4); ?></span><br>
+                    <span class="font_12">gold (<?php print "$".$_REQUEST['sd']['gold_price']*$salary; ?>)</span></td>
                   </tr>
                 </table></td>
                 <td width="12%" align="center">&nbsp;</td>
@@ -360,14 +360,14 @@ class CWorkplaces
                     </tr>
                   <tr>
                     <td align="left" class="font_14">Energy</td>
-                    <td align="right" class="font_14" style="color:#990000"><strong><? print "-".$energy; ?> <span class="font_10" style="color:#990000">points</span></strong></td>
+                    <td align="right" class="font_14" style="color:#990000"><strong><?php print "-".$energy; ?> <span class="font_10" style="color:#990000">points</span></strong></td>
                   </tr>
                   <tr>
                     <td colspan="2" align="left" class="bold_shadow_white_14" ><hr></td>
                     </tr>
                   <tr>
                     <td align="left" class="font_14">Total Worked Days</td>
-                    <td align="right" class="bold_verde_14"><? print $worked_days; ?><span class="bold_verde_10"> days</span></td>
+                    <td align="right" class="bold_verde_14"><?php print $worked_days; ?><span class="bold_verde_10"> days</span></td>
                   </tr>
                   <tr>
                     <td colspan="2" align="left" ><hr></td>
@@ -375,8 +375,8 @@ class CWorkplaces
                   <tr>
                     <td align="left"><span class="font_14">Output</span></td>
                     <td align="right">
-                    <span class="bold_verde_14"><? print "+".$out; ?></span>
-                    <span class="bold_verde_10"><? print $out_prod; ?></span>
+                    <span class="bold_verde_14"><?php print "+".$out; ?></span>
+                    <span class="bold_verde_10"><?php print $out_prod; ?></span>
                     </td>
                   </tr>
                 </table></td>
@@ -386,7 +386,7 @@ class CWorkplaces
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -440,7 +440,7 @@ class CWorkplaces
                               <tr>
                                 <td width="28%" align="center" id="td_hours">
 								
-								<? 
+								<?php 
 								    if ($h<10) 
 									   print "0".$h; 
 									else 
@@ -451,7 +451,7 @@ class CWorkplaces
                                 <td width="6%" align="center">:</td>
                                 <td width="29%" align="center" id="td_min">
 								
-								<? 
+								<?php 
 								    if ($m<10) 
 									   print "0".$m; 
 									else 
@@ -462,7 +462,7 @@ class CWorkplaces
                                 <td width="8%" align="center">:</td>
                                 <td width="29%" align="center" id="td_sec">
 								
-								<? 
+								<?php 
 								    if ($s<10) 
 									   print "0".$s; 
 									else 
@@ -542,7 +542,7 @@ class CWorkplaces
          setInterval(interval, 1000);
          </script>
         
-        <?
+        <?php
 	}
 	
 	function showSMS()
@@ -577,7 +577,7 @@ class CWorkplaces
             
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td height="30" valign="top" class="font_12">Only verified accounts can work. To verify your account, you need to provide a phone number where we will send you an SMS containing a 6 digit code. You will need to provide this code to verify your account. You can only use a number registered in your country of residence (<strong class="font_12"><? print $country; ?></strong>). Type your phone number below and press Send SMS.</td>
+                <td height="30" valign="top" class="font_12">Only verified accounts can work. To verify your account, you need to provide a phone number where we will send you an SMS containing a 6 digit code. You will need to provide this code to verify your account. You can only use a number registered in your country of residence (<strong class="font_12"><?php print $country; ?></strong>). Type your phone number below and press Send SMS.</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -586,7 +586,7 @@ class CWorkplaces
                 <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
                   <tbody>
                       <tr>
-                        <td width="19%"><input class="form-control" disabled id="txt_prefix" name="txt_prefix" value="<? print $this->getTelCode($_SERVER["HTTP_CF_IPCOUNTRY"]); ?>" style="width:50px"/></td>
+                        <td width="19%"><input class="form-control" disabled id="txt_prefix" name="txt_prefix" value="<?php print $this->getTelCode($_SERVER["HTTP_CF_IPCOUNTRY"]); ?>" style="width:50px"/></td>
                         <td width="5%" align="center">-</td>
                         <td width="76%"><input class="form-control"  id="txt_tel" name="txt_tel" placeholder="00000000000" style="width:220px"/></td>
                       </tr>
@@ -610,7 +610,7 @@ class CWorkplaces
 			});
          </script>
            
-        <?
+        <?php
 		$this->template->showModalFooter("Cancel", "Send");
 	}
 	
@@ -666,7 +666,7 @@ class CWorkplaces
         </table>
         </form>
         
-        <?
+        <?php
 	}
 	
 	function showSendSMS()
@@ -690,7 +690,7 @@ class CWorkplaces
             
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td height="30" valign="top" class="font_12">Send an SMS containing your username (<span class="bold_mov_12"><? print $_REQUEST['ud']['user']; ?></span>) to the following number. Once we receive the message, your account will be verified. This is a regular phone number. Your company will not extra charge you. </td>
+                <td height="30" valign="top" class="font_12">Send an SMS containing your username (<span class="bold_mov_12"><?php print $_REQUEST['ud']['user']; ?></span>) to the following number. Once we receive the message, your account will be verified. This is a regular phone number. Your company will not extra charge you. </td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -708,7 +708,7 @@ class CWorkplaces
         </table>
         </form>
         
-        <?
+        <?php
 	}
 	
 	function sendSMS($prefix, $phone)
@@ -1125,7 +1125,7 @@ class CWorkplaces
 		$this->template->showModalHeader("work_fee_modal", "Work Fee", "act", "check_market", "wID", "");
 		?>
             
-           <input id="link" name="link" value="<? print $link; ?>" type="hidden">
+           <input id="link" name="link" value="<?php print $link; ?>" type="hidden">
            <table width="550" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
@@ -1141,7 +1141,7 @@ class CWorkplaces
             
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td height="30" valign="top" class="simple_gri_14">You need an <strong>energy</strong> of minimum <span class="font_14" id="td_min_energy"><? print $min_prod; ?> points</span> to start working. The easiest way to increase your energy is by consuming food, wearing clothes and so on. Below are some suggestions. Go to Market section for details.</td>
+                <td height="30" valign="top" class="simple_gri_14">You need an <strong>energy</strong> of minimum <span class="font_14" id="td_min_energy"><?php print $min_prod; ?> points</span> to start working. The easiest way to increase your energy is by consuming food, wearing clothes and so on. Below are some suggestions. Go to Market section for details.</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -1167,7 +1167,7 @@ class CWorkplaces
           </tr>
         </table>
     
-        <?
+        <?php
 		$this->template->showModalFooter("Cancel", "Check Marketplace");
 	}
 	
@@ -1252,7 +1252,7 @@ class CWorkplaces
               <tbody>
                 <tr>
                   <td width="15%" align="left"><img src="GIF/battery.png" width="69" height="100" alt=""/></td>
-                  <td width="85%" valign="top"><span class="font_16"><strong>You need to consume more products</strong></span><br><span class="font_12">In order to work you need to consume at least <strong><? print $req; ?> items / day</strong> from the following product categories : <strong>cigars, drinks or food</strong>. You have consumed <strong><? print $consumed; ?> items</strong> in the last 24 hours. Go to market and find some good offerts.</span></td>
+                  <td width="85%" valign="top"><span class="font_16"><strong>You need to consume more products</strong></span><br><span class="font_12">In order to work you need to consume at least <strong><?php print $req; ?> items / day</strong> from the following product categories : <strong>cigars, drinks or food</strong>. You have consumed <strong><?php print $consumed; ?> items</strong> in the last 24 hours. Go to market and find some good offerts.</span></td>
                 </tr>
               </tbody>
             </table>
@@ -1261,7 +1261,7 @@ class CWorkplaces
            </div>
            <br>
         
-        <?
+        <?php
 	}
 	
 	function showWorking()
@@ -1308,14 +1308,14 @@ class CWorkplaces
 						<table width="80%" align="center">
 							<tr>
 								<td width="20%">&nbsp;</td>
-								<td width="80%" height="90" valign="top"><strong>You are Working</strong><br><span class="font_12">You are working at <strong><? print base64_decode($row['name']); ?></strong>. While you are working, you can't travel, fight or start a new work process. Your work process will end in <strong>~<? print $this->kern->timeFromBlock($row['end']); ?></strong> (<? print $row['end']-$_REQUEST['sd']['last_block'] ?> blocks)</span></td>
+								<td width="80%" height="90" valign="top"><strong>You are Working</strong><br><span class="font_12">You are working at <strong><?php print base64_decode($row['name']); ?></strong>. While you are working, you can't travel, fight or start a new work process. Your work process will end in <strong>~<?php print $this->kern->timeFromBlock($row['end']); ?></strong> (<?php print $row['end']-$_REQUEST['sd']['last_block'] ?> blocks)</span></td>
 							</tr>
 						</table>
 					</td>
 				</table>
             <br>
           
-        <?
+        <?php
 		}
 		}
 	

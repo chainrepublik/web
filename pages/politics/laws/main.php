@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -58,7 +58,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(2);
 			   $template->showLeftAds();
 			?>
@@ -67,7 +67,7 @@
             
             
         
-            <?
+            <?php
 		       $template->showHelp("Below is a report of laws voted / rejected by the congress. Laws can <strong>only</strong> be proposed / voted by members of the congress. Laws can <strong>change</strong> taxes, bonuses, <strong>start wars</strong>, <strong>deploy</strong> military equipment and so on. The voting process lasts <strong>24 hours</strong> or less if the law has been <strong>voted by at least 75%</strong> of congressmen and the approval rate is <strong>at least 75%</strong>. Congressmen's voting power is not equal. It depends on the voter's <strong>political influence</strong>.");
 		       
 			   // Action
@@ -193,7 +193,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -207,7 +207,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

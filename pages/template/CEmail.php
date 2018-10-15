@@ -1,4 +1,4 @@
-<?
+<?php
 class CEmail
 {
 	function CEmail()

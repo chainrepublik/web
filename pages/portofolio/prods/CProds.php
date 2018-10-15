@@ -1,4 +1,4 @@
-<?
+<?php
 class CProds
 {
 	function CProds($db, $template, $acc)
@@ -378,7 +378,10 @@ class CProds
 		}
 		
 	    // Energy prod ?
-		if ($this->kern->isEnergyProd($item)==false)
+		if (!$this->kern->isEnergyProd($item) && 
+			strpos($item, "TICKET")==0 &&
+		    !$this->kern->isAttackWeapon($item) &&
+		    !$this->kern->isDefenseWeapon($item))
 		{
 			$this->template->showErr("Invalid item");
 			return false;
@@ -508,7 +511,7 @@ class CProds
       
      
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -545,7 +548,7 @@ class CProds
       
      
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -594,7 +597,7 @@ class CProds
             <tbody>
               <tr>
                 <td class="simple_blue_deschis_24">
-                <?
+                <?php
 				   switch ($type)
 				   {
 					   case "ID_CIGARS" : print "Cigars"; break; 
@@ -619,7 +622,7 @@ class CProds
                 <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="12%" align="center" class="bold_shadow_white_14">Energy</td>
                 <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="21%" align="center" class="bold_shadow_white_14"><? print $act; ?></td>
+                <td width="21%" align="center" class="bold_shadow_white_14"><?php print $act; ?></td>
               </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
@@ -630,7 +633,7 @@ class CProds
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
           
-          <?
+          <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 				  if (!$this->kern->reserved("ID_CONSUME_ITEM_PACKET", 
@@ -643,14 +646,14 @@ class CProds
               <td width="52%" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
               <td width="18%" align="left">
-              <img src="../../companies/overview/GIF/prods/big/<? print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
-              <td width="82%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br /><span class="font_10">
-              Expires : <? print $this->kern->timeFromBlock($row['expires']); ?>
+              <img src="../../companies/overview/GIF/prods/big/<?php print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
+              <td width="82%"><span class="font_14"><strong><?php print $row['name']; ?></strong></span><br /><span class="font_10">
+              Expires : <?php print $this->kern->timeFromBlock($row['expires']); ?>
               </tbody>
               </table></td>
               <td width="11%" align="center">&nbsp;</td>
               <td width="15%" align="center" class="font_14"><span class="simple_green_14"><strong>
-			  <? 
+			  <?php 
 			      print "+";
 				  
 				  if ($row['tip']!="ID_WINE")
@@ -661,13 +664,13 @@ class CProds
               
               </strong></span> <br />
               <span class="simple_green_10">points</span></td>
-              <td width="22%" align="center" class="bold_verde_14"><a href="main.php?act=consume&stocID=<? print $row['stocID']; ?>" class="btn btn-primary btn-sm" style="width:70px"><? print $act; ?></a>&nbsp;&nbsp;<a class="btn btn-default btn-sm" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $row['stocID']; ?>');">&nbsp;<span class="glyphicon glyphicon-send"></span></a></td>
+              <td width="22%" align="center" class="bold_verde_14"><a href="main.php?act=consume&stocID=<?php print $row['stocID']; ?>" class="btn btn-primary btn-sm" style="width:70px"><?php print $act; ?></a>&nbsp;&nbsp;<a class="btn btn-default btn-sm" onClick="$('#donate_modal').modal(); $('#stocID').val('<?php print $row['stocID']; ?>');">&nbsp;<span class="glyphicon glyphicon-send"></span></a></td>
             </tr>
               <tr>
               <td colspan="4"><hr></td>
               </tr>
           
-          <?
+          <?php
 				  }
 	         }
 		  ?>
@@ -675,7 +678,7 @@ class CProds
 </table>
           <br>
         
-        <?
+        <?php
 	}
 	
 	function showRentItems($type, $visible=true)
@@ -727,7 +730,7 @@ class CProds
             <tbody>
               <tr>
                 <td class="simple_blue_deschis_24">&nbsp;&nbsp;&nbsp;
-                <?
+                <?php
 				   switch ($type)
 				   {
 					   case "ID_CLOTHES" : print "Clothes"; $act="Wear"; break; 
@@ -740,7 +743,7 @@ class CProds
               </tr>
             </tbody>
           </table>
-            <table width="550" border="0" cellspacing="0" cellpadding="0" style="<? if ($visible==false) print "display:none"; ?>">
+            <table width="550" border="0" cellspacing="0" cellpadding="0" style="<?php if ($visible==false) print "display:none"; ?>">
             <tr>
             <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
             <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
@@ -764,7 +767,7 @@ class CProds
           
           <table width="540" border="0" cellspacing="0" cellpadding="0">
           
-          <?
+          <?php
 			 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				 $q=0;
@@ -800,17 +803,17 @@ class CProds
               
                <tr>
                  <td width="10%">
-                 <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
+                 <img src="../../companies/overview/GIF/prods/big/<?php print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
 				 </td>
 				   
-				   <td width="50%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br />
+				   <td width="50%"><span class="font_14"><strong><?php print $row['name']; ?></strong></span><br />
                 
                 <table width="200" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-					<td class="font_10" width="100px">Expires : <? print $this->kern->timeFromBlock($row['expires']); ?></td>
+					<td class="font_10" width="100px">Expires : <?php print $this->kern->timeFromBlock($row['expires']); ?></td>
                 <td align="left">
 				<span class="simple_green_10">
-				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; ?>
+				<?php print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; ?>
                 </span>
                 </td></tr>
                 </table>
@@ -818,7 +821,7 @@ class CProds
                 </td>
                 
 				<td width="10%" align="center" class="font_14">
-                <?
+                <?php
                         if ($row['rented_expires']==0) 
 							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -827,7 +830,7 @@ class CProds
 				</td>
 				   
                 <td width="10%" align="center" class="font_14">
-					<?
+					<?php
                         if ($row['in_use']==0) 
 							print "<img src='GIF/use_off.png' title='Not Used' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -841,17 +844,17 @@ class CProds
                 Action <span class="caret"></span>
                 </button>
                <ul class="dropdown-menu">
-               <li><a href="main.php?target=<? print $_REQUEST['target'] ?>&act=use&itemID=<? print $row['stocID']; ?>">Use Item</a></li>
+               <li><a href="main.php?target=<?php print $_REQUEST['target'] ?>&act=use&itemID=<?php print $row['stocID']; ?>">Use Item</a></li>
                
-				   <?
+				   <?php
 				       if ($row['rented_expires']==0)
 					   {
 				    ?>
 				   
-			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $row['stocID']; ?>');">Donate</a></li>
-                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<? print $row['stocID']; ?>'); $('#txt_rent_price').val('<? print $row['rent_price']; ?>');">Set Rent Price</a></li>
+			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<?php print $row['stocID']; ?>');">Donate</a></li>
+                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<?php print $row['stocID']; ?>'); $('#txt_rent_price').val('<?php print $row['rent_price']; ?>');">Set Rent Price</a></li>
                
-				   <?
+				   <?php
 					   }
 				   ?>
 				   
@@ -868,14 +871,14 @@ class CProds
             
              
           
-          <?
+          <?php
 			 }
 		  ?>
           
         </table>
         <br>
         
-        <?
+        <?php
 	}
 	
 	function showWeapons($type, $visible=true)
@@ -922,7 +925,7 @@ class CProds
             <tbody>
               <tr>
                 <td class="simple_blue_deschis_24">&nbsp;&nbsp;&nbsp;
-                <?
+                <?php
 				   switch ($type)
 				   {
 					   case "ID_ATTACK" : print "Attack Weapons"; $act="Equip"; break; 
@@ -933,7 +936,7 @@ class CProds
               </tr>
             </tbody>
           </table>
-            <table width="550" border="0" cellspacing="0" cellpadding="0" style="<? if ($visible==false) print "display:none"; ?>">
+            <table width="550" border="0" cellspacing="0" cellpadding="0" style="<?php if ($visible==false) print "display:none"; ?>">
             <tr>
             <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
             <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
@@ -957,7 +960,7 @@ class CProds
           
           <table width="540" border="0" cellspacing="0" cellpadding="0">
           
-          <?
+          <?php
 			 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				 $q=0;
@@ -993,17 +996,17 @@ class CProds
               
                <tr>
                  <td width="10%">
-                 <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
+                 <img src="../../companies/overview/GIF/prods/big/<?php print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
 				 </td>
 				   
-				   <td width="50%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br />
+				   <td width="50%"><span class="font_14"><strong><?php print $row['name']; ?></strong></span><br />
                 
                 <table width="200" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-					<td class="font_10" width="100px">Expires : <? print $this->kern->timeFromBlock($row['expires']); ?></td>
+					<td class="font_10" width="100px">Expires : <?php print $this->kern->timeFromBlock($row['expires']); ?></td>
                 <td align="left">
 				<span class="simple_green_10">
-				<?
+				<?php
 				    if (!$this->kern->isAttackWeapon($row['tip']) && 
 						!$this->kern->isDefenseWeapon($row['tip']))
 				        print "+".$this->kern->getProdEnergy($row['tip'])." energy / day"; 
@@ -1017,7 +1020,7 @@ class CProds
                 </td>
                 
 				<td width="10%" align="center" class="font_14">
-                <?
+                <?php
                         if ($row['rented_expires']==0) 
 							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -1026,7 +1029,7 @@ class CProds
 				</td>
 				   
                 <td width="10%" align="center" class="font_14">
-					<?
+					<?php
                         if ($row['in_use']==0) 
 							print "<img src='GIF/use_off.png' title='Not Used' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -1040,17 +1043,17 @@ class CProds
                 Action <span class="caret"></span>
                 </button>
                <ul class="dropdown-menu">
-               <li><a href="main.php?target=<? print $_REQUEST['target'] ?>&act=use&itemID=<? print $row['stocID']; ?>">Use Item</a></li>
+               <li><a href="main.php?target=<?php print $_REQUEST['target'] ?>&act=use&itemID=<?php print $row['stocID']; ?>">Use Item</a></li>
                
-				   <?
+				   <?php
 				       if ($row['rented_expires']==0)
 					   {
 				    ?>
 				   
-			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $row['stocID']; ?>');">Donate</a></li>
-                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<? print $row['stocID']; ?>'); $('#txt_rent_price').val('<? print $row['rent_price']; ?>');">Set Rent Price</a></li>
+			               <li><a href="javascript:void(0)" onClick="$('#donate_modal').modal(); $('#stocID').val('<?php print $row['stocID']; ?>');">Donate</a></li>
+                           <li><a href="javascript:void(0)" onClick="$('#set_price_modal').modal(); $('#rent_stocID').val('<?php print $row['stocID']; ?>'); $('#txt_rent_price').val('<?php print $row['rent_price']; ?>');">Set Rent Price</a></li>
                
-				   <?
+				   <?php
 					   }
 				   ?>
 				   
@@ -1067,14 +1070,14 @@ class CProds
             
              
           
-          <?
+          <?php
 			 }
 		  ?>
           
         </table>
         <br>
         
-        <?
+        <?php
 	}
 	
 	function showGift($stocID, $expires)
@@ -1084,12 +1087,12 @@ class CProds
             <table width="100" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
-            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <? print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
+            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <?php print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
             </tr>
-				<tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $stocID; ?>');">Donate</a></td></tr>
+				<tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<?php print $stocID; ?>');">Donate</a></td></tr>
             </tbody></table>
 
-        <?
+        <?php
 	}
 	
 	function showTicket($stocID, $prod, $qty)
@@ -1097,7 +1100,7 @@ class CProds
 		$q=$this->kern->getQuality($prod);
 	   ?>
 
-            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <? print $q; ?> stars" data-toggle="tooltip" data-placement="top">
+            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <?php print $q; ?> stars" data-toggle="tooltip" data-placement="top">
 	        <table width="90" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
@@ -1107,13 +1110,13 @@ class CProds
             <td align="center" valign="bottom"><img src="../../template/GIF/stars_1.png" width="90" height="20" alt=""/></td>
             </tr>
             <tr>
-			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><? print $qty; ?></strong></td>
+			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><?php print $qty; ?></strong></td>
             </tr>
 			</tr>	
 			</tbody></table></td></tr>
-            <tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<? print $stocID; ?>');">Donate</a></td></table>
+            <tr><td height="50"><a href="javascript:voi(0)" class="btn btn-default btn-sm" style="width: 100%" onClick="$('#donate_modal').modal(); $('#stocID').val('<?php print $stocID; ?>');">Donate</a></td></table>
 
-       <?
+       <?php
 	}
 	
 	function showMisc()
@@ -1151,7 +1154,7 @@ class CProds
               <tbody>
                 <tr>
                   
-				  <?
+				  <?php
 		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			         {
 						 $n++;
@@ -1165,7 +1168,7 @@ class CProds
 					
 		               <td width="100" align="center" valign="top">
 						
-						   <?
+						   <?php
 						    if (strpos($row['tip'], "TICKET")>0)
 								$this->showTicket($row['stocID'], $row['tip'], $row['qty']);
 						    else
@@ -1175,7 +1178,7 @@ class CProds
 				        </td>
 				        <td align="center">&nbsp;</td>
                   
-				  <?
+				  <?php
 	                 }
 		
 		            
@@ -1186,7 +1189,7 @@ class CProds
               </tbody>
             </table>
 
-        <?
+        <?php
 	}
 }
 ?>

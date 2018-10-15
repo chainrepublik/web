@@ -1,4 +1,4 @@
-<?
+<?php
 class COpenCompany
 {
    function COpenCompany($db, $template, $acc)
@@ -103,7 +103,7 @@ class COpenCompany
           </tr>
         </table>
        
-       <?
+       <?php
 	   $this->template->showModalFooter("Create", "Open");
    }
    
@@ -451,7 +451,7 @@ class COpenCompany
           </tr>
         </table>
        
-       <?
+       <?php
    }
    
    function showServices()
@@ -536,7 +536,7 @@ class COpenCompany
         </table>
         <br><br><br>        
        
-<?
+<?php
    }
    
    function showBasic()
@@ -596,7 +596,7 @@ class COpenCompany
             </tr>
         </table>
        
-       <?
+       <?php
    }
    
    
@@ -852,7 +852,7 @@ class COpenCompany
           </tr>
         </table>
        
-       <?
+       <?php
    }
    
    function showGoods()
@@ -1025,7 +1025,7 @@ class COpenCompany
           </tr>
         </table>
        
-       <?
+       <?php
    }
    
    

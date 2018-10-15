@@ -1,4 +1,4 @@
-<?
+<?php
 class CSecurity
 {
 	function CSecurity($db, $acc, $template)
@@ -144,7 +144,7 @@ class CSecurity
         </table>
         
          
-        <?
+        <?php
 		$this->template->showModalFooter("Change");
 	}
 	
@@ -184,7 +184,7 @@ class CSecurity
           
           <table width="90%" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				
@@ -194,18 +194,18 @@ class CSecurity
                <td width="64%" class="font_14">
                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                <tr>
-                <td width="12%"><img src="../../template/GIF/flags/35/<? print $row['country']; ?>.gif" width="35"  /></td>
-				   <td width="90%" align="left"><? print $row['act']; ?><br><span class="font_10">Executed from <? print $row['country_name']; ?></span></td>
+                <td width="12%"><img src="../../template/GIF/flags/35/<?php print $row['country']; ?>.gif" width="35"  /></td>
+				   <td width="90%" align="left"><?php print $row['act']; ?><br><span class="font_10">Executed from <?php print $row['country_name']; ?></span></td>
                </tr>
                </table></td>
-               <td width="21%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
-               <td width="15%" align="center" class="font_14"><? print $row['IP']; ?></td>
+               <td width="21%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
+               <td width="15%" align="center" class="font_14"><?php print $row['IP']; ?></td>
                </tr>
                <tr>
                <td colspan="3" ><hr></td>
                </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
           
@@ -213,7 +213,7 @@ class CSecurity
           <br><br>
   
         
-        <?
+        <?php
 	}
 	
 	function showPage()
@@ -233,7 +233,7 @@ class CSecurity
               </tbody>
             </table>
 
-         <?
+         <?php
 	}
 	
 	

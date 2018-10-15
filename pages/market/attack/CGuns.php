@@ -1,4 +1,4 @@
-<?
+<?php
 class CGuns
 {
     function CGuns($db, $acc, $template)
@@ -20,37 +20,37 @@ class CGuns
 		        
 				<td width="85" align="center">
                 <a href="main.php?trade_prod=ID_KNIFE">
-                <img src="./GIF/knife_<? if ($prod=="ID_KNIFE") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Knifes" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/knife_<?php if ($prod=="ID_KNIFE") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Knifes" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 				  
 				<td width="85" align="center">
                 <a href="main.php?trade_prod=ID_PISTOL">
-                <img src="./GIF/pistol_<? if ($prod=="ID_PISTOL") print "on"; else print "off"; ?>.png" id="img_2" style="cursor:pointer" title="Pistols" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/pistol_<?php if ($prod=="ID_PISTOL") print "on"; else print "off"; ?>.png" id="img_2" style="cursor:pointer" title="Pistols" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_REVOLVER">
-                <img src="./GIF/revolver_<? if ($prod=="ID_REVOLVER") print "on"; else print "off"; ?>.png" id="img_3" style="cursor:pointer" title="Revolvers" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/revolver_<?php if ($prod=="ID_REVOLVER") print "on"; else print "off"; ?>.png" id="img_3" style="cursor:pointer" title="Revolvers" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 				  
 				<td width="85" align="center">
                 <a href="main.php?trade_prod=ID_SHOTGUN">
-                <img src="./GIF/shotgun_<? if ($prod=="ID_SHOTGUN") print "on"; else print "off"; ?>.png" id="img_4" style="cursor:pointer" title="Shotguns" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/shotgun_<?php if ($prod=="ID_SHOTGUN") print "on"; else print "off"; ?>.png" id="img_4" style="cursor:pointer" title="Shotguns" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 				  
 				<td width="85" align="center">
                 <a href="main.php?trade_prod=ID_MACHINE_GUN">
-                <img src="./GIF/akm_<? if ($prod=="ID_MACHINE_GUN") print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Assault Guns" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/akm_<?php if ($prod=="ID_MACHINE_GUN") print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Assault Guns" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 				  
 				<td width="85" align="center">
                 <a href="main.php?trade_prod=ID_SNIPER">
-                <img src="./GIF/sniper_<? if ($prod=="ID_SNIPER") print "on"; else print "off"; ?>.png" id="img_6" style="cursor:pointer" title="Sniper Riffles" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/sniper_<?php if ($prod=="ID_SNIPER") print "on"; else print "off"; ?>.png" id="img_6" style="cursor:pointer" title="Sniper Riffles" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		      
@@ -65,7 +65,7 @@ class CGuns
           
          
         
-        <?
+        <?php
 	}
 }
 ?>

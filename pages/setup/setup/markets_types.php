@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -32,7 +32,7 @@
 <body>
 <center>
     
-    <?
+    <?php
 	   $temp->showNav(12);
 	   $temp->showSearch();
 	   $vmkts->showNewBut();

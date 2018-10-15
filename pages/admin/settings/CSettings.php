@@ -1,4 +1,4 @@
-<?
+<?php
 class CSettings
 {
 	function CSettings($db, $template)
@@ -287,7 +287,7 @@ class CSettings
 		?>
         
             <table width="90%" border="0" cellspacing="0" cellpadding="0" class="table-responsive">
-                  <?
+                  <?php
 				     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					 {
 						 $balance=$this->kern->getBalance($row['adr'], "CRC");
@@ -295,27 +295,27 @@ class CSettings
                   
                         <tr>
                           <td width="9%" align="left">
-                          <img src="<? if ($row['pic']!="") print base64_decode($row['pic']); else print "../../template/template/GIF/empty_pic.png"; ?>" width="50" height="50" alt="" class="img-circle"  />
+                          <img src="<?php if ($row['pic']!="") print base64_decode($row['pic']); else print "../../template/template/GIF/empty_pic.png"; ?>" width="50" height="50" alt="" class="img-circle"  />
                           </td>
-                          <td width="40%" align="left"><a href="../options/index.php?ID=<? print $row['ID']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['adr']); ?></strong></a></td>
+                          <td width="40%" align="left"><a href="../options/index.php?ID=<?php print $row['ID']; ?>" class="font_14"><strong><?php print $this->template->formatAdr($row['adr']); ?></strong></a></td>
                          
                           <td width="10%" align="center">
-                          <?
+                          <?php
 						     // Restricted recipients ?
 							 if ($this->kern->hasAttr($row['adr'], "ID_RES_REC")==true)
 							  print "<span class='glyphicon glyphicon-random' style='color:#999999' data-toggle='tooltip' data-placement='top' title='Restricted recipients'></span>";
 							?>
                           </td>
                           
-                          <td width="21%" align="center" class="font_14" style="color:<? if ($balance==0) print "#999999"; else print "#009900" ?>"><strong>
-						<? 
+                          <td width="21%" align="center" class="font_14" style="color:<?php if ($balance==0) print "#999999"; else print "#009900" ?>"><strong>
+						<?php 
 						   
 						   if ($balance=="") 
 						      print "0 CRC"; 
 							else
 							  print round($balance, 8)." CRC"; 
 						?>
-                        </strong><p class="font_10"><? print "$".round($row['balance']*$_REQUEST['sd']['CRC_price'], 2); ?></p></td>
+                        </strong><p class="font_10"><?php print "$".round($row['balance']*$_REQUEST['sd']['CRC_price'], 2); ?></p></td>
                         <td width="25%" align="center" class="simple_maro_12">
                         
                        
@@ -325,12 +325,12 @@ class CSettings
                             <tr>
                               <td>
                               
-							  <?
+							  <?php
 							     print "<a class=\"btn btn-sm btn-warning\" href='../options/index.php?ID=".$row['ID']."'>Options</a></td>";
                               ?>
                               
                               <td>&nbsp;</td>
-                              <td><a href="#" class="btn btn-sm btn-default" onclick="$('#qr_img').attr('src', '../../../qr/qr.php?qr=<? print $row['adr']; ?>'); $('#txt_plain').val('<? print $row['adr']; ?>'); $('#modal_qr').modal()"><span class="glyphicon glyphicon-qrcode"></span></a></td>
+                              <td><a href="#" class="btn btn-sm btn-default" onclick="$('#qr_img').attr('src', '../../../qr/qr.php?qr=<?php print $row['adr']; ?>'); $('#txt_plain').val('<?php print $row['adr']; ?>'); $('#modal_qr').modal()"><span class="glyphicon glyphicon-qrcode"></span></a></td>
                             </tr>
                           </tbody>
                         </table>
@@ -343,7 +343,7 @@ class CSettings
                         <td colspan="5"><hr></td>
                         </tr>
                   
-                  <?
+                  <?php
 					 }
 				  ?>
                 
@@ -367,7 +367,7 @@ class CSettings
             });
             </script>
         
-        <?
+        <?php
 	}
 	
 	
@@ -395,7 +395,7 @@ class CSettings
           </tr>
         </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter();
 	}
 	
@@ -445,7 +445,7 @@ class CSettings
           </tr>
         </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter();
 	}
 	
@@ -492,7 +492,7 @@ class CSettings
             </tr>
             </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter("Change");
 	}
 	
@@ -523,7 +523,7 @@ class CSettings
             </tr>
             </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter("Update");
 	}
 	
@@ -549,7 +549,7 @@ class CSettings
             </tr>
             </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter("Update");
 	}
 	
@@ -574,7 +574,7 @@ class CSettings
 		   </tbody>
            </table>
          
-        <?
+        <?php
 	}
 	
 	function showSecSettings()
@@ -599,7 +599,7 @@ class CSettings
        </tr>
      <tr>
        <td align="left" class="font_16">Set new accounts reward<p class="font_10">Set a reward in PLC for newly created accounts. You have to define a payment address and an ammount.</p></td>
-       <td align="center"><a href="javascript:void(0)" onClick="$('#modal_reward').modal(); $('#txt_reward_amount').val('<? print $_REQUEST['sd']['new_acc_reward']; ?>');" class="btn btn-success" style="width:100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;Setup</a></td>
+       <td align="center"><a href="javascript:void(0)" onClick="$('#modal_reward').modal(); $('#txt_reward_amount').val('<?php print $_REQUEST['sd']['new_acc_reward']; ?>');" class="btn btn-success" style="width:100px"><span class="glyphicon glyphicon-GIFt"></span>&nbsp;&nbsp;Setup</a></td>
      </tr>
      <tr>
        <td colspan="2" align="left"><hr></td>
@@ -615,7 +615,7 @@ class CSettings
    </tbody>
  </table>
         
-        <?
+        <?php
 	}
 	
 	

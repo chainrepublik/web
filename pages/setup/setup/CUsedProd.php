@@ -1,4 +1,4 @@
-<?
+<?php
 class CUsedProd
 {
 	function CUsedProd($db, $utils)
@@ -79,21 +79,21 @@ class CUsedProd
            <br><br>
            <table width="700" border="0" cellspacing="0" cellpadding="0">
            <tr>
-           <td align="right"><a href="#" onclick="$('#add_modal').modal(); $('#com').val('<? print $_REQUEST['com']; ?>'); $('#td_com_name').text('<? print $com_name; ?>')" class="btn btn-success">New Product<a/></td>
+           <td align="right"><a href="#" onclick="$('#add_modal').modal(); $('#com').val('<?php print $_REQUEST['com']; ?>'); $('#td_com_name').text('<?php print $com_name; ?>')" class="btn btn-success">New Product<a/></td>
            </tr>
            </table>
            <br>
            <table border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
            
-           <?
+           <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		   ?>
            
               <tr>
-              <td width="375" align="left"><? print $row['prod_name']; ?><br /><span style="font-family:Verdana, Geneva, sans-serif; font-size:10px; color:#999999"><? print $row['tip_prod']; ?></span></td>
+              <td width="375" align="left"><?php print $row['prod_name']; ?><br /><span style="font-family:Verdana, Geneva, sans-serif; font-size:10px; color:#999999"><?php print $row['tip_prod']; ?></span></td>
               <td width="145" align="center">
-			  <? 
+			  <?php 
 				 switch ($row['type'])
 				 {
 					 case "ID_RAW" : print "Raw Material"; break;
@@ -105,7 +105,7 @@ class CUsedProd
 		      ?>
               </td>
               <td width="80" align="center">
-			  <? 
+			  <?php 
 			     switch ($row['buy_split'])
 				 {
 					 case "ID_YES" : print "Yes"; break;
@@ -115,18 +115,18 @@ class CUsedProd
               </td>
               
               <td width="80" align="center">
-              <a href="del.php?tab=com_prods&ID=<? print $row['pID']; ?>&com=<? print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
+              <a href="del.php?tab=com_prods&ID=<?php print $row['pID']; ?>&com=<?php print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
               </td>
               
               </tr>
            
-           <?
+           <?php
 	        }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showAddModal()
@@ -161,7 +161,7 @@ class CUsedProd
               <tr>
                 <td height="45" align="right" valign="middle" class="bold_gri_14">Prod&nbsp;&nbsp;</td>
                 <td height="40" align="left" valign="middle">
-                <? $this->utils->showProdTypesDD("dd_prod_type"); ?>
+                <?php $this->utils->showProdTypesDD("dd_prod_type"); ?>
                 </td>
               </tr>
               <tr>
@@ -195,7 +195,7 @@ class CUsedProd
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

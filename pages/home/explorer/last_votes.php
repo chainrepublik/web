@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -41,7 +41,7 @@
 
 <body background="../../template/GIF/back.png">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -49,7 +49,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -62,14 +62,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(10);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
      
-            <?
+            <?php
                // QR Modal
 		       $template->showQRModal();
 		 
@@ -90,7 +90,7 @@ An address that has not received a vote or a small number of votes will need mor
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -104,7 +104,7 @@ An address that has not received a vote or a small number of votes will need mor
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

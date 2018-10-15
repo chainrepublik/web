@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -57,7 +57,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(1);
 			   $template->showLeftAds();
 			?>
@@ -65,7 +65,7 @@
             <td width="594" valign="top" align="center">
             
             
-            <?
+            <?php
 		       $template->showHelp("Below are information and statistics related to this country, such as the list of citizens or companies. For other information such as laws, congressmen, etc., use the left menu.");
 				
 				// Buy private country ?
@@ -87,7 +87,7 @@
                 <tr>
                   <td align="left" width="40%">
 				
-				  <?
+				  <?php
 					    // No page ?
 					    $sel=1;
 					  
@@ -110,36 +110,36 @@
 				  </td>
 				  <td align="right" valign="bottom">
 				  
-				  <?
+				  <?php
 					  if ($sel==1)
 					  {
 				  ?>
 					  
-				        <form method="post" action="main.php?cou=<? print $_REQUEST['cou']; ?>&page=<? print $_REQUEST['page']; ?>" id="form_type" name="form_type">
+				        <form method="post" action="main.php?cou=<?php print $_REQUEST['cou']; ?>&page=<?php print $_REQUEST['page']; ?>" id="form_type" name="form_type">
 				        <select id="dd_sort" name="dd_sort" class="form-control" style="width: 200px" onChange="$('#form_type').submit()">
-					    <option value="ID_ENERGY" <? if ($_REQUEST['dd_sort']=="ID_ENERGY") print "selected"; ?>>Energy</option>
-					    <option value="ID_POL_INF" <? if ($_REQUEST['dd_sort']=="ID_POL_INF") print "selected"; ?>>Political Influence</option>
-					    <option value="ID_POL_END" <? if ($_REQUEST['dd_sort']=="ID_POL_END") print "selected"; ?>>Political Endorsment</option>
-					    <option value="ID_WAR_POINTS" <? if ($_REQUEST['dd_sort']=="ID_WAR_POINTS") print "selected"; ?>>War Points</option>
-					    <option value="ID_BALANCE" <? if ($_REQUEST['dd_sort']=="ID_BALANCE") print "selected"; ?>>Coins Balance</option>
-					    <option value="ID_REGISTERED" <? if ($_REQUEST['dd_sort']=="ID_REGISTERED") print "selected"; ?>>Registration Date</option>
+					    <option value="ID_ENERGY" <?php if ($_REQUEST['dd_sort']=="ID_ENERGY") print "selected"; ?>>Energy</option>
+					    <option value="ID_POL_INF" <?php if ($_REQUEST['dd_sort']=="ID_POL_INF") print "selected"; ?>>Political Influence</option>
+					    <option value="ID_POL_END" <?php if ($_REQUEST['dd_sort']=="ID_POL_END") print "selected"; ?>>Political Endorsment</option>
+					    <option value="ID_WAR_POINTS" <?php if ($_REQUEST['dd_sort']=="ID_WAR_POINTS") print "selected"; ?>>War Points</option>
+					    <option value="ID_BALANCE" <?php if ($_REQUEST['dd_sort']=="ID_BALANCE") print "selected"; ?>>Coins Balance</option>
+					    <option value="ID_REGISTERED" <?php if ($_REQUEST['dd_sort']=="ID_REGISTERED") print "selected"; ?>>Registration Date</option>
 				        </select>
 				        </form>
 					  
-					  <?
+					  <?php
 					  }
 					  else
 					  {
 						  ?>
 					  
-					   <form method="post" action="main.php?cou=<? print $_REQUEST['cou']; ?>&page=<? print $_REQUEST['page']; ?>" id="form_type" name="form_type">
+					   <form method="post" action="main.php?cou=<?php print $_REQUEST['cou']; ?>&page=<?php print $_REQUEST['page']; ?>" id="form_type" name="form_type">
 				        <select id="dd_sort" name="dd_sort" class="form-control" style="width: 200px" onChange="$('#form_type').submit()">
-					    <option value="ID_BALANCE" <? if ($_REQUEST['dd_sort']=="ID_BALANCE") print "selected"; ?>>Balance</option>
-					    <option value="ID_REGISTERED" <? if ($_REQUEST['dd_sort']=="ID_REGISTERED") print "selected"; ?>>Registration Date</option>
+					    <option value="ID_BALANCE" <?php if ($_REQUEST['dd_sort']=="ID_BALANCE") print "selected"; ?>>Balance</option>
+					    <option value="ID_REGISTERED" <?php if ($_REQUEST['dd_sort']=="ID_REGISTERED") print "selected"; ?>>Registration Date</option>
 				        </select>
 				        </form>
 					  
-					      <?
+					      <?php
 					  }
 					  ?>
 					  
@@ -148,7 +148,7 @@
               </tbody>
             </table>
 				
-				<?
+				<?php
 				    // Citizens ?
 				    if ($sel==1)
 						$stats->showRanks($_REQUEST['dd_sort']);
@@ -159,7 +159,7 @@
 			 </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -173,7 +173,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

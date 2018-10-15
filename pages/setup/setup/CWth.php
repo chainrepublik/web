@@ -1,4 +1,4 @@
-<?
+<?php
 class CWth
 {
 	function CWth($db, $utils, $acc)
@@ -59,21 +59,21 @@ class CWth
              <td width="112" align="center" bgcolor="#f0f0f0">Total</td>
              </tr>
              <tr>
-             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><? print "$".$cit_cash; ?></td>
+             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><?php print "$".$cit_cash; ?></td>
              <td height="50" align="center">&nbsp;</td>
-             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><? print "$".$com_cash; ?></td>
+             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><?php print "$".$com_cash; ?></td>
              <td height="50" align="center" bgcolor="#ffffff" style="font-size:20px">&nbsp;</td>
-             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><? print "$".$trade_cash; ?></td>
+             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><?php print "$".$trade_cash; ?></td>
              <td height="50" align="center" bgcolor="#ffffff" style="font-size:20px">&nbsp;</td>
-             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><? print "$".$mkts_cash; ?></td>
+             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><?php print "$".$mkts_cash; ?></td>
              <td height="50" align="center" bgcolor="#ffffff" style="font-size:20px">&nbsp;</td>
-             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><? print "$".($cit_cash+$com_cash+$trade_cash+$mkts_cash); ?></td>
+             <td height="50" align="center" bgcolor="#fafafa" style="font-size:20px"><?php print "$".($cit_cash+$com_cash+$trade_cash+$mkts_cash); ?></td>
              </tr>
              </tbody>
              </table>
                <br><br>
         
-        <?
+        <?php
 	}
 	
 	function showRequests($search="")
@@ -89,18 +89,18 @@ class CWth
         
           <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
                 <td width="358">
-				<? print $row['user']; ?>
+				<?php print $row['user']; ?>
                 <br>
-				<? print $row['main_method']; ?>
+				<?php print $row['main_method']; ?>
                 <br>
-                <? 
+                <?php 
 				   print $row['adr']."<br>"; 
 				   
 				   if ($row['main_method']=="ID_WALLET" || 
@@ -120,19 +120,19 @@ class CWth
 				      print $row['bank_holder'].", ".$row['bank_acc'].", ".$row['bank_swift'];
 				?>
                 </td>
-                <td width="100"><? print "$".$row['amount']; ?></td>
-                <td width="100"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
-                <td width="70"><? print "<a href='wth.php?act=aprove&ID=".$row['ID']."' style='width:70px' class='btn btn-success'>Aprove</a>"; ?></td>
-                <td width="70"><? print "<a href='wth.php?act=reject&ID=".$row['ID']."' style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
+                <td width="100"><?php print "$".$row['amount']; ?></td>
+                <td width="100"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                <td width="70"><?php print "<a href='wth.php?act=aprove&ID=".$row['ID']."' style='width:70px' class='btn btn-success'>Aprove</a>"; ?></td>
+                <td width="70"><?php print "<a href='wth.php?act=reject&ID=".$row['ID']."' style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function aprove($ID)

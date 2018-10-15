@@ -1,4 +1,4 @@
-<?
+<?php
 class CAllowTrans
 {
 	function CAllowTrans($db, $utils)
@@ -102,26 +102,26 @@ class CAllowTrans
            <br>
            <table border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
            
-           <?
+           <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		   ?>
            
               <tr>
-              <td width="375" align="left"><? print $row['prod']; ?><br /><span class="simple_gri_10"><? print "Can Buy : ".$row['can_buy'].", Can Sell : ".$row['can_sell'].", Can Rent : ".$row['can_rent'].", Can Donate : ".$row['can_donate']; ?></span></td>
+              <td width="375" align="left"><?php print $row['prod']; ?><br /><span class="simple_gri_10"><?php print "Can Buy : ".$row['can_buy'].", Can Sell : ".$row['can_sell'].", Can Rent : ".$row['can_rent'].", Can Donate : ".$row['can_donate']; ?></span></td>
               <td width="80" align="center">
-              <a href="del.php?tab=allow_trans&ID=<? print $row['lID']; ?>&com=<? print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
+              <a href="del.php?tab=allow_trans&ID=<?php print $row['lID']; ?>&com=<?php print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
               </td>
               
               </tr>
            
-           <?
+           <?php
 	        }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showAddModal()
@@ -149,27 +149,27 @@ class CAllowTrans
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td width="37%" height="45" align="right" valign="middle" class="bold_gri_14">Product&nbsp;&nbsp;</td>
-                <td width="63%" height="40" align="left" valign="middle" id="td_prod"><? $this->utils->showProdTypesDD("dd_prod"); ?></td>
+                <td width="63%" height="40" align="left" valign="middle" id="td_prod"><?php $this->utils->showProdTypesDD("dd_prod"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Can Buy&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showYesNo("dd_can_buy", "ID_YES"); ?></td>
+                <td><?php $this->utils->showYesNo("dd_can_buy", "ID_YES"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Can Sell&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showYesNo("dd_can_sell", "ID_NO"); ?></td>
+                <td><?php $this->utils->showYesNo("dd_can_sell", "ID_NO"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Can Rent&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showYesNo("dd_can_rent", "ID_NO"); ?></td>
+                <td><?php $this->utils->showYesNo("dd_can_rent", "ID_NO"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Can Donate&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showYesNo("dd_can_donate", "ID_NO"); ?></td>
+                <td><?php $this->utils->showYesNo("dd_can_donate", "ID_NO"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Is Limites&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showYesNo("dd_is_limited", "ID_NO"); ?></td>
+                <td><?php $this->utils->showYesNo("dd_is_limited", "ID_NO"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Max Hold&nbsp;&nbsp;</span></td>
@@ -185,7 +185,7 @@ class CAllowTrans
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

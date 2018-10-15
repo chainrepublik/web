@@ -1,4 +1,4 @@
-<?
+<?php
 class CExchange
 {
 	function CExchange($db, $template, $acc)
@@ -323,7 +323,7 @@ class CExchange
                                  <tr>
                                    <td>&nbsp;</td>
                                    <td><span class="font_14" style="border-radius: 10px;">
-                                     <? 
+                                     <?php 
 		                            print base64_decode($row['details']); 
 								 ?>
                                    </span></td>
@@ -364,7 +364,7 @@ class CExchange
                                  <tr>
                                    <td>&nbsp;</td>
                                    <td valign="top"><span class="font_14" style="border-radius: 10px;">
-                                     <? 
+                                     <?php 
 		                            print base64_decode($row['pay_info']); 
 								 ?>
                                    </span></td>
@@ -388,7 +388,7 @@ class CExchange
                                  <tr>
                                    <td>&nbsp;</td>
                                    <td valign="top"><span class="font_14" style="border-radius: 10px;">
-                                     <? 
+                                     <?php 
 		                            print base64_decode($row['contact']); 
 								 ?>
                                    </span></td>
@@ -408,13 +408,13 @@ class CExchange
                              <td valign="top" >&nbsp;</td>
                            </tr>
                            <tr>
-                             <td height="30" valign="middle" class="font_12" style="color: #555555">Trader : <strong><? print $this->template->formatAdr($row['adr']); ?><strong></td>
+                             <td height="30" valign="middle" class="font_12" style="color: #555555">Trader : <strong><?php print $this->template->formatAdr($row['adr']); ?><strong></td>
                              <td valign="middle">&nbsp;</td>
-								 <td valign="middle" ><span class="font_12" style="color: #555555">Order ID : <strong><? print $row['exID']; ?></strong></span></td>
+								 <td valign="middle" ><span class="font_12" style="color: #555555">Order ID : <strong><?php print $row['exID']; ?></strong></span></td>
                            </tr>
                           
 							 <tr>
-                             <td height="30" valign="middle" class="font_12" style="color: #555555">Order Type : <strong><?
+                             <td height="30" valign="middle" class="font_12" style="color: #555555">Order Type : <strong><?php
 		                         if ($row['price_type']=="ID_BUY")
 		                            print "Buy"; 
 		                         else
@@ -422,13 +422,13 @@ class CExchange
 								 ?></strong>
 							 </td>
                              <td valign="middle">&nbsp;</td>
-								 <td valign="middle" class="font_12" style="color: #555555">Price_type : <strong><? if ($row['price_type']=="ID_FIXED") print "Fixed Price"; else print "Based on exchanges"; ?></strong></td>
+								 <td valign="middle" class="font_12" style="color: #555555">Price_type : <strong><?php if ($row['price_type']=="ID_FIXED") print "Fixed Price"; else print "Based on exchanges"; ?></strong></td>
                            </tr>
                            <tr>
-							   <td height="30" valign="middle" class="font_12" style="color: #555555">Profit Margin : <strong><? print $row['margin']."%"; ?></strong></td>
+							   <td height="30" valign="middle" class="font_12" style="color: #555555">Profit Margin : <strong><?php print $row['margin']."%"; ?></strong></td>
                              <td valign="middle">&nbsp;</td>
                              <td valign="middle" class="font_12" style="color: #555555">Price : <strong>
-							    <?
+							    <?php
 					               if ($row['price_type']=="ID_FIXED")
 					               {
 					           	       print "$".$row['price'];
@@ -444,14 +444,14 @@ class CExchange
 								 </strong></td>
 							 </tr>
                            <tr>
-							   <td height="30" valign="middle" class="font_12" style="color: #555555">Min Order Size : <strong><? print $row['min']." CRC"; ?></strong></td>
+							   <td height="30" valign="middle" class="font_12" style="color: #555555">Min Order Size : <strong><?php print $row['min']." CRC"; ?></strong></td>
                              <td valign="middle">&nbsp;</td>
-							   <td valign="middle" class="font_12" style="color: #555555">Max Order Size : <strong><? print $row['max']." CRC"; ?></strong></td>
+							   <td valign="middle" class="font_12" style="color: #555555">Max Order Size : <strong><?php print $row['max']." CRC"; ?></strong></td>
                            </tr>
                            <tr>
-							   <td height="30" valign="middle" class="font_12" style="color: #555555">Method : <strong><? print $row['method']; ?></strong></td>
+							   <td height="30" valign="middle" class="font_12" style="color: #555555">Method : <strong><?php print $row['method']; ?></strong></td>
                              <td valign="top">&nbsp;</td>
-							   <td valign="middle" class="font_12" style="color: #555555">Order Expires : <strong><? print $this->kern->timeFromBlock($row['expires']); ?></strong></td>
+							   <td valign="middle" class="font_12" style="color: #555555">Order Expires : <strong><?php print $this->kern->timeFromBlock($row['expires']); ?></strong></td>
                            </tr>
                            <tr>
                              <td height="0" valign="top" >&nbsp;</td>
@@ -477,7 +477,7 @@ class CExchange
            </table>
            <br>
 
-        <?
+        <?php
    	    
 		//Comments
 		$this->template->showComments("ID_EXCHANGE", $orderID);
@@ -550,7 +550,7 @@ class CExchange
 			   <tr><td align="left"><a href="main.php?page=new" class="btn btn-primary">New Order</a></td></tr>
            </table>
 
-        <?
+        <?php
 	}
 	
 	function showCouDD()
@@ -561,51 +561,51 @@ class CExchange
 										 JOIN countries AS cou ON cou.code=adr.cou");
 		?>
           
-<form method="post" action="main.php?page=<? print $_REQUEST['page']; ?>&dd_method=<? print $_REQUEST['dd_method']; ?>" name="form_cou" id="form_cou">
+<form method="post" action="main.php?page=<?php print $_REQUEST['page']; ?>&dd_method=<?php print $_REQUEST['dd_method']; ?>" name="form_cou" id="form_cou">
             <select id="dd_cou" name="dd_cou" class="form-control" style="width: 100%" onChange="$('#form_cou').submit()">
-		    <option value='ID_ALL' <? if ($_REQUEST['dd_cou']=="ID_ALL") print 'selected'; ?>>All Countries</option>
-			<?
+		    <option value='ID_ALL' <?php if ($_REQUEST['dd_cou']=="ID_ALL") print 'selected'; ?>>All Countries</option>
+			<?php
 				 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 				 {
 			 ?>
 				
-			       <option value='<? print $row['code']; ?>' <? if ($_REQUEST['dd_cou']==$row['code']) print 'selected'; ?>><? print $this->kern->formatCou($row['country']); ?></option>
-			<?
+			       <option value='<?php print $row['code']; ?>' <?php if ($_REQUEST['dd_cou']==$row['code']) print 'selected'; ?>><?php print $this->kern->formatCou($row['country']); ?></option>
+			<?php
 				 }
 			?>
 			</select>
             </form> 
 
-        <?
+        <?php
 	}
 	
 	function showMethodDD()
 	{
 	    ?>
 			   
-			<form method="post" action="main.php?page=<? print $_REQUEST['page']; ?>" name="form_method" id="form_method">
+			<form method="post" action="main.php?page=<?php print $_REQUEST['page']; ?>" name="form_method" id="form_method">
             <select id="dd_method" name="dd_method" class="form-control" style="width: 100%px" onChange="$('#form_method').submit()">
-				<option value="ID_ALL" <? if ($_REQUEST['dd_method']=="ID_ALL") print "selected"; ?>>All Payment Methods</option>
-				<option value="ID_PAYPAL" <? if ($_REQUEST['dd_method']=="ID_PAYPAL") print "selected"; ?>>PayPal</option>
-				<option value="ID_SKRILL" <? if ($_REQUEST['dd_method']=="ID_SKRILL") print "selected"; ?>>Skrill</option>
-				<option value="ID_NETELLER" <? if ($_REQUEST['dd_method']=="ID_NETELLER") print "selected"; ?>>Neteller</option>
-				<option value="ID_PAYZA" <? if ($_REQUEST['dd_method']=="ID_PAYZA") print "selected"; ?>>Payza</option>
-				<option value="ID_WEBMONEY" <? if ($_REQUEST['dd_method']=="ID_WEBMONEY") print "selected"; ?>>Webmoney</option>
-				<option value="ID_PAXUM" <? if ($_REQUEST['dd_method']=="ID_PAXUM") print "selected"; ?>>Paxum</option>
-				<option value="ID_PAYONEER" <? if ($_REQUEST['metdd_methodhod']=="ID_PAYONEER") print "selected"; ?>>Payoneer</option>
-				<option value="ID_OKPAY" <? if ($_REQUEST['dd_method']=="ID_OKPAY") print "selected"; ?>>OkPay</option>
-				<option value="ID_LOCAL_TRANSFER" <? if ($_REQUEST['dd_method']=="ID_LOCAL_TRANSFER") print "selected"; ?>>Local Bank Tranfer</option>
-				<option value="ID_WIRE_TRANSFER" <? if ($_REQUEST['dd_method']=="ID_WIRE_TRANSFER") print "selected"; ?>>International Wire Transfer</option>
-				<option value="ID_CARD" <? if ($_REQUEST['dd_method']=="ID_CARD") print "selected"; ?>>Card Payment</option>
-				<option value="ID_MONEYGRAM" <? if ($_REQUEST['dd_method']=="ID_MONEYGRAM") print "selected"; ?>>Moneyfram</option>
-				<option value="ID_WESTERN" <? if ($_REQUEST['dd_method']=="ID_WESTERN") print "selected"; ?>>Western Union</option>
-				<option value="ID_CRYPTO" <? if ($_REQUEST['dd_method']=="ID_CRYPTO") print "selected"; ?>>Cryptocoins</option>
-				<option value="ID_CASH" <? if ($_REQUEST['dd_method']=="ID_CASH") print "selected"; ?>>Cash in person</option>
-				<option value="ID_OTHER" <? if ($_REQUEST['dd_method']=="ID_OTHER") print "selected"; ?>>Other payment method</option>
+				<option value="ID_ALL" <?php if ($_REQUEST['dd_method']=="ID_ALL") print "selected"; ?>>All Payment Methods</option>
+				<option value="ID_PAYPAL" <?php if ($_REQUEST['dd_method']=="ID_PAYPAL") print "selected"; ?>>PayPal</option>
+				<option value="ID_SKRILL" <?php if ($_REQUEST['dd_method']=="ID_SKRILL") print "selected"; ?>>Skrill</option>
+				<option value="ID_NETELLER" <?php if ($_REQUEST['dd_method']=="ID_NETELLER") print "selected"; ?>>Neteller</option>
+				<option value="ID_PAYZA" <?php if ($_REQUEST['dd_method']=="ID_PAYZA") print "selected"; ?>>Payza</option>
+				<option value="ID_WEBMONEY" <?php if ($_REQUEST['dd_method']=="ID_WEBMONEY") print "selected"; ?>>Webmoney</option>
+				<option value="ID_PAXUM" <?php if ($_REQUEST['dd_method']=="ID_PAXUM") print "selected"; ?>>Paxum</option>
+				<option value="ID_PAYONEER" <?php if ($_REQUEST['metdd_methodhod']=="ID_PAYONEER") print "selected"; ?>>Payoneer</option>
+				<option value="ID_OKPAY" <?php if ($_REQUEST['dd_method']=="ID_OKPAY") print "selected"; ?>>OkPay</option>
+				<option value="ID_LOCAL_TRANSFER" <?php if ($_REQUEST['dd_method']=="ID_LOCAL_TRANSFER") print "selected"; ?>>Local Bank Tranfer</option>
+				<option value="ID_WIRE_TRANSFER" <?php if ($_REQUEST['dd_method']=="ID_WIRE_TRANSFER") print "selected"; ?>>International Wire Transfer</option>
+				<option value="ID_CARD" <?php if ($_REQUEST['dd_method']=="ID_CARD") print "selected"; ?>>Card Payment</option>
+				<option value="ID_MONEYGRAM" <?php if ($_REQUEST['dd_method']=="ID_MONEYGRAM") print "selected"; ?>>Moneyfram</option>
+				<option value="ID_WESTERN" <?php if ($_REQUEST['dd_method']=="ID_WESTERN") print "selected"; ?>>Western Union</option>
+				<option value="ID_CRYPTO" <?php if ($_REQUEST['dd_method']=="ID_CRYPTO") print "selected"; ?>>Cryptocoins</option>
+				<option value="ID_CASH" <?php if ($_REQUEST['dd_method']=="ID_CASH") print "selected"; ?>>Cash in person</option>
+				<option value="ID_OTHER" <?php if ($_REQUEST['dd_method']=="ID_OTHER") print "selected"; ?>>Other payment method</option>
             </select>
             </form> 
 			   
-		<?
+		<?php
 	}
 	
 	function showSelector()
@@ -616,20 +616,20 @@ class CExchange
             <table width="550px">
 			<tr>
 			<td width="50%">
-			<? 
+			<?php 
 		        $this->showCouDD(); 
 			?>
 			</td>
 			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 			<td width="50%">
-            <? 
+            <?php 
 		        $this->showMethodDD(); 
 			?>
 			</td>
 			</tr>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showMarket($side, $method)
@@ -678,7 +678,7 @@ class CExchange
 
              <table width="550px">
 			   
-			   <?
+			   <?php
 		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			       {
 		       ?>
@@ -686,7 +686,7 @@ class CExchange
 			       <tr>
 				   <td width="9%">
                    <img src="
-				   <? 
+				   <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -696,10 +696,10 @@ class CExchange
 				   ?>
 			       " width="41" height="41" class="img-circle" />
                    </td>
-				   <td width="37%" class="font_14" align="left"><? print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
-				   <td width="16%" class="font_14" align="center"><? print $this->getMethodName($row['method']); ?></td>
+				   <td width="37%" class="font_14" align="left"><?php print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
+				   <td width="16%" class="font_14" align="center"><?php print $this->getMethodName($row['method']); ?></td>
 				   <td width="19%" class="font_14" align="center">
-				   <?
+				   <?php
 					   if ($row['price_type']=="ID_FIXED")
 					   {
 						   print "$".$row['price'];
@@ -713,16 +713,16 @@ class CExchange
 					   }
 				   ?>
 				   </td>
-			       <td width="16%" class="font_14" align="center"><a href="order.php?orderID=<? print $row['exID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
+			       <td width="16%" class="font_14" align="center"><a href="order.php?orderID=<?php print $row['exID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
 			   </tr>
 			   <tr><td colspan="4"><hr></td></tr>
 			   
-			   <?
+			   <?php
 				   }
 			   ?>
            </table>
 
-        <?
+        <?php
 		
 	}
 	
@@ -760,7 +760,7 @@ class CExchange
 
              <table width="550px">
 			   
-			   <?
+			   <?php
 		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			       {
 		       ?>
@@ -768,7 +768,7 @@ class CExchange
 			       <tr>
 				   <td width="9%">
                    <img src="
-				   <? 
+				   <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -778,10 +778,10 @@ class CExchange
 				   ?>
 			       " width="41" height="41" class="img-circle" />
                    </td>
-				   <td width="37%" class="font_14" align="left"><? print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
-				   <td width="16%" class="font_14" align="center"><? print $this->getMethodName($row['method']); ?></td>
+				   <td width="37%" class="font_14" align="left"><?php print $row['name']."<br><span class='font_10'>Country : ".$this->kern->formatCou($row['country'])."</span>"; ?></td>
+				   <td width="16%" class="font_14" align="center"><?php print $this->getMethodName($row['method']); ?></td>
 				   <td width="19%" class="font_14" align="center">
-				   <?
+				   <?php
 					   if ($row['price_type']=="ID_FIXED")
 					   {
 						   print "$".$row['price'];
@@ -795,16 +795,16 @@ class CExchange
 					   }
 				   ?>
 				   </td>
-			       <td width="16%" class="font_14" align="center"><a href="main.php?page=orders&act=remove&orderID=<? print $row['exID']; ?>" class="btn btn-primary btn-sm">Remove</a></td>
+			       <td width="16%" class="font_14" align="center"><a href="main.php?page=orders&act=remove&orderID=<?php print $row['exID']; ?>" class="btn btn-primary btn-sm">Remove</a></td>
 			   </tr>
 			   <tr><td colspan="4"><br></td></tr>
 			   
-			   <?
+			   <?php
 				   }
 			   ?>
            </table>
 
-        <?
+        <?php
 		
 	}
 	
@@ -992,7 +992,7 @@ class CExchange
 				 }
              </script>
 
-        <?
+        <?php
 	}
 }
 ?>

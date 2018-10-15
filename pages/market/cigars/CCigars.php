@@ -1,4 +1,4 @@
-<?
+<?php
 class CCigars
 {
 	function CCigars($db, $acc, $template)
@@ -19,19 +19,19 @@ class CCigars
 		      <tr>
 		        <td width="76" align="center">
                 
-                <a href="main.php?trade_prod=ID_CIG_CHURCHILL"><img src="./GIF/ID_CIGAR_1_<? if ($prod=="ID_CIG_CHURCHILL") print "ON"; else print "OFF"; ?>.png" id="img_1" style="cursor:pointer" title="Churchill" data-toggle="tooltip" data-placement="top"/></a></td>
+                <a href="main.php?trade_prod=ID_CIG_CHURCHILL"><img src="./GIF/ID_CIGAR_1_<?php if ($prod=="ID_CIG_CHURCHILL") print "ON"; else print "OFF"; ?>.png" id="img_1" style="cursor:pointer" title="Churchill" data-toggle="tooltip" data-placement="top"/></a></td>
 		        <td width="76" align="center">
                 
-                <a href="main.php?trade_prod=ID_CIG_PANATELA"><img src="./GIF/ID_CIGAR_2_<? if ($prod=="ID_CIG_PANATELA") print "ON"; else print "OFF"; ?>.png"  id="img_2" style="cursor:pointer" title="Panatela" data-toggle="tooltip" data-placement="top"/></a></td>
+                <a href="main.php?trade_prod=ID_CIG_PANATELA"><img src="./GIF/ID_CIGAR_2_<?php if ($prod=="ID_CIG_PANATELA") print "ON"; else print "OFF"; ?>.png"  id="img_2" style="cursor:pointer" title="Panatela" data-toggle="tooltip" data-placement="top"/></a></td>
 		        <td width="76" align="center">
                 
-                <a href="main.php?trade_prod=ID_CIG_TORPEDO"><img src="./GIF/ID_CIGAR_3_<? if ($prod=="ID_CIG_TORPEDO") print "ON"; else print "OFF"; ?>.png"  id="img_3" style="cursor:pointer" title="Torpedo" data-toggle="tooltip" data-placement="top"/></a></td>
+                <a href="main.php?trade_prod=ID_CIG_TORPEDO"><img src="./GIF/ID_CIGAR_3_<?php if ($prod=="ID_CIG_TORPEDO") print "ON"; else print "OFF"; ?>.png"  id="img_3" style="cursor:pointer" title="Torpedo" data-toggle="tooltip" data-placement="top"/></a></td>
 		        <td width="76" align="center">
                 
-                <a href="main.php?trade_prod=ID_CIG_CORONA"><img src="./GIF/ID_CIGAR_4_<? if ($prod=="ID_CIG_CORONA") print "ON"; else print "OFF"; ?>.png"  id="img_4" style="cursor:pointer" title="Corona" data-toggle="tooltip" data-placement="top"/></a></td>
+                <a href="main.php?trade_prod=ID_CIG_CORONA"><img src="./GIF/ID_CIGAR_4_<?php if ($prod=="ID_CIG_CORONA") print "ON"; else print "OFF"; ?>.png"  id="img_4" style="cursor:pointer" title="Corona" data-toggle="tooltip" data-placement="top"/></a></td>
 		        <td width="76" align="center">
                 
-                <a href="main.php?trade_prod=ID_CIG_TORO"><img src="./GIF/ID_CIGAR_5_<? if ($prod=="ID_CIG_TORO") print "ON"; else print "OFF"; ?>.png" id="img_5" style="cursor:pointer" title="Toro" data-toggle="tooltip" data-placement="top"/></a></td>
+                <a href="main.php?trade_prod=ID_CIG_TORO"><img src="./GIF/ID_CIGAR_5_<?php if ($prod=="ID_CIG_TORO") print "ON"; else print "OFF"; ?>.png" id="img_5" style="cursor:pointer" title="Toro" data-toggle="tooltip" data-placement="top"/></a></td>
 		        
                   <td width="76" align="center">&nbsp;
                  
@@ -46,7 +46,7 @@ class CCigars
 		  </table>
           
         
-        <?
+        <?php
 	}
 	
 	
@@ -67,7 +67,7 @@ class CCigars
 		
 		?>
             
-            <div id="div_<? print $prod; ?>" style="display:<? if ($visible==true) print "block"; else print "none"; ?>">
+            <div id="div_<?php print $prod; ?>" style="display:<?php if ($visible==true) print "block"; else print "none"; ?>">
             <br>
             <table width="550" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -91,7 +91,7 @@ class CCigars
          
           <table width="530" border="0" cellspacing="0" cellpadding="5">
             
-            <?
+            <?php
 			   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			   {
 				   $energy=$this->kern->getProdEnergy($prod);
@@ -102,35 +102,35 @@ class CCigars
                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
                  <tr>
                  <td width="21%"><img src="
-                 <?
+                 <?php
 				     if ($row['pic']!="")
 					   print "../../../uploads/".$row['pic'];
 					 else
 					   print "../../companies/overview/GIF/prods/big/".$prod.".png";
 				 ?>
                  " width="40" height="40" class="img-circle"/></td>
-                 <td width="79%" height="45" align="left"><a href="../../companies/overview/main.php?ID=<? print $row['ownerID']; ?>" target="_blank" class="blue_14"><? print $row['name']; ?></a><br>
-                  <span class="simple_blue_10">Owner : <a class="maro_10" href="#" target="_blank"><? print $row['user']; ?></a></span></td>
+                 <td width="79%" height="45" align="left"><a href="../../companies/overview/main.php?ID=<?php print $row['ownerID']; ?>" target="_blank" class="blue_14"><?php print $row['name']; ?></a><br>
+                  <span class="simple_blue_10">Owner : <a class="maro_10" href="#" target="_blank"><?php print $row['user']; ?></a></span></td>
                  </tr>
                  </table></td>
-                 <td width="18%" align="center"><span class="bold_verde_14"><? print "+".$energy;  ?></span><br><span class="font_10">points</span></td>
-                 <td width="18%" align="center" class="font_14"><? print floor($row['qty']);  ?></td>
-                 <td width="19%" align="center"><span class="bold_verde_14"><? print "".round($row['price'], 5);  ?></span><br><span class="font_10"><? print "$".$this->kern->getUSD($row['price']); ?></span></td>
+                 <td width="18%" align="center"><span class="bold_verde_14"><?php print "+".$energy;  ?></span><br><span class="font_10">points</span></td>
+                 <td width="18%" align="center" class="font_14"><?php print floor($row['qty']);  ?></td>
+                 <td width="19%" align="center"><span class="bold_verde_14"><?php print "".round($row['price'], 5);  ?></span><br><span class="font_10"><?php print "$".$this->kern->getUSD($row['price']); ?></span></td>
                  <td width="20%" align="center" class="bold_verde_14">
-                 <a class="btn btn-primary" style="width:80px" href="main.php?act=smoke&itemID=<? print $row['ID']; ?>">Smoke</a></td>
+                 <a class="btn btn-primary" style="width:80px" href="main.php?act=smoke&itemID=<?php print $row['ID']; ?>">Smoke</a></td>
                  </tr>
                  <tr>
                  <td colspan="5" ><hr></td>
                  </tr>
             
-            <?
+            <?php
 			   }
 			?>
         
         </table>
         </div>
         
-        <?
+        <?php
           
 	}
 }

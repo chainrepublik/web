@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 </head>
 
 <body background="../../template/GIF/back.png">
-<? 
+<?php 
    $template->showTop(); 
    $template->showMainMenu(4);
    $template->showTicker();
@@ -49,7 +49,7 @@
       <tr>
         <td width="210" align="right" valign="top">
         
-        <?
+        <?php
 		  $market->showMenu(3);
 		  $template->showWorkPanel();
 		  $template->showFxAcademy(); 
@@ -61,7 +61,7 @@
         <input id="op_type" name="op_type" type="hidden" value="ID_BUY"/>
         <input id="stars" name="stars" type="hidden" value="1"/>
         
-        <?
+        <?php
 		   $template->showHelp("Below are the displayed last rent contracts. One of the best money making oportunities of chainrepublik is buying and then renting items like clothes, cars or houses. Total received rent is usually much bigger than the price paid for item.");
 			
 		   $rent->showStat($_REQUEST['prod']);
@@ -74,7 +74,7 @@
         
         </td>
         <td width="209" valign="top">
-		<?
+		<?php
 		   $template->showRightPanel();
 		   $template->showAds(); 
 		?>
@@ -89,7 +89,7 @@
 </table>
 <br />
 <br />
-<?
+<?php
   $template->showBottomMenu();
 ?>
 </body>

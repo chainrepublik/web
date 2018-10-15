@@ -1,4 +1,4 @@
-<?
+<?php
 class CProfile
 {
 	function CProfile($db, $acc, $template)
@@ -108,14 +108,14 @@ class CProfile
 		    <table width="550" border="0" cellspacing="0" cellpadding="0">
 		    <tbody>
 		    <tr>
-		    <td width="150" align="center" valign="top"><img src="<? if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($_REQUEST['ud']['pic'], 140, 140); ?>" width="140" id="profile_img" name="profile_img" class="img img-circle"></td>
+		    <td width="150" align="center" valign="top"><img src="<?php if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($_REQUEST['ud']['pic'], 140, 140); ?>" width="140" id="profile_img" name="profile_img" class="img img-circle"></td>
 		    <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
 		    <tbody>
 		    <tr>
 			<td align="left" class="font_14" height="30" valign="top"><strong>Avatar URL</strong></td>
 		    </tr>
 		    <tr>
-		    <td align="left"><input class="form-control" id="txt_avatar" name="txt_avatar" placeholder="Image URL (10-250 characters)" onKeyDown="key()" type="url" onChange="changed_img()" <? if ($_REQUEST['ud']['pic']!="") print "value=\"".base64_decode($_REQUEST['ud']['pic'])."\""; ?>></td>
+		    <td align="left"><input class="form-control" id="txt_avatar" name="txt_avatar" placeholder="Image URL (10-250 characters)" onKeyDown="key()" type="url" onChange="changed_img()" <?php if ($_REQUEST['ud']['pic']!="") print "value=\"".base64_decode($_REQUEST['ud']['pic'])."\""; ?>></td>
 		    </tr>
 		    <tr>
 		    <td align="left">&nbsp;</td>
@@ -124,7 +124,7 @@ class CProfile
 			<td align="left" class="font_14" height="30" valign="top"><strong>Description</strong></td>
 		    </tr>
 		    <tr>
-			<td align="left"><textarea maxlength="500" class="form-control" rows="4" placeholder="Description (10-500 characters)" id="txt_desc" name="txt_desc" onKeyDown="key()"><? if ($_REQUEST['ud']['description']!="") print base64_decode($_REQUEST['ud']['description']); ?></textarea></td>
+			<td align="left"><textarea maxlength="500" class="form-control" rows="4" placeholder="Description (10-500 characters)" id="txt_desc" name="txt_desc" onKeyDown="key()"><?php if ($_REQUEST['ud']['description']!="") print base64_decode($_REQUEST['ud']['description']); ?></textarea></td>
 		    </tr>
 		    <tr>
 		    <td align="left">&nbsp;</td>
@@ -148,7 +148,7 @@ class CProfile
 					function changed_img() {  $('#profile_img').attr("src", "../../../crop.php?src="+$('#txt_avatar').val()+"&w=140&h=140"); }
 				</script>        
 
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body background="../../template/GIF/back.png">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -59,7 +59,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $terms->showMenu(1);
 			   $template->showLeftAds();
 			?>
@@ -401,7 +401,7 @@
             </table></td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -415,7 +415,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

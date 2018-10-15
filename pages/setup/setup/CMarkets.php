@@ -1,4 +1,4 @@
-<?
+<?php
 class CMarkets
 {
 	function CMarkets($db, $utils)
@@ -13,7 +13,7 @@ class CMarkets
         
             <table width="700" border="0" cellspacing="0" cellpadding="0">
             <tr>
-            <td><? $this->utils->showProdTypesDD("dd_prod_types", $_REQUEST['prod']); ?></td>
+            <td><?php $this->utils->showProdTypesDD("dd_prod_types", $_REQUEST['prod']); ?></td>
             </tr>
             </table><br />
             
@@ -21,7 +21,7 @@ class CMarkets
 			$('#dd_prod_types').change(function() {  window.location='markets.php?prod='+$('#dd_prod_types').val(); });
 			</script>
         
-        <?
+        <?php
 	}
 	
 	function showMarkets($symbol="")
@@ -38,24 +38,24 @@ class CMarkets
         
           <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="90%"><? print $row['asset']; ?><br><span class='simple_gri_10'><? print $row['asset']; ?></span></td>
+                <td width="90%"><?php print $row['asset']; ?><br><span class='simple_gri_10'><?php print $row['asset']; ?></span></td>
                 <td width="10%" align="center">
-                <a href="del.php?tab=assets_mkts&ID=<? print $row['ID']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
+                <a href="del.php?tab=assets_mkts&ID=<?php print $row['ID']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -115,7 +115,7 @@ class CMarkets
            </table>
            <br><br>
         
-        <?
+        <?php
 	}
 	
 	
@@ -144,7 +144,7 @@ class CMarkets
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td width="30%" height="45" align="right" valign="middle" class="bold_gri_14">Product&nbsp;&nbsp;</td>
-                <td width="70%" height="40" align="left" valign="middle" id="td_prod"><? $this->utils->showProdTypesDD("dd_prod"); ?></td>
+                <td width="70%" height="40" align="left" valign="middle" id="td_prod"><?php $this->utils->showProdTypesDD("dd_prod"); ?></td>
               </tr>
 				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 				<tr>
@@ -160,7 +160,7 @@ class CMarkets
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
 class CPics
 {
 	function CPics($db, $utils, $acc)
@@ -15,16 +15,16 @@ class CPics
            <table width="200" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
                   <tr>
-                    <td height="200" colspan="2" align="center"><img src="../../../uploads/<? print $ID; ?>" width="200" height="200"></td>
+                    <td height="200" colspan="2" align="center"><img src="../../../uploads/<?php print $ID; ?>" width="200" height="200"></td>
                   </tr>
                   <tr>
-                    <td width="50%" height="60" align="center" id="td_aprove_<? print substr($ID, 0, 10); ?>"><? print "<a href='javascript:void(0)' onclick=\"$('#td_aprove_".substr($ID, 0, 10)."').load('get_page.php?act=aprove_pic&pic=".substr($ID, 0, 10)."')\" style='width:90px' class='btn btn-success'>Aprove</a>"; ?></td>
-                    <td width="50%" height="60" align="center" id="td_reject_<? print substr($ID, 0, 10); ?>"><? print "<a href='javascript:void(0)' onclick=\"$('#td_reject_".substr($ID, 0, 10)."').load('get_page.php?act=reject_pic&pic=".substr($ID, 0, 10)."')\" style='width:90px' class='btn btn-danger'>Reject</a>"; ?></td>
+                    <td width="50%" height="60" align="center" id="td_aprove_<?php print substr($ID, 0, 10); ?>"><?php print "<a href='javascript:void(0)' onclick=\"$('#td_aprove_".substr($ID, 0, 10)."').load('get_page.php?act=aprove_pic&pic=".substr($ID, 0, 10)."')\" style='width:90px' class='btn btn-success'>Aprove</a>"; ?></td>
+                    <td width="50%" height="60" align="center" id="td_reject_<?php print substr($ID, 0, 10); ?>"><?php print "<a href='javascript:void(0)' onclick=\"$('#td_reject_".substr($ID, 0, 10)."').load('get_page.php?act=reject_pic&pic=".substr($ID, 0, 10)."')\" style='width:90px' class='btn btn-danger'>Reject</a>"; ?></td>
                   </tr>
                 </tbody>
               </table>
         
-        <?
+        <?php
 	}
 	
 	function showUserPanel($userID)
@@ -47,7 +47,7 @@ class CPics
             <table width="620" border="0" cellspacing="0" cellpadding="0">
           <tbody>
             <tr>
-              <td align="left"><? print $user; ?></td>
+              <td align="left"><?php print $user; ?></td>
               <td align="center">&nbsp;</td>
               <td align="center">&nbsp;</td>
             </tr>
@@ -56,41 +56,41 @@ class CPics
             </tr>
             <tr>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_1']!="" && $row['pic_1_aproved']==0) $this->showPicPanel($row['pic_1']);
 			  ?>
               </td>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_2']!="") $this->showPicPanel($row['pic_2']);
 			  ?>
               </td>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_3']!="") $this->showPicPanel($row['pic_3']);
 			  ?>
               </td>
             </tr>
             <tr>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_4']!="") $this->showPicPanel($row['pic_4']);
 			  ?>
               </td>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_5']!="") $this->showPicPanel($row['pic_5']);
 			  ?>
               </td>
               <td width="160" align="center">
-			  <?
+			  <?php
 			     if ($row['pic_6']!="") $this->showPicPanel($row['pic_6']);
 			  ?>
               </td>
             </tr>
             <tr>
               <td width="160" align="center">
-              <?
+              <?php
 			     if ($row['pic_7']!="") $this->showPicPanel($row['pic_7']);
 			  ?>
               </td>
@@ -100,7 +100,7 @@ class CPics
             </tbody>
 </table>
         
-        <?
+        <?php
 	}
 	
 	function showPics($search="")
@@ -122,14 +122,14 @@ class CPics
 <table width="500" border="0" cellspacing="0" cellpadding="0">
          <tbody>
          
-		 <?
+		 <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 		 ?>
          
          <tr>
          <td align="center">
-         <?
+         <?php
 		   $this->showUserPanel($row['userID']);
 	 	 ?>
          </td>
@@ -138,13 +138,13 @@ class CPics
          <td align="center">&nbsp;</td>
          </tr>
          
-         <?
+         <?php
 			}
 		 ?>
          </tbody>
 </table>
         
-        <?
+        <?php
 	}
 	
 	function aprove($pic)

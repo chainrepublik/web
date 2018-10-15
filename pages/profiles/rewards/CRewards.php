@@ -1,4 +1,4 @@
-<?
+<?php
 class CRewards
 {
 	function CRewards($db, $template)
@@ -28,16 +28,16 @@ class CRewards
         <table class="table table-responsive table-hover table-striped" style="width:90%">
 
         
-        <?
+        <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 		?>
         
                <tr class="font_14">
-               <td><? print $this->template->formatAdr($row['adr']); ?></td>
+               <td><?php print $this->template->formatAdr($row['adr']); ?></td>
                <td style="color:#999999" align="center">
                
-			   <?
+			   <?php
 			      
 			           switch ($row['reward'])
 				       {
@@ -85,19 +85,19 @@ class CRewards
                
                </td>
                
-               <td align="center"><strong style="color:#009900"><? print "$".round($row['amount']*$_REQUEST['sd']['coin_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><? print $row['amount']." CRC"; ?></span></td>
+               <td align="center"><strong style="color:#009900"><?php print "$".round($row['amount']*$_REQUEST['sd']['coin_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><?php print $row['amount']." CRC"; ?></span></td>
              
-               <td align="center" style="color:#999999"><? print $row['block']; ?><br><span style="font-size:10px">~<? print $this->kern->timeFromBlock($row['block']); ?> ago</span></td>
+               <td align="center" style="color:#999999"><?php print $row['block']; ?><br><span style="font-size:10px">~<?php print $this->kern->timeFromBlock($row['block']); ?> ago</span></td>
                </tr>
         
-        <?
+        <?php
 			}
 		?>
         
         </table>
         <br><br>
         
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 class CInventory
 {
 	function CInventory($db, $acc, $template)
@@ -51,7 +51,7 @@ class CInventory
             <tbody>
               <tr>
                 <td class="simple_blue_deschis_24">
-                <?
+                <?php
 				   switch ($type)
 				   {
 					   case "ID_CIGARS" : print "Cigars"; break; 
@@ -85,7 +85,7 @@ class CInventory
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
           
-          <?
+          <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		  ?>
@@ -94,15 +94,15 @@ class CInventory
               <td width="52%" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
               <td width="18%" align="left">
-              <img src="../../companies/overview/GIF/prods/big/<? print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
-              <td width="82%"><span class="font_14"><strong><? print $row['name']; ?></strong></span><br /><span class="simple_blue_10">
+              <img src="../../companies/overview/GIF/prods/big/<?php print $row['tip']; ?>.png" width="55" height="55" class="img-circle"/></td>
+              <td width="82%"><span class="font_14"><strong><?php print $row['name']; ?></strong></span><br /><span class="simple_blue_10">
               <img src="../../template/GIF/stars_0.png" height="20" alt=""/></span></td>
               </tr>
               </tbody>
               </table></td>
               <td width="11%" align="center">&nbsp;</td>
               <td width="15%" align="center" class="font_14"><span class="simple_green_14"><strong>
-			  <? 
+			  <?php 
 			      print "+";
 				  
 				  if ($row['tip']!="ID_WINE")
@@ -118,14 +118,14 @@ class CInventory
               <td colspan="3"><hr></td>
               </tr>
           
-          <?
+          <?php
 	         }
 		  ?>
           
 </table>
           <br>
         
-        <?
+        <?php
 	}
 	
 	function showRentItems($type, $visible=true)
@@ -176,7 +176,7 @@ class CInventory
             <tbody>
               <tr>
                 <td class="simple_blue_deschis_24">&nbsp;&nbsp;&nbsp;
-                <?
+                <?php
 				   switch ($type)
 				   {
 					   case "ID_CLOTHES" : print "Clothes"; $act="Wear"; break; 
@@ -189,7 +189,7 @@ class CInventory
               </tr>
             </tbody>
           </table>
-<table width="550" border="0" cellspacing="0" cellpadding="0" style="<? if ($visible==false) print "display:none"; ?>">
+<table width="550" border="0" cellspacing="0" cellpadding="0" style="<?php if ($visible==false) print "display:none"; ?>">
             <tr>
             <td width="2%"><img src="../../template/GIF/menu_bar_left.png" width="14" height="48" /></td>
             <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
@@ -210,7 +210,7 @@ class CInventory
           
           <table width="540" border="0" cellspacing="0" cellpadding="0">
           
-          <?
+          <?php
 			 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				 $q=0;
@@ -246,17 +246,17 @@ class CInventory
               
                <tr>
                  <td width="10%">
-                 <img src="../../companies/overview/GIF/prods/big/<? print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
+                 <img src="../../companies/overview/GIF/prods/big/<?php print $this->kern->skipQuality($row['tip']); ?>.png" width="55" height="55" class="img-circle"/>
 				 </td>
 				   
-                <td width="50%"><span class="font_14"><? print $row['name']; ?></span><br />
+                <td width="50%"><span class="font_14"><?php print $row['name']; ?></span><br />
                 
                 <table width="120" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-					<td><img src="../../template/GIF/stars_<? print $q; ?>.png" width="60" data-toggle="tooltip" data-placement="top" title="<? print $title; ?>" /></td>
+					<td><img src="../../template/GIF/stars_<?php print $q; ?>.png" width="60" data-toggle="tooltip" data-placement="top" title="<?php print $title; ?>" /></td>
                 <td align="right">
 				<span class="simple_green_10">
-				<? print "+".$this->kern->getProdEnergy($row['tip'])." energy"; ?>
+				<?php print "+".$this->kern->getProdEnergy($row['tip'])." energy"; ?>
                 </span>
                 </td></tr>
                 </table>
@@ -264,7 +264,7 @@ class CInventory
                 </td>
                 
 				<td width="10%" align="center" class="font_14">
-                <?
+                <?php
                         if ($row['rented_expires']==0) 
 							print "<img src='GIF/rent_off.png' title='Not Rented' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -273,7 +273,7 @@ class CInventory
 				</td>
 				   
                 <td width="10%" align="center" class="font_14">
-					<?
+					<?php
                         if ($row['in_use']==0) 
 							print "<img src='GIF/use_off.png' title='Not Used' width='40px' data-toggle='tooltip' data-placement='top'>";
 				        else
@@ -287,13 +287,13 @@ class CInventory
             
              
           
-          <?
+          <?php
 			 }
 		  ?>
           
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showGift($expires)
@@ -303,11 +303,11 @@ class CInventory
             <table width="100" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
-            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <? print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
+            <td height="150" align="center"><img src="GIF/gift.png" width="100" height="150"  title="Welcome gift. Expires in <?php print $this->kern->timeFromBlock($expires); ?>" data-toggle="tooltip" data-placement="top"/></td>
             </tr>
 </tbody></table>
 
-        <?
+        <?php
 	}
 	
 	function showTicket($prod, $qty)
@@ -315,7 +315,7 @@ class CInventory
 		$q=$this->kern->getQuality($prod);
 	   ?>
 
-            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <? print $q; ?> stars" data-toggle="tooltip" data-placement="top">
+            <table width="100"><tr><td height="150" background="GIF/ticket.png"  title="Travel ticket <?php print $q; ?> stars" data-toggle="tooltip" data-placement="top">
 	        <table width="90" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr>
@@ -325,10 +325,10 @@ class CInventory
             <td align="center" valign="bottom"><img src="../../template/GIF/stars_1.png" width="90" height="20" alt=""/></td>
             </tr>
             <tr>
-			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><? print $qty; ?></strong></td>
+			<td height="35" align="center" valign="bottom" class="font_18" style="color: #9C742B"><strong><?php print $qty; ?></strong></td>
             </tr></tbody></table></td></tr></table>
 
-       <?
+       <?php
 	}
 	
 	function showMisc()
@@ -363,7 +363,7 @@ class CInventory
               <tbody>
                 <tr>
                   
-				  <?
+				  <?php
 		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			         {
 						 $n++;
@@ -371,7 +371,7 @@ class CInventory
 					
 		               <td width="100" align="center" valign="top">
 						
-						   <?
+						   <?php
 						    if (strpos($row['tip'], "TICKET")>0)
 								$this->showTicket($row['tip'], $row['qty']);
 						    else
@@ -381,7 +381,7 @@ class CInventory
 		          </td>
 				        <td align="center">&nbsp;</td>
                   
-				  <?
+				  <?php
 	                 }
 		
 		             for ($a=1; $a<=5-$n; $a++)
@@ -391,7 +391,7 @@ class CInventory
 					         <td width="100" align="center" valign="top">&nbsp;</td>
 				             <td align="center">&nbsp;</td>
 					
-					     <?
+					     <?php
 					 }
 		
 		          ?>
@@ -400,7 +400,7 @@ class CInventory
               </tbody>
 </table>
 
-        <?
+        <?php
 	}
 	
 	function showGuns()

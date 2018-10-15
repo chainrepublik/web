@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -53,7 +53,7 @@
     </nav>
     <br /><br /><br /><br /><br />
     
-    <?
+    <?php
 	   $temp->del($_REQUEST['tab'], $_REQUEST['ID']);
 	?>
 

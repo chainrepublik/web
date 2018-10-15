@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -41,7 +41,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -49,7 +49,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(4);
 	  ?>
       </td>
@@ -62,14 +62,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $market->showMenu(14);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			    $template->showHelp("Big weapons like ballistic missiles or tanks can be bought / used only by governments. Citizens can own only regular small weapons like pistols. Only congressmen can propose the aquisition of big weapons. If the proposal is aproved the network will transfer the items to country's army.", 70, 70);
 				
 				// Product
@@ -155,7 +155,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -169,7 +169,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
 class CRefs
 {
 	function CRefs($db, $acc, $template)
@@ -18,7 +18,7 @@ class CRefs
             <td height="120" align="center" background="GIF/code.png"><table width="95%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="21%">&nbsp;</td>
-                <td width="79%" align="center" class="bold_shadow_white_24">www.chainrepublik.com/?i=<? print $_REQUEST['ud']['ID']; ?></td>
+                <td width="79%" align="center" class="bold_shadow_white_24">www.chainrepublik.com/?i=<?php print $_REQUEST['ud']['ID']; ?></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -28,7 +28,7 @@ class CRefs
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showSelector($day, $month, $year)
@@ -48,7 +48,7 @@ class CRefs
                 <td align="left" valign="bottom">
                
                 <select class="form-control" name="dd_day" id="dd_day" style="width:160px" onchange="$('#form_date').submit()"/>
-                <?
+                <?php
 				
 				   for ($a=1; $a<=31; $a++)
 				   {
@@ -62,7 +62,7 @@ class CRefs
                 </td>
                 <td height="55" align="center" valign="bottom">
                  <select class="form-control" name="dd_month" id="dd_month" style="width:160px" onchange="$('#form_date').submit()"/>
-                <?
+                <?php
 				
 				   for ($a=1; $a<=12; $a++)
 				   {
@@ -76,7 +76,7 @@ class CRefs
                 </td>
                 <td align="center" valign="bottom">
                  <select class="form-control" name="dd_year" id="dd_year" style="width:160px" onchange="$('#form_date').submit()"/>
-                <?
+                <?php
 				
 				   for ($a=2015; $a<=2020; $a++)
 				   {
@@ -95,7 +95,7 @@ class CRefs
         </form>
         
         
-        <?
+        <?php
 	}
 	
 	function showReport($day, $month, $year)
@@ -138,7 +138,7 @@ class CRefs
                 <td align="center" class="font_12">Hits</td>
               </tr>
               <tr>
-                <td height="60" align="center" class="font_30"><? print $hits; ?></td>
+                <td height="60" align="center" class="font_30"><?php print $hits; ?></td>
               </tr>
             </table></td>
             <td width="3%" align="center" background="GIF/vert_lp.png">&nbsp;</td>
@@ -147,7 +147,7 @@ class CRefs
                 <td align="center" class="font_12">Signups</td>
               </tr>
               <tr>
-                <td height="60" align="center" class="font_30"><? print $signups; ?></td>
+                <td height="60" align="center" class="font_30"><?php print $signups; ?></td>
               </tr>
             </table></td>
             <td width="3%" align="center" background="GIF/vert_lp.png">&nbsp;</td>
@@ -157,15 +157,15 @@ class CRefs
               </tr>
               <tr>
                 <td height="60" align="center">
-                <span class="font_30"><? $s=explode(".", $p); print $s[0]; ?></span>
-                <span class="font_14"><? $s=explode(".", $p); print ".".$s[1]."%"; ?></span>
+                <span class="font_30"><?php $s=explode(".", $p); print $s[0]; ?></span>
+                <span class="font_14"><?php $s=explode(".", $p); print ".".$s[1]."%"; ?></span>
                 </td>
               </tr>
             </table></td>
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -210,7 +210,7 @@ class CRefs
             
           <table width="550" border="0" cellspacing="0" cellpadding="5">
             
-            <?
+            <?php
 			   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			   {
 			?>
@@ -221,25 +221,25 @@ class CRefs
                    <table width="150px" border="0" cellspacing="0" cellpadding="0">
                    <tr>
                    <td width="60px">
-                   <img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>" width="50" height="50" class="img-circle" /></td>
-                   <td width="100" align="left"><a target="_blank" href="../../profiles/overview/main.php?adr=<? print $this->kern->encode($row['adr']); ?>" class="font_14"><? print $row['name']; ?></a><br /><span class="font_10"><? print $row['country']; ?></span></td>
+                   <img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>" width="50" height="50" class="img-circle" /></td>
+                   <td width="100" align="left"><a target="_blank" href="../../profiles/overview/main.php?adr=<?php print $this->kern->encode($row['adr']); ?>" class="font_14"><?php print $row['name']; ?></a><br /><span class="font_10"><?php print $row['country']; ?></span></td>
                    </tr>
                    </table>
                 
                    </td>
-					   <td width="16%" align="center"><span class="font_14"><? print $row['energy']; ?></span><br><span class="font_10">energy</span></td>
+					   <td width="16%" align="center"><span class="font_14"><?php print $row['energy']; ?></span><br><span class="font_10">energy</span></td>
                    </tr>
                    <tr>
                    <td colspan="2" ><hr></td>
                    </tr>
             
-            <?
+            <?php
 			   }
 			?>
             
             </table>
            
-        <?
+        <?php
 	}
 	
 	
@@ -283,7 +283,7 @@ class CRefs
           </table>
         <table width="530" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				
@@ -292,21 +292,21 @@ class CRefs
           <tr>
             <td width="36%" class="font_14">
             
-            <div id="div_my_ref_<? print $row['ID']; ?>">
-            <form method="post" action="" id="form_my_ref_<? print $row['ID']; ?>" name="form_my_ref_<? print $row['ID']; ?>">
+            <div id="div_my_ref_<?php print $row['ID']; ?>">
+            <form method="post" action="" id="form_my_ref_<?php print $row['ID']; ?>" name="form_my_ref_<?php print $row['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td width="82%" class="font_14">
                   <table width="300" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                      <td width="60"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic']); ?>" width="50" height="50" class="img-circle" /></td>
-                      <td width="251" align="left"><a target="_blank" href="../../profiles/overview/main.php?adr=<? print $this->kern->encode($row['adr']); ?>" class="font_14"><? print $row['name']; ?></a><br />
-                        <span class="font_10"><? print $row['country']; ?></span></td>
+                      <td width="60"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic']); ?>" width="50" height="50" class="img-circle" /></td>
+                      <td width="251" align="left"><a target="_blank" href="../../profiles/overview/main.php?adr=<?php print $this->kern->encode($row['adr']); ?>" class="font_14"><?php print $row['name']; ?></a><br />
+                        <span class="font_10"><?php print $row['country']; ?></span></td>
                     </tr>
                   </table>
 				  </td>
                 <td width="18%" align="center" class="font_14"><span class="bold_verde_14">
-                  <? 
+                  <?php 
 				      print $row['energy']; 
 				  ?>
                 </span></td>
@@ -321,7 +321,7 @@ class CRefs
             <td ><hr></td>
             </tr>
             
-            <?
+            <?php
 			 }
 			?>
             
@@ -329,7 +329,7 @@ class CRefs
       
       
         
-        <?
+        <?php
 	}
 	
 	
@@ -346,7 +346,7 @@ class CRefs
                 </tr>
                 <tr>
                   <td align="center" bgcolor="#f0f0f0">
-                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<? print $_REQUEST['ud']['ID']; ?>"><img src="GIF/468_60.png"/></a>
+                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<?php print $_REQUEST['ud']['ID']; ?>"><img src="GIF/468_60.png"/></a>
                   </textarea>
                   </td>
                 </tr>
@@ -364,7 +364,7 @@ class CRefs
                 </tr>
                 <tr>
                   <td align="center" bgcolor="#f0f0f0">
-                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<? print $_REQUEST['ud']['ID']; ?>"><img src="GIF/728_90.png"/></a>
+                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<?php print $_REQUEST['ud']['ID']; ?>"><img src="GIF/728_90.png"/></a>
                   </textarea>
                   </td>
                 </tr>
@@ -382,7 +382,7 @@ class CRefs
                 </tr>
                 <tr>
                   <td align="center" bgcolor="#f0f0f0">
-                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<? print $_REQUEST['ud']['ID']; ?>"><img src="GIF/160_600.png"/></a>
+                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<?php print $_REQUEST['ud']['ID']; ?>"><img src="GIF/160_600.png"/></a>
                   </textarea>
                   </td>
                 </tr>
@@ -400,7 +400,7 @@ class CRefs
                 </tr>
                 <tr>
                   <td align="center" bgcolor="#f0f0f0">
-                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<? print $_REQUEST['ud']['ID']; ?>"><img src="GIF/200_200.png"/></a>
+                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<?php print $_REQUEST['ud']['ID']; ?>"><img src="GIF/200_200.png"/></a>
                   </textarea>
                   </td>
                 </tr>
@@ -418,7 +418,7 @@ class CRefs
                 </tr>
                 <tr>
                   <td align="center" bgcolor="#f0f0f0">
-                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<? print $_REQUEST['ud']['ID']; ?>"><img src="GIF/350_200.png"/></a>
+                  <textarea class="form-control" rows="3" style="width:95%"><a href="http://www.ChainRepublik/?i=<?php print $_REQUEST['ud']['ID']; ?>"><img src="GIF/350_200.png"/></a>
                   </textarea>
                   </td>
                 </tr>
@@ -428,7 +428,7 @@ class CRefs
               </tbody>
             </table>
         
-        <?
+        <?php
 		
 	}
 	

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -61,14 +61,14 @@
         <tbody>
           <tr>
             <td width="204" height="600" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(1);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showHelp("Wars between countries are <strong>started by governemnts</strong>. Wars <strong>take 24 hours</strong> during wich time you can actively participate in the battle. Governments may also participate using <strong>air strikes, artillery, or navy attacks</strong>. When you fight, your military influence increases and you can advance in rank faster. To be able to participate in a war you have to move to the attacked country. Below are listed active / ended wars.");
                
 			   // Status
@@ -101,7 +101,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -117,7 +117,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

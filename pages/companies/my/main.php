@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(6);
 	  ?>
       </td>
@@ -61,14 +61,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $com->showMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showHelp("Below you can see the list of your companies and the actual <strong>status</strong>. Keep in mind that a company become <strong>inactive</strong> if the company stops the production. The production will stop if the company is <strong>runs out of raw materials</strong> or funds to pay the workers. Also the company will stop if the production tools or uilding are expired. Companies's buildings degrade <strong>1% / day</strong>.");
 		  
 		       $my_com->showMine();
@@ -79,7 +79,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -93,7 +93,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

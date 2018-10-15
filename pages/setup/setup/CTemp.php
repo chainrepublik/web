@@ -1,4 +1,4 @@
-<?
+<?php
 class CTemp
 {
 	function CTemp($db)
@@ -22,7 +22,7 @@ class CTemp
           </button>
           <a class="navbar-brand" href="#">
           
-		  <?
+		  <?php
 		      switch ($sel)
 			  {
 				  case 1 : print "Product Types"; break;
@@ -60,7 +60,7 @@ class CTemp
     </nav>
     <br /><br /><br /><br /><br />
         
-        <?
+        <?php
 	}
 	
 	function showYesNo($id, $sel="")
@@ -157,24 +157,24 @@ class CTemp
         
            <table width="600" border="0" cellspacing="0" cellpadding="0">
            <tr>
-           <td align="right"><a href="<? print $link; ?>" class="btn btn-success"><? print $txt; ?></a></td>
+           <td align="right"><a href="<?php print $link; ?>" class="btn btn-success"><?php print $txt; ?></a></td>
            </tr>
            </table>
            <br><br>
         
-        <?
+        <?php
 	}
 	
 	function showSearch()
 	{
 		?>
             
-<form action="<? print $_SERVER['PHP_SELF']; ?>">
-            <input class="form-control" id="txt_search" name="txt_search" style="width:600px" placeholder="Search" value="<? print $_REQUEST['txt_search']; ?>"></input>
+<form action="<?php print $_SERVER['PHP_SELF']; ?>">
+            <input class="form-control" id="txt_search" name="txt_search" style="width:600px" placeholder="Search" value="<?php print $_REQUEST['txt_search']; ?>"></input>
             </form>
             <br><br>
             
-        <?
+        <?php
 	}
 	
 	function showUnitate($sel="")
@@ -289,17 +289,17 @@ class CTemp
 	{
 		?>
         
-           <div class="modal fade" id="<? print $id; ?>">
+           <div class="modal fade" id="<?php print $id; ?>">
            <div class="modal-dialog">
            <div class="modal-content">
            <div class="modal-header">
            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title" align="center" id="modal_title"><? print $txt; ?></h4>
+           <h4 class="modal-title" align="center" id="modal_title"><?php print $txt; ?></h4>
            </div>
-           <form method="post" action="<? print $action; ?>" enctype="multipart/form-data">
+           <form method="post" action="<?php print $action; ?>" enctype="multipart/form-data">
            <div class="modal-body">
         
-        <?
+        <?php
 		
 		  if ($name_1!="") print "<input type='hidden' name='".$name_1."' id='".$name_1."' value='".$val_1."'/>";
 		  if ($name_2!="") print "<input type='hidden' name='".$name_2."' id='".$name_2."' value='".$val_2."'/>";
@@ -313,13 +313,13 @@ class CTemp
         
              </div>
              <div class="modal-footer">
-             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="format()"><? print $but_1_txt; ?></button>
-             <button type="submit" class="btn btn-primary btn-success" onclick="format()"><? print $but_2_txt; ?></button>
+             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="format()"><?php print $but_1_txt; ?></button>
+             <button type="submit" class="btn btn-primary btn-success" onclick="format()"><?php print $but_2_txt; ?></button>
              </div>
              </form>
              </div></div></div>
         
-        <?
+        <?php
 	}
 }
 ?>

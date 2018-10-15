@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
 
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(4);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 		        $template->showHelp("Below are displayed details about this proposal. Proposals can be voted for <strong>24 hours</strong>. Only members of the military unit can vote a proposal. The law is aproved if <strong>minimum 51% of vote points</strong> aprove it. Not all members votes are equal. The vote points are calculated based on <strong>war points</strong>. ");		   
 		        
 				// Vote
@@ -79,7 +79,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -93,7 +93,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

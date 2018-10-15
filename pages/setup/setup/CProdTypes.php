@@ -1,4 +1,4 @@
-<?
+<?php
 class CProdTypes
 {
 	function CProdTypes($db, $utils)
@@ -82,24 +82,24 @@ class CProdTypes
         
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="498"><? print $row['name']; ?><br><span class='simple_gri_10'><? print $row['prod'].", <strong style='color:#000000'>".$row['net_cost']." CRC</strong>"; ?></span></td>
-                <td width="77" align="center"><a href="tipuri_produse.php?act=edit&ID=<? print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
-                <td width="25" align="center"><a href="del.php?tab=tipuri_produse&ID=<? print $row['ID']; ?>&txt_search=<? print $_REQUEST['txt_search']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
+                <td width="498"><?php print $row['name']; ?><br><span class='simple_gri_10'><?php print $row['prod'].", <strong style='color:#000000'>".$row['net_cost']." CRC</strong>"; ?></span></td>
+                <td width="77" align="center"><a href="tipuri_produse.php?act=edit&ID=<?php print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
+                <td width="25" align="center"><a href="del.php?tab=tipuri_produse&ID=<?php print $row['ID']; ?>&txt_search=<?php print $_REQUEST['txt_search']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function editProd($ID)
@@ -114,92 +114,92 @@ class CProdTypes
 	
 		?>
         
-        <form id="form_update" name="form_update" action="tipuri_produse.php?act=update&ID=<? print $ID; ?>" method="post">
+        <form id="form_update" name="form_update" action="tipuri_produse.php?act=update&ID=<?php print $ID; ?>" method="post">
         <table width="600" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="145" height="50" align="right">Product&nbsp;&nbsp;</td>
-        <td width="455" align="left"><input type="text" name="txt_prod" id="txt_prod" class="form-control" value="<? print $row['prod']; ?>"/></td>
+        <td width="455" align="left"><input type="text" name="txt_prod" id="txt_prod" class="form-control" value="<?php print $row['prod']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Work Hours&nbsp;&nbsp;</td>
-        <td align="left"><input type="text" name="txt_hours" id="txt_hours" class="form-control" style="width:100px" value="<? print $row['work_hours']; ?>"/></td>
+        <td align="left"><input type="text" name="txt_hours" id="txt_hours" class="form-control" style="width:100px" value="<?php print $row['work_hours']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 1&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_1", $row['prod_1']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_1", $row['prod_1']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 1 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_1_qty" id="txt_raw_1_qty" class="form-control" style="width:100px" value="<? print $row['prod_1_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_1_qty" id="txt_raw_1_qty" class="form-control" style="width:100px" value="<?php print $row['prod_1_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 2&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_2", $row['prod_2']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_2", $row['prod_2']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 2 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_2_qty" id="txt_raw_1_qty" class="form-control" style="width:100px" value="<? print $row['prod_2_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_2_qty" id="txt_raw_1_qty" class="form-control" style="width:100px" value="<?php print $row['prod_2_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 3&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_3", $row['prod_3']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_3", $row['prod_3']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 3 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_3_qty" id="txt_raw_3_qty" class="form-control" style="width:100px" value="<? print $row['prod_3_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_3_qty" id="txt_raw_3_qty" class="form-control" style="width:100px" value="<?php print $row['prod_3_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 4&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_4", $row['prod_4']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_4", $row['prod_4']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 4 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_4_qty" id="txt_raw_4_qty" class="form-control" style="width:100px" value="<? print $row['prod_4_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_4_qty" id="txt_raw_4_qty" class="form-control" style="width:100px" value="<?php print $row['prod_4_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 5&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_5", $row['prod_5']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_5", $row['prod_5']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 5 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_5_qty" id="txt_raw_5_qty" class="form-control" style="width:100px" value="<? print $row['prod_5_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_5_qty" id="txt_raw_5_qty" class="form-control" style="width:100px" value="<?php print $row['prod_5_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 6&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_6", $row['prod_6']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_6", $row['prod_6']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 6 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_6_qty" id="txt_raw_6_qty" class="form-control" style="width:100px" value="<? print $row['prod_6_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_6_qty" id="txt_raw_6_qty" class="form-control" style="width:100px" value="<?php print $row['prod_6_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 7&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_7", $row['prod_7']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_7", $row['prod_7']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 7 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_7_qty" id="txt_raw_7_qty" class="form-control" style="width:100px" value="<? print $row['prod_7_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_7_qty" id="txt_raw_7_qty" class="form-control" style="width:100px" value="<?php print $row['prod_7_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 8&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_8", $row['prod_8']); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_8", $row['prod_8']); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 8 Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_raw_8_qty" id="txt_raw_8_qty" class="form-control" style="width:100px" value="<? print $row['prod_8_qty']; ?>"/></td>
+        <input type="text" name="txt_raw_8_qty" id="txt_raw_8_qty" class="form-control" style="width:100px" value="<?php print $row['prod_8_qty']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Unit&nbsp;&nbsp;</td>
         <td align="left">
-        <?
+        <?php
 		   $this->utils->showUnitate($row['unitate']);
         ?>
         </td>
@@ -207,24 +207,24 @@ class CProdTypes
       <tr>
         <td height="50" align="right">Name&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_name" id="txt_name" class="form-control" value="<? print $row['name']; ?>"/></td>
+        <input type="text" name="txt_name" id="txt_name" class="form-control" value="<?php print $row['name']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Production Capacity&nbsp;&nbsp;</td>
-        <td align="left"><input type="text" name="txt_cap" id="txt_cap" class="form-control" value="<? print $row['prod_capacity']; ?>" style="width:100px"/></td>
+        <td align="left"><input type="text" name="txt_cap" id="txt_cap" class="form-control" value="<?php print $row['prod_capacity']; ?>" style="width:100px"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Damage&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_damage" id="txt_damage" class="form-control" value="<? print $row['damage']; ?>" style="width:100px"/></td>
+        <input type="text" name="txt_damage" id="txt_damage" class="form-control" value="<?php print $row['damage']; ?>" style="width:100px"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Produced By&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showComTypesDD("dd_produced", $row['produced_by']); ?></td>
+        <td align="left"><?php $this->utils->showComTypesDD("dd_produced", $row['produced_by']); ?></td>
       </tr>
 	  <tr>
         <td height="50" align="right">Expires&nbsp;&nbsp;</td>
-        <td align="left"><input type="text" name="txt_expires" id="txt_expires" class="form-control" value="<? print $row['expires']; ?>" style="width:100px"/></td>
+        <td align="left"><input type="text" name="txt_expires" id="txt_expires" class="form-control" value="<?php print $row['expires']; ?>" style="width:100px"/></td>
       </tr>
       <tr>
         <td height="10" colspan="2" align="right">&nbsp;</td>
@@ -239,7 +239,7 @@ class CProdTypes
     </table>
     </form>
         
-        <?
+        <?php
 	}
 	
 	function newProdPanel()
@@ -258,7 +258,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 1&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_1"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_1"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 1 Qty&nbsp;&nbsp;</td>
@@ -267,7 +267,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 2&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_2"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_2"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 2 Qty&nbsp;&nbsp;</td>
@@ -276,7 +276,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 3&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_3"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_3"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 3 Qty&nbsp;&nbsp;</td>
@@ -285,7 +285,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 4&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_4"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_4"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 4 Qty&nbsp;&nbsp;</td>
@@ -294,7 +294,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 5&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_5"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_5"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 5 Qty&nbsp;&nbsp;</td>
@@ -303,7 +303,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 6&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_6"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_6"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 6 Qty&nbsp;&nbsp;</td>
@@ -312,7 +312,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 7&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_7"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_7"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 7 Qty&nbsp;&nbsp;</td>
@@ -321,7 +321,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Raw 8&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showProdTypesDD("dd_raw_8"); ?></td>
+        <td align="left"><?php $this->utils->showProdTypesDD("dd_raw_8"); ?></td>
       </tr>
       <tr>
         <td height="50" align="right">Raw 8 Qty&nbsp;&nbsp;</td>
@@ -331,7 +331,7 @@ class CProdTypes
       <tr>
         <td height="50" align="right">Unit&nbsp;&nbsp;</td>
         <td align="left">
-        <?
+        <?php
 		   $this->utils->showUnitate();
         ?>
         </td>
@@ -351,7 +351,7 @@ class CProdTypes
       </tr>
       <tr>
         <td height="50" align="right">Produced By&nbsp;&nbsp;</td>
-        <td align="left"><? $this->utils->showComTypesDD("dd_produced"); ?></td>
+        <td align="left"><?php $this->utils->showComTypesDD("dd_produced"); ?></td>
       </tr>
       <tr>
         <td height="10" colspan="2" align="right">&nbsp;</td>
@@ -366,7 +366,7 @@ class CProdTypes
     </table>
     </form>
         
-        <?
+        <?php
 	}
 	
 	function updateProdType()

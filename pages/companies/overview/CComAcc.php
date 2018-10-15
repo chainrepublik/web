@@ -1,4 +1,4 @@
-<?
+<?php
 class CComAccounting
 {
 	function CComAccounting($db, $template, $acc, $comID)
@@ -49,7 +49,7 @@ class CComAccounting
         
             <table width="90%" border="0" cellspacing="0" cellpadding="3">
             
-            <?
+            <?php
 			   $query="SELECT sh.*, us.user, cou.country 
 			             FROM shares AS sh
 						 LEFT join web_users AS us ON us.ID=sh.ownerID
@@ -69,16 +69,16 @@ class CComAccounting
                   <img src="../../template/GIF/empty_profile.png" width="40" height="41" class="img-circle"/></td>
                   <td width="36%" height="32">
                   
-                  <?
+                  <?php
 				     if ($row['ownerID']>0)
 					 {
 				  ?>
                   
-                       <a href="../../profiles/overview/main.php?ID=<? print $row['ownerID']; ?>" class="blue_14" target="_blank">
-				       <? print $row['user']; ?></a><br />
-                       <span class="simple_blue_10"><? print ucfirst(strtolower($row['country'])); ?></span>
+                       <a href="../../profiles/overview/main.php?ID=<?php print $row['ownerID']; ?>" class="blue_14" target="_blank">
+				       <?php print $row['user']; ?></a><br />
+                       <span class="simple_blue_10"><?php print ucfirst(strtolower($row['country'])); ?></span>
                   
-                  <?
+                  <?php
 					 }
 					 else
 					 {
@@ -88,27 +88,27 @@ class CComAccounting
 				       Game Fund</a><br />
                        <span class="simple_blue_10">Game Fund</span>
                    
-                  <?
+                  <?php
 					 }
 				  ?>
                   
                   </td>
-                  <td width="17%" align="center" class="font_14"><? print $row['qty']; ?></td>
-                  <td width="19%" align="center" class="font_14"><? print round($row['qty']*0.1, 2)."%"; ?></td>
-                  <td width="18%" align="center" class="font_14" style="color:#009900"><? print "".round($row['qty']*$per_share, 4); ?> GOLD</td>
+                  <td width="17%" align="center" class="font_14"><?php print $row['qty']; ?></td>
+                  <td width="19%" align="center" class="font_14"><?php print round($row['qty']*0.1, 2)."%"; ?></td>
+                  <td width="18%" align="center" class="font_14" style="color:#009900"><?php print "".round($row['qty']*$per_share, 4); ?> GOLD</td>
               </tr>
                   <tr>
                   <td height="10" colspan="5" align="right" class="font_14" ><hr></td>
                   </tr>
             
-            <?
+            <?php
 	           }
 			?>
             
 </table>
               
            
-        <?
+        <?php
 	}
 	
 	function doWth($amount)
@@ -226,7 +226,7 @@ class CComAccounting
               </tr>
               <tr>
                 <td align="center" class="bold_gri_18">
-				<?
+				<?php
 		           $this->template->showReq(0.0001, 0);
 		        ?>
 				</td>
@@ -248,7 +248,7 @@ class CComAccounting
           </tr>
         </table>
            
-        <?
+        <?php
 		$this->template->showModalFooter("Withdraw");
 	}
 	
@@ -259,11 +259,11 @@ class CComAccounting
 		?>
            
            <table width="550px"><tr><td align="right">
-           <a href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<? print $this->kern->getComSymbol($_REQUEST['ID']); ?>')" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Deposit Coins</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="jvascript:void(0)" onClick="$('#wth_modal').modal()" class="btn btn-sm btn-danger" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-minus" ></span>&nbsp;&nbsp;Withdraw Coins</a>
+           <a href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<?php print $this->kern->getComSymbol($_REQUEST['ID']); ?>')" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Deposit Coins</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="jvascript:void(0)" onClick="$('#wth_modal').modal()" class="btn btn-sm btn-danger" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-minus" ></span>&nbsp;&nbsp;Withdraw Coins</a>
 		   </td></tr></table><br>
 
-        <?
+        <?php
 	}
 }
 ?>

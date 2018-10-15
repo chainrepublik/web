@@ -1,4 +1,4 @@
-<?
+<?php
 class CCountries
 {
 	function CCountries($db, $template)
@@ -15,23 +15,23 @@ class CCountries
             <form action="main.php" method="post" id="form_cou" name="form_cou">
 				
             <select id="dd_cou" name="dd_cou" onChange="$('#form_cou').submit()" class="form-control">
-				<option value="ID_CIT" <? if ($page=="ID_CIT") print "selected"; ?>>Citizens Number</option>
-				<option value="ID_COM" <? if ($page=="ID_COM") print "selected"; ?>>Companies</option>
-				<option value="ID_WORKPLACES" <? if ($page=="ID_WORKPLACES") print "selected"; ?>>Workplaces</option>
-				<option value="ID_TOTAL_ENERGY" <? if ($page=="ID_TOTAL_ENERGY") print "selected"; ?>>Total Energy</option>
-				<option value="ID_AVG_ENERGY" <? if ($page=="ID_AVG_ENERGY") print "selected"; ?>>Average Energy</option>
-				<option value="ID_TOTAL_POL_INF" <? if ($page=="ID_TOTAL_POL_INF") print "selected"; ?>>Total Political Influence</option>
-				<option value="ID_AVG_POL_INF" <? if ($page=="ID_AVG_POL_INF") print "selected"; ?>>Average Political Influence</option>
-				<option value="ID_TOTAL_MIL_POINTS" <? if ($page=="ID_TOTAL_MIL_POINTS") print "selected"; ?>>Total Military Points</option>
-				<option value="ID_AVG_MIL_POINTS" <? if ($page=="ID_AVG_MIL_POINTS") print "selected"; ?>>Average Military Points</option>
-				<option value="ID_NEW_CIT" <? if ($page=="ID_NEW_CIT") print "selected"; ?>>New Citizens Today</option>
-				<option value="ID_BUG_BALANCE" <? if ($page=="ID_BUG_BALANCE") print "selected"; ?>>Budget Balance</option>
+				<option value="ID_CIT" <?php if ($page=="ID_CIT") print "selected"; ?>>Citizens Number</option>
+				<option value="ID_COM" <?php if ($page=="ID_COM") print "selected"; ?>>Companies</option>
+				<option value="ID_WORKPLACES" <?php if ($page=="ID_WORKPLACES") print "selected"; ?>>Workplaces</option>
+				<option value="ID_TOTAL_ENERGY" <?php if ($page=="ID_TOTAL_ENERGY") print "selected"; ?>>Total Energy</option>
+				<option value="ID_AVG_ENERGY" <?php if ($page=="ID_AVG_ENERGY") print "selected"; ?>>Average Energy</option>
+				<option value="ID_TOTAL_POL_INF" <?php if ($page=="ID_TOTAL_POL_INF") print "selected"; ?>>Total Political Influence</option>
+				<option value="ID_AVG_POL_INF" <?php if ($page=="ID_AVG_POL_INF") print "selected"; ?>>Average Political Influence</option>
+				<option value="ID_TOTAL_MIL_POINTS" <?php if ($page=="ID_TOTAL_MIL_POINTS") print "selected"; ?>>Total Military Points</option>
+				<option value="ID_AVG_MIL_POINTS" <?php if ($page=="ID_AVG_MIL_POINTS") print "selected"; ?>>Average Military Points</option>
+				<option value="ID_NEW_CIT" <?php if ($page=="ID_NEW_CIT") print "selected"; ?>>New Citizens Today</option>
+				<option value="ID_BUG_BALANCE" <?php if ($page=="ID_BUG_BALANCE") print "selected"; ?>>Budget Balance</option>
 			</select>
 				
             </form>
 			</td></tr></table>
 
-        <?
+        <?php
 	}
 	
 	function showCountries($page)
@@ -107,14 +107,12 @@ class CCountries
 			$query="SELECT * 
 			          FROM countries AS cou 
 					  JOIN adr ON adr.adr=cou.adr 
-				  ORDER BY adr.balance DESC 
-				     LIMIT 0,50";
+				  ORDER BY adr.balance DESC";
 		else
 		    $query="SELECT * 
 		              FROM sys_stats AS ss
 					  JOIN countries AS cou ON cou.code=ss.cou
-				ORDER BY $col DESC 
-				     LIMIT 0,50"; 
+				ORDER BY $col DESC"; 
 		
 		$result=$this->kern->execute($query);
 		
@@ -125,7 +123,7 @@ class CCountries
             <table width="550" border="0" cellspacing="0" cellpadding="0">
             <tbody>
 				
-				<?
+				<?php
 		            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					{
 						if ($page=="ID_BUG_BALANCE")
@@ -135,17 +133,17 @@ class CCountries
 		        ?>
 				
                     <tr>
-                    <td width="10%"><img src=<? ?>"../../template/GIF/flags/35/<? print $flag; ?>.gif" class="img img-rounded" width="35"></td>
-					<td class="font_14" width="30%" style="color: #777777"><? print ucfirst(strtolower($row['country'])); ?><br><span class="font_10" style="color: #999999"><? if ($row['occupied']==$row['code']) print "Free Country"; else print "Occupied by ".$row['occupied']; ?></span></td>
-				    <td class="font_14" align="center" width="20%"><strong><? if ($row['private']=="YES") print "private"; ?></strong></td>
-					<td class="font_14" align="center" width="20%"><strong><? print $row[$col]; ?></strong></td>
-				    <td align="center"><a class="btn btn-primary btn-sm" href="../stats/main.php?cou=<? print $flag; ?>" target="_blank">Details</a></td>
+                    <td width="10%"><img src=<?php ?>"../../template/GIF/flags/35/<?php print $flag; ?>.gif" class="img img-rounded" width="35" onerror="this.src='../../template/GIF/flags/all_bw/<?php print $flag; ?>.svg'"></td>
+					<td class="font_14" width="30%" style="color: #777777"><?php print ucfirst(strtolower($row['country'])); ?><br><span class="font_10" style="color: #999999"><?php if ($row['occupied']==$row['code']) print "Free Country"; else print "Occupied by ".$row['occupied']; ?></span></td>
+				    <td class="font_14" align="center" width="20%"><strong><?php if ($row['private']=="YES") print "private"; ?></strong></td>
+					<td class="font_14" align="center" width="20%"><strong><?php print $row[$col]; ?></strong></td>
+				    <td align="center"><a class="btn btn-primary btn-sm" href="../stats/main.php?cou=<?php print $flag; ?>" target="_blank">Details</a></td>
                     </tr>
                     <tr>
                     <td colspan="4"><hr></td>
                     </tr>
 				
-				<?
+				<?php
 					}
 	 	        ?>
 				
@@ -153,7 +151,7 @@ class CCountries
             </table>
 
 
-        <?
+        <?php
 	}
 }
 ?>

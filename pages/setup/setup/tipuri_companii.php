@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -33,7 +33,7 @@
 <body>
 <center>
 
-    <? 
+    <?php 
 	   $temp->showNav(5);
 	   $tip->showComTypes();
 	?>

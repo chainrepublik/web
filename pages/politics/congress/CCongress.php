@@ -1,4 +1,4 @@
-<?
+<?php
 class CCongress
 {
 	function CCongress($db, $acc, $template)
@@ -34,7 +34,7 @@ class CCongress
            <table width="95%">
 					<tr>
 						<td width="62%" align="left">
-							<? 
+							<?php 
 							    $this->template->showSmallMenu($sel, 
 														       "Members", "main.php?page=members", 
 														       "My Endorsers", "main.php?page=mine", 
@@ -45,7 +45,7 @@ class CCongress
 					</tr>
 				</table>
 
-        <?
+        <?php
 	}
 	
 	function showCongress()
@@ -93,7 +93,7 @@ class CCongress
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				 $line++;
@@ -104,7 +104,7 @@ class CCongress
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -116,32 +116,32 @@ class CCongress
 						  " width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['comID']>0) print base64_decode($row['name']); else print $row['name']; ?></strong>
+                <a href="<?php if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['comID']>0) print base64_decode($row['name']); else print $row['name']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print ucfirst(strtolower(base64_decode($row['party']))); ?></span></td>
+                <br /><span class="font_10"><?php print ucfirst(strtolower(base64_decode($row['party']))); ?></span></td>
               </tr>
               </table></td>
               
              
-              <td width="20%" align="center" class="font_14" style="color: <? if ($row['pol_endorsed']==0) print "#999999"; else print "#009900"; ?>"><strong>
-			  <? 
+              <td width="20%" align="center" class="font_14" style="color: <?php if ($row['pol_endorsed']==0) print "#999999"; else print "#009900"; ?>"><strong>
+			  <?php 
 			     print $row['pol_endorsed'];
 			  ?>
               </strong></td>
 				  
 			  </tr>
               <tr>
-              <td colspan="3" <? if ($line==25) print "background=\"../../template/GIF/red_line.png\""; ?>><? if ($line!=25) print "<hr>"; else print "&nbsp;"; ?></td>
+              <td colspan="3" <?php if ($line==25) print "background=\"../../template/GIF/red_line.png\""; ?>><?php if ($line!=25) print "<hr>"; else print "&nbsp;"; ?></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showEndorsers($type)
@@ -186,7 +186,7 @@ class CCongress
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				
@@ -197,7 +197,7 @@ class CCongress
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -209,16 +209,16 @@ class CCongress
 						  " width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
+                <a href="<?php if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
               </tr>
               </table></td>
               
              
-              <td width="20%" align="center" class="font_14" style="color: <? if ($row['power']==0) print "#999999"; else print "#009900"; ?>"><strong>
-			  <? 
+              <td width="20%" align="center" class="font_14" style="color: <?php if ($row['power']==0) print "#999999"; else print "#009900"; ?>"><strong>
+			  <?php 
 				 if ($type=="ID_MINE")
 			        print $row['power'];
 				 else
@@ -231,13 +231,13 @@ class CCongress
               <td colspan="3"><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showCongressStatus($cou)
@@ -259,7 +259,7 @@ class CCongress
            </div>
            <br>
 
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -34,7 +34,7 @@
 <body>
 <center>
     
-    <?
+    <?php
 	   $temp->showNav(9);
 	   $temp->showSearch();
 	   
@@ -47,7 +47,7 @@
            </table>
            <br><br>
        
-       <?
+       <?php
 	   
 	   if ($_REQUEST['act']=="donate") $donate->donate($_REQUEST['txt_user'], $_REQUEST['txt_amount'], $_REQUEST['txt_pass']);
 	   $donate->showDonations($_REQUEST['txt_search']);

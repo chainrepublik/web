@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -41,7 +41,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -49,7 +49,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -62,14 +62,14 @@
         <tbody>
           <tr>
             <td width="204" height="600" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(2);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showHelp("Below are the wars in which you participated and the <strong>damage</strong> you inflicted. The damage depends on what kind of <strong>weapons / ammunition</strong> you have used. Keep in mind that your <strong>damage</strong> in the war is gradually <strong>decreasing</strong> towards the end of the war. For maximum impact, try to fight <strong>in the first hour<strong> after the war has been triggered.");
                
 			   // Show Last fights
@@ -79,7 +79,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -95,7 +95,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

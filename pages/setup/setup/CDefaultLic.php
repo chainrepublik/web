@@ -1,4 +1,4 @@
-<?
+<?php
 class CDefaultLic
 {
 	function CDefaultLic($db, $utils)
@@ -55,32 +55,32 @@ class CDefaultLic
            <br><br>
            <table width="700" border="0" cellspacing="0" cellpadding="0">
            <tr>
-           <td align="right"><a href="#" onclick="$('#add_modal').modal(); $('#com').val('<? print $_REQUEST['com']; ?>'); $('#td_com_name').text('<? print $com_name; ?>')" class="btn btn-success">New Product<a/></td>
+           <td align="right"><a href="#" onclick="$('#add_modal').modal(); $('#com').val('<?php print $_REQUEST['com']; ?>'); $('#td_com_name').text('<?php print $com_name; ?>')" class="btn btn-success">New Product<a/></td>
            </tr>
            </table>
            <br>
            <table border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
            
-           <?
+           <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		   ?>
            
               <tr>
-              <td width="375" align="left"><? print $row['lic_name']; ?></td>
+              <td width="375" align="left"><?php print $row['lic_name']; ?></td>
               <td width="80" align="center">
-              <a href="del.php?tab=default_lic&ID=<? print $row['lID']; ?>&com=<? print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
+              <a href="del.php?tab=default_lic&ID=<?php print $row['lID']; ?>&com=<?php print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
               </td>
               
               </tr>
            
-           <?
+           <?php
 	        }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showAddModal()
@@ -115,7 +115,7 @@ class CDefaultLic
               <tr>
                 <td height="45" align="right" valign="middle" class="bold_gri_14">Licence&nbsp;&nbsp;</td>
                 <td height="40" align="left" valign="middle">
-                <? $this->utils->showLicTypesDD("dd_lic"); ?>
+                <?php $this->utils->showLicTypesDD("dd_lic"); ?>
                 </td>
               </tr>
               <tr>
@@ -128,7 +128,7 @@ class CDefaultLic
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

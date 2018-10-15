@@ -1,4 +1,4 @@
-<?
+<?php
 class CTemplate
 {
 	function CTemplate()
@@ -240,6 +240,29 @@ class CTemplate
 		if ($_REQUEST['ud']['energy']<0.1)
 		{
 			$this->showErr("Insuficient energy");
+			return false;
+		}
+		
+		// Member of a political party ?
+		if ($_REQUEST['ud']['pol_party']==0)
+		{
+			$this->showErr("You need to be a member of a political party");
+			return false;
+		}
+		
+		// Endorsed in the same party ?
+        $result=$this->kern->getResult("SELECT * 
+		                                  FROM adr 
+										 WHERE adr=? 
+										   AND pol_party=?", 
+									   "si", 
+									   $adr, 
+									   $_REQUEST['ud']['pol_party']);
+		
+		// Has data ?
+		if (mysqli_num_rows($result)==0)
+		{
+			$this->showErr("You can endorse only members of your political party");
 			return false;
 		}
 		
@@ -510,7 +533,7 @@ class CTemplate
 								$_REQUEST['ud']['adr'], 
 								$target_type, 
 								$targetID, 
-								$mes, 
+								base64_encode($mes), 
 								"ID_PENDING", 
 								time());
 		
@@ -827,7 +850,7 @@ class CTemplate
 		</script>
 		
         
-        <?
+        <?php
 		$this->showModalFooter("Send");
 	}
 	
@@ -838,16 +861,16 @@ class CTemplate
 		
 		?>
             
-           <table width="<? if ($this->kern->isLoggedIn()==true) print "970"; else print "820"; ?>" border="0" cellspacing="0" cellpadding="0">
+           <table width="<?php if ($this->kern->isLoggedIn()==true) print "970"; else print "820"; ?>" border="0" cellspacing="0" cellpadding="0">
            <tbody>
            <tr>
-            <td width="143" height="60" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==1) print "on"; else print "off"; ?>.png">            
+            <td width="143" height="60" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==1) print "on"; else print "off"; ?>.png">            
             
             <a href="../../home/press/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom" class="<? if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Home</td>
+                  <td height="48" align="center" valign="bottom" class="<?php if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Home</td>
                 </tr>
               </tbody>
             </table>
@@ -855,34 +878,34 @@ class CTemplate
             
             </td>
             
-            <?
+            <?php
 			   if ($this->kern->isLoggedIn()==true)
 			   {
 			?>
             
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==2) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==2) print "on"; else print "off"; ?>.png">
             <a href="../../portofolio/prods/main.php">
             <table width="88%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom" class="<? if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Inventory</td>
+                  <td height="48" align="center" valign="bottom" class="<?php if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Inventory</td>
                 </tr>
               </tbody>
             </table>
             </a>
             </td>
             
-            <?
+            <?php
 			   }
 			?>
             
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==3) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==3) print "on"; else print "off"; ?>.png">
             
             <a href="../../work/workplaces/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom" class="<? if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>"><span class="bold_shadow_white_18">&nbsp;&nbsp;</span>Work</td>
+                  <td height="48" align="center" valign="bottom" class="<?php if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>"><span class="bold_shadow_white_18">&nbsp;&nbsp;</span>Work</td>
                 </tr>
               </tbody>
             </table> 
@@ -890,53 +913,53 @@ class CTemplate
             
             </td>
              
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==4) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==4) print "on"; else print "off"; ?>.png">
             
             <a href="../../market/cigars/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom"><span class="<? if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Market</span></td>
+                  <td height="48" align="center" valign="bottom"><span class="<?php if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Market</span></td>
                 </tr>
               </tbody>
             </table>
             </a>
             
             </td>
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==5) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==5) print "on"; else print "off"; ?>.png">
             
             <a href="../../war/wars/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom"><span class="<? if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;War</span></td>
+                  <td height="48" align="center" valign="bottom"><span class="<?php if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;War</span></td>
                 </tr>
               </tbody>
             </table>
             </a>
             
             </td>
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==6) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==6) print "on"; else print "off"; ?>.png">
             
             <a href="../../companies/list/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
                   <td height="48" align="center" valign="bottom">
-                  <span class="<? if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Companies</span></td>
+                  <span class="<?php if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Companies</span></td>
                 </tr>
               </tbody>
             </table>
             </a>
             
             </td>
-            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<? if ($sel==7) print "on"; else print "off"; ?>.png">
+            <td width="143" align="center" valign="top" background="../../template/GIF/menu_label_<?php if ($sel==7) print "on"; else print "off"; ?>.png">
             
-            <a href="../../politics/<? if ($_REQUEST['ud']['ID']>0) print "stats"; else print "countries"; ?>/main.php">
+            <a href="../../politics/<?php if ($_REQUEST['ud']['ID']>0) print "stats"; else print "countries"; ?>/main.php">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td height="48" align="center" valign="bottom" class="inset_blue_inchis_18"><span class="<? if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Politics</span></td>
+                  <td height="48" align="center" valign="bottom" class="inset_blue_inchis_18"><span class="<?php if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_18"; ?>">&nbsp;&nbsp;Politics</span></td>
                 </tr>
               </tbody>
             </table>
@@ -947,7 +970,7 @@ class CTemplate
             </tbody>
             </table>
            
-        <?
+        <?php
 	}
 	
 	function showTopButs()
@@ -979,7 +1002,7 @@ class CTemplate
               </tbody>
             </table>
         
-        <?
+        <?php
 	}
 	
 	function showCRCPricePanel($visible=true)
@@ -992,11 +1015,11 @@ class CTemplate
                   </tr>
                   <tr>
                     <td height="50" align="center" bgcolor="#e6ffed">
-                    <span class="simple_green_22" id="txt_code" name="txt_code"><? print "$".$_REQUEST['sd']['coin_price']; ?></span></td>
+                    <span class="simple_green_22" id="txt_code" name="txt_code"><?php print "$".$_REQUEST['sd']['coin_price']; ?></span></td>
                   </tr>
             </table>
         
-<?
+<?php
 	}
 	
 	function showNetFeePanel($val=0.0001, $header="ss")
@@ -1009,11 +1032,11 @@ class CTemplate
                   </tr>
                   <tr>
                     <td height="50" align="center" bgcolor="#fffbee">
-                    <span class="simple_red_20" id="<? print $header; ?>_net_fee_panel_val" name="<? print $header; ?>_net_fee_panel_val"><strong><? print $val; ?></strong></span>&nbsp;&nbsp;<span class="simple_red_14">CRC</span></td>
+                    <span class="simple_red_20" id="<?php print $header; ?>_net_fee_panel_val" name="<?php print $header; ?>_net_fee_panel_val"><strong><?php print $val; ?></strong></span>&nbsp;&nbsp;<span class="simple_red_14">CRC</span></td>
                   </tr>
            </table>
         
-<?
+<?php
 	}
 	
 	
@@ -1032,7 +1055,7 @@ class CTemplate
                <td align="center">&nbsp;</td>
              </tr>
              <tr>
-               <td align="center"><? $this->showReq(0, 0.0001, "send"); ?></td>
+               <td align="center"><?php $this->showReq(0, 0.0001, "send"); ?></td>
              </tr>
              <tr>
                <td align="center">&nbsp;</td>
@@ -1063,13 +1086,13 @@ class CTemplate
                  <tr>
                    <td ><div class="input-group">
                      <div class="input-group-addon">CRC</div>
-                     <input type="number" step="0.00001" class="form-control" id="txt_CRC" name="txt_CRC"  style="width:80px" placeholder="0" onKeyUp="var  usd=$(this).val()*<? print $_REQUEST['sd']['coin_price']; ?>; var fee=$(this).val()/10000; if (fee<0.0001) fee=0.0001; fee=Math.round(fee*10000)/10000; usd=Math.round(usd*100)/100; $('#req_send_coins').text(fee); $('#txt_usd').val(usd)"/>
+                     <input type="number" step="0.00001" class="form-control" id="txt_CRC" name="txt_CRC"  style="width:80px" placeholder="0" onKeyUp="var  usd=$(this).val()*<?php print $_REQUEST['sd']['coin_price']; ?>; var fee=$(this).val()/10000; if (fee<0.0001) fee=0.0001; fee=Math.round(fee*10000)/10000; usd=Math.round(usd*100)/100; $('#req_send_coins').text(fee); $('#txt_usd').val(usd)"/>
                      </div>
                    </td>
                    <td width="10px">&nbsp;</td>
                    <td><div class="input-group">
                      <div class="input-group-addon">USD</div>
-                     <input type="number" step="0.01" class="form-control" id="txt_usd" name="txt_usd"  style="width:80px" placeholder="0" onKeyUp="var  CRC=$('#txt_usd').val()/<? print $_REQUEST['sd']['coin_price']; ?>; var fee=CRC/10000; if (fee<0.0001) fee=0.0001; fee=Math.round(fee*10000)/10000; $('#trans_net_fee_panel_val').text(fee); $('#req_send_coins').val(CRC);"/>
+                     <input type="number" step="0.01" class="form-control" id="txt_usd" name="txt_usd"  style="width:80px" placeholder="0" onKeyUp="var  CRC=$('#txt_usd').val()/<?php print $_REQUEST['sd']['coin_price']; ?>; var fee=CRC/10000; if (fee<0.0001) fee=0.0001; fee=Math.round(fee*10000)/10000; $('#trans_net_fee_panel_val').text(fee); $('#req_send_coins').val(CRC);"/>
                    </div></td>
                   
                  </tr>
@@ -1119,7 +1142,7 @@ class CTemplate
          </tr>
      </table>
 
-        <?
+        <?php
 		$this->showModalFooter("Send");
 		
 	}
@@ -1141,7 +1164,7 @@ class CTemplate
             <img src="../../template/GIF/logo.png" width="250" alt=""/>
             </a>
             </td>
-				<td width="142" align="center"><a href="javascript:void(0)" onClick="$('#testnet_modal').modal();"><span class="label label-danger">Testnet Node</span></a></td>
+				<td width="142" align="center"><a href="javascript:void(0)"><span class="label label-success">Online</span></a></td>
             <td width="387" align="left">
 			
 			<form action="../../home/search/main.php" method="post" name="form_search" id="form_search">
@@ -1163,7 +1186,7 @@ class CTemplate
 			</td>
             <td width="221" align="right">
 			
-			<?
+			<?php
 			   if ($this->kern->isLoggedIn()==false)
 			     $this->showTopButs();
 		       else $this->showPrice();
@@ -1178,7 +1201,7 @@ class CTemplate
             </table>
             <br /><br />
        
-        <?
+        <?php
 	}
 	
 	
@@ -1188,7 +1211,7 @@ class CTemplate
     
              <table style="width: 140px">
 				 <tr>
-					 <td name="td_live_price" id="td_live_price" data-content="Live price of ChainRepublik Coin (CRC). Feed is provided live by crcexchange.com. Click to start trading CRC." rel="popover" data-placement="bottom" data-original-title="CRC Live Price"  height="50" background="../../template/GIF/price.png" align="right"><a style="text-shadow: 1px 1px #000000; color: #ffffff" class="font_16" href="http://www.crcexchange.com" target="_blank"><? print "$".$_REQUEST['sd']['coin_price']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+					 <td name="td_live_price" id="td_live_price" data-content="Live price of ChainRepublik Coin (CRC). Feed is provided live by crcexchange.com. Click to start trading CRC." rel="popover" data-placement="bottom" data-original-title="CRC Live Price"  height="50" background="../../template/GIF/price.png" align="right"><a style="text-shadow: 1px 1px #000000; color: #ffffff" class="font_16" href="http://www.crcexchange.com" target="_blank"><?php print "$".$_REQUEST['sd']['coin_price']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 				 </tr>
              </table>
 
@@ -1196,7 +1219,7 @@ class CTemplate
 				  $('#td_live_price').popover({ trigger : "hover"});
              </script>
 
-        <?
+        <?php
 	}
 	
 	function showTicker()
@@ -1213,7 +1236,7 @@ class CTemplate
             </table>
             
              
-        <?
+        <?php
 	}
 	
 	function showCountriesDD($name="dd_cou", $width="300px", $loc=false, $onChange="")
@@ -1268,7 +1291,7 @@ class CTemplate
                     <td width="20%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tbody>
                         <tr>
-                          <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
+                          <td height="70"><img src="<?php if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
                         </tr>
                         <tr>
                           <td height="70" align="center">
@@ -1294,37 +1317,37 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Overview</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/rewards/main.php">Rewards</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/rewards/main.php">Rewards</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/messages/main.php">Messages</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/messages/main.php">Messages</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ranks/main.php">Ranks</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/ranks/main.php">Ranks</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ref/main.php">Affiliates</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/ref/main.php">Affiliates</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/accounting/main.php">Accounting</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/accounting/main.php">Accounting</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/events/main.php">Events</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/events/main.php">Events</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/settings/main.php">Settings</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/settings/main.php">Settings</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1334,13 +1357,13 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Inventory</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/prods/main.php">Products</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/prods/main.php">Products</a></span></td>
                         </tr>
 						 <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/assets/main.php">Assets</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/assets/main.php">Assets</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/shares/main.php">Shares</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>portofolio/shares/main.php">Shares</a></span></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1350,10 +1373,10 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Work</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>work/workplaces/main.php">Workplaces</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>work/workplaces/main.php">Workplaces</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>work/history/main.php">Work History</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>work/history/main.php">Work History</a></span></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1363,40 +1386,40 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Market</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/cigars/main.php">Cigars</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/cigars/main.php">Cigars</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/drinks/main.php">Drinks</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/drinks/main.php">Drinks</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/jewelry/main.php">Jewelry</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/jewelry/main.php">Jewelry</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/cars/main.php">Cars</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/cars/main.php">Cars</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
                         </tr>  
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1406,16 +1429,16 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">War</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/mine/main.php">My Fights</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/mine/main.php">My Fights</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/my_unit/main.php">My Unit</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/my_unit/main.php">My Unit</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1425,13 +1448,13 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Companies</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>companies/list/main.php">Browse</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>companies/list/main.php">Browse</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>companies/open/main.php">Open Company</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>companies/open/main.php">Open Company</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>companies/my/main.php">My Companies</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>companies/my/main.php">My Companies</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1441,28 +1464,28 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Politics</td>
                         </tr>
 					    <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/stats/main.php">Overview</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/stats/main.php">Overview</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/laws/main.php">Laws</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/laws/main.php">Laws</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/budget/main.php">Budget</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/budget/main.php">Budget</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/parties/main.php">Political Parties</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/parties/main.php">Political Parties</a></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/my_party/main.php">My Party</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/my_party/main.php">My Party</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/congress/main.php">Congress</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/congress/main.php">Congress</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></td>
                         </tr>
 						<tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/army/main.php">Army</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/army/main.php">Army</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1472,13 +1495,13 @@ class CTemplate
                           <td align="center" class="font_14" style="color:#ffffff">Legal</td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/terms/main.php">Terms</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/terms/main.php">Terms</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/privacy/main.php">Privacy Policy</a></span></td>
+                          <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/privacy/main.php">Privacy Policy</a></span></td>
                         </tr>
                         <tr>
-                          <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/refund/main.php">Refund Policy</a></td>
+                          <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/refund/main.php">Refund Policy</a></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -1509,7 +1532,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 <!-- end olark code -->
         
         
-        <?
+        <?php
 	}
 	
 	function showGuestBottomMenu($index=true)
@@ -1521,7 +1544,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               <td width="20%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
                   <tr>
-                    <td height="70"><img src="<? if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
+                    <td height="70"><img src="<?php if ($index==true) print "pages/template/GIF/logo.png"; else print "../../template/GIF/logo.png"; ?>" width="200" /></td>
                   </tr>
                   <tr>
                     <td height="70" align="center">
@@ -1547,19 +1570,19 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Overview</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12"  href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/press/main.php">Press</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/ranks/main.php">Ranks</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/ranks/main.php">Ranks</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/assets/main.php">Assets</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/explorer/main.php">Explorer</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>home/exchange/main.php">Exchange</a></span></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -1569,7 +1592,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Work</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>work/workplaces/main.php">Workplaces</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>work/workplaces/main.php">Workplaces</a></span></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -1579,40 +1602,40 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Market</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/cigars/main.php">Cigars</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/cigars/main.php">Cigars</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/drinks/main.php">Drinks</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/drinks/main.php">Drinks</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/food/main.php">Food</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/wine/main.php">Wine</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/clothes/main.php">Clothes</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/jewelry/main.php">Jewelry</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/jewelry/main.php">Jewelry</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/cars/main.php">Cars</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/cars/main.php">Cars</a></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/houses/main.php">Houses</a></td>
                   </tr>
 			       <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/tickets/main.php">Travel Tickets</a></td>
                   </tr>
 				   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/attack/main.php">Attack Weapons</a></td>
                   </tr>
 				   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/defense/main.php">Defense Weapons</a></td>
                   </tr>
 				   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>market/big_guns/main.php">Heavy Weapons</a></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -1622,10 +1645,10 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">War</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/wars/main.php">Wars</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>war/units/main.php">Military Units</a></span></td>
                   </tr>
                  
                 </tbody>
@@ -1636,7 +1659,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Companies</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>companies/list/main.php">Browse</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>companies/list/main.php">Browse</a></span></td>
                   </tr>
                   <tr>
                     <td height="25" align="center">&nbsp;</td>
@@ -1649,7 +1672,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Politics</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>politics/countries/main.php">Countries</a></span></td>
                   </tr>
 				  
                  
@@ -1664,20 +1687,20 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="center" class="font_14" style="color:#ffffff">Legal</td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/terms/main.php">Terms</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/terms/main.php">Terms</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/privacy/main.php">Privacy Policy</a></span></td>
+                    <td height="25" align="center"><span class="font_14"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/privacy/main.php">Privacy Policy</a></span></td>
                   </tr>
                   <tr>
-                    <td height="25" align="center"><a class="font_12" href="<? if ($index==true) print "./pages/"; else print "../../"; ?>terms/refund/main.php">Refund Policy</a></td>
+                    <td height="25" align="center"><a class="font_12" href="<?php if ($index==true) print "./pages/"; else print "../../"; ?>terms/refund/main.php">Refund Policy</a></td>
                   </tr>
                 </tbody>
               </table></td>
             </tr>
           </tbody>
         </table>
-        <?
+        <?php
 	}
 	
 	function showBottomMenu($index=true)
@@ -1700,7 +1723,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
   gtag('config', 'UA-116285551-1');
 </script>
 
-           <?
+           <?php
 	}
 	
 	
@@ -1716,32 +1739,32 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
            <table width="68" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
-            <input id="<? print $id; ?>" name="<? print $id; ?>" type="hidden" value="off"/>
-            <img src="../../template/GIF/sw_off.png" width="68" height="34" style="cursor:pointer; display:<? if ($pos=="off") print "block"; else print "none"; ?>" id="img_off_<? print $id; ?>"  name="img_off_<? print $id; ?>" />
-            <img src="../../template/GIF/sw_on.png" width="68" height="34" style="cursor:pointer; display:<? if ($pos=="off") print "none"; else print "block"; ?>" id="img_on_<? print $id; ?>" name="img_on_<? print $id; ?>"/>
+            <input id="<?php print $id; ?>" name="<?php print $id; ?>" type="hidden" value="off"/>
+            <img src="../../template/GIF/sw_off.png" width="68" height="34" style="cursor:pointer; display:<?php if ($pos=="off") print "block"; else print "none"; ?>" id="img_off_<?php print $id; ?>"  name="img_off_<?php print $id; ?>" />
+            <img src="../../template/GIF/sw_on.png" width="68" height="34" style="cursor:pointer; display:<?php if ($pos=="off") print "none"; else print "block"; ?>" id="img_on_<?php print $id; ?>" name="img_on_<?php print $id; ?>"/>
             </td>
           </tr>
         </table>
         
         <script>
-		   $('#img_off_<? print $id; ?>').click(function() 
+		   $('#img_off_<?php print $id; ?>').click(function() 
 		   {  
-		       $('#img_off_<? print $id; ?>').css('display', 'none'); 
-			   $('#img_on_<? print $id; ?>').css('display', 'block'); 
-			   $('#<? print $id; ?>').val('on'); 
-			   <? if ($link!="") print ".get('".$link."&status=Y')"; ?>
+		       $('#img_off_<?php print $id; ?>').css('display', 'none'); 
+			   $('#img_on_<?php print $id; ?>').css('display', 'block'); 
+			   $('#<?php print $id; ?>').val('on'); 
+			   <?php if ($link!="") print ".get('".$link."&status=Y')"; ?>
 		   });
 		   
-		   $('#img_on_<? print $id; ?>').click(function() 
+		   $('#img_on_<?php print $id; ?>').click(function() 
 		   {  
-		       $('#img_off_<? print $id; ?>').css('display', 'block'); 
-			   $('#img_on_<? print $id; ?>').css('display', 'none'); 
-			   $('#<? print $id; ?>').val('off'); 
-			   <? if ($link!="") print ".get('".$link."&status=N')"; ?>
+		       $('#img_off_<?php print $id; ?>').css('display', 'block'); 
+			   $('#img_on_<?php print $id; ?>').css('display', 'none'); 
+			   $('#<?php print $id; ?>').val('off'); 
+			   <?php if ($link!="") print ".get('".$link."&status=N')"; ?>
 			});
 		</script>
         
-        <?
+        <?php
 	}
 	
 	function showComRightPanel($comID)
@@ -1792,11 +1815,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               <tr>
                 <td>&nbsp;</td>
                 <td class="inset_verde_deschis_22">
-                <?
+                <?php
 				  $v=explode(".", round($row['balance'], 4));
 				  if (sizeof($v)==1) $v[1]="00";
 				?>
-                <span class="inset_mov_deschis_26"><? print "&#3647".$v[0]; ?></span><span class="inset_verde_deschis_12">.<? print $v[1]; ?>
+                <span class="inset_mov_deschis_26"><?php print "&#3647".$v[0]; ?></span><span class="inset_verde_deschis_12">.<?php print $v[1]; ?>
                 </td>
               </tr>
               <tr>
@@ -1813,13 +1836,13 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               </tr>
               <tr>
                 <td>&nbsp;</td>
-                <td class="inset_verde_deschis_22"><span class="inset_maro_inchis_26"><? print $row['workplaces']; ?></span></td>
+                <td class="inset_verde_deschis_22"><span class="inset_maro_inchis_26"><?php print $row['workplaces']; ?></span></td>
               </tr>
             </table></td>
           </tr>
         </table>
      
-      <?
+      <?php
 	}
 	
 	function showRightPanel($userID=0)
@@ -1839,7 +1862,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
          <table width="200" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td align="center" height="200px"><img src="<? if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic_blue.png"; else print $this->kern->crop($_REQUEST['ud']['pic'], 160, 160); ?>" width="160" class="img img-circle"/></td>
+                  <td align="center" height="200px"><img src="<?php if ($_REQUEST['ud']['pic']=="") print "../../template/GIF/empty_pic_blue.png"; else print $this->kern->crop($_REQUEST['ud']['pic'], 160, 160); ?>" width="160" class="img img-circle"/></td>
                 </tr>
                 <tr>
                   <td align="center">
@@ -1847,7 +1870,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <tbody>
                       <tr>
                         <td width="115" height="45" align="center" background="../../template/GIF/user_panel_back.png">
-                        <span class="" style="color:#ffffff"><strong><? print $_REQUEST['ud']['user']; ?></strong></span></td>
+                        <span class="" style="color:#ffffff"><strong><?php print $_REQUEST['ud']['user']; ?></strong></span></td>
                         <td width="45" align="right">
                         
                         <a class="btn btn-danger" href="../../../index.php?act=logout"><span class="glyphicon glyphicon-off"></span></a>
@@ -1887,7 +1910,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                             <tr>
                               <td align="right" style="color:#2b323a" id="span_template_balance">
                               
-                              <? 
+                              <?php 
 		                           // USD balance
 		                           $usd=$_REQUEST['ud']['balance']*$_REQUEST['sd']['coin_price'];
 		                           
@@ -1912,7 +1935,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                               </td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12"><? print round($_REQUEST['ud']['balance'], 4)." CRC"; ?></span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12"><?php print round($_REQUEST['ud']['balance'], 4)." CRC"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -1925,7 +1948,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                   <td align="center"><img src="../../template/GIF/sep_bar_left.png" width="200" height="2" alt=""/></td>
                 </tr>
                 
-				  <?
+				  <?php
 		               if ($_REQUEST['ud']['user']!="root")
 					   {
 				  ?>
@@ -1944,11 +1967,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_energy" name="span_template_energy">
-							  <? print $this->kern->split($_REQUEST['ud']['energy'], 2, 40, 14); ?>
+							  <?php print $this->kern->split($_REQUEST['ud']['energy'], 2, 40, 14); ?>
 						      </span></td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><? print round($_REQUEST['ud']['energy_block']-$_REQUEST['ud']['energy']*0.0005, 4)." / minute"; ?></span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_energy"><?php print round($_REQUEST['ud']['energy_block']-$_REQUEST['ud']['energy']*0.0005, 4)." / minute"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -1973,7 +1996,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_ref" name="span_template_ref">
-							  <? print $_REQUEST['ud']['aff']; ?></span></td>
+							  <?php print $_REQUEST['ud']['aff']; ?></span></td>
                             </tr>
                             <tr>
                               <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_refs">affiliates</span></td>
@@ -2002,7 +2025,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_pol_inf" name="span_template_pol_inf">
-							  <? print $this->kern->split($_REQUEST['ud']['pol_inf'], 2, 40, 18); ?></span></td>
+							  <?php print $this->kern->split($_REQUEST['ud']['pol_inf'], 2, 40, 18); ?></span></td>
                             </tr>
                             <tr>
                               <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_inf">points</span></td>
@@ -2030,10 +2053,10 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_pol_end" name="span_template_pol_end">
-							  <? print $_REQUEST['ud']['pol_endorsed']; ?></span></td>
+							  <?php print $_REQUEST['ud']['pol_endorsed']; ?></span></td>
                             </tr>
                             <tr>
-                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_end"><? print $_REQUEST['ud']['endorsers']." endorsers"; ?></span></td>
+                              <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_end"><?php print $_REQUEST['ud']['endorsers']." endorsers"; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
@@ -2058,7 +2081,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                           <tbody>
                             <tr>
                               <td align="right"><span class="font_40" style="color:#2b323a" id="span_template_mil_points" name="span_template_mil_points">
-							  <? print $_REQUEST['ud']['war_points']; ?></span></td>
+							  <?php print $_REQUEST['ud']['war_points']; ?></span></td>
                             </tr>
                             <tr>
                               <td align="right"><span class="inset_blue_inchis_menu_12" id="how_to_pol_end">No Rank</span></td>
@@ -2076,7 +2099,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				  
                
 				  <tr>
-                  <td align="center" height="120"><img src="../../template/GIF/premium_<? if ($_REQUEST['ud']['premium']>0) print "on"; else print "off"; ?>.png" width="180" id="img_premium" name="td_chg_cit" align="center" data-content="<? if ($_REQUEST['ud']['premium']>0) print "You are a premium citizen. That means lower taxes and access to government bonuses. This status doesn't expire and only the government can take this right from you."; else print "You are a not premium citizen. That means higher taxes and no government bonuses. Only the government can give the premium citizen status." ?>" rel="popover" data-placement="left" data-original-title="Citizen Status"></td>
+                  <td align="center" height="120"><img src="../../template/GIF/premium_<?php if ($_REQUEST['ud']['premium']>0) print "on"; else print "off"; ?>.png" width="180" id="img_premium" name="td_chg_cit" align="center" data-content="<?php if ($_REQUEST['ud']['premium']>0) print "You are a premium citizen. That means lower taxes and access to government bonuses. This status doesn't expire and only the government can take this right from you."; else print "You are a not premium citizen. That means higher taxes and no government bonuses. Only the government can give the premium citizen status." ?>" rel="popover" data-placement="left" data-original-title="Citizen Status"></td>
                 </tr>
 				   <tr>
                   <td align="center"><img src="../../template/GIF/sep_bar_left.png" width="200" height="2" alt=""/></td>
@@ -2098,24 +2121,24 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                       <tr>
                         <td>&nbsp;</td>
                         
-						  <td><img src="../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['cou']); ?>.png" width="56" height="56" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <? print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print strtolower($_REQUEST['ud']['cou']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['cou']); ?>.png')"/></td>
+						  <td><img src="../../template/GIF/flags/all_bw/<?php print strtolower($_REQUEST['ud']['cou']); ?>.png" width="56" height="56" id="td_chg_cit" name="td_chg_cit" align="center" data-content="You are a citizen of <?php print $this->kern->countryFromCode($_REQUEST['ud']['cou']); ?>. You can change your citizenship anytime you want. In case you are a premium citizen, you will loose this status. When changing citizenship, your political influence is reset to zero." rel="popover" data-placement="left" data-original-title="Change Citizenship" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<?php print strtolower($_REQUEST['ud']['cou']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<?php print strtolower($_REQUEST['ud']['cou']); ?>.png')"/></td>
                           
-						  <?
+						  <?php
 		                       if ($_REQUEST['ud']['travel']==0)
 							   {
 		                  ?>
 						  
-						           <td align="center" height="80"><img src="../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['loc']); ?>.png" id="td_travel" width="56" height="56" alt="" data-content="You are a resident of <? print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<? print strtolower($_REQUEST['ud']['loc']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<? print strtolower($_REQUEST['ud']['loc']); ?>.png')"/></td>
+						           <td align="center" height="80"><img src="../../template/GIF/flags/all_bw/<?php print strtolower($_REQUEST['ud']['loc']); ?>.png" id="td_travel" width="56" height="56" alt="" data-content="You are a resident of <?php print $this->kern->countryFromCode($_REQUEST['ud']['loc']); ?> but you can travel to other countries anytime you want. Depending on distance to destination, you will need travel tickets. " rel="popover" data-placement="left" data-original-title="Travel" class="img img-rounded" onMouseOver="$(this).attr('src', '../../template/GIF/flags/all/<?php print strtolower($_REQUEST['ud']['loc']); ?>.svg')" onMouseOut="$(this).attr('src', '../../template/GIF/flags/all_bw/<?php print strtolower($_REQUEST['ud']['loc']); ?>.png')"/></td>
 						  
-						  <?
+						  <?php
 							   }
 	                           else
 		                       {
 			              ?>
 						  
-						           <td align="center" height="80"><img src="../../template/GIF/flags/56/travel.png" id="td_travel" width="56" height="56" alt="" data-content="You are travelling to <? print $this->kern->countryFromCode($_REQUEST['ud']['travel_cou']); ?>. You will reach your destination in ~<? print $this->kern->timeFromBlock($_REQUEST['ud']['travel']);  ?>." rel="popover" data-placement="left" data-original-title="Travelling"/></td>
+						           <td align="center" height="80"><img src="../../template/GIF/flags/56/travel.png" id="td_travel" width="56" height="56" alt="" data-content="You are travelling to <?php print $this->kern->countryFromCode($_REQUEST['ud']['travel_cou']); ?>. You will reach your destination in ~<?php print $this->kern->timeFromBlock($_REQUEST['ud']['travel']);  ?>." rel="popover" data-placement="left" data-original-title="Travelling"/></td>
 						  
-						  <?
+						  <?php
 		                       }
 						  ?>
 						  
@@ -2126,7 +2149,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 					    
 						  <td align="center"><a href="javascript:void(0)" onClick="$('#chg_cit_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px">Change</a></td>
                         
-						  <td align="center"><a href="javascript:void(0)" onClick="$('#travel_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px" <? if ($_REQUEST['ud']['travel']>0) print "disabled"; ?>>Travel</a></td>
+						  <td align="center"><a href="javascript:void(0)" onClick="$('#travel_modal').modal()" class="btn btn-primary btn-xs" style="width: 56px" <?php if ($_REQUEST['ud']['travel']>0) print "disabled"; ?>>Travel</a></td>
                         <td align="center">&nbsp;</td>
                       </tr>
                     </tbody>
@@ -2141,7 +2164,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                   <td align="center"><img src="../../template/GIF/sep_bar_left.png" width="200" height="2" alt=""/></td>
                 </tr>
                 
-				  <?
+				  <?php
 					   }
 				  ?>
 				  
@@ -2169,16 +2192,92 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         
        
         
-<?
+<?php
 		}
 	
 	
-	function copyright()
+	function showLeftAds()
 	{
-		print "Copyright 2015 ANNO1777 Labs";
+		// Next rewards
+		$this->showNextRewards();
+		
+		// Under attack
+		$this->showUnderAttack();
 	}
 	
-	function showLeftAds()
+	function showUnderAttack()
+	{
+		$result=$this->kern->getResult("SELECT * 
+		                                  FROM wars 
+										 WHERE defender=? 
+										   AND target=? 
+										   AND status=?", 
+									   "sss", 
+									   $_REQUEST['ud']['loc'], 
+									   $_REQUEST['ud']['loc'], 
+									   "ID_ACTIVE");
+		
+		// No wars
+		if (mysqli_num_rows($result)==0)
+			return false;
+		
+		// Load data
+		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		?>
+        
+          <br>
+          <table width="200" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center">
+			 <table width="180" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td height="240" align="center" valign="top" background="../../template/GIF/under_attack_off.png" id="td_under_attack" data-content="The war ends in 24 hours, during which you can fight to defend your country. When you fight, your war points increases. The network rewards players every 24 hours depending on their war points." rel="popover" data-placement="right" data-original-title="Under Attack" ><table width="95%" border="0" cellspacing="0" cellpadding="0" >
+                    <tbody>
+                      <tr>
+                        <td>&nbsp;</td>
+                      </tr>
+                      <tr>
+						  <td align="center"><a class="btn btn-default btn-sm" href="../../war/wars/war.php?ID=<?php print $row['warID']; ?>" style="width: 80%" id="but_under_attack" name="but_under_attack">Fight</a></td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table></td>
+                </tr>
+               
+              
+              </tbody>
+            </table>
+			</td>
+            
+       
+        </table>
+          <br />
+          
+           <script>
+		    $('#td_under_attack').mouseover(function() 
+			{ 
+				$('#td_under_attack').attr('background', '../../template/GIF/under_attack_on.png'); 
+				$('#but_under_attack').attr('class', 'btn btn-danger btn-sm'); 
+			});
+			   
+			$('#td_under_attack').mouseout(function() 
+			{ 
+				$('#td_under_attack').attr('background', '../../template/GIF/under_attack_off.png'); 
+				$('#but_under_attack').attr('class', 'btn btn-default btn-sm'); 
+			});
+			   
+			$('#td_under_attack').popover({ trigger : "hover"});
+			
+		  </script>
+        
+        <?php
+    }
+	
+	function showNextRewards()
 	{
 		// Next rewards
 		$next_block=(floor($_REQUEST['sd']['last_block']/1440)+1)*1440;
@@ -2218,35 +2317,30 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 								<table width="90%" border="0" cellspacing="0" cellpadding="0">
 								  <tbody>
 								    <tr>
-								      <td height="85" align="center" valign="bottom" class="font_40" style="color: #B6B8C1" id="td_rew_time"><strong><? print $time; ?></strong></td>
+								      <td height="85" align="center" valign="bottom" class="font_40" style="color: #B6B8C1" id="td_rew_time"><strong><?php print $time; ?></strong></td>
 							        </tr>
 							      </tbody>
 							    </table></td>
                             </tr>
                             <tr>
                               <td>&nbsp;</td>
-                              <td align="center" class="font_12" style="color: #B6B8C1" id="td_rewards_hours"><? print $scale; ?></td>
+                              <td align="center" class="font_12" style="color: #B6B8C1" id="td_rewards_hours"><?php print $scale; ?></td>
                             </tr>
                           </tbody>
                         </table></td>
                       </tr>
                       <tr>
-                        <td align="center" class="font_10" style="color: #B6B8C1" id="td_rewards_expl"> Next rewards will be paid at block <? print $next_block." ( ~".$this->kern->timeFromBlock($next_block)." )"; ?></td>
+                        <td align="center" class="font_10" style="color: #B6B8C1" id="td_rewards_expl"> Next rewards will be paid at block <?php print $next_block." ( ~".$this->kern->timeFromBlock($next_block)." )"; ?></td>
                       </tr>
                     </tbody>
                   </table></td>
                 </tr>
-                <tr>
-                  <td height="0" align="center">&nbsp;</td>
-                </tr>
-              
-              </tbody>
+               </tbody>
             </table>
 			</td>
             
        
         </table>
-          <br />
           
            <script>
 		    $('#td_rewards').mouseover(function() 
@@ -2282,10 +2376,8 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 			
 		  </script>
         
-        <?
-        
-       
-	}
+        <?php
+    }
 	
 	function showAds()
 	{
@@ -2305,7 +2397,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td align="left"><hr></td>
                   </tr>
                     
-                    <?
+                    <?php
 					  $query="SELECT * 
 					            FROM ads 
 						    ORDER BY mkt_bid DESC 
@@ -2318,14 +2410,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     
                          <tr>
                          <td align="left">
-                         <a href="<? print base64_decode($row['link']); ?>" style="font-size:14px; color:#dddddd; text-shadow:1px 1px 1px #333333"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></a>
-                         <br><span style="font-size:12px; color:#bbbbbb"><? print $this->kern->noescape(base64_decode($row['message'])); ?></span> 
-                         <br><span class="font_10" style="color:#999999"><? print $row['mkt_bid']." CRC / hour, expire ~ ".$this->kern->timeFromBlock($row['expires']); ?></span>
+                         <a href="<?php print base64_decode($row['link']); ?>" style="font-size:14px; color:#dddddd; text-shadow:1px 1px 1px #333333"><strong><?php print $this->kern->noescape(base64_decode($row['title'])); ?></strong></a>
+                         <br><span style="font-size:12px; color:#bbbbbb"><?php print $this->kern->noescape(base64_decode($row['message'])); ?></span> 
+                         <br><span class="font_10" style="color:#999999"><?php print $row['mkt_bid']." CRC / hour, expire ~ ".$this->kern->timeFromBlock($row['expires']); ?></span>
                          </td></tr><tr>
                          <td align="left"><hr></td>
                          </tr>
                     
-                    <?
+                    <?php
 					  }
 					?>
                     
@@ -2334,7 +2426,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               <table width="170" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
                   
-                  <?
+                  <?php
 				     if (isset($_SESSION['userID']))
 					 {
 						
@@ -2346,7 +2438,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                     <td><a href="../../ads/ads/index.php" class="btn btn-danger"><span class="glyphicon glyphicon-cog"></span></a></td>
                     </tr>
                   
-                  <?
+                  <?php
 	                  }
 				  ?>
                   
@@ -2359,7 +2451,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               
               <table><tr><td height="800">&nbsp;</td></tr></table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -2389,18 +2481,18 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                 <table width="120" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td height="60" align="center" valign="bottom" class="inset_maro_inchis_22" id="td_clock">
-                    <?
+                    <?php
 					   print $db->getClock($_REQUEST['ud']['working'], 28800);
 					?>
                     </td>
                   </tr>
                   <tr>
-                    <td height="80" align="center" class="inset_maro_inchis_12" id="td_you_are">You are working at <? print $row['name']; ?>. You can work once every 24 hours.</td>
+                    <td height="80" align="center" class="inset_maro_inchis_12" id="td_you_are">You are working at <?php print $row['name']; ?>. You can work once every 24 hours.</td>
                   </tr>
                   <tr>
                     <td height="55" align="center" valign="bottom">
                     <span id="td_you_were" class="inset_maro_inchis_10">You were paid</span><br />
-                    <span class="inset_maro_inchis_30" id="td_amount"><? print "".$row['salary']; ?></span><br /></td>
+                    <span class="inset_maro_inchis_30" id="td_amount"><?php print "".$row['salary']; ?></span><br /></td>
                   </tr>
                 </table></td>
               </tr>
@@ -2426,7 +2518,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		   });
 		</script>
         
-        <?
+        <?php
 		}
 	}
 	
@@ -2449,14 +2541,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
            <br />
            <table width="550" border="0" cellspacing="0" cellpadding="5">
                <tr>
-                 <td valign="top" width="<? print $w+20; ?>"><img src="../../template/GIF/help.png" width="<? print $w; ?>" height="<? print $h; ?>" /></td>
-                 <td width="<? print 550-$width; ?>" valign="top" class="font_12"><? print $txt; ?></td>
+                 <td valign="top" width="<?php print $w+20; ?>"><img src="../../template/GIF/help.png" width="<?php print $w; ?>" height="<?php print $h; ?>" /></td>
+                 <td width="<?php print 550-$width; ?>" valign="top" class="font_12"><?php print $txt; ?></td>
                </tr>
                <tr><td colspan="2"><hr></td></tr>
              </table>
              <br />
         
-        <?
+        <?php
 		
 		switch ($_REQUEST['act']) 
 		{
@@ -2525,29 +2617,29 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
    {	   
    ?>
         <br>
-        <table width="<? print $size; ?>" border="0" cellspacing="0" cellpadding="0">
+        <table width="<?php print $size; ?>" border="0" cellspacing="0" cellpadding="0">
         <tr>
         <td width="50"><img src="../../template/GIF/panel_err_left.png" /></td>
-        <td width="<? print ($size-55); ?>" background="../../template/GIF/panel_err_middle.png" class="<? print $class; ?>" align="left">
-        <? print $err; ?></td>
+        <td width="<?php print ($size-55); ?>" background="../../template/GIF/panel_err_middle.png" class="<?php print $class; ?>" align="left">
+        <?php print $err; ?></td>
         <td width="5"><img src="../../template/GIF/panel_err_right.png" /></td>
         </tr>
         </table>
         <br>
 
-   <?
+   <?php
    }
    
    function showOk($err, $size=550, $class="inset_green_14")
    {
    ?>
         <br />
-        <table width="<? print $size; ?>" border="0" cellspacing="0" cellpadding="0">
+        <table width="<?php print $size; ?>" border="0" cellspacing="0" cellpadding="0">
         <tr>
         <td width="50"><img src="../../template/GIF/panel_ok_left.gif" /></td>
-        <td width="<? print ($size-55); ?>" background="../../template/GIF/panel_ok_middle.gif" class="<? print $class; ?>">
+        <td width="<?php print ($size-55); ?>" background="../../template/GIF/panel_ok_middle.gif" class="<?php print $class; ?>">
         <div align="left">
-		<? 
+		<?php 
 		   print $err; 
 		?>
         </div>
@@ -2557,7 +2649,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         </table>
         <br />
 
-   <?
+   <?php
 }
 
    function showLeftPanel($title, $main, $sec)
@@ -2565,17 +2657,17 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 	   $id=rand(0, 100);
 	   ?>
        
-            <table width="90%" border="0" cellspacing="0" cellpadding="0" id="tab_panel_supply_<? print $id; ?>">
+            <table width="90%" border="0" cellspacing="0" cellpadding="0" id="tab_panel_supply_<?php print $id; ?>">
               <tr>
-                <td height="110" align="center" valign="top" background="../../template/GIF/left_panel_off.png" id="td_supply_<? print $id; ?>">
+                <td height="110" align="center" valign="top" background="../../template/GIF/left_panel_off.png" id="td_supply_<?php print $id; ?>">
                 <table width="90%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td height="25" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_<? print $id; ?>"><? print $title; ?></td>
+                    <td height="25" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_<?php print $id; ?>"><?php print $title; ?></td>
                   </tr>
                   <tr>
                     <td height="60" align="center" valign="bottom">
-                    <span class="inset_maro_inchis_22" id="td_main_<? print $id; ?>"><? print $main; ?></span><br />
-                    <span class="inset_maro_inchis_10" id="td_sec_<? print $id; ?>"><? print $sec; ?></span>
+                    <span class="inset_maro_inchis_22" id="td_main_<?php print $id; ?>"><?php print $main; ?></span><br />
+                    <span class="inset_maro_inchis_10" id="td_sec_<?php print $id; ?>"><?php print $sec; ?></span>
                     </td>
                   </tr>
                 </table></td>
@@ -2583,48 +2675,48 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </table>
             
             <script>
-			  $('#tab_panel_supply_<? print $id; ?>').mouseover(
+			  $('#tab_panel_supply_<?php print $id; ?>').mouseover(
 			  function() 
 			  {  
-			     $('#td_supply_<? print $id; ?>').attr('background', '../../template/GIF/left_panel_on.png'); 
-				 $('#td_top_<? print $id; ?>').attr('class', 'bold_shadow_white_14');
-				 $('#td_main_<? print $id; ?>').attr('class', 'bold_mov_22');
-				 $('#td_sec_<? print $id; ?>').attr('class', 'simple_mov_10');
+			     $('#td_supply_<?php print $id; ?>').attr('background', '../../template/GIF/left_panel_on.png'); 
+				 $('#td_top_<?php print $id; ?>').attr('class', 'bold_shadow_white_14');
+				 $('#td_main_<?php print $id; ?>').attr('class', 'bold_mov_22');
+				 $('#td_sec_<?php print $id; ?>').attr('class', 'simple_mov_10');
 			  });
 			   
-			  $('#tab_panel_supply_<? print $id; ?>').mouseout(
+			  $('#tab_panel_supply_<?php print $id; ?>').mouseout(
 			  function() 
 			  {  
-			     $('#td_supply_<? print $id; ?>').attr('background', '../../template/GIF/left_panel_off.png'); 
-				 $('#td_top_<? print $id; ?>').attr('class', 'inset_maro_inchis_14');
-				 $('#td_main_<? print $id; ?>').attr('class', 'inset_maro_inchis_22');
-				 $('#td_sec_<? print $id; ?>').attr('class', 'inset_maro_inchis_10');
+			     $('#td_supply_<?php print $id; ?>').attr('background', '../../template/GIF/left_panel_off.png'); 
+				 $('#td_top_<?php print $id; ?>').attr('class', 'inset_maro_inchis_14');
+				 $('#td_main_<?php print $id; ?>').attr('class', 'inset_maro_inchis_22');
+				 $('#td_sec_<?php print $id; ?>').attr('class', 'inset_maro_inchis_10');
 			  });
 			</script>
        
-       <?
+       <?php
    }
    
    function showDoublePanel($title_1="Bid", $val_1="121.21", $sub_val_1="GOLD", $title_2="Ask", $val_2="432.21", $sub_val_2="GOLD")
    {
 	   ?>
        
-            <table width="90%" border="0" cellspacing="0" cellpadding="0" id="tab_panel_supply_<? print $id; ?>">
+            <table width="90%" border="0" cellspacing="0" cellpadding="0" id="tab_panel_supply_<?php print $id; ?>">
               <tr>
-                <td height="110" align="center" valign="top" background="../../template/GIF/left_double_panel_off.png" id="td_supply_<? print $id; ?>">
+                <td height="110" align="center" valign="top" background="../../template/GIF/left_double_panel_off.png" id="td_supply_<?php print $id; ?>">
                 <table width="90%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="49%" height="25" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_1_<? print $id; ?>"><? print $title_1; ?></td>
-                    <td width="51%" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_2_<? print $id; ?>"><? print $title_2; ?></td>
+                    <td width="49%" height="25" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_1_<?php print $id; ?>"><?php print $title_1; ?></td>
+                    <td width="51%" align="center" valign="bottom" class="inset_maro_inchis_14" id="td_top_2_<?php print $id; ?>"><?php print $title_2; ?></td>
                   </tr>
                   <tr>
                     <td height="60" align="center" valign="bottom">
-                    <span class="inset_blue_inchis_menu_18" id="td_main_1_<? print $id; ?>"><? print $val_1; ?></span><br />
-                    <span class="inset_maro_inchis_10" id="td_sec_1_<? print $id; ?>"><? print $sub_val_1; ?></span>
+                    <span class="inset_blue_inchis_menu_18" id="td_main_1_<?php print $id; ?>"><?php print $val_1; ?></span><br />
+                    <span class="inset_maro_inchis_10" id="td_sec_1_<?php print $id; ?>"><?php print $sub_val_1; ?></span>
                     </td>
                     <td align="center" valign="bottom">
-                    <span class="inset_blue_inchis_menu_18" id="td_main_2_<? print $id; ?>"><? print $val_2; ?></span><br />
-                    <span class="inset_maro_inchis_10" id="td_sec_2_<? print $id; ?>"><? print $sub_val_2; ?></span>
+                    <span class="inset_blue_inchis_menu_18" id="td_main_2_<?php print $id; ?>"><?php print $val_2; ?></span><br />
+                    <span class="inset_maro_inchis_10" id="td_sec_2_<?php print $id; ?>"><?php print $sub_val_2; ?></span>
                     </td>
                   </tr>
                 </table></td>
@@ -2632,38 +2724,38 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </table>
             
             <script>
-			  $('#tab_panel_supply_<? print $id; ?>').mouseover(
+			  $('#tab_panel_supply_<?php print $id; ?>').mouseover(
 			  function() 
 			  {  
-			     $('#td_supply_<? print $id; ?>').attr('background', '../../template/GIF/left_double_panel_on.png'); 
+			     $('#td_supply_<?php print $id; ?>').attr('background', '../../template/GIF/left_double_panel_on.png'); 
 				 
-				 $('#td_top_1_<? print $id; ?>').attr('class', 'bold_shadow_white_14');
-				 $('#td_top_2_<? print $id; ?>').attr('class', 'bold_shadow_white_14');
+				 $('#td_top_1_<?php print $id; ?>').attr('class', 'bold_shadow_white_14');
+				 $('#td_top_2_<?php print $id; ?>').attr('class', 'bold_shadow_white_14');
 				 
-				 $('#td_main_1_<? print $id; ?>').attr('class', 'bold_mov_18');
-				 $('#td_main_2_<? print $id; ?>').attr('class', 'bold_mov_18');
+				 $('#td_main_1_<?php print $id; ?>').attr('class', 'bold_mov_18');
+				 $('#td_main_2_<?php print $id; ?>').attr('class', 'bold_mov_18');
 				 
-				 $('#td_sec_1_<? print $id; ?>').attr('class', 'simple_mov_10');
-				 $('#td_sec_2_<? print $id; ?>').attr('class', 'simple_mov_10');
+				 $('#td_sec_1_<?php print $id; ?>').attr('class', 'simple_mov_10');
+				 $('#td_sec_2_<?php print $id; ?>').attr('class', 'simple_mov_10');
 			  });
 			   
-			  $('#tab_panel_supply_<? print $id; ?>').mouseout(
+			  $('#tab_panel_supply_<?php print $id; ?>').mouseout(
 			  function() 
 			  {  
-			     $('#td_supply_<? print $id; ?>').attr('background', '../../template/GIF/left_panel_off.png'); 
+			     $('#td_supply_<?php print $id; ?>').attr('background', '../../template/GIF/left_panel_off.png'); 
 				 
-				 $('#td_top_1_<? print $id; ?>').attr('class', 'inset_maro_inchis_14');
-				 $('#td_top_2_<? print $id; ?>').attr('class', 'inset_maro_inchis_14');
+				 $('#td_top_1_<?php print $id; ?>').attr('class', 'inset_maro_inchis_14');
+				 $('#td_top_2_<?php print $id; ?>').attr('class', 'inset_maro_inchis_14');
 				 
-				 $('#td_main_1_<? print $id; ?>').attr('class', 'inset_blue_inchis_menu_18');
-				 $('#td_main_2_<? print $id; ?>').attr('class', 'inset_blue_inchis_menu_18');
+				 $('#td_main_1_<?php print $id; ?>').attr('class', 'inset_blue_inchis_menu_18');
+				 $('#td_main_2_<?php print $id; ?>').attr('class', 'inset_blue_inchis_menu_18');
 				 
-				 $('#td_sec_1_<? print $id; ?>').attr('class', 'inset_maro_inchis_10');
-				 $('#td_sec_2_<? print $id; ?>').attr('class', 'inset_maro_inchis_10');
+				 $('#td_sec_1_<?php print $id; ?>').attr('class', 'inset_maro_inchis_10');
+				 $('#td_sec_2_<?php print $id; ?>').attr('class', 'inset_maro_inchis_10');
 			  });
 			</script>
        
-       <?
+       <?php
    }
    
    function showMenu($tab_1, $tab_2, $tab_3, $tab_4, $tab_5, $sel=1)
@@ -2673,11 +2765,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
            <br />
             <table width="560" border="0" cellspacing="0" cellpadding="0">
              <tr>
-               <td width="118" height="55" align="center" background="../../template/GIF/menus/menu_5_left_<? if ($sel==1) print "on"; else print "off"; ?>.png" class="<? if ($sel==1) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_1"><? print $tab_1; ?></td>
-               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<? if ($sel==2) print "on"; else print "off"; ?>.png" class="<? if ($sel==2) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_2"><? print $tab_2; ?></td>
-               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<? if ($sel==3) print "on"; else print "off"; ?>.png" class="<? if ($sel==3) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_3"><? print $tab_3; ?></td>
-               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<? if ($sel==4) print "on"; else print "off"; ?>.png" class="<? if ($sel==4) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_4"><? print $tab_4; ?></td>
-               <td width="112" height="55" align="center" background="../../template/GIF/menus/menu_5_right_<? if ($sel==5) print "on"; else print "off"; ?>.png" class="<? if ($sel==5) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_5"><? print $tab_5; ?></td>
+               <td width="118" height="55" align="center" background="../../template/GIF/menus/menu_5_left_<?php if ($sel==1) print "on"; else print "off"; ?>.png" class="<?php if ($sel==1) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_1"><?php print $tab_1; ?></td>
+               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<?php if ($sel==2) print "on"; else print "off"; ?>.png" class="<?php if ($sel==2) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_2"><?php print $tab_2; ?></td>
+               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<?php if ($sel==3) print "on"; else print "off"; ?>.png" class="<?php if ($sel==3) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_3"><?php print $tab_3; ?></td>
+               <td width="110" height="55" align="center" background="../../template/GIF/menus/menu_5_middle_<?php if ($sel==4) print "on"; else print "off"; ?>.png" class="<?php if ($sel==4) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_4"><?php print $tab_4; ?></td>
+               <td width="112" height="55" align="center" background="../../template/GIF/menus/menu_5_right_<?php if ($sel==5) print "on"; else print "off"; ?>.png" class="<?php if ($sel==5) print "bold_shadow_white_16"; else print "inset_gri_16"; ?>" id="td_menu_tab_5"><?php print $tab_5; ?></td>
               </tr>
             </table>
             <br />
@@ -2752,7 +2844,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 			  
 			</script>
        
-<?
+<?php
    }
    
    
@@ -2764,11 +2856,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
        
           <table width="46" border="0" cellspacing="0" cellpadding="0">
           <tr>
-          <td height="33" align="center" background="<? if ($no>0) print "../../template/GIF/bubble_".$color.".png"; ?>" class="bold_shadow_white_14"><? if ($no>0) print $no; ?></td>
+          <td height="33" align="center" background="<?php if ($no>0) print "../../template/GIF/bubble_".$color.".png"; ?>" class="bold_shadow_white_14"><?php if ($no>0) print $no; ?></td>
           </tr>
           </table>
        
-       <?
+       <?php
    }
    
    function showPhotoUploadModal($show_desc=true)
@@ -2794,7 +2886,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             });
 			</script>
             
-            <? $this->showModalHeader("modal_upload", "Upload Pic", "act", "upload", "pic_no", "1"); ?>
+            <?php $this->showModalHeader("modal_upload", "Upload Pic", "act", "upload", "pic_no", "1"); ?>
             <table width="550" border="0" cellspacing="0" cellpadding="0">
             <tr>
               <td width="195" align="left" valign="top"><img src="../../template/GIF/camera.jpg" width="180" height="180" /></td>
@@ -2821,7 +2913,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                   <td>&nbsp;</td>
                 </tr>
                 
-                <?
+                <?php
 				    if ($show_desc==true)
 					{
 				?>
@@ -2833,7 +2925,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                   <td><textarea rows="4" name="txt_expl" id="txt_expl" class="form-control"></textarea></td>
                 </tr>
                 
-                <?
+                <?php
 					}
 				?>
                 
@@ -2841,7 +2933,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </tr>
           </table>
        
-       <?
+       <?php
 	    $this->showModalFooter("Cancel", "Upload");
    }
    
@@ -2849,17 +2941,17 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 	{
 		?>
         
-           <div class="modal fade" id="<? print $id; ?>">
+           <div class="modal fade" id="<?php print $id; ?>">
            <div class="modal-dialog">
            <div class="modal-content">
            <div class="modal-header">
            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title" align="center" id="modal_title"><? print $txt; ?></h4>
+           <h4 class="modal-title" align="center" id="modal_title"><?php print $txt; ?></h4>
            </div>
-           <form method="post" action="<? print $action; ?>" name="form_<? print $id; ?>" id="form_<? print $id; ?>" enctype="multipart/form-data">
+           <form method="post" action="<?php print $action; ?>" name="form_<?php print $id; ?>" id="form_<?php print $id; ?>" enctype="multipart/form-data">
            <div class="modal-body">
         
-        <?
+        <?php
 		
 		  if ($name_1!="") print "<input type='hidden' name='".$name_1."' id='".$name_1."' value='".$val_1."'/>";
 		  if ($name_2!="") print "<input type='hidden' name='".$name_2."' id='".$name_2."' value='".$val_2."'/>";
@@ -2873,13 +2965,13 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         
              </div>
              <div class="modal-footer">
-             <button type="submit" class="btn btn-primary" onclick="format()"><? print $but_1_txt; ?></button>
+             <button type="submit" class="btn btn-primary" onclick="format()"><?php print $but_1_txt; ?></button>
              <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
              </div>
              </form>
              </div></div></div>
         
-        <?
+        <?php
 	}
 	
 	function processUpload($owner_type, $ownerID, $file_id)
@@ -2957,7 +3049,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
           </tr>
         </table>
         
-        <?
+        <?php
 		$this->showModalFooter("Endorse", "Send");
 	}
 	
@@ -2967,8 +3059,8 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		$this->showModalHeader("new_comment_modal", "New Comment", "act", "new_comment");
 		?>
           
-          <input type="hidden" id="com_target_type" name="com_target_type" value="<? print $target_type; ?>"> 
-          <input type="hidden" id="com_targetID" name="com_targetID" value="<? print $targetID; ?>"> 
+          <input type="hidden" id="com_target_type" name="com_target_type" value="<?php print $target_type; ?>"> 
+          <input type="hidden" id="com_targetID" name="com_targetID" value="<?php print $targetID; ?>"> 
           
           <table width="700" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -2980,7 +3072,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                <td align="center">&nbsp;</td>
              </tr>
              <tr>
-               <td align="center"><? $this->showReq(1, 0.0001, "com"); ?></td>
+               <td align="center"><?php $this->showReq(1, 0.0001, "com"); ?></td>
              </tr>
            </table></td>
            <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="5">
@@ -3005,7 +3097,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
      </table>
      
        
-        <?
+        <?php
 		$this->showModalFooter("Send");
 		
 	}
@@ -3094,7 +3186,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		
 		  </script>
         
-        <?
+        <?php
 		$this->showModalFooter("Send");
 	}
 	
@@ -3126,7 +3218,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
           </tr>
         </table>
         
-        <?
+        <?php
 		$this->showModalFooter("Close");
 	}
 	
@@ -3283,7 +3375,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
            }, 5000);
 		   </script>
         
-        <?
+        <?php
 	}
 	
 	function showImgsMenu($sel, 
@@ -3301,15 +3393,15 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		    <td align="center"><table width="90%" border="0" cellspacing="0" cellpadding="0">
 		      <tr>
 		        
-                <?
+                <?php
 				   if ($img_1_off!="")
 				   {
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==1) print $img_1_on; else print $img_1_off; ?>" onClick="window.location='<? print $link_1; ?>'" style="cursor:pointer" title="<? print $desc_1; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==1) print $img_1_on; else print $img_1_off; ?>" onClick="window.location='<?php print $link_1; ?>'" style="cursor:pointer" title="<?php print $desc_1; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 			  
 			       if ($img_2_off!="")
@@ -3317,9 +3409,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==2) print $img_2_on; else print $img_2_off; ?>" onClick="window.location='<? print $link_2; ?>'" style="cursor:pointer" title="<? print $desc_2; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==2) print $img_2_on; else print $img_2_off; ?>" onClick="window.location='<?php print $link_2; ?>'" style="cursor:pointer" title="<?php print $desc_2; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 			  
 			       if ($img_3_off!="")
@@ -3327,9 +3419,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==3) print $img_3_on; else print $img_3_off; ?>" onClick="window.location='<? print $link_3; ?>'" style="cursor:pointer" title="<? print $desc_3; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==3) print $img_3_on; else print $img_3_off; ?>" onClick="window.location='<?php print $link_3; ?>'" style="cursor:pointer" title="<?php print $desc_3; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 			   
 			       if ($img_4_off!="")
@@ -3337,9 +3429,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==4) print $img_4_on; else print $img_4_off; ?>" onClick="window.location='<? print $link_4; ?>'" style="cursor:pointer" title="<? print $desc_4; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==4) print $img_4_on; else print $img_4_off; ?>" onClick="window.location='<?php print $link_4; ?>'" style="cursor:pointer" title="<?php print $desc_4; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 				   
 				   if ($img_5_off!="")
@@ -3347,9 +3439,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==5) print $img_5_on; else print $img_5_off; ?>" onClick="window.location='<? print $link_5; ?>'" style="cursor:pointer" title="<? print $desc_5; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==5) print $img_5_on; else print $img_5_off; ?>" onClick="window.location='<?php print $link_5; ?>'" style="cursor:pointer" title="<?php print $desc_5; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 				   
 				   if ($img_6_off!="")
@@ -3357,9 +3449,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
                 
                       <td width="85" align="center">
-                      <img src="./GIF/<? if ($sel==6) print $img_6_on; else print $img_6_off; ?>" onClick="window.location='<? print $link_6; ?>'" style="cursor:pointer" title="<? print $desc_6; ?>" data-toggle="tooltip" data-placement="top"/></td>
+                      <img src="./GIF/<?php if ($sel==6) print $img_6_on; else print $img_6_off; ?>" onClick="window.location='<?php print $link_6; ?>'" style="cursor:pointer" title="<?php print $desc_6; ?>" data-toggle="tooltip" data-placement="top"/></td>
 		        
-               <?
+               <?php
 				   }
 			   ?>
 			   
@@ -3377,7 +3469,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		  </table>
           
         
-        <?
+        <?php
 	}
 	
 	function showSmallMenu($sel, 
@@ -3466,15 +3558,15 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		?>
         
              <div class="input-group-btn">
-             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><? print $title; ?> <span class="caret"></span></button>
+             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php print $title; ?> <span class="caret"></span></button>
              <ul class="dropdown-menu">
-             <li><a href="<? print $link_1; ?>"><? print $txt_1; ?></a></li>
-             <li><a href="<? print $link_2; ?>"><? print $txt_2; ?></a></li>
-             <li><a href="<? print $link_3; ?>"><? print $txt_3; ?></a></li>
+             <li><a href="<?php print $link_1; ?>"><?php print $txt_1; ?></a></li>
+             <li><a href="<?php print $link_2; ?>"><?php print $txt_2; ?></a></li>
+             <li><a href="<?php print $link_3; ?>"><?php print $txt_3; ?></a></li>
              </ul>
              </div>
         
-        <?
+        <?php
 	}
 	
 	function showStars($prod)
@@ -3505,7 +3597,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				<tr><td background="../../template/GIF/down_arrow.png" height="50px">&nbsp;</td></tr>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showSearchBox()
@@ -3513,14 +3605,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		?>
              
            
-            <form method="post" name="form_search" id="form_search" action="<? print $_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']; ?>">
+            <form method="post" name="form_search" id="form_search" action="<?php print $_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']; ?>">
             <table width="90%">
-				<tr><td><input class="form-control" name="txt_search" id="txt_search" value="<? print $_REQUEST['txt_search']; ?>" style="width: 100%"></td></tr>
+				<tr><td><input class="form-control" name="txt_search" id="txt_search" value="<?php print $_REQUEST['txt_search']; ?>" style="width: 100%"></td></tr>
             </table>
             </form>
             <br>
 
-        <?
+        <?php
 	}
 	
 	function showRewardPanel($title, 
@@ -3539,7 +3631,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 					  <table width="90%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td height="55" align="center" valign="bottom" class="font_18" style="color: #999999"><? print $title; ?></td>
+                        <td height="55" align="center" valign="bottom" class="font_18" style="color: #999999"><?php print $title; ?></td>
                       </tr>
                       <tr>
                         <td>&nbsp;</td>
@@ -3549,26 +3641,26 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 						<table width="95%" border="0" cellspacing="0" cellpadding="0">
                           <tbody>
                             <tr>
-                              <td width="24%" rowspan="3" align="center"><img src="<? print $img; ?>" width="<? print $img_width; ?>"></td>
-                              <td width="26%" align="center" class="font_12" style="color: #999999"><? print $p1_title; ?></td>
-                              <td width="25%" align="center" class="font_12" style="color: #999999"><? print $p2_title; ?></td>
+                              <td width="24%" rowspan="3" align="center"><img src="<?php print $img; ?>" width="<?php print $img_width; ?>"></td>
+                              <td width="26%" align="center" class="font_12" style="color: #999999"><?php print $p1_title; ?></td>
+                              <td width="25%" align="center" class="font_12" style="color: #999999"><?php print $p2_title; ?></td>
 								<td width="25%" align="center" class="font_12" style="color: #555555"><strong>My Reward</strong></td>
                             </tr>
                             <tr>
-                              <td width="26%" height="70" align="center" class="font_24" style="color: #999999"><? print $p1_val; ?></td>
-                              <td width="25%" align="center" class="font_24" style="color: #999999"><? print $p2_val; ?></td>
-								<td width="25%" align="center" class="font_24" style="color: #009900"><strong><? print $this->kern->split($p3_val, 4, 24, 12); ?></strong></td>
+                              <td width="26%" height="70" align="center" class="font_24" style="color: #999999"><?php print $p1_val; ?></td>
+                              <td width="25%" align="center" class="font_24" style="color: #999999"><?php print $p2_val; ?></td>
+								<td width="25%" align="center" class="font_24" style="color: #009900"><strong><?php print $this->kern->split($p3_val, 4, 24, 12); ?></strong></td>
                             </tr>
                             <tr>
-                              <td width="26%" align="center" class="font_12" style="color: #999999"><? print $p1_sub_title; ?></td>
-                              <td width="25%" align="center" class="font_12" style="color: #999999"><? print $p2_sub_title; ?></td>
+                              <td width="26%" align="center" class="font_12" style="color: #999999"><?php print $p1_sub_title; ?></td>
+                              <td width="25%" align="center" class="font_12" style="color: #999999"><?php print $p2_sub_title; ?></td>
 								<td width="25%" align="center" class="font_12" style="color: #555555"><strong>CRC</strong></td>
                             </tr>
                           </tbody>
                         </table></td>
                       </tr>
                       <tr>
-						  <td height="100" valign="middle" class="font_10" style="color: #999999"><? print $expl ;?></td>
+						  <td height="100" valign="middle" class="font_10" style="color: #999999"><?php print $expl ;?></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -3576,7 +3668,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               </tbody>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showLastRewards($adr, $reward, $no=20, $page=1)
@@ -3617,19 +3709,19 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		 ?>
           
               <tr>
               <td width="81%" align="left" class="font_14">
-		      <?
+		      <?php
 				  print "Block ".$row['block']." (~".$this->kern->timeFromBlock($row['block'])." ago)";
 			  ?>
 			  </td>
-              <td width="19%" align="center" class="font_14" style="color: <? if ($row['sms_confirmed']=="No") print "#999999"; else print "#009900"; ?>">
-			  <? 
+              <td width="19%" align="center" class="font_14" style="color: <?php if ($row['sms_confirmed']=="No") print "#999999"; else print "#009900"; ?>">
+			  <?php 
 			     print $row['amount']. "CRC";		  
 		      ?>
               </td>
@@ -3638,12 +3730,12 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               <td colspan="2" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
 
-        <?
+        <?php
 	}
 	
 	function showClaimRewardBut($adr, $reward)
@@ -3672,12 +3764,12 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         
         <table width="95%">
         <tr><td align="right">
-        <a href="main.php?act=claim&reward=<? print $reward; ?>" class="btn btn-success btn-xl" <? if (!$can_receive) print "disabled"; ?>><span class="glyphicon glyphicon-GIFt">&nbsp;</span>Get Reward</a>
+        <a href="main.php?act=claim&reward=<?php print $reward; ?>" class="btn btn-success btn-xl" <?php if (!$can_receive) print "disabled"; ?>><span class="glyphicon glyphicon-GIFt">&nbsp;</span>Get Reward</a>
         </td></tr>
         </table>
         <br>
         
-        <?
+        <?php
 	}
 	
 	function showRenewModal($target_type, $targetID)
@@ -3687,8 +3779,8 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		
 		?>
               
-         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="<? print $target_type; ?>">
-         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="<? print $targetID; ?>">
+         <input type="hidden" id="txt_renew_target_type" name="txt_renew_target_type" value="<?php print $target_type; ?>">
+         <input type="hidden"  id="txt_renew_targetID" name="txt_renew_targetID" value="<?php print $targetID; ?>">
           <table width="550" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="39%" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
@@ -3699,7 +3791,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                 <td align="center" class="bold_gri_18">&nbsp;</td>
               </tr>
               <tr>
-                <td align="center" class="bold_gri_18"><? $this->showReq(0.1, 0.0030, "renew"); ?></td>
+                <td align="center" class="bold_gri_18"><?php $this->showReq(0.1, 0.0030, "renew"); ?></td>
               </tr>
             </table></td>
             <td width="61%" align="left" valign="top">
@@ -3732,7 +3824,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		  </script>
     
            
-        <?
+        <?php
 		$this->showModalFooter("Renew");
 	}
 	
@@ -3786,7 +3878,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		  </script>
     
            
-        <?
+        <?php
 		$this->showModalFooter();
 	}
 
@@ -3814,7 +3906,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                 <td height="40" valign="top" class="font_14"><strong>Country</strong></td>
               </tr>
               <tr>
-                <td><? $this->showCountriesDD("chg_cit_cou", "350px"); ?></td>
+                <td><?php $this->showCountriesDD("chg_cit_cou", "350px"); ?></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -3842,7 +3934,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </table>
     
            
-        <?
+        <?php
 		
 		$this->showModalFooter("Change");
 	}
@@ -3883,7 +3975,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
               </tr>
               <tr>
                 <td>
-					<? 
+					<?php 
 		               $this->showCountriesDD("travel_cou", "350px", true, "changed()"); 
 					?>
 			    </td>
@@ -3957,8 +4049,8 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				 cou=dd[0];
 				 
 				 // Actual location
-				 ax=<? print $row['x']; ?>;
-				 ay=<? print $row['y']; ?>;
+				 ax=<?php print $row['x']; ?>;
+				 ay=<?php print $row['y']; ?>;
 				 
 				 // Destination
 				 tx=dd[1];
@@ -4002,7 +4094,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
          </script>
     
            
-        <?
+        <?php
 		$this->showModalFooter("Travel");
 	}
 	
@@ -4336,7 +4428,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		if ($dist>=1000 && $dist<5000) 
 			$t="ID_TRAVEL_TICKET_Q2";
 		
-		if ($dist>5000) 
+		if ($dist>=5000) 
 			$t="ID_TRAVEL_TICKET_Q3";
 		
 		// Has travel ticket
@@ -4413,11 +4505,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             <td width="147" align="center"><img src="../../template/GIF/img_confirm.png" width="150" height="150" alt=""/></td>
             <td width="443" align="right" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td align="left" class="simple_blue_18"><strong><? print $question; ?></strong></td>
+                <td align="left" class="simple_blue_18"><strong><?php print $question; ?></strong></td>
               </tr>
              
               <tr>
-                <td align="left" class="simple_gri_12"><? print $details; ?></td>
+                <td align="left" class="simple_gri_12"><?php print $details; ?></td>
               </tr>
               <tr>
                 <td align="left" class="simple_gri_12">&nbsp;</td>
@@ -4441,7 +4533,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
         
             
         
-        <?
+        <?php
 		$this->showModalFooter("Confirm");
 	}
 	
@@ -4460,20 +4552,20 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             <td width="95%" align="center" background="../../template/GIF/menu_bar_middle.png">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="<? print $width_1; ?>" class="bold_shadow_white_14"><? print $txt_1; ?></td>
+                <td width="<?php print $width_1; ?>" class="bold_shadow_white_14"><?php print $txt_1; ?></td>
                 
 				<td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="<? print $width_2; ?>" class="bold_shadow_white_14" align="center"><? print $txt_2; ?></td>
+                <td width="<?php print $width_2; ?>" class="bold_shadow_white_14" align="center"><?php print $txt_2; ?></td>
                 
-				<?
+				<?php
 		            if ($txt_3!="")
 					{
 		        ?>
 				  
 				        <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                        <td width="<? print $width_3; ?>" class="bold_shadow_white_14" align="center"><? print $txt_3; ?></td>
+                        <td width="<?php print $width_3; ?>" class="bold_shadow_white_14" align="center"><?php print $txt_3; ?></td>
 				
-				<?
+				<?php
 					}
 		
 		            if ($txt_4!="")
@@ -4481,9 +4573,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
 				  
 				       <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                       <td width="<? print $width_4; ?>" class="bold_shadow_white_14" align="center"><? print $txt_4; ?></td>
+                       <td width="<?php print $width_4; ?>" class="bold_shadow_white_14" align="center"><?php print $txt_4; ?></td>
 				
-				<?
+				<?php
 					}
 		
 		            if ($txt_5!="")
@@ -4491,9 +4583,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				?>
 				  
 				        <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                        <td width="<? print $width_5; ?>" class="bold_shadow_white_14" align="center"><? print $txt_5; ?></td>
+                        <td width="<?php print $width_5; ?>" class="bold_shadow_white_14" align="center"><?php print $txt_5; ?></td>
 				
-				 <?
+				 <?php
 					}
 				  ?>
 				  
@@ -4503,7 +4595,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
           </tr>
           </table>
 
-        <?
+        <?php
 	}
 	
 	function showReq($energy, $coins, $name="")
@@ -4516,21 +4608,21 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                    <tbody>
                      <tr>
                        <td width="36%" align="center"><img title="Required Energy" data-toggle="tooltip" data-placement="top" src="../../template/GIF/energy.png" width="40" height="40" alt=""/></td>
-                       <td width="64%" align="center"><strong class="font_14" id="req_energy"><? print $energy; ?></strong></td>
+                       <td width="64%" align="center"><strong class="font_14" id="req_energy"><?php print $energy; ?></strong></td>
                      </tr>
                      <tr>
                        <td colspan="2" align="center"><hr></td>
                       </tr>
                      <tr>
                        <td align="center"><img title="Required CRC" data-toggle="tooltip" data-placement="top" src="../../template/GIF/wallet.png" width="40" height="41" alt=""/></td>
-                       <td align="center"><strong class="font_14" id="req_<? print $name; ?>_coins"><? print $coins; ?></strong></td>
+                       <td align="center"><strong class="font_14" id="req_<?php print $name; ?>_coins"><?php print $coins; ?></strong></td>
                      </tr>
                    </tbody>
                  </table>
                </div>
                </div>
 
-        <?
+        <?php
 	}
 	
 	function showWIP($month)
@@ -4544,14 +4636,14 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                       <tr>
                         <td width="20%" align="center"><img src="../../template/GIF/time.png" width="100" height="95" alt=""/></td>
                         <td width="2%">&nbsp;</td>
-						  <td width="78%" valign="top"><span class="font_16"><strong>Work in progress</strong></span><br><span class="font_12">This section is work in progress and it will be activated in <strong><? print $month; ?>, 2018</strong></span></td>
+						  <td width="78%" valign="top"><span class="font_16"><strong>Work in progress</strong></span><br><span class="font_12">This section is work in progress and it will be activated in <strong><?php print $month; ?>, 2018</strong></span></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 </div>
 
-        <?
+        <?php
 	}
 	
 	function showTrustModal($symbol)
@@ -4568,7 +4660,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
              <tr><td>&nbsp;</td></tr>
              <tr>
                <td align="center">
-				   <? 
+				   <?php 
 		              $this->showReq(0.1, 0.0010); 
 				   ?>
 			   </td>
@@ -4593,7 +4685,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
      
     
        
-        <?
+        <?php
 		$this->showModalFooter("Trust");
 		
 	}
@@ -4615,9 +4707,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				 <div class="panel panel-default" style="width: 90%">
                  <div class="panel-body">
 				   <table width="100%">
-						 <tr><td align="center" class="font_12"><? print $title_1; ?></td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $val_1; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $sub_line_1; ?></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $title_1; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $val_1; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $sub_line_1; ?></td></tr>
 				   </table>
 			     </div>
                  </div>
@@ -4628,9 +4720,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				 <div class="panel panel-default" style="width: 90%">
                  <div class="panel-body">
 					 <table width="100%">
-						 <tr><td align="center" class="font_12"><? print $title_2; ?></td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $val_2; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $sub_line_2; ?></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $title_2; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $val_2; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $sub_line_2; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -4641,9 +4733,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				 <div class="panel panel-default" style="width: 90%">
                  <div class="panel-body">
 					 <table width="100%">
-						 <tr><td align="center" class="font_12"><? print $title_3; ?></td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $val_3; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $sub_line_3; ?></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $title_3; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $val_3; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $sub_line_3; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -4655,9 +4747,9 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 				  <div class="panel panel-default" style="width: 90%">
                  <div class="panel-body">
 					 <table width="100%">
-						 <tr><td align="center" class="font_12"><? print $title_4; ?></td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $val_4; ?></strong></td></tr>
-						 <tr><td align="center" class="font_12"><? print $sub_line_4; ?></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $title_4; ?></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $val_4; ?></strong></td></tr>
+						 <tr><td align="center" class="font_12"><?php print $sub_line_4; ?></td></tr>
 					 </table>
 			     </div>
                  </div>
@@ -4667,7 +4759,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
             </tbody>
             </table>         
           
-        <?
+        <?php
 	}
 	
 	function citPic($pic)
@@ -4675,7 +4767,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		?>
 
            <img src="
-						  <? 
+						  <?php 
 				              
 				                  if ($pic=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -4686,7 +4778,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 						  
 						  " width="40" height="41" class="img-circle" />   
 
-        <?
+        <?php
 	}
 	
 	function showComments($target_type, $targetID, $branch=0)
@@ -4711,10 +4803,10 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		
 		?>
         
-        <table width="<? if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
+        <table width="<?php if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
         <tbody>
         
-        <?
+        <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 			   if (($row['upvotes_power_24']-$row['downvotes_power_24'])>-10)
@@ -4722,17 +4814,17 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		?>
         
                <tr>
-               <td width="<? print $branch*14; ?>%">&nbsp;</td>
+               <td width="<?php print $branch*14; ?>%">&nbsp;</td>
                <td width="7%" align="center" valign="top">
                <table width="100%" border="0" cellpadding="0" cellspacing="0">
            <tbody>
              <tr>
-               <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-responsive img-circle"/></td>
+               <td align="center"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-responsive img-circle"/></td>
                </tr>
              <tr>
               
                
-               <?
+               <?php
 			       if ($_REQUEST['ud']['ID']>0)
 				   {
 			   ?>
@@ -4740,15 +4832,15 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                       <table width="100%" border="0" cellpadding="0" cellspacing="0">
                       <tbody>
                       <tr>
-                      <td><a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', '../../template/GIF/like.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-up"></span></a></td>
+                      <td><a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', '../../template/GIF/like.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<?php print $row['comID']; ?>'); $('#vote_published').html('<?php print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<?php print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<?php print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-up"></span></a></td>
                       <td>&nbsp;</td>
-                      <td><a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', '../../template/GIF/down.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<? print $row['comID']; ?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-down"></span></a></td>
+                      <td><a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$('#vote_modal').modal(); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', '../../template/GIF/down.png'); $('#vote_target_type').val('ID_COM'); $('#vote_targetID').val('<?php print $row['comID']; ?>'); $('#vote_published').html('<?php print $_REQUEST['sd']['last_block']-$row['block']." blocks ago"; ?>'); $('#vote_energy').html('<?php print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<?php print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>');"><span class="glyphicon glyphicon-thumbs-down"></span></a></td>
                       </tr>
                       </tbody>
                       </table>
                        </td>
                
-               <?
+               <?php
 				   }
 				 
 			   ?>
@@ -4757,16 +4849,16 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
                </tr>
              <tr>
               
-              <td height="0" align="center" bgcolor="<? if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
-               <strong><span style="color:<? if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
+              <td height="0" align="center" bgcolor="<?php if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
+               <strong><span style="color:<?php if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
              </tr>
              </tbody>
          </table></td>
        <td width="733" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
          <tbody>
            <tr>
-             <td align="left"><a class="font_14"><strong><? print $this->formatAdr($row['adr'], 14, true); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
-               <p class="font_14"><? print  nl2br($this->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
+             <td align="left"><a class="font_14"><strong><?php print $this->formatAdr($row['adr'], 14, true); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><?php print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+               <p class="font_14"><?php print  nl2br($this->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
            </tr>
            <tr>
              <td align="right">
@@ -4774,11 +4866,11 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
              <table width="150" border="0" cellpadding="0" cellspacing="0">
                <tbody>
                  <tr>
-                   <td width="25%" align="center" style="color:#999999"><a class="font_12" href="javascript:void(0)" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_COM'); $('#com_targetID').val('<? print $row['comID']; ?>');"><? if ($branch<3 && $_REQUEST['ud']['ID']>0) print "reply"; ?></a></td>
+                   <td width="25%" align="center" style="color:#999999"><a class="font_12" href="javascript:void(0)" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_COM'); $('#com_targetID').val('<?php print $row['comID']; ?>');"><?php if ($branch<3 && $_REQUEST['ud']['ID']>0) print "reply"; ?></a></td>
                    
-                   <td width="25%" align="center" style="color:<? if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><? print $row['upvotes_24']; ?></span></td>
+                   <td width="25%" align="center" style="color:<?php if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><?php print $row['upvotes_24']; ?></span></td>
                    
-                   <td width="25%" align="center" style="color:<? if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><? print $row['downvotes_24']; ?></span></td>
+                   <td width="25%" align="center" style="color:<?php if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><?php print $row['downvotes_24']; ?></span></td>
                    </tr>
                </tbody>
              </table>
@@ -4790,12 +4882,12 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
        
      </tr>
      <tr><td colspan="3">
-	 <?
+	 <?php
 	     $this->showComments("ID_COM", $row['comID'], $branch+1);
 	 ?>
      </td></tr> 
      
-     <?
+     <?php
 	    if ($branch==0)
 		  print "<tr><td colspan='3'><hr></td></tr>";
 		else
@@ -4809,7 +4901,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
  </table>
  
         
-        <?
+        <?php
 	}
 	
 	function showVoteModal($target_type, $targetID)
@@ -4818,7 +4910,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		  
 		?>
           
-          <input type="hidden" name="vote_target_type" id="vote_target_type" value="<? print $target_type; ?>">
+          <input type="hidden" name="vote_target_type" id="vote_target_type" value="<?php print $target_type; ?>">
           <input type="hidden" name="vote_type" id="vote_type" value="">
           
           <table width="700" border="0" cellspacing="0" cellpadding="0">
@@ -4830,7 +4922,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
              </tr>
              <tr><td>&nbsp;</td></tr>
              <tr>
-               <td align="center"><? $this->showReq(1, 0.0001, "80%"); ?></td>
+               <td align="center"><?php $this->showReq(1, 0.0001, "80%"); ?></td>
              </tr>
            </table></td>
            <td width="400" align="left" valign="top">
@@ -4888,7 +4980,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
      
        
        
-        <?
+        <?php
 		
 		$this->showModalFooter("Vote");
 	}

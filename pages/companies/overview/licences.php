@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -39,7 +39,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -47,7 +47,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(6);
 	  ?>
       </td>
@@ -60,7 +60,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $com->showCompanyMenu(4);
 			   $template->showLeftAds();
 			?>
@@ -82,7 +82,7 @@
           
           </td>
         <td width="601" height="500" valign="top" align="center">
-        <?
+        <?php
 			$template->showHelp("Below are listed company's licenses. Remember that a license expires and must be renewed after a period. A company needs the license to produce a particular type of product. Licenses are not transferable and can only be rented from the game fund. Click Available tab to check what licenses you can purchase to extend the product range of the company.");
 		  	
 		  // Modals
@@ -137,7 +137,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -156,7 +156,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-             <?
+             <?php
 		          $template->showHelp("The state budget receives money from <strong>taxes or network rewards</strong> and <strong>spends money</strong> with bonuses, military equipment purchases or other expenses. Below are the listed budget earnings / expenses and a report for the <strong>last 24 hours</strong>. Note that when the budget reaches zero, all bonuses are <strong>suspended</strong>.");
 		          
 				  // Country
@@ -122,7 +122,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -136,7 +136,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

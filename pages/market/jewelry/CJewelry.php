@@ -1,4 +1,4 @@
-<?
+<?php
 class CJewelry
 {
 	function CJewelry($db, $acc, $template)
@@ -19,31 +19,31 @@ class CJewelry
 		      <tr>
 		        <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_INEL_Q1">
-                <img src="./GIF/inel_<? if ($this->kern->skipQuality($prod)=="ID_INEL") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Rings" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/inel_<?php if ($this->kern->skipQuality($prod)=="ID_INEL") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Rings" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_CERCEI_Q1">
-                <img src="./GIF/cercei_<? if ($this->kern->skipQuality($prod)=="ID_CERCEI") print "on"; else print "off"; ?>.png"  id="img_2" style="cursor:pointer" title="Earings" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/cercei_<?php if ($this->kern->skipQuality($prod)=="ID_CERCEI") print "on"; else print "off"; ?>.png"  id="img_2" style="cursor:pointer" title="Earings" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_COLIER_Q1">
-                <img src="./GIF/colier_<? if ($this->kern->skipQuality($prod)=="ID_COLIER") print "on"; else print "off"; ?>.png"  id="img_3" style="cursor:pointer" title="Pandants" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/colier_<?php if ($this->kern->skipQuality($prod)=="ID_COLIER") print "on"; else print "off"; ?>.png"  id="img_3" style="cursor:pointer" title="Pandants" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_CEAS_Q1">
-                <img src="./GIF/ceas_<? if ($this->kern->skipQuality($prod)=="ID_CEAS") print "on"; else print "off"; ?>.png"  id="img_4" style="cursor:pointer" title="Watches" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/ceas_<?php if ($this->kern->skipQuality($prod)=="ID_CEAS") print "on"; else print "off"; ?>.png"  id="img_4" style="cursor:pointer" title="Watches" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
                 
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_BRATARA_Q1">
-                <img src="./GIF/bratara_<? if ($this->kern->skipQuality($prod)=="ID_BRATARA") print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Bracelets" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/bratara_<?php if ($this->kern->skipQuality($prod)=="ID_BRATARA") print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Bracelets" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
@@ -60,7 +60,7 @@ class CJewelry
           
           
         
-        <?
+        <?php
 	}
 	
 }

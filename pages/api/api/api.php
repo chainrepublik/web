@@ -1,4 +1,4 @@
-<?
+<?php
    include "../../../kernel/db.php";
    include "CAPI.php";
 

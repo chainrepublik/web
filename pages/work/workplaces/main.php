@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -39,7 +39,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -47,7 +47,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(3);
 	  ?>
       </td>
@@ -60,7 +60,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $work->showMenu(1);
 			   $template->showLeftAds();
 			?>
@@ -68,7 +68,7 @@
             <td width="594" align="center" valign="top">
             
 				
-			<?
+			<?php
 			    $template->showHelp("Working for virtual companies is by far <strong>the easiest way to make money</strong> in ChainRepublik. Also, when you work your <strong>political influence is increased</strong>. Below you can see the available jobs, listed by the offered hourly wage. Basic rules are simple. You can only work at any company. You can <strong>choose</strong> how many minutes / hours you want to work. You will spend <strong>1 point</strong> of energy for every <strong>5 minutes of work</strong>. You can work up to 8 hours / day.");
 				
 				// Working panel
@@ -91,7 +91,7 @@
 </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -110,7 +110,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

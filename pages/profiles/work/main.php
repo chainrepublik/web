@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -44,7 +44,7 @@
 
 <body background="../../template/GIF/back.png">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -52,7 +52,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(9);
 	  ?>
       </td>
@@ -65,14 +65,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $profiles->showMenu(7);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 		        $template->showHelp("Every company needs employees to their activity. Working for a company is the easiest way to earn money and requires only a click / day. Below is a comprehensive report on the experience and work processes of the player.");
 							   
 		     
@@ -82,7 +82,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -101,7 +101,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

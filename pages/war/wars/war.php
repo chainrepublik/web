@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -61,14 +61,14 @@
         <tbody>
           <tr>
             <td width="204" height="600" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(1);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showHelp("Below are listed details about this war. Note that as the war is approaching the end, the damage caused by the fighters / congress <strong>decreases by 0.05% / block</strong>. If in the first minutes of war your damage is equal to the attack / defense score, in the last hour of war with the same points you will produce damage up to <strong>90% lower</strong>.");
               
 			   // Fight
@@ -126,7 +126,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -142,7 +142,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
 class CRewards
 {
 	function CRewards($db, $template)
@@ -48,7 +48,7 @@ class CRewards
                         </table></td>
                         </tr>
                       <tr>
-						  <td height="100" valign="middle" class="font_10" style="color: #999999">Node operators are rewarded by the network every 24 hours. Rewards are calculated based on the total energy of the users of a node. Node operators reward pool is 10% of total daily reward pool, or <strong><? print round($db->getRewardPool("ID_NODES"))." CRC / day"; ?></strong>. Rewards are not automatically paid by the network. You need to <strong>claim</strong> your reward every 24 hours. Below are listed. Below are listed the last rewards received by this node.</td>
+						  <td height="100" valign="middle" class="font_10" style="color: #999999">Node operators are rewarded by the network every 24 hours. Rewards are calculated based on the total energy of the users of a node. Node operators reward pool is 10% of total daily reward pool, or <strong><?php print round($db->getRewardPool("ID_NODES"))." CRC / day"; ?></strong>. Rewards are not automatically paid by the network. You need to <strong>claim</strong> your reward every 24 hours. Below are listed. Below are listed the last rewards received by this node.</td>
                       </tr>
                       </tbody>
                   </table></td>
@@ -56,6 +56,6 @@ class CRewards
               </tbody>
             </table>
 
-        <?
+        <?php
 	}
 }

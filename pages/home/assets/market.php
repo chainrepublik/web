@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
 
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(6);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(6);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 		         $template->showHelp("Below are displayed available shares for sale. All companies have 1000 shares. Owning company shares is an easy way to make money. When the company owner withdraw money from company account, all shareholders are paid. If you buy more than 500 shares in a company, you will become the new owner.");
 		   
 		          // Product
@@ -81,7 +81,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -100,7 +100,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

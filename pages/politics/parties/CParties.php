@@ -1,5 +1,5 @@
 
-<?
+<?php
 class CParties
 {
 	function CParties($db, $acc, $template)
@@ -28,7 +28,7 @@ class CParties
             <table width="550" border="0" cellspacing="0" cellpadding="0">
             <tbody>
 				
-				<?
+				<?php
 		            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					{
 						// Members
@@ -46,16 +46,16 @@ class CParties
 		        ?>
 				
                     <tr>
-                    <td width="11%"><img src="../GIF/avatars/<? print $row['orgID']; ?>.png" class="img img-circle" width="50"></td>
-					<td class="font_14" width="60%"><? print base64_decode($row['name']); ?><br><span class="font_10" style="color: #999999"><? print "Total Political Influence : 0 points"; ?></span></td>
-						<td class="font_14" align="center" width="20%"><strong><? print $members; ?></strong></td>
-				    <td align="center"><a class="btn btn-primary btn-sm" href="party.php?orgID=<? print $row['orgID']; ?>">Details</a></td>
+                    <td width="11%"><img src="../GIF/avatars/<?php print $row['orgID']; ?>.png" class="img img-circle" width="50"></td>
+					<td class="font_14" width="60%"><?php print base64_decode($row['name']); ?><br><span class="font_10" style="color: #999999"><?php print "Total Political Influence : 0 points"; ?></span></td>
+						<td class="font_14" align="center" width="20%"><strong><?php print $members; ?></strong></td>
+				    <td align="center"><a class="btn btn-primary btn-sm" href="party.php?orgID=<?php print $row['orgID']; ?>">Details</a></td>
                     </tr>
                     <tr>
                     <td colspan="4"><hr></td>
                     </tr>
 				
-				<?
+				<?php
 					}
 	 	        ?>
 				
@@ -63,7 +63,7 @@ class CParties
             </table>
 
 
-        <?
+        <?php
 	}
 }
 ?>

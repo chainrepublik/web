@@ -1,4 +1,4 @@
-<?
+<?php
 class CAdmin
 {
 	function CAdmin($db, $acc, $template)
@@ -138,13 +138,13 @@ class CAdmin
 		?>
             
             <div id="div_basic" name="div_basic">
-            <form action="admin.php?act=update&ID=<? print $_REQUEST['ID']; ?>" method="post" name="form_update" id="form_update">
+            <form action="admin.php?act=update&ID=<?php print $_REQUEST['ID']; ?>" method="post" name="form_update" id="form_update">
             <table width="560" border="0" cellspacing="0" cellpadding="0">
             <tr><td valign="top">
             <td width="212" height="207" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-                  <td align="center"><img src="<? if ($row['pic']!="") print $this->kern->crop($row['pic'], 150, 150); else print "../../template/GIF/empty_pic.png"; ?>" class="img img-circle" width="150" height="150" id="img_profile" name="img_profile"/></td>
+                  <td align="center"><img src="<?php if ($row['pic']!="") print $this->kern->crop($row['pic'], 150, 150); else print "../../template/GIF/empty_pic.png"; ?>" class="img img-circle" width="150" height="150" id="img_profile" name="img_profile"/></td>
                 </tr>
                 <tr>
                   <td align="center">&nbsp;</td>
@@ -165,7 +165,7 @@ class CAdmin
                   </tr>
                   <tr class="font_14">
                     <td height="0" colspan="2" align="left" valign="middle">
-						<input type="text" name="txt_profile_pic" id="txt_profile_pic" style="width:310px" class="form-control" value="<? print base64_decode($row['pic']); ?>" onChange="$('#img_profile').attr('src', $('#txt_profile_pic').val())"/></td>
+						<input type="text" name="txt_profile_pic" id="txt_profile_pic" style="width:310px" class="form-control" value="<?php print base64_decode($row['pic']); ?>" onChange="$('#img_profile').attr('src', $('#txt_profile_pic').val())"/></td>
                   </tr>
                   <tr class="font_14">
                     <td height="0" colspan="2" align="left" valign="middle">&nbsp;</td>
@@ -176,9 +176,9 @@ class CAdmin
                   </tr>
                   <tr>
                     <td align="left">
-                    <input type="text" name="txt_profile_name" id="txt_profile_name" style="width:200px" class="form-control" value="<? print base64_decode($row['name']); ?>"/></td>
+                    <input type="text" name="txt_profile_name" id="txt_profile_name" style="width:200px" class="form-control" value="<?php print base64_decode($row['name']); ?>"/></td>
                     <td align="left">
-                    <input type="text" name="txt_profile_symbol" id="txt_profile_symbol" style="width:90px" class="form-control" disabled="disabled" value="<? print $row['symbol']; ?>" />
+                    <input type="text" name="txt_profile_symbol" id="txt_profile_symbol" style="width:90px" class="form-control" disabled="disabled" value="<?php print $row['symbol']; ?>" />
                     </td>
                   </tr>
                   <tr>
@@ -191,7 +191,7 @@ class CAdmin
                   </tr>
                   <tr>
                     <td height="60" colspan="2" align="left" valign="top">
-                    <textarea name="txt_profile_desc" id="txt_profile_desc" cols="45" rows="3" class="form-control" style="width:320px"><? print base64_decode($row['description']); ?></textarea></td>
+                    <textarea name="txt_profile_desc" id="txt_profile_desc" cols="45" rows="3" class="form-control" style="width:320px"><?php print base64_decode($row['description']); ?></textarea></td>
                     </tr>
                 </table></td>
               </tr>
@@ -206,7 +206,7 @@ class CAdmin
         </form>
         </div>
         
-        <?
+        <?php
 	}
 	
 	

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -36,7 +36,7 @@
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 <center>
 	
-	<?
+	<?php
 	    // Modal
 	    $unregistered->showRegisterModal();
 	

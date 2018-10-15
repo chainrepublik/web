@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -43,7 +43,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -51,7 +51,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(6);
 	  ?>
       </td>
@@ -64,14 +64,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $com->showCompanyMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 		         $template->showHelp("Autonomous corporations can save data to a local storage. Each company has its own storage allocated where it can save / retrieve an unlimited amount of data. Below is displayed the company's local storage content. The storage is organized just like a real database and contains custom defined tables. Comapnies pay 0.0001 electricity for each inserted row / block.");  
 			  
 		  	  
@@ -81,7 +81,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -100,7 +100,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

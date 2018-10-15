@@ -1,4 +1,4 @@
-<?
+<?php
 class CRanks
 {
 	function CRanks($db, $acc, $template)
@@ -114,10 +114,10 @@ class CRanks
               <tr>
                 <td width="52%" class="bold_shadow_white_14">Player</td>
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="19%" class="bold_shadow_white_14" align="center"><? if ($tip=="rank") print "Rank"; ?></td>
+                <td width="19%" class="bold_shadow_white_14" align="center"><?php if ($tip=="rank") print "Rank"; ?></td>
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="23%" align="center" class="bold_shadow_white_14">
-				<?
+				<?php
 				   switch ($tip)
 				   {
 					   // Balance
@@ -150,7 +150,7 @@ class CRanks
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		 ?>
@@ -160,7 +160,7 @@ class CRanks
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              if ($row['comID']>0)
 							  {
 								  if ($row['pic']=="") 
@@ -180,14 +180,14 @@ class CRanks
 						  " width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
+                <a href="<?php if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
               </tr>
               </table></td>
               <td width="22%" align="center" class="font_12">
-			  <? 
+			  <?php 
 			     if ($tip=="rank") 
 				   if ($row['war_points']>1000) 
 				      print "<img src='".$this->kern->getRank($row['war_points'], "img")."' height='30px'><br>".$this->kern->getRank($row['war_points']); 
@@ -195,7 +195,7 @@ class CRanks
               </td>
              
               <td width="23%" align="center" class="simple_green_14"><strong>
-			  <? 
+			  <?php 
 			     switch ($tip)
 				   {
 					   // Balance
@@ -225,13 +225,13 @@ class CRanks
               <td colspan="3" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 }
 ?>

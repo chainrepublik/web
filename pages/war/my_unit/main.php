@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -57,14 +57,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(4);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-             <?
+             <?php
 		          $template->showHelp("Military units are organizations <strong>governed by members</strong>. Members having at least 100 war points can make proposals such as <strong>transferring funds</strong> to other addresses. Members <strong>vote on proposals</strong> based on war points. Military units <strong>receive money</strong> from <strong>donations</strong>. Also the network pays to military units a bonus every 24 hours depending on unit's memebers war points. Below are details about this political party.");
 		          
 				  // No member
@@ -135,7 +135,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -149,7 +149,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

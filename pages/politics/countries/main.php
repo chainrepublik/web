@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -57,7 +57,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(7);
 			   $template->showLeftAds();
 			?>
@@ -66,7 +66,7 @@
             
             
         
-            <?
+            <?php
 		       $template->showHelp("Below are listed top countries based on different <strong>indicators</strong> like total population energy or state budget balance. Click detail to navigate to country page where more info are available. Keep in mind that <strong>not all real world countries</strong> were included in the game.");
 		       
 			   // Selector 
@@ -85,7 +85,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -99,7 +99,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

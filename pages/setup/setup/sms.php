@@ -1,4 +1,4 @@
-<?
+<?php
   include "../../../kernel/SendSMS.php";
   include "../../../kernel/db.php";
   

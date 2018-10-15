@@ -1,4 +1,4 @@
-<?
+<?php
 class CRewards
 {
 	function CRewards($db, $acc, $template)

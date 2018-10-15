@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -39,7 +39,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -47,7 +47,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(6);
 	  ?>
       </td>
@@ -60,14 +60,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $com->showCompanyMenu(2);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 		         $template->showHelp("Unlike ordinary companies that are managed by players, decentralized autonomous corporations (DAC) like this one, are wholly governed by code. These companies can receive / send any asset / message / product to other addresses and can be programmed to represent any entity such as a decentralized bank or a lottery. Below is the source code that runs this company.");  
 			  
 		  	     $code->showCode($_REQUEST['ID']);
@@ -77,7 +77,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -96,7 +96,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
 class CUnregistered
 {
 	function CUnregistered($db, $acc, $template)
@@ -161,7 +161,7 @@ class CUnregistered
               <tr>
                 <td align="left">
 				
-					<?
+					<?php
 		                $this->template->showCountriesDD("dd_cou");
 					?>
 					
@@ -231,7 +231,7 @@ class CUnregistered
         
        
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 	}
 	
@@ -243,7 +243,7 @@ class CUnregistered
              <div class="panel panel-default" style="width: 800px" align="center">
 	         <div class="panel-body">
 		     
-		     <?
+		     <?php
 		          // Register ?
 	              if ($_REQUEST['act']=="register")
 			          $this->register($_REQUEST['dd_cou'], 
@@ -277,7 +277,7 @@ class CUnregistered
 	              <td height="30" align="left" class="font_14">Address</td>
 	              </tr>
 	            <tr>
-					<td align="left"><textarea rows="3" class="form-control"><? print $_REQUEST['ud']['adr']; ?></textarea></td>
+					<td align="left"><textarea rows="3" class="form-control"><?php print $_REQUEST['ud']['adr']; ?></textarea></td>
 	              </tr>
 	            <tr>
 	              <td align="left">&nbsp;</td>
@@ -286,7 +286,7 @@ class CUnregistered
 	              <td align="left" class="font_14">Balance</td>
 	              </tr>
 	            <tr>
-					<td align="left" class="font_16"><strong><? print $_REQUEST['ud']['balance']." CRC"; ?></strong></td>
+					<td align="left" class="font_16"><strong><?php print $_REQUEST['ud']['balance']." CRC"; ?></strong></td>
 	              </tr>
 	            <tr>
 	              <td align="left">&nbsp;</td>
@@ -295,7 +295,7 @@ class CUnregistered
 	              <td align="left"><hr></td>
 	              </tr>
 	            <tr>
-					<td align="right"><a <? if ($_REQUEST['ud']['balance']=0) print "disabled"; ?> class="btn btn-lg btn-primary" href="javascript:void(0)" onClick="$('#register_modal').modal()"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Register Address</a>&nbsp;&nbsp;&nbsp;<a class="btn btn-lg btn-danger" href="../../../index.php"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Cancel</a></td>
+					<td align="right"><a <?php if ($_REQUEST['ud']['balance']=0) print "disabled"; ?> class="btn btn-lg btn-primary" href="javascript:void(0)" onClick="$('#register_modal').modal()"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Register Address</a>&nbsp;&nbsp;&nbsp;<a class="btn btn-lg btn-danger" href="../../../index.php"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Cancel</a></td>
 	              </tr>
 	            <tr>
 	              <td align="left">&nbsp;</td>
@@ -308,7 +308,7 @@ class CUnregistered
 	        </div>
             </div>
 
-        <?
+        <?php
 	}
 }
 ?>

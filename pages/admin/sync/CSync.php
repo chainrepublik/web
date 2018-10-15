@@ -1,4 +1,4 @@
-<?
+<?php
 class CSync
 {
 	function CSync($db, $template)
@@ -25,7 +25,7 @@ class CSync
        <div class="panel-body">
        <table width="100%">
        <tr><td class="font_10" align="center">Target Block</td></tr>
-       <tr><td class="font_20" align="center"><? print $row['sync_target']; ?></td></tr>
+       <tr><td class="font_20" align="center"><?php print $row['sync_target']; ?></td></tr>
        <tr><td class="font_10" align="center">block</td></tr>
        </table>
        </div>
@@ -37,7 +37,7 @@ class CSync
        <div class="panel-body">
        <table width="100%">
        <tr><td class="font_10" align="center">Actual Block</td></tr>
-       <tr><td class="font_20" align="center"><? print $_REQUEST['sd']['last_block']; ?></td></tr>
+       <tr><td class="font_20" align="center"><?php print $_REQUEST['sd']['last_block']; ?></td></tr>
        <tr><td class="font_10" align="center">block</td></tr>
        </table>
        </div>
@@ -49,7 +49,7 @@ class CSync
        <div class="panel-body">
        <table width="100%">
        <tr><td class="font_10" align="center">Progress</td></tr>
-       <tr><td class="font_20" align="center"><? print round($_REQUEST['sd']['last_block']*100/$row['sync_target'], 2); ?>%</td></tr>
+       <tr><td class="font_20" align="center"><?php print round($_REQUEST['sd']['last_block']*100/$row['sync_target'], 2); ?>%</td></tr>
        <tr><td class="font_10" align="center">block</td></tr>
        </table>
        </div>
@@ -61,8 +61,8 @@ class CSync
        <div class="panel-body">
        <table width="100%">
        <tr><td class="font_10" align="center">Elapsed</td></tr>
-       <tr><td class="font_20" align="center"><? $time=$this->kern->getAbsTime($row['sync_start']); $time=explode(" ", $time); print $time[0]; ?></td></tr>
-       <tr><td class="font_10" align="center"><? print $time[1]; ?></td></tr>
+       <tr><td class="font_20" align="center"><?php $time=$this->kern->getAbsTime($row['sync_start']); $time=explode(" ", $time); print $time[0]; ?></td></tr>
+       <tr><td class="font_10" align="center"><?php print $time[1]; ?></td></tr>
        </table>
        </div>
        </div>
@@ -71,7 +71,7 @@ class CSync
    </tbody>
  </table>
         
-        <?
+        <?php
 	}
 	
 	function showOps()
@@ -90,14 +90,14 @@ class CSync
         <td class="font_14" align="center">Status</td>
         </tr>
         
-        <?
+        <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		?>
         
             <tr>
             <td class="font_14" width="50%" style="
-            <?
+            <?php
 			   switch ($row['status'])
 			   {
 				   case "ID_PENDING" : print "color:#999999"; break;
@@ -106,7 +106,7 @@ class CSync
 			   }
 			?>
             ">
-            <?
+            <?php
 			   if ($row['type']=="ID_GET_NETSTAT") 
 			      print "Request net status";
 			   else  if ($row['type']=="ID_BLOCKS") 
@@ -114,7 +114,7 @@ class CSync
 			?>
             </td>
             <td class="font_14" align="center" style="
-            <?
+            <?php
 			   switch ($row['status'])
 			   {
 				   case "ID_PENDING" : print "color:#999999"; break;
@@ -123,13 +123,13 @@ class CSync
 			   }
 			?>
             ">
-			<? 
+			<?php 
 			    if ($row['status']!="ID_PENDING") 
 				   print $this->kern->getAbsTime($row['tstamp']); 
 		    ?>
             </td>
             <td class="font_14" align="center" style="
-            <?
+            <?php
 			   switch ($row['status'])
 			   {
 				   case "ID_PENDING" : print "color:#999999"; break;
@@ -137,7 +137,7 @@ class CSync
 				   case "ID_PROCESSING" : print "color:#009900"; break;
 			   }
 			?>">
-			<?
+			<?php
 			   switch ($row['status'])
 			   {
 				   case "ID_PENDING" : print "<span class='glyphicon glyphicon-time'></span>&nbsp;&nbsp;pending"; break;
@@ -148,14 +148,14 @@ class CSync
             </td>
             </tr>
         
-        <?
+        <?php
 	       }
 		?>
         
         </tbody>
         </table>
         
-        <?
+        <?php
 	}
 }
 ?>

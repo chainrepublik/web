@@ -1,4 +1,4 @@
-<?
+<?php
 class CPress
 {
 	function CPress($db, $template)
@@ -37,10 +37,10 @@ class CPress
 		 ?>
          
          <br>
-         <table width="<? if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
+         <table width="<?php if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
          <tbody>
          
-         <?
+         <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($row['hidden']==0)
@@ -64,7 +64,7 @@ class CPress
                  <tr>
                    <td width="17%" align="center">
                    <img src="
-				   <? 
+				   <?php 
 				  
 				       if ($row['retweet_tweet_ID']>0)
 					   {
@@ -84,8 +84,8 @@ class CPress
 				    ?>" width="100" height="100" alt="" class="img img-responsive img-rounded"/></td>
                    <td width="3%" valign="top">&nbsp;</td>
                    <td width="80%" valign="top"><strong>
-                   <a href="../../home/press/main.php?target=ID_GLOBAL&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
-				   <? 
+                   <a href="../../home/press/main.php?target=ID_GLOBAL&page=tweet&tweetID=<?php if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
+				   <?php 
 				      $title=base64_decode($row['title']); 
 					 
 					  if ($row['retweet_tweet_ID']>0)
@@ -104,8 +104,8 @@ class CPress
 					  }
 				   ?>
                    </a></strong>
-                     <p class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>">
-					 <? 
+                     <p class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>">
+					 <?php 
 					    $mes=base64_decode($row['mes']); 
 					  
 					    if ($row['retweet_tweet_ID']>0)
@@ -128,7 +128,7 @@ class CPress
                  <tr>
                    <td align="center" valign="top">
                    
-                   <?
+                   <?php
 				      if ($row['retweet_tweet_ID']>0)
 					  {
 						  // Payment
@@ -167,7 +167,7 @@ class CPress
 					  }
 				   ?>
                    
-                   <span style="color:<? if ($pay==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
+                   <span style="color:<?php if ($pay==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
                    
                    
                    </td>
@@ -177,22 +177,22 @@ class CPress
                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
                      <tbody>
                        <tr>
-                         <td align="left" style="color:#999999" class="<? if ($adr=="all") print "font_12"; else print "font_10"; ?>">
-						 <? 
+                         <td align="left" style="color:#999999" class="<?php if ($adr=="all") print "font_12"; else print "font_10"; ?>">
+						 <?php 
 						    print "Posted by ".$this->template->formatAdr($row['adr'], 10).",  ".$this->kern->timeFromBlock($row['block'])." ago";
 						 ?>
                          </td>
                         
-                         <td width="50" align="center" style="color:<? if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-up <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $upvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-up <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $upvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" style="color:<? if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-down <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $downvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-down <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $downvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<? if ($comments==0) print "#999999"; else print "#304971"; ?>">
-                         <span class="glyphicon glyphicon-bullhorn <? if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $comments; ?></span>
+                         <td width="50" align="center" class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<?php if ($comments==0) print "#999999"; else print "#304971"; ?>">
+                         <span class="glyphicon glyphicon-bullhorn <?php if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $comments; ?></span>
                          </td>
                          </tr>
                      </tbody>
@@ -207,7 +207,7 @@ class CPress
              <td><hr></td>
            </tr>
            
-           <?
+           <?php
 	}
 			}
 		   ?>
@@ -215,7 +215,7 @@ class CPress
          </tbody>
        </table>
          
-         <?
+         <?php
 	}
 	
 	function showComments($adr)
@@ -237,10 +237,10 @@ class CPress
 		
 		?>
         
-        <table width="<? if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
+        <table width="<?php if ($branch==0) print "90%"; else print "100%"; ?>" border="0" cellpadding="0" cellspacing="0" align="center">
         <tbody>
         
-        <?
+        <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 			   if (($row['upvotes_power_24']-$row['downvotes_power_24'])>-10)
@@ -248,28 +248,28 @@ class CPress
 		?>
         
                <tr>
-               <td width="<? print $branch*14; ?>%">&nbsp;</td>
+               <td width="<?php print $branch*14; ?>%">&nbsp;</td>
                <td width="7%" align="center" valign="top">
                <table width="100%" border="0" cellpadding="0" cellspacing="0">
            <tbody>
              <tr>
-               <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-circle" width="80"/></td>
+               <td align="center"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=80&h=80"; ?>"  class="img img-circle" width="80"/></td>
                </tr>
              <tr>
                <td height="0" align="center"  class="font_14">&nbsp;</td>
              </tr>
              <tr>
               
-              <td height="40" align="center" bgcolor="<? if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
-               <strong><span style="color:<? if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
+              <td height="40" align="center" bgcolor="<?php if ($row['pay']>0) print "#e7ffef"; else print "#fafafa"; ?>" class="font_14">
+               <strong><span style="color:<?php if ($row['pay']==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 18, 12); ?></span></strong></td>
              </tr>
              </tbody>
          </table></td>
        <td width="733" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
          <tbody>
            <tr>
-             <td align="left"><a class="font_14"><strong><? print $this->template->formatAdr($row['adr'], 14, true); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><? print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
-               <p class="font_14"><? print  nl2br($this->template->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
+             <td align="left"><a class="font_14"><strong><?php print $this->template->formatAdr($row['adr'], 14, true); ?></strong></a>&nbsp;&nbsp;&nbsp;<span class="font_10" style="color:#999999"><?php print "~".$this->kern->timeFromBlock($row['block'])." ago"; ?></span>
+               <p class="font_14"><?php print  nl2br($this->template->makeLinks($this->kern->noescape(base64_decode($row['mes'])))); ?></p></td>
            </tr>
            <tr>
              <td align="right">
@@ -279,9 +279,9 @@ class CPress
                  <tr>
                    <td width="25%" align="center" style="color:#999999">&nbsp;</td>
                    
-                   <td width="25%" align="center" style="color:<? if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><? print $row['upvotes_24']; ?></span></td>
+                   <td width="25%" align="center" style="color:<?php if ($row['upvotes_24']==0) print "#999999"; else print "#009900"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-up"></span>&nbsp;<span class="font_12"><?php print $row['upvotes_24']; ?></span></td>
                    
-                   <td width="25%" align="center" style="color:<? if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><? print $row['downvotes_24']; ?></span></td>
+                   <td width="25%" align="center" style="color:<?php if ($row['downvotes_24']==0) print "#999999"; else print "#990000"; ?>"><span class="font_12 glyphicon glyphicon-thumbs-down"></span>&nbsp;<span class="font_12"><?php print $row['downvotes_24']; ?></span></td>
                    </tr>
                </tbody>
              </table>
@@ -293,12 +293,12 @@ class CPress
        
      </tr>
      <tr><td colspan="3">
-	 <?
+	 <?php
 	     $this->showComments("ID_COM", $row['comID'], $branch+1);
 	 ?>
      </td></tr> 
      
-     <?
+     <?php
 	    if ($branch==0)
 		  print "<tr><td colspan='3'><hr></td></tr>";
 		else
@@ -312,7 +312,7 @@ class CPress
  </table>
  
         
-        <?
+        <?php
 	}
 }
 ?>

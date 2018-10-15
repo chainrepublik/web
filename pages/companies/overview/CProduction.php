@@ -1,4 +1,4 @@
-<?
+<?php
 class CProduction
 {
 	function CProduction($db, $acc, $template, $comID)
@@ -135,7 +135,7 @@ class CProduction
         </table>
 <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-	      <?
+	      <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				
@@ -145,31 +145,31 @@ class CProduction
              <td width="65%" align="left" class="font_14">
              <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="19%"><img src="../overview/GIF/prods/big/<? print $row['tip']; ?>.png"  width="60" height="60" class="img img-circle"/></td>
-                <td width="84%" align="left"><strong class="font_14"><? print $row['name']; ?></strong>
-                  <p class="bold_verde_10">Market price : <? print $row['price']; ?> gold / <? print $row['unitate']; ?></p></td>
+                <td width="19%"><img src="../overview/GIF/prods/big/<?php print $row['tip']; ?>.png"  width="60" height="60" class="img img-circle"/></td>
+                <td width="84%" align="left"><strong class="font_14"><?php print $row['name']; ?></strong>
+                  <p class="bold_verde_10">Market price : <?php print $row['price']; ?> gold / <?php print $row['unitate']; ?></p></td>
               </tr>
              </table></td>
              <td width="17%" align="center"><span class="font_14">
-		     <?
+		     <?php
 				  $com_adr=$this->kern->getComAdr($_REQUEST['ID']);
 				  print round($this->acc->getTransPoolBalance($com_adr, $row['tip']), 4); 
 			  ?>
 				 </span><br />
-              <span class="simple_blue_10"><? print $row['unitate']; ?></span></td>
-            <td width="18%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Buy</a></td>
+              <span class="simple_blue_10"><?php print $row['unitate']; ?></span></td>
+            <td width="18%" align="right" class="bold_verde_14"><a href="market.php?ID=<?php print $_REQUEST['ID']; ?>&mktID=<?php print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Buy</a></td>
   </tr>
   <tr>
             <td colspan="3" ><hr></td>
   </tr>
           
-          <?
+          <?php
 			}
 		  ?>
           
 </table>
         
-        <?
+        <?php
 	}
 	
 	function showFinite()
@@ -220,7 +220,7 @@ class CProduction
           </table>
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
-          <?
+          <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($this->kern->hasProdLic($adr, $row['tip']))
@@ -233,7 +233,7 @@ class CProduction
              <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="25%"><img src="../overview/GIF/prods/big/
-				<? 
+				<?php 
 				    if (strpos($row['tip'], "_CAR")>0 || 
 						strpos($row['tip'], "_HOUSE")>0)
 					{
@@ -260,38 +260,38 @@ class CProduction
 				    print $prod;
 					
 				?>.png"  width="60" height="60" class="img img-circle"/></td>
-                <td width="79%" align="left"><strong class="font_14"><? print $row['name']; ?></strong><br />
-                  <span class="bold_verde_10">Market price : <? print $row['price']; ?> CRC / <? print $row['unitate']; ?></span></td>
+                <td width="79%" align="left"><strong class="font_14"><?php print $row['name']; ?></strong><br />
+                  <span class="bold_verde_10">Market price : <?php print $row['price']; ?> CRC / <?php print $row['unitate']; ?></span></td>
               </tr>
              </table></td>
              
              <td width="15%" align="center"><span class="font_14">
-		     <? 
+		     <?php 
 					if ($row['qty']>0) 
 						print "".round($row['invested']/$row['qty'], 6); 
 					else 
 						print "0";
 			 ?>
 		      </span><br />
-              <span class="simple_blue_10">for 1 <? print $row['unitate']; ?></span></td>
+              <span class="simple_blue_10">for 1 <?php print $row['unitate']; ?></span></td>
               
-             <td width="15%" align="center"><span class="font_14"><? print round($this->acc->getTransPoolBalance($adr, $row['prod']), 4); ?></span><br />
-              <span class="simple_blue_10"><? print $row['unitate']; ?></span></td>
+             <td width="15%" align="center"><span class="font_14"><?php print round($this->acc->getTransPoolBalance($adr, $row['prod']), 4); ?></span><br />
+              <span class="simple_blue_10"><?php print $row['unitate']; ?></span></td>
               
-            <td width="17%" align="right" class="bold_verde_14"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Trade</a></td>
+            <td width="17%" align="right" class="bold_verde_14"><a href="market.php?ID=<?php print $_REQUEST['ID']; ?>&mktID=<?php print $this->kern->getMarketID($row['tip']); ?>" class="btn btn-primary" style="width:80px;" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Trade</a></td>
   </tr>
   <tr>
             <td colspan="4" ><hr></td>
   </tr>
           
-          <?
+          <?php
 				}
 			}
 		  ?>
           
 </table>
         
-        <?
+        <?php
 		}
 	}
 	
@@ -384,14 +384,14 @@ class CProduction
            <td width="120" align="center">
            <table>
            <tr><td align="center" class="font_10">Capacity</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print $row['capacity']; ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><?php print $row['capacity']; ?></td></tr>
            <tr><td align="center" class="font_10">units</td></tr>
            </table>
            
            <td width="157" align="center">
            <table>
            <tr><td align="center" class="font_10">Used</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print round($used, 2); ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><?php print round($used, 2); ?></td></tr>
            <tr><td align="center" class="font_10">units</td></tr>
            </table>
            </td>
@@ -399,7 +399,7 @@ class CProduction
            <td width="81" align="center">
            <table>
            <tr><td align="center" class="font_10">Used (%)</td></tr>
-           <tr><td align="center" class="font_30" height="50px"><? print round($p)."<span class='font_12'>%</span>"; ?></td></tr>
+           <tr><td align="center" class="font_30" height="50px"><?php print round($p)."<span class='font_12'>%</span>"; ?></td></tr>
            <tr><td align="center" class="font_10">units</td></tr>
            </table>
            </td>
@@ -410,7 +410,7 @@ class CProduction
            </div>
            
            
-<?
+<?php
 	}
 	
 	
@@ -489,14 +489,14 @@ class CProduction
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td height="50" valign="bottom"><a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $mktID; ?>" class="btn btn-danger btn-sm" style="width:150px;" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Buy Tools</a></td>
+                <td height="50" valign="bottom"><a href="market.php?ID=<?php print $_REQUEST['ID']; ?>&mktID=<?php print $mktID; ?>" class="btn btn-danger btn-sm" style="width:150px;" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Buy Tools</a></td>
                 <td>&nbsp;</td>
               </tr>
             </table></td>
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showProdPanel($prod, $qty)
@@ -520,23 +520,23 @@ class CProduction
           <tr>
             <td width="100" height="35" align="center" valign="top"><table width="95" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_12"><strong><? print $row['name']; ?></strong></td>
+                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_12"><strong><?php print $row['name']; ?></strong></td>
               </tr>
             </table></td>
           </tr>
           <tr>
-            <td><img src="GIF/prods/big/<? print $prod; ?>.png" width="100" height="100" /></td>
+            <td><img src="GIF/prods/big/<?php print $prod; ?>.png" width="100" height="100" /></td>
           </tr>
           <tr>
             <td height="35" align="center" valign="bottom"><table width="95" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_14"><strong><? print $qty; ?></strong></td>
+                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_14"><strong><?php print $qty; ?></strong></td>
               </tr>
             </table></td>
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showWorkPanel($qty)
@@ -557,13 +557,13 @@ class CProduction
           <tr>
             <td height="35" align="center" valign="bottom"><table width="95" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_14"><strong><? print $qty; ?></strong></td>
+                <td height="30" align="center" background="GIF/prods/big/panel_back.png" class="font_14"><strong><?php print $qty; ?></strong></td>
               </tr>
             </table></td>
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showReqDD()
@@ -589,7 +589,7 @@ class CProduction
            
                     <br><br>
        
-                    <?
+                    <?php
 		               print "<select id='dd_prods' name='dd_prods' class='form-control' style='width:540px'>";	   
 		               
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -611,7 +611,7 @@ class CProduction
 		   </script>
            
            <br>
-           <?
+           <?php
 		   }
 		   else print "<br><br>";
 	}
@@ -631,7 +631,7 @@ class CProduction
 	   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	?>
      
-     <div id="div_prod_<? print $prod; ?>" name="div_prod_<? print $prod; ?>" style="display:<? if ($visible==true) print "block"; else print "none"; ?>">
+     <div id="div_prod_<?php print $prod; ?>" name="div_prod_<?php print $prod; ?>" style="display:<?php if ($visible==true) print "block"; else print "none"; ?>">
      <div class="panel panel-default" style="width:90%">
   <div class="panel-body">
    
@@ -639,34 +639,34 @@ class CProduction
         <tr>
           
           <td width="100">
-            <? 
+            <?php 
 			    $this->showWorkPanel($row['work_hours']); 
 		    ?>
             </td>
           
           <td width="100">
-            <? 
+            <?php 
 		       if ($row['prod_1']!="") 
 		           $this->showProdPanel($row['prod_1'], $row['prod_1_qty']); 
 		    ?>
             </td>
           
           <td width="100">
-            <? 
+            <?php 
 		       if ($row['prod_2']!="") 
 		           $this->showProdPanel($row['prod_2'], $row['prod_2_qty']); 
 		    ?>
             </td>
           
           <td width="100">
-            <? 
+            <?php 
 		       if ($row['prod_3']!="") 
 		           $this->showProdPanel($row['prod_3'], $row['prod_3_qty']); 
 		    ?>
             </td>
           
           <td width="100">
-            <? 
+            <?php 
 		       if ($row['prod_4']!="") 
 		           $this->showProdPanel($row['prod_4'], $row['prod_4_qty']); 
 		    ?>
@@ -681,35 +681,35 @@ class CProduction
           </tr>
         <tr>
           <td>
-            <? 
+            <?php 
 		   if ($row['prod_5']!="") 
 		       $this->showProdPanel($row['prod_5'], $row['prod_5_qty']); 
 		?>
             </td>
           
           <td>
-            <? 
+            <?php 
 		   if ($row['prod_6']!="") 
 		       $this->showProdPanel($row['prod_6'], $row['prod_6_qty']); 
 		?>
             </td>
           
           <td>
-            <? 
+            <?php 
 		   if ($row['prod_7']!="") 
 		       $this->showProdPanel($row['prod_7'], $row['prod_7_qty']); 
 		?>
             </td>
           
           <td>
-            <? 
+            <?php 
 		   if ($row['prod_8']!="") 
 		       $this->showProdPanel($row['prod_8'], $row['prod_8_qty']); 
 		?>
             </td>
           
           <td>
-            <? 
+            <?php 
 		   if ($row['prod_9']!="") 
 		       $this->showProdPanel($row['prod_9'], $row['prod_9_qty']); 
 		?>
@@ -730,7 +730,7 @@ class CProduction
 </div>
 </div>
     
-    <?
+    <?php
     }
 	
 	function showWorkLog()
@@ -780,7 +780,7 @@ class CProduction
         </table>
         <table width="540" border="0" cellspacing="0" cellpadding="0">
           
-         <?
+         <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 		 ?>
@@ -788,35 +788,35 @@ class CProduction
               <tr>
               <td width="34%" align="left" class="font_14"><table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td width="27%"><img src="<? if ($row['pic']!="") $this->kern->crop($row['pic']); else print "../../template/GIF/empty_pic.png"; ?>" width="40" height="40" class="img-circle" /></td>
+                <td width="27%"><img src="<?php if ($row['pic']!="") $this->kern->crop($row['pic']); else print "../../template/GIF/empty_pic.png"; ?>" width="40" height="40" class="img-circle" /></td>
                 <td width="73%" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="2">
                   <tr>
-                    <td align="left"><a href="../../profiles/overview/main.php?ID=<? print $row['userID']; ?>" class="font_14"><strong><? print $this->template->formatAdr($row['adr']); ?></strong></a></td>
+                    <td align="left"><a href="../../profiles/overview/main.php?ID=<?php print $row['userID']; ?>" class="font_14"><strong><?php print $this->template->formatAdr($row['adr']); ?></strong></a></td>
                   </tr>
                   <tr>
-                    <td align="left"><span class="font_10">Ouput : <? print round($row['output_qty'], 4)." ".$row['name'].", ".$this->kern->timeFromBlock($row['block'])." ago"; ?></span></td>
+                    <td align="left"><span class="font_10">Ouput : <?php print round($row['output_qty'], 4)." ".$row['name'].", ".$this->kern->timeFromBlock($row['block'])." ago"; ?></span></td>
                   </tr>
                 </table></td>
               </tr>
             </table></td>
-            <td width="16%" align="center"><span class="bold_verde_14"><strong><? print $row['salary']." <br><span class='font_10'>CRC</span>"; ?></strong></span></td>
-            <td width="18%" align="center"><span class="font_14"><strong><? print round($row['end']-$row['start']); ?></strong></span><br />
+            <td width="16%" align="center"><span class="bold_verde_14"><strong><?php print $row['salary']." <br><span class='font_10'>CRC</span>"; ?></strong></span></td>
+            <td width="18%" align="center"><span class="font_14"><strong><?php print round($row['end']-$row['start']); ?></strong></span><br />
               <span class="simple_blue_10">minutes</span></td>
             <td width="14%" align="center">
-            <span class="font_12" style="color:<? if ($row['end']>$_REQUEST['sd']['last_block']) print "#990000"; else print "#aaaaaa"; ?>"><strong><? if ($row['end']>$_REQUEST['sd']['last_block']) print "Working"; else print "finished";  ?></strong></span><br /></td>
+            <span class="font_12" style="color:<?php if ($row['end']>$_REQUEST['sd']['last_block']) print "#990000"; else print "#aaaaaa"; ?>"><strong><?php if ($row['end']>$_REQUEST['sd']['last_block']) print "Working"; else print "finished";  ?></strong></span><br /></td>
             <td width="16%" align="center" class="simple_gri_14"><a href="#" class="btn btn-primary" style="width:75px">Details</td>
           </tr>
           <tr>
             <td colspan="5" ><hr></td>
           </tr>
          
-         <?
+         <?php
 			}
 		 ?>
          
          </table>
         
-        <?
+        <?php
 	}
 	
 }

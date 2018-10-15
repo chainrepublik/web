@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 	
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -58,7 +58,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(4);
 			   $template->showLeftAds();
 			?>
@@ -67,7 +67,7 @@
             
             
         
-		<?
+		<?php
 		   // Help
 		   $template->showHelp("Below, the top addresses are listed based on multiple criteria such as balance, energy, political influence and so on. Keep in mind that political influence is refreshed every hour, while the other indicators are live.", 70, 70);
 		   
@@ -110,7 +110,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -124,7 +124,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

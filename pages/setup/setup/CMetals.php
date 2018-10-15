@@ -1,4 +1,4 @@
-<?
+<?php
 class CMetals
 {
 	function CMetals($db, $utils, $acc)
@@ -22,26 +22,26 @@ class CMetals
         
           <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="358"><? print $row['user']; ?></td>
-                <td width="100"><? print $row['qty']; ?> grams</td>
-                <td width="100"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
-                <td width="70"><? print "<a href='#' onclick=\"$('#orderID').val('".$row['ID']."'); $('#metals_modal').modal();\" style='width:70px' class='btn btn-success'>Deliver</a>"; ?></td>
-                <td width="70"><? print "<a href='metals.php?act=reject&orderID=".$row['ID']."' style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
+                <td width="358"><?php print $row['user']; ?></td>
+                <td width="100"><?php print $row['qty']; ?> grams</td>
+                <td width="100"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                <td width="70"><?php print "<a href='#' onclick=\"$('#orderID').val('".$row['ID']."'); $('#metals_modal').modal();\" style='width:70px' class='btn btn-success'>Deliver</a>"; ?></td>
+                <td width="70"><?php print "<a href='metals.php?act=reject&orderID=".$row['ID']."' style='width:70px' class='btn btn-danger'>Reject</a>"; ?></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showMetalsModal()
@@ -82,7 +82,7 @@ class CMetals
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Update");
 	}

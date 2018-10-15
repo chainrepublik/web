@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -32,7 +32,7 @@
 <body>
 <center>    
     
-	<?
+	<?php
 	  $query="SELECT *,
 	                 tpt.name AS tools_name,
 					 tpb.name AS build_name

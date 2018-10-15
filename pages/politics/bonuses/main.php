@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(2);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 		        $template->showHelp("Below are listed <strong>predefined bonuses</strong>. Bonuses are paid <strong>from the state budget</strong> and are set by <strong>members of the congress</strong> by voting. If the state budget is <strong>out of money</strong>, all bonuses are <strong>set to zero</strong>. Bonuses are paid to players / companies when they buy products like production tools, energy boosters and so on");
 				
 		        // Country
@@ -86,7 +86,7 @@
 			  </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -100,7 +100,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

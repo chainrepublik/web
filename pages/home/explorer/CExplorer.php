@@ -1,4 +1,4 @@
-<?
+<?php
   class CExplorer
   {
 	  function CExplorer($db, $template, $acc)
@@ -54,31 +54,31 @@
                </tr>
                </thead>
                 
-                  <?
+                  <?php
 				      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					  {
 				  ?>
                   
                         <tr>
                         <td width="50%" align="left">
-                        <a href="block.php?hash=<? print $row['hash'] ?>" class="font_14"><strong>
-						<? 
+                        <a href="block.php?hash=<?php print $row['hash'] ?>" class="font_14"><strong>
+						<?php 
 						    print "Block ".$row['block']; 
 							if ($row['reward']==0) print "<span class='font_10' style='color:#990000'> &nbsp;&nbsp;(not on the main chain)</span>";
 					    ?>
                         </strong></a><br>
-                        <span class="font_10"><? print substr($row['hash'], 0, 30)."..."; ?></span>
+                        <span class="font_10"><?php print substr($row['hash'], 0, 30)."..."; ?></span>
                         </td>
-                        <td width="15%" align="center"><strong  class="font_14"><? print $row['packets']; ?></strong></td>
-                        <td width="15%" align="center"><strong  class="font_14" <? if ($row['reward']==0) print "style='color:#990000'"; ?>>
-						<? print $row['reward']; ?></strong></td>
-                        <td width="20%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                        <td width="15%" align="center"><strong  class="font_14"><?php print $row['packets']; ?></strong></td>
+                        <td width="15%" align="center"><strong  class="font_14" <?php if ($row['reward']==0) print "style='color:#990000'"; ?>>
+						<?php print $row['reward']; ?></strong></td>
+                        <td width="20%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                         </tr>
                         <tr>
                         <td colspan="4"><hr></td>
                         </tr>
                   
-                  <?
+                  <?php
 	                  }
 				  ?>
                 
@@ -86,7 +86,7 @@
                   
                  
             
-            <?
+            <?php
 			   $query="SELECT * FROM net_stat";
 			   $result=$this->kern->execute($query);	
 	           $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -123,43 +123,43 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   Confirmations : &nbsp;&nbsp;<span class="label label-<? if ($row['confirmations']<10) print "danger"; else if ($row['confirmations']<20 && $row['confirmations']>10) print "warning";  else if ($row['confirmations']>20) print "success"; ?> font_12"><? print $row['confirmations']; ?></span></td></tr>
+		   Confirmations : &nbsp;&nbsp;<span class="label label-<?php if ($row['confirmations']<10) print "danger"; else if ($row['confirmations']<20 && $row['confirmations']>10) print "warning";  else if ($row['confirmations']>20) print "success"; ?> font_12"><?php print $row['confirmations']; ?></span></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Block Hash : <strong>".$row['hash']."&nbsp;&nbsp;&nbsp;</strong>"; ?></td></tr>
+		   <?php print "Block Hash : <strong>".$row['hash']."&nbsp;&nbsp;&nbsp;</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Prev hash : <strong>".$row['prev_hash']."</strong>"; ?></td></tr>
+		   <?php print "Prev hash : <strong>".$row['prev_hash']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Block Number : <strong>".$row['block']."</strong>"; ?></td></tr>
+		   <?php print "Block Number : <strong>".$row['block']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Signer : <strong>".$this->template->formatAdr($row['signer'])."</strong>"; ?></td></tr>
+		   <?php print "Signer : <strong>".$this->template->formatAdr($row['signer'])."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Signer Balance: <strong>".$row['signer_balance']."</strong> CRC"; ?></td></tr>
+		   <?php print "Signer Balance: <strong>".$row['signer_balance']."</strong> CRC"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Nonce: <strong>".$row['nonce']."</strong>"; ?></td></tr>
+		   <?php print "Nonce: <strong>".$row['nonce']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Size: <strong>".round($row['size']/1024, 2)." KBytes</strong>"; ?></td></tr>
+		   <?php print "Size: <strong>".round($row['size']/1024, 2)." KBytes</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Difficulty: <strong>".$row['net_dif']."</strong>"; ?></td></tr>
+		   <?php print "Difficulty: <strong>".$row['net_dif']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Packets: <strong>".$row['packets']."</strong>"; ?></td></tr>
+		   <?php print "Packets: <strong>".$row['packets']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14" height="30px">
@@ -170,7 +170,7 @@
             
            
            
-        <?
+        <?php
 		$this->showPackets($hash);
 	}
 	
@@ -187,7 +187,7 @@
         
              <table width="90%" border="0" cellspacing="0" cellpadding="0">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
@@ -197,23 +197,23 @@
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tbody>
                             <tr>
-                              <td width="15%" style="padding-right:10px"><img src="./GIF/<? print $row['packet_type']; ?>.png" class="img-responsive" /></td>
-                              <td width="79%"><a href="./GIF/packet.php?hash=<? print $row['packet_hash']; ?>" class="font_14"><strong>
-                              <?
+                              <td width="15%" style="padding-right:10px"><img src="./GIF/<?php print $row['packet_type']; ?>.png" class="img-responsive" /></td>
+                              <td width="79%"><a href="./GIF/packet.php?hash=<?php print $row['packet_hash']; ?>" class="font_14"><strong>
+                              <?php
 							    print $this->kern->getPacketName($row['packet_type']);
 							  ?>
-                              </strong></a><br><span class="font_10"><? print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
+                              </strong></a><br><span class="font_10"><?php print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
-                        <td width="21%" align="center" class="font_14"><strong><? print $row['block']; ?></strong></td>
-                        <td width="16%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                        <td width="21%" align="center" class="font_14"><strong><?php print $row['block']; ?></strong></td>
+                        <td width="16%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                       </tr>
                       <tr>
                         <td colspan="3" background="../../template/template/GIF/lp.png">&nbsp;</td>
                       </tr>
                     
-                      <?
+                      <?php
 	                      }
 					  ?>
                       
@@ -222,7 +222,7 @@
                   <br><br>
                   
         
-        <?
+        <?php
 	}
 	
 	
@@ -280,7 +280,7 @@
                <td align="center">Received</td>
                </tr>
                </thead>              
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					 ?>
@@ -290,23 +290,23 @@
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tbody>
                             <tr>
-                              <td width="18%" style="padding-right:10px"><img src="GIF/<? print $row['packet_type']; ?>.png" class="img-responsive" /></td>
-                              <td width="79%"><a href="packet.php?hash=<? print $row['packet_hash']; ?>" class="font_14"><strong>
-                              <?
+                              <td width="18%" style="padding-right:10px"><img src="GIF/<?php print $row['packet_type']; ?>.png" class="img-responsive" /></td>
+                              <td width="79%"><a href="packet.php?hash=<?php print $row['packet_hash']; ?>" class="font_14"><strong>
+                              <?php
 							    print $this->kern->getPacketName($row['packet_type']);
 							  ?>
-                              </strong></a><br><span class="font_10"><? print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
+                              </strong></a><br><span class="font_10"><?php print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
-                        <td width="21%" align="center" class="font_14"><strong><? print $row['block']; ?></strong></td>
-                        <td width="16%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                        <td width="21%" align="center" class="font_14"><strong><?php print $row['block']; ?></strong></td>
+                        <td width="16%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                       </tr>
                       <tr>
                         <td colspan="3"><hr></td>
                       </tr>
                     
-                      <?
+                      <?php
 	                      }
 					  ?>
                       
@@ -315,7 +315,7 @@
                   <br><br>
                   
         
-        <?
+        <?php
 	}
 	
 	
@@ -350,24 +350,24 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   Confirmations : &nbsp;&nbsp;<span class="label label-<? if ($row['confirms']<10) print "danger"; else if ($row['confirms']<20 && $row['confirms']>10) print "warning";  else if ($row['confirms']<30 && $row['confirms']>20) print "success"; ?> font_12"><? print $row['confirms']; ?></span></td></tr>
+		   Confirmations : &nbsp;&nbsp;<span class="label label-<?php if ($row['confirms']<10) print "danger"; else if ($row['confirms']<20 && $row['confirms']>10) print "warning";  else if ($row['confirms']<30 && $row['confirms']>20) print "success"; ?> font_12"><?php print $row['confirms']; ?></span></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Packet Type : <strong>".$row['packet_type']."&nbsp;&nbsp;&nbsp;( ".$this->kern->getPacketName($row['packet_type'])." )</strong>"; ?></td></tr>
+		   <?php print "Packet Type : <strong>".$row['packet_type']."&nbsp;&nbsp;&nbsp;( ".$this->kern->getPacketName($row['packet_type'])." )</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Packet Hash : <strong>".$row['packet_hash']."</strong>"; ?></td></tr>
+		   <?php print "Packet Hash : <strong>".$row['packet_hash']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Block : <strong>".$row['block']."</strong>"; ?></td></tr>
+		   <?php print "Block : <strong>".$row['block']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
 
            
            <tr><td>
-		   <? print "Block Hash : <strong><a class='font_14' href='../blocks/block.php?hash=".$row['block_hash']."'>".$row['block_hash']."</a></strong>"; ?></td></tr>
+		   <?php print "Block Hash : <strong><a class='font_14' href='../blocks/block.php?hash=".$row['block_hash']."'>".$row['block_hash']."</a></strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            </table>
@@ -378,15 +378,15 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Fee Address : <strong>".$this->formatStr($row['fee_src'])."</strong>"; ?></td></tr>
+		   <?php print "Fee Address : <strong>".$this->formatStr($row['fee_src'])."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Fee Amount : <strong>".$row['fee_amount']." CRC</strong>"; ?></td></tr>
+		   <?php print "Fee Amount : <strong>".$row['fee_amount']." CRC</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Fee Packet Hash : <strong>".$row['fee_hash']."</strong>"; ?></td></tr>
+		   <?php print "Fee Packet Hash : <strong>".$row['fee_hash']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            </table>
            
@@ -396,14 +396,14 @@
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Payload Hash : <strong>".$row['payload_hash']."</strong>"; ?></td></tr>
+		   <?php print "Payload Hash : <strong>".$row['payload_hash']."</strong>"; ?></td></tr>
            <tr><td><hr></td></tr>
            
            <tr><td class="font_14">
-		   <? print "Payload Size : <strong>".round($row['payload_size']/1024, 2)."</strong> Kbytes"; ?></td></tr>
+		   <?php print "Payload Size : <strong>".round($row['payload_size']/1024, 2)."</strong> Kbytes"; ?></td></tr>
            <tr><td><hr></td></tr>
            
-           <?
+           <?php
 		     for ($a=1; $a<=10; $a++)
 			 {
 				 $n="par_".$a."_name";
@@ -414,10 +414,10 @@
 		   ?>
            
                   <tr><td class="font_14">
-		          <? print $row[$n]." : <strong>".$this->formatStr(base64_decode($row[$v]))."</strong>"; ?></td></tr>
+		          <?php print $row[$n]." : <strong>".$this->formatStr(base64_decode($row[$v]))."</strong>"; ?></td></tr>
                   <tr><td><hr></td></tr>
           
-          <?
+          <?php
 				 }
 			 }
 		  ?> 
@@ -425,7 +425,7 @@
            </table>
            <br><br><br>
         
-        <?
+        <?php
 	}
 	
 	
@@ -464,16 +464,16 @@
         <td align="center" width="15%"><strong>Block</strong></td>
         <td width="0%"></thead>
         
-        <?
+        <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 		?>
         
                <tr class="font_14">
-               <td><? print $this->template->formatAdr($row['adr'], 14, true); ?></td>
+               <td><?php print $this->template->formatAdr($row['adr'], 14, true); ?></td>
                <td style="color:#999999" align="center">
                
-			   <?
+			   <?php
 			      
 			           switch ($row['reward'])
 				       {
@@ -521,19 +521,19 @@
                
                </td>
                
-               <td align="center"><strong style="color:#009900"><? print "$".round($row['amount']*$_REQUEST['sd']['coin_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><? print $row['amount']." CRC"; ?></span></td>
+               <td align="center"><strong style="color:#009900"><?php print "$".round($row['amount']*$_REQUEST['sd']['coin_price'], 2); ?></strong><br><span style="color:#999999; font-size:10px"><?php print $row['amount']." CRC"; ?></span></td>
              
-               <td align="center" style="color:#999999"><? print $row['block']; ?><br><span style="font-size:10px">~<? print $this->kern->timeFromBlock($row['block']); ?> ago</span></td>
+               <td align="center" style="color:#999999"><?php print $row['block']; ?><br><span style="font-size:10px">~<?php print $this->kern->timeFromBlock($row['block']); ?> ago</span></td>
                </tr>
         
-        <?
+        <?php
 			}
 		?>
         
         </table>
         <br><br>
         
-        <?
+        <?php
 	}
 	
 	function vote($delegate, $type)
@@ -649,27 +649,11 @@
                </tbody>
                </table>
                
-            <?
+            <?php
 		}
 	}
 	
-	function getLogBlock($type="ID_BEHIND")
-	{
-		if ($type=="ID_BEHIND")
-		{
-		   $block=$_REQUEST['sd']['last_block'];
-		   while ($block%100!=0) $block--;
-		   $block=$block-100;
-		}
-		else
-		{
-		   $block=$_REQUEST['sd']['last_block'];
-		   while ($block%100!=0) $block++;
-		   $block=$block+100;
-		}
-		
-		return $block;
-	}
+	
 	
 	function showDelegates($type="real_time")
 	{
@@ -677,7 +661,7 @@
 		$this->showVoteModal();
 		
 		// Find block
-		$block=$this->getLogBlock();
+		$block=$_REQUEST['sd']['last_block']-50; 
 		
 		
 		$query="SELECT * 
@@ -698,15 +682,15 @@
     
         <table style="width:90%">
        
-		<?
+		<?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		?>
         
               <tr>
-              <td class="font_14" width="60%"><a href="delegate.php?ID=<? print $row['ID']; ?>"><? print $this->template->formatAdr($row['delegate']); ?></a></td>
+              <td class="font_14" width="60%"><a href="delegate.php?ID=<?php print $row['ID']; ?>"><?php print $this->template->formatAdr($row['delegate']); ?></a></td>
               
-			  <td class="font_14" style="color:#009900" width="20%" align="center"><strong><? print $row['power']." CRC"; ?></strong></td>
+			  <td class="font_14" style="color:#009900" width="20%" align="center"><strong><?php print $row['power']." CRC"; ?></strong></td>
               
               <td width="20%" align="right">
 				<div class="btn-group">
@@ -715,11 +699,11 @@
                </button>
                <ul class="dropdown-menu">
               
-				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/upvote.png'); $('#txt_vote_type').val('ID_UP'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>'); ">Upvote delegate</a></li>
+				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/upvote.png'); $('#txt_vote_type').val('ID_UP'); $('#txt_vote_delegate').val('<?php print $row['delegate']; ?>'); ">Upvote delegate</a></li>
                
-				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/downvote.png'); $('#txt_vote_type').val('ID_DOWN'); $('#txt_vote_delegate').val('<? print $row['delegate']; ?>');">Downvote delegate</a></li>
+				   <li><a href="javascript:void(0)" onClick="$('#modal_vote_delegate').modal(); $('#img_delegate').attr('src', 'GIF/downvote.png'); $('#txt_vote_type').val('ID_DOWN'); $('#txt_vote_delegate').val('<?php print $row['delegate']; ?>');">Downvote delegate</a></li>
 			   
-				   <li><a href="delegate.php?adr=<? print $this->kern->encode($row['delegate']); ?>">Details</a></li>
+				   <li><a href="delegate.php?adr=<?php print $this->kern->encode($row['delegate']); ?>">Details</a></li>
                </ul>
                </div>
 			   </td>
@@ -727,13 +711,13 @@
               </tr>
               <tr><td colspan="4"><hr></td></tr>
         
-        <?
+        <?php
 		   }
 		?>
         
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showLastVotes()
@@ -757,27 +741,27 @@
         <td width="10%">Received</td>
         </thead>
         
-        <?
+        <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		?>
         
               <tr>
-              <td class="font_14" width="35%" height="50px"><a href="#"><? print $this->template->formatAdr($row['adr']); ?></a></td>
-              <td class="font_14" width="35%"><a href="#"><? print $this->template->formatAdr($row['delegate']); ?></a></td>
-              <td class="font_14" width="10%" style="color:<? if ($row['type']=="ID_UP") print "#009900"; else print "#990000"; ?>"><? if ($row['type']=="ID_UP") print "Upvote"; else print "Downvote"; ?></td>
-              <td class="font_14" width="10%"><? print $row['power']; ?></td>
-              <td class="font_14" width="10%"><? print $row['block']; ?></td>
+              <td class="font_14" width="35%" height="50px"><a href="#"><?php print $this->template->formatAdr($row['adr']); ?></a></td>
+              <td class="font_14" width="35%"><a href="#"><?php print $this->template->formatAdr($row['delegate']); ?></a></td>
+              <td class="font_14" width="10%" style="color:<?php if ($row['type']=="ID_UP") print "#009900"; else print "#990000"; ?>"><?php if ($row['type']=="ID_UP") print "Upvote"; else print "Downvote"; ?></td>
+              <td class="font_14" width="10%"><?php print $row['power']; ?></td>
+              <td class="font_14" width="10%"><?php print $row['block']; ?></td>
               </tr>
               
         
-        <?
+        <?php
 		   }
 		?>
         
         </table>
         
-        <?
+        <?php
 	}
 	
 	function showVoteModal()
@@ -796,7 +780,7 @@
                 <td align="center">&nbsp;</td>
               </tr>
               <tr>
-                <td align="center"><? $this->template->showNetFeePanel(0.0001); ?></td>
+                <td align="center"><?php $this->template->showNetFeePanel(0.0001); ?></td>
               </tr>
               <tr>
                 <td align="center">&nbsp;</td>
@@ -824,7 +808,7 @@
        
 		
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 	}
 	
@@ -941,31 +925,31 @@
             <td width="84%" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
               <tbody>
                 <tr>
-                  <td width="74%" height="40" align="left" class="font_14">Delegate : <strong><? print $this->template->formatAdr($row['delegate']); ?></strong></td>
+                  <td width="74%" height="40" align="left" class="font_14">Delegate : <strong><?php print $this->template->formatAdr($row['delegate']); ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="ffont_14">Upvotes : <strong style="color:#009900"><? print $upvotes_no." (".$upvotes." CRC)"; ?></strong></td>
+                  <td height="40" align="left" class="ffont_14">Upvotes : <strong style="color:#009900"><?php print $upvotes_no." (".$upvotes." CRC)"; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Downvotes : <strong style="color:#990000"><? print $downvotes_no." (".$downvotes." CRC)"; ?></strong></td>
+                  <td height="40" align="left" class="font_14">Downvotes : <strong style="color:#990000"><?php print $downvotes_no." (".$downvotes." CRC)"; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Net Votes Power : <strong><? print $net; ?> CRC</strong></td>
+                  <td height="40" align="left" class="font_14">Net Votes Power : <strong><?php print $net; ?> CRC</strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Default  difficulty : <strong><? print $net_dif; ?></strong></td>
+                  <td height="40" align="left" class="font_14">Default  difficulty : <strong><?php print $net_dif; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Miner  difficulty : <strong><? print $dif; ?></strong></td>
+                  <td height="40" align="left" class="font_14">Miner  difficulty : <strong><?php print $dif; ?></strong></td>
                   </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Blocks mined 24H : <strong><? print $blocks_no; ?> blocks</strong></td>
+                  <td height="40" align="left" class="font_14">Blocks mined 24H : <strong><?php print $blocks_no; ?> blocks</strong></td>
                 </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Miner revenue 24H : <strong><? print round($reward-$reward/4, 8); ?> CRC</strong></td>
+                  <td height="40" align="left" class="font_14">Miner revenue 24H : <strong><?php print round($reward-$reward/4, 8); ?> CRC</strong></td>
                 </tr>
                 <tr>
-                  <td height="40" align="left" class="font_14">Voters revenue 24H : <strong><? print round($reward/4, 8); ?> CRC</strong></td>
+                  <td height="40" align="left" class="font_14">Voters revenue 24H : <strong><?php print round($reward/4, 8); ?> CRC</strong></td>
                 </tr>
               </tbody>
             </table></td>
@@ -973,7 +957,7 @@
         </tbody>
         </table>
         
-        <?
+        <?php
 	}
   }
 ?>

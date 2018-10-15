@@ -1,4 +1,4 @@
-<?
+<?php
 class CDonate
 {
 	function CDonate($db, $utils, $acc)
@@ -21,24 +21,24 @@ class CDonate
         
           <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="498"><? print $row['user']; ?></td>
-                <td width="100"><? print "$".$row['amount']; ?></td>
-                <td width="100"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                <td width="498"><?php print $row['user']; ?></td>
+                <td width="100"><?php print "$".$row['amount']; ?></td>
+                <td width="100"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showDonateModal()
@@ -87,7 +87,7 @@ class CDonate
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Donate");
 	}

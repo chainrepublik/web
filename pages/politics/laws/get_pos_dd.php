@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";

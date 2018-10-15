@@ -1,4 +1,4 @@
-<?
+<?php
 class CRealCom
 {
 	function CRealCom($db, $utils)
@@ -19,23 +19,23 @@ class CRealCom
         
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="498"><? print $row['name']; ?><br><span class='simple_gri_10'>Symbol : <? print $row['symbol']; ?></span></td>
-                <td width="77" align="center"><a href="edit_real_com.php?ID=<? print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
+                <td width="498"><?php print $row['name']; ?><br><span class='simple_gri_10'>Symbol : <?php print $row['symbol']; ?></span></td>
+                <td width="77" align="center"><a href="edit_real_com.php?ID=<?php print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showSectors($sel)
@@ -43,7 +43,7 @@ class CRealCom
 		?>
         
          <select id="dd_categ_1" name="dd_categ_1" class="form-control" onchange="dd_change()">
-        <?
+        <?php
 		   $query="SELECT * FROM sectors";
 		   $result=$this->kern->execute($query);
 		   	
@@ -64,7 +64,7 @@ class CRealCom
 		}
         </script>
         
-        <?
+        <?php
 	}
 	
 	function showSubSectors($secID, $sel, $visible=false)
@@ -72,8 +72,8 @@ class CRealCom
 		?>
          
          <div id="div_categ_2" name="div_categ_2">
-         <select id="dd_categ_2" name="dd_categ_2" class="form-control" style="display:<? if ($visible==true) print "block"; else print "none"; ?>">
-        <?
+         <select id="dd_categ_2" name="dd_categ_2" class="form-control" style="display:<?php if ($visible==true) print "block"; else print "none"; ?>">
+        <?php
 		   $query="SELECT * FROM sub_sectors WHERE sectorID='".$secID."'";
 		   $result=$this->kern->execute($query);
 		   if (mysql_num_rows($result)==0)
@@ -93,7 +93,7 @@ class CRealCom
         </select>
         </div>
         
-        <?
+        <?php
 	}
 	
 	function editProd($ID)
@@ -104,23 +104,23 @@ class CRealCom
 	
 		?>
         
-        <form id="form_update" name="form_update" action="edit_real_com.php?act=update&ID=<? print $ID; ?>" method="post">
+        <form id="form_update" name="form_update" action="edit_real_com.php?act=update&ID=<?php print $ID; ?>" method="post">
         <table width="600" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="145" height="55" align="right">Name&nbsp;&nbsp;</td>
         <td width="455" align="left">
-        <input type="text" name="txt_name" id="txt_name" class="form-control" value="<? print $row['name']; ?>"/></td>
+        <input type="text" name="txt_name" id="txt_name" class="form-control" value="<?php print $row['name']; ?>"/></td>
       </tr>
       <tr>
         <td height="55" align="right">Symbol&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_symbol" id="txt_symbol" class="form-control" style="width:100px" value="<? print $row['symbol']; ?>"/></td>
+        <input type="text" name="txt_symbol" id="txt_symbol" class="form-control" style="width:100px" value="<?php print $row['symbol']; ?>"/></td>
       </tr>
       <tr>
         <td height="55" align="right">Categ&nbsp;&nbsp;</td>
         <td align="left">
         
-		<?
+		<?php
 		   $this->showSectors($row['categ_1']); 
 		?>
         
@@ -130,7 +130,7 @@ class CRealCom
         <td height="55" align="right">Subcateg&nbsp;&nbsp;</td>
         <td align="left">
 		
-        <?
+        <?php
 		   $this->showSubSectors($row['categ_1'], $row['categ_2'], true); 
 		?>
         
@@ -138,18 +138,18 @@ class CRealCom
       </tr>
       <tr>
         <td height="55" align="right" valign="middle">Shares&nbsp;&nbsp;</td>
-        <td align="left"><input type="text" name="txt_shares_no" id="txt_shares_no" class="form-control" style="width:100px" value="<? print $row['shares_no']; ?>"/></td>
+        <td align="left"><input type="text" name="txt_shares_no" id="txt_shares_no" class="form-control" style="width:100px" value="<?php print $row['shares_no']; ?>"/></td>
       </tr>
       <tr>
         <td height="55" align="right" valign="top">Description&nbsp;&nbsp;</td>
         <td align="left">
-        <textarea class="form-control" id="txt_desc" name="txt_desc" rows="5"><? print base64_decode($row['description']); ?></textarea>
+        <textarea class="form-control" id="txt_desc" name="txt_desc" rows="5"><?php print base64_decode($row['description']); ?></textarea>
         </td>
       </tr>
       <tr>
         <td height="55" align="right">Link&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_link" id="txt_link" class="form-control" value="<? print $row['link']; ?>"/></td>
+        <input type="text" name="txt_link" id="txt_link" class="form-control" value="<?php print $row['link']; ?>"/></td>
       </tr>
       <tr>
         <td height="10" colspan="2" align="right">&nbsp;</td>
@@ -166,7 +166,7 @@ class CRealCom
     
    
         
-        <?
+        <?php
 	}
 	
 	

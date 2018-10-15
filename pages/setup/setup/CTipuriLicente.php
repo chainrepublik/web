@@ -1,4 +1,4 @@
-<?
+<?php
 class CTipuriLicente
 {
 	function CTipuriLicente($db, $utils)
@@ -84,26 +84,26 @@ class CTipuriLicente
            <br>
            <table border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
            
-           <?
+           <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		   ?>
            
               <tr>
-              <td width="375" align="left"><? print $row['name']; ?></td>
+              <td width="375" align="left"><?php print $row['name']; ?></td>
               <td width="80" align="center">
-              <a href="del.php?tab=tipuri_licente&ID=<? print $row['ID']; ?>&com=<? print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
+              <a href="del.php?tab=tipuri_licente&ID=<?php print $row['ID']; ?>&com=<?php print $_REQUEST['com']; ?>" class="btn btn-danger">Delete</a>
               </td>
               
               </tr>
            
-           <?
+           <?php
 	        }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showAddModal()
@@ -131,7 +131,7 @@ class CTipuriLicente
             <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td width="30%" height="45" align="right" valign="middle" class="bold_gri_14">Company&nbsp;&nbsp;</td>
-                <td width="70%" height="40" align="left" valign="middle" id="td_prod"><? $this->utils->showComTypesDD("dd_com_type", $_REQUEST['com']); ?></td>
+                <td width="70%" height="40" align="left" valign="middle" id="td_prod"><?php $this->utils->showComTypesDD("dd_com_type", $_REQUEST['com']); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">ID&nbsp;&nbsp;</span></td>
@@ -139,7 +139,7 @@ class CTipuriLicente
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Product&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showProdTypesDD("dd_prod"); ?></td>
+                <td><?php $this->utils->showProdTypesDD("dd_prod"); ?></td>
               </tr>
               <tr>
                 <td height="45" align="right"><span class="bold_gri_14">Name&nbsp;&nbsp;</span></td>
@@ -155,7 +155,7 @@ class CTipuriLicente
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(6);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-             <?
+             <?php
 		          $template->showHelp("The congress is made up of the <strong>top 25 players by political endorsement</strong>. Congress sets the amount of taxes, bonuses, can start wars and has <strong>absolute control</strong> over the state budget. Below are <strong>listed congress members</strong>. Note that the congress is formed in a country <strong>only</strong> if members have a cumulated political endorment of at <strong>least 100,000</strong>. Below are listed the members of congress. Your political endorsment <strong>increases</strong> when other players endorse you for congress.");
 		          
 				  // Congress
@@ -105,7 +105,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -119,7 +119,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

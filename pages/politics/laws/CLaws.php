@@ -1,4 +1,4 @@
-<?
+<?php
 class CLaws
 {
 	function CLaws($db, $acc, $template)
@@ -13,7 +13,7 @@ class CLaws
          // Load article data
         $query="SELECT *
 		          FROM tweets 
-				 WHERE tweetID=?";
+				 WHERE t2weetID=?";
 		
 		// Execute
 		$result=$this->kern->execute($query);
@@ -397,9 +397,9 @@ class CLaws
             
                                          // Tanks no
                                          $aircrafts=$this->getWeaponsQty($cou, 
-                                                                         "ID_AIRCRAFT", 
+                                                                         "ID_JET_FIGHTER", 
                                                                          $target_type, 
-                                                                         $targetID);
+                                                                         $targetID); 
                                    
                                         // Missiles
                                         $missiles=$this->getWeaponsQty($cou, 
@@ -408,13 +408,14 @@ class CLaws
                                                                        $targetID);
                                    
                                         // Max 10 rounds / tank
-                                        if ($aircrafts*10<$missiles)
+                                        if ($aircrafts*10<=$missiles)
                                             $allow=false;
                                          
                                         break;
                                              
             // Missile soil soil
-            case "ID_MISSILE_SOIL_SOIL" : if ($target_type!="ID_SEA") 
+            case "ID_MISSILE_SOIL_SOIL" : if ($target_type!="ID_SEA" && 
+											 $target_type!="ID_NAVY_DESTROYER") 
 				                              $allow=false; 
             
                                           // Missiles
@@ -495,7 +496,8 @@ class CLaws
 		 // Check target type
         if ($target_type!="ID_LAND" && 
             $target_type!="ID_SEA" && 
-            $target_type!="ID_WEAPON")
+            $target_type!="ID_NAVY_DESTROYER" &&
+		    $target_type!="ID_AIRCRAFT_CARRIER")
         return false;
 
         // Check land
@@ -505,7 +507,7 @@ class CLaws
 			                                   FROM countries 
 											  WHERE code=? 
 											    AND occupied=?",
-											"si", 
+											"ss", 
 											$targetID, 
 											$cou);
             
@@ -540,7 +542,7 @@ class CLaws
 										     WHERE adr=? 
 											   AND stocID=? 
 											   AND tip=?", 
-										   "si", 
+										   "sis", 
 										   $cou_adr, 
 										   $targetID,
 										   $target_type);
@@ -548,7 +550,7 @@ class CLaws
             // Has data ?
             if (mysqli_num_rows($result)==0)
             {
-			   $this->template->showErr("Invalid target");
+			   $this->template->showErr("Invalid target..");
 			   return false;
 		   }
 		}
@@ -566,12 +568,30 @@ class CLaws
         // Cost
         $cost=0; 
 		
+		// Target weapon ?
+		if ($target_type=="ID_WEAPON")
+		{
+			// Load wepaon data
+			$row=$this->kern->getRows("SELECT * 
+			                             FROM stocuri 
+										WHERE stocID=?",
+									  "i", 
+									  $targetID);
+			
+			// Navy destroyer or aircraft carrier
+			if ($row['tip']!="ID_NAVY_DESTROYER" && 
+			   $row['tip']!="ID_AIRCRAFT_CARRIER")
+		        return false;
+			
+			// Target type
+			$target_type=$row['tip']; 
+		}
+		
 		// Check target
         if (!$this->checkTarget($cou, $target_type, $targetID))
 		   return false;
 		
-        
-        // Explode
+		// Explode
 		$weapons = explode(",", $list); 
         
         // Parse
@@ -619,6 +639,47 @@ class CLaws
         return true;
     }
     
+	function canUse($cou, 
+                    $ammo, 
+                    $loc_type, 
+                    $locID)
+    {
+		if ($loc_type=="ID_LAND")
+        {
+            // Owner
+            $adr=$this->kern->getCouAdr($cou);
+            
+            // Ammo type
+            if ($ammo=="ID_TANK_ROUND")
+            {
+                // Tanks in area ? 
+                $result=$this->kern->getResult("SELECT * 
+				                                FROM stocuri 
+											   WHERE tip=? 
+											     AND adr=? 
+												 AND war_loc_type=? 
+												 AND war_locID=?", 
+											 "ssss", 
+											 "ID_TANK", 
+											 $adr, 
+											 $loc_type, 
+											 $locID);
+            
+                // Has data ?
+                if (mysqli_num_rows($result)==0)
+                   return false;
+            }
+        
+            // Ammo type
+            if ($ammo=="ID_MISSILE_AIR_SOIL" || 
+                $ammo=="ID_MISSILE_SOIL_SOIL")
+            return false;
+            
+        }
+            
+        return true;
+    }
+	
     function checkAttackLaw($cou,
                             $list, 
                             $warID, 
@@ -693,11 +754,27 @@ class CLaws
             
             // Ammo name
             $ammo=$ammo_row['tip'];
+			
+			// Location type
+			$loc_type=$ammo_row['war_loc_type'];
+			
+			// Location ID
+			$locID=$ammo_row['war_locID']; 
             
             // Is ammo ?
             if (!$this->kern->isAmmo($ammo))
 			{
 				$this->template->showErr("Item is not ammunition");
+			    return false;
+			}
+			
+			// Can use ?
+			if (!$this->canUse($cou, 
+                               $ammo, 
+                               $loc_type, 
+                               $locID))
+			{
+				$this->template->showErr("This item can't be used from this position");
 			    return false;
 			}
            
@@ -895,6 +972,13 @@ class CLaws
 			return false;
 		}
 		
+		// Congress active ?
+		if (!$this->kern->isCongressActive($_REQUEST['ud']['adr']))
+		{
+			$this->template->showErr("Congress is not active");
+			return false;
+		}
+		
 		try
 	    {
 		   // Begin
@@ -961,7 +1045,7 @@ class CLaws
 		if (!$this->kern->isPrivate($_REQUEST['ud']['cou']))
 		{
 		   // Minimum political endorsement
-		   if ($_REQUEST['ud']['pol_endorsed']<25)
+		   if ($_REQUEST['ud']['pol_endorsed']<100)
 		   {
 			   $this->template->showErr("Minimum political endorsement is 100");
 			   return false;
@@ -1211,7 +1295,7 @@ class CLaws
           </table>
         <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -1219,9 +1303,9 @@ class CLaws
           <tr>
             <td width="41%" align="left" class="font_14"><table width="96%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="22%"><? $this->template->citPic($row['pic']); ?></td>
+                <td width="22%"><?php $this->template->citPic($row['pic']); ?></td>
                 <td width="78%" align="left" class="font_14">
-				<? 
+				<?php 
 				   switch ($row['type']) 
 				   {
 					   // Change bonus
@@ -1266,15 +1350,15 @@ class CLaws
 				   }
 				?>
                  <br />
-                <span class="simple_blue_10">Proposed by <strong><? print $row['adr_name']." ".$this->kern->timeFromBlock($row['block']); ?></strong></span></td>
+                <span class="simple_blue_10">Proposed by <strong><?php print $row['adr_name']." ".$this->kern->timeFromBlock($row['block']); ?></strong></span></td>
               </tr>
             </table></td>
           
-			  <td width="12%" align="center" class="font_14" style="color: #009900"><strong><? print $row['voted_yes']; ?></strong></td>
-			  <td width="14%" align="center" class="font_14"  style="color: #990000"><strong><? print $row['voted_no']; ?></strong></td>
+			  <td width="12%" align="center" class="font_14" style="color: #009900"><strong><?php print $row['voted_yes']; ?></strong></td>
+			  <td width="14%" align="center" class="font_14"  style="color: #990000"><strong><?php print $row['voted_no']; ?></strong></td>
              
 			<td width="16%" align="center" class="font_14" style="color: 
-	        <?
+	        <?php
 				    switch ($row['status'])
 					{
 						case "ID_VOTING" : print "#aaaaaa"; 
@@ -1288,7 +1372,7 @@ class CLaws
 					}
 			    ?>
 			">
-				<?
+				<?php
 				    switch ($row['status'])
 					{
 						case "ID_VOTING" : print "voting"; 
@@ -1302,7 +1386,7 @@ class CLaws
 					}
 			    ?>
 			</td>
-            <td width="17%" align="center" class="bold_verde_14"><a href="law.php?ID=<? print $row['lawID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
+            <td width="17%" align="center" class="bold_verde_14"><a href="law.php?ID=<?php print $row['lawID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
 			 
           </tr>
 		
@@ -1310,14 +1394,14 @@ class CLaws
             <td colspan="5" ><hr></td>
             </tr>
             
-            <?
+            <?php
 			 }
 			?>
             
         </table>
         </div>
         
-        <?
+        <?php
 	}
 	
 	function getVotes($lawID, $type)
@@ -1369,7 +1453,7 @@ class CLaws
            <tr>
              <td height="520" align="center" valign="top" background="GIF/vote_back.png"><table width="530" border="0" cellspacing="0" cellpadding="0">
                <tr>
-                 <td height="75" align="center" valign="bottom" style="font-size:40px; color:#242b32; font-family:'Times New Roman', Times, serif; text-shadow: 1px 1px 0px #777777;"><? print "Law Proposal"; ?></td>
+                 <td height="75" align="center" valign="bottom" style="font-size:40px; color:#242b32; font-family:'Times New Roman', Times, serif; text-shadow: 1px 1px 0px #777777;"><?php print "Law Proposal"; ?></td>
                </tr>
                <tr>
                  <td height="55" align="center">&nbsp;</td>
@@ -1381,7 +1465,7 @@ class CLaws
 					 
                        <span class="simple_gri_16">
 					   
-					   <?
+					   <?php
 		                   // Change bonus ?
 		                   if ($row['type']=="ID_CHG_BONUS")
 						   {
@@ -1538,15 +1622,15 @@ class CLaws
                      <td width="12%" align="left">
                      
                      
-					 <?
+					 <?php
 		                 if ($row['status']=="ID_VOTING")
 						 {
 		             ?>
-						      <a href="law.php?act=vote_law&vote=ID_YES&ID=<? print $_REQUEST['ID']; ?>">
+						      <a href="law.php?act=vote_law&vote=ID_YES&ID=<?php print $_REQUEST['ID']; ?>">
 						      <img src="GIF/vote_yes_off.png" width="66" height="66" data-toggle="tooltip" data-placement="top" title="Vote YES" id="img_com" border="0" />
 							  </a>
 						 
-					<?
+					<?php
 						 }
 		            ?>
 						 
@@ -1556,7 +1640,7 @@ class CLaws
                        <tr>
                          <td width="185" height="30" align="center" class="bold_verde_10">
                          
-                         <?
+                         <?php
 						    $total=$row['voted_yes']+$row['voted_no'];
 						    
 							if ($total==0)
@@ -1571,7 +1655,7 @@ class CLaws
                          <td width="185" align="center">
                          <span class="bold_red_10">
                          
-                         <?
+                         <?php
 						    if ($total==0)
 							   $p=0; 
 							else   
@@ -1598,8 +1682,8 @@ class CLaws
                        <tr>
                          <td height="30" colspan="2" align="center" valign="bottom">
 						 <div class="progress" style="width :90%">
-						 <div class="progress-bar" style="width: <? print $p_yes; ?>%;"></div>
-                         <div class="progress-bar progress-bar-danger" style="width: <? print $p_no; ?>%;"></div>
+						 <div class="progress-bar" style="width: <?php print $p_yes; ?>%;"></div>
+                         <div class="progress-bar progress-bar-danger" style="width: <?php print $p_no; ?>%;"></div>
 						 </div>
 							 
 						 </td>
@@ -1607,16 +1691,16 @@ class CLaws
                      </table></td>
                      <td width="9%">
 						
-					 <?
+					 <?php
 		                 if ($row['status']=="ID_VOTING")
 						 {
 		             ?>
 						 
-                           <a href="law.php?act=vote_law&vote=ID_NO&ID=<? print $_REQUEST['ID']; ?>">
+                           <a href="law.php?act=vote_law&vote=ID_NO&ID=<?php print $_REQUEST['ID']; ?>">
                            <img src="GIF/vote_no_off.png" width="66" height="66" data-toggle="tooltip" data-placement="top" title="Vote NO" id="img_com" border="0" />
                            </a>
 						 
-					<?
+					<?php
 						 }
 		            ?>
 						 
@@ -1639,13 +1723,13 @@ class CLaws
                      <td width="100" align="center"><span style="font-family: Verdana, Geneva, sans-serif; font-size: 12px; color: #6c757e">NO Points</span></td>
                    </tr>
                    <tr>
-                     <td height="55" align="center" valign="bottom" class="bold_shadow_green_32"><? print $votes_yes; ?></td>
+                     <td height="55" align="center" valign="bottom" class="bold_shadow_green_32"><?php print $votes_yes; ?></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_green_32"><? print $row['voted_yes']; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_green_32"><?php print $row['voted_yes']; ?></span></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><? print $votes_no; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><?php print $votes_no; ?></span></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><? print $row['voted_no']; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><?php print $row['voted_no']; ?></span></td>
                    </tr>
                  </table></td>
                </tr>
@@ -1653,7 +1737,7 @@ class CLaws
                  <td height="60" align="center" valign="bottom">
                  <span class="bold_shadow_white_28">
 				 
-				 <?
+				 <?php
 				     print $this->kern->timeFromBlock($row['block']+1440)." left";
 				 ?>
                  
@@ -1667,12 +1751,12 @@ class CLaws
           
           <table width="550" border="0" cellspacing="0" cellpadding="0">
            <tr>
-             <td width="74" height="80" bgcolor="#fafafa" align="center"><? $this->template->citPic($row['pic']); ?></td>
-             <td width="486" align="left" valign="middle" bgcolor="#fafafa"><span class="font_12"><? print "&quot;".base64_decode($row['expl'])."&quot;"; ?></span></td>
+             <td width="74" height="80" bgcolor="#fafafa" align="center"><?php $this->template->citPic($row['pic']); ?></td>
+             <td width="486" align="left" valign="middle" bgcolor="#fafafa"><span class="font_12"><?php print "&quot;".base64_decode($row['expl'])."&quot;"; ?></span></td>
            </tr>
          </table>
         
-        <?
+        <?php
 	}
 	
 	function showLawPage($lawID)
@@ -1729,7 +1813,7 @@ class CLaws
 				<tr><td align="right"><a href="javascript:void(0)" onClick="$('#new_comment_modal').modal()" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;New Comment</a></td></tr>
             </table>
 
-        <?
+        <?php
 	}
 	
     function showVotes($lawID, $tip)
@@ -1772,7 +1856,7 @@ class CLaws
           
           <table width="90%" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -1781,24 +1865,24 @@ class CLaws
                <td width="64%" class="font_14">
                <table width="90%" border="0" cellspacing="0" cellpadding="0">
                <tr>
-               <td width="15%" align="left"><? $this->template->citPic($row['pic']); ?></td>
-               <td width="85%" align="left"><a href="../../profiles/overview/main.php?adr=<? print $row['adr']; ?>" class="font_16"><strong><? print $row['name']; ?></strong></a><br /><span class="font_10"><? print base64_decode($row['org_name']); ?></span></td>
+               <td width="15%" align="left"><?php $this->template->citPic($row['pic']); ?></td>
+               <td width="85%" align="left"><a href="../../profiles/overview/main.php?adr=<?php print $row['adr']; ?>" class="font_16"><strong><?php print $row['name']; ?></strong></a><br /><span class="font_10"><?php print base64_decode($row['org_name']); ?></span></td>
                </tr>
                </table></td>
-               <td width="21%" align="center" class="font_14"><? print $this->kern->timeFromBlock($row['block'])." ago"; ?></td>
-               <td width="15%" align="center" class="bold_verde_14"><? print "+".$row['points']; ?></td>
+               <td width="21%" align="center" class="font_14"><?php print $this->kern->timeFromBlock($row['block'])." ago"; ?></td>
+               <td width="15%" align="center" class="bold_verde_14"><?php print "+".$row['points']; ?></td>
                </tr>
                <tr>
                <td colspan="3" ><hr></td>
                </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
           
           </table>
         
-        <?
+        <?php
 
 	}
 	
@@ -1853,7 +1937,7 @@ class CLaws
               </tr>
               <tr>
                 <td height="30" valign="top" class="font_14">
-					<? 
+					<?php 
 	                   // Bonuses
 		               $this->showBonuses(); 
 		
@@ -1891,7 +1975,7 @@ class CLaws
                       <td height="30" align="left" class="font_14"><strong>Explain your proposal</strong></td>
                     </tr>
                     <tr>
-                      <td height="30" align="left"><textarea class="form-control" rows="5" id="txt_expl" name="txt_expl" placeholder="Explain your proposal in english (20-250 characters)"><? print $mes; ?></textarea></td>
+                      <td height="30" align="left"><textarea class="form-control" rows="5" id="txt_expl" name="txt_expl" placeholder="Explain your proposal in english (20-250 characters)"><?php print $mes; ?></textarea></td>
                     </tr>
 				<tr><td>&nbsp;</td></tr>
             </table>
@@ -1964,7 +2048,7 @@ class CLaws
 			   </script>
 
            
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 	}
 	
@@ -1989,7 +2073,7 @@ class CLaws
             
             <table width="90%" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td height="30" align="left"><textarea class="form-control" rows="5" id="txt_expl" name="txt_expl" placeholder="Explain your proposal in english (20-250 characters)"><? print $list; ?></textarea></td>
+                <td height="30" align="left"><textarea class="form-control" rows="5" id="txt_expl" name="txt_expl" placeholder="Explain your proposal in english (20-250 characters)"><?php print $list; ?></textarea></td>
                 </tr>
 				<tr><td>&nbsp;</td></tr>
             </table>
@@ -1999,7 +2083,7 @@ class CLaws
         </table>
 			   
 			  
-        <?
+        <?php
 		$this->template->showModalFooter("Close");
 	}
 	
@@ -2016,7 +2100,7 @@ class CLaws
                     <tr>
                       <td height="30" align="left">
 					  <select class="form-control" name="dd_bonus" id="dd_bonus">
-						  <?
+						  <?php
 		                      // Query
 						      $query="SELECT * 
 							            FROM bonuses AS bon
@@ -2057,7 +2141,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showStartWar()
@@ -2073,7 +2157,7 @@ class CLaws
                     <tr>
                       <td height="30" align="left">
 					  <select class="form-control" name="dd_defender" id="dd_defender" onChange="dd_war_changed()">
-						  <?
+						  <?php
 		                      // Query
 						      $query="SELECT * 
 							            FROM countries 
@@ -2098,7 +2182,7 @@ class CLaws
                     </tr>
                     <tr>
                       <td height="30" align="left" id="td_target" name="td_target">
-						  <?
+						  <?php
 		                     $this->showTargetDD("AF");
 						  ?>
 					</td>
@@ -2117,7 +2201,7 @@ class CLaws
 					}
                 </script>
 			   
-		<?
+		<?php
 	}
 	
 	function showTaxes()
@@ -2133,7 +2217,7 @@ class CLaws
                     <tr>
                       <td height="30" align="left">
 					  <select class="form-control" name="dd_tax" id="dd_tax">
-						  <?
+						  <?php
 		                      // Query
 						      $query="SELECT * 
 							            FROM taxes 
@@ -2173,7 +2257,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showDonation()
@@ -2207,7 +2291,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showPremiumCit()
@@ -2229,7 +2313,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showDistribute()
@@ -2251,7 +2335,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showPosDD($type)
@@ -2319,7 +2403,7 @@ class CLaws
                   </tbody>
                 </table>
 			   
-		<?
+		<?php
 	}
 	
 	
@@ -2351,7 +2435,7 @@ class CLaws
 				   <tr>
 					   <td width="52%" align="left">
 					   
-					   <? 
+					   <?php 
 	                        $this->template->showSmallMenu($sel, 
 							          	                   "Voting", "main.php?page=ID_VOTING&cou=".$_REQUEST['cou'], 
 								                           "Aproved", "main.php?page=ID_APROVED&cou=".$_REQUEST['cou'], 
@@ -2360,23 +2444,26 @@ class CLaws
 					   
 					   </td>
 					   <td width="48%" valign="bottom" align="right">
-					   <?
+					   <?php
 		                   // Propose button
-		                   if (!$this->kern->isPrivate($cou))
+		                   if ($_REQUEST['ud']['ID']>0)
 						   {
-							   if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
-							       $this->kern->isCongressman($_REQUEST['ud']['adr']))
-						        print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
+		                      if (!$this->kern->isPrivate($cou))
+						      {
+							      if ($this->kern->isCongressActive($_REQUEST['ud']['cou']) && 
+							          $this->kern->isCongressman($_REQUEST['ud']['adr']))
+						           print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
+						      }
+		                      else 
+						      if ($this->kern->isCouOwner($_REQUEST['ud']['adr'], $cou))
+							      print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
 						   }
-		                   else 
-						   if ($this->kern->isCouOwner($_REQUEST['ud']['adr'], $cou))
-							   print "<a href='javascript:void(0)' onClick=\"$('#new_law_modal').modal()\" class='btn btn-primary'>Propose Law</a>";
 					   ?>
 					   </td>
 				   </tr>
 			   </table>
 			   
-		<?
+		<?php
 	}
 	
 	function showMoveWeapons()
@@ -2420,7 +2507,7 @@ class CLaws
                     <tr>
                       <td height="30" align="left">
 						  <select id="dd_move_land_targetID" name="dd_move_land_targetID" class="form-control" style="display: none"> 
-							  <?
+							  <?php
 		                          $result=$this->kern->getResult("SELECT * 
 								                                    FROM countries 
 								                		        ORDER BY country ASC");
@@ -2431,7 +2518,7 @@ class CLaws
 						  </select>
 						  
 						  <select id="dd_move_sea_targetID" name="dd_move_sea_targetID" class="form-control"> 
-							  <?
+							  <?php
 		                          $result=$this->kern->getResult("SELECT * 
 								                                    FROM seas 
 										                        ORDER BY name ASC");
@@ -2442,7 +2529,7 @@ class CLaws
 						  </select>
 						  
 						  <select id="dd_move_weapon_targetID" name="dd_move_weapon_targetID" class="form-control"  style="display: none"> 
-							  <?
+							  <?php
 		                        
 		                        
 		                          // Query
@@ -2471,7 +2558,7 @@ class CLaws
 									  if ($row['tip']=="ID_NAVY_DESTROYER")
 										  $name="Navy Destroyer - ".$loc;
 									  else
-										  $name="ID_AIRCRAFT_CARRIER - ".$loc;
+										  $name="Aircraft Carrier - ".$loc;
 										 
 									  // Option
 									  print "<option value='".$row['stocID']."'>".$name."</option>";
@@ -2513,7 +2600,7 @@ class CLaws
 					}
                 </script>
 			   
-		<?
+		<?php
 	}
 	
 	function showAttack()
@@ -2540,7 +2627,7 @@ class CLaws
                     <tr>
                       <td height="30" align="left">
 						  <select id="dd_war" name="dd_war" class="form-control"> 
-							  <?
+							  <?php
 		                          $result=$this->kern->getResult("SELECT wars.*, 
 		                                                                 at.country AS at_name, 
 											                             de.country AS de_name, 
@@ -2580,7 +2667,7 @@ class CLaws
                 
              
 			   
-		<?
+		<?php
 	}
 	
 	function showBuyWeapons()
@@ -2618,7 +2705,7 @@ class CLaws
                     </tr>
                     <tr>
                       <td height="30" align="left" name="td_pos" id="td_pos">
-						 	  <?
+						 	  <?php
 		                          $this->showPosDD("ID_TANK");
 						      ?>
 						 					  </td>
@@ -2648,7 +2735,7 @@ class CLaws
                 
              
 			   
-		<?
+		<?php
 	}
 	
 	function getTaxName($tax)

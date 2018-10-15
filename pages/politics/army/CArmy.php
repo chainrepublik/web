@@ -1,4 +1,4 @@
-<?
+<?php
 class CArmy
 {
 	function CArmy($db, $acc, $template)
@@ -78,14 +78,14 @@ class CArmy
 
                  <table width="90%">
 					 <tr>
-						 <td width="12%"><img src="./GIf/<? print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
+						 <td width="12%"><img src="./GIf/<?php print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
 						 <td class="font_14" width="50%">
-							 <? 
+							 <?php 
 			                        print $row['name']."<br><span class='font_10'>Item ID : ".$row['stocID'].", Expire : ".$this->kern->timeFromBlock($row['expires'])."</span>"; 
 			             	  ?>
 						 </td>
 						 <td width="20%" class="font_14" align="center">
-							 <? 
+							 <?php 
 			                         if ($row['war_loc_type']=="ID_SEA") 
 									     print $row['sea_name']; 
 		                             else if ($row['war_loc_type']=="ID_LAND") 
@@ -96,7 +96,7 @@ class CArmy
 								
 							?>
 							 <br><span class="font_10">
-							 <?
+							 <?php
 			                     if ($row['tip']=="ID_NAVY_DESTROYER")
 								 {
 			                         $res=$this->kern->getResult("SELECT * 
@@ -135,8 +135,8 @@ class CArmy
 			                 ?>
 							 </span>
 						 </td>
-						 <td width="20%" class="font_14" align="center" <? if ($row['war_status']=="ID_READY") print "style='color : #009900'"; ?>>
-							 <? 
+						 <td width="20%" class="font_14" align="center" <?php if ($row['war_status']=="ID_READY") print "style='color : #009900'"; ?>>
+							 <?php 
 			                     if ($row['war_status']=="ID_READY")
 									 print "<strong>ready</strong>";
 			                     else 
@@ -147,7 +147,7 @@ class CArmy
 					 <tr><td colspan="4"><hr></td></tr>
                  </table>
 
-            <?
+            <?php
 		}
 	}
 	
@@ -208,7 +208,7 @@ class CArmy
 		?>
              <table width="550px">
 				 
-				   <?
+				   <?php
 		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					 {
 						 // Weapon position
@@ -231,9 +231,9 @@ class CArmy
 		            ?>
 				 
 				     <tr>
-					 <td width="12%"><img src="./GIf/<? print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
+					 <td width="12%"><img src="./GIf/<?php print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
 					 <td width="40%">
-						 <? 
+						 <?php 
 						     print $row['name']."<br><span class='font_10'>Location : "; 
 						 
 						      if ($row['war_loc_type']=="ID_SEA") 
@@ -248,25 +248,25 @@ class CArmy
 						 ?>
 						 </td>
 					 <td width="25%" class="font_14" align="center">
-					 <?
+					 <?php
 						 print $time." hours";
 					 ?>
 					 </td>
 					 <td width="25%" class="font_14" align="center">
-					 <?
+					 <?php
 						 print $cost." CRC";
 					 ?>
 					 </td>
 				     </tr>
 				 
-				 <?
+				 <?php
 	                 }
 		             
 		             print "<tr><td colspan=4>&nbsp;</td></tr>";
 		             print "<tr bgcolor='#fafafa'><td colspan=2 height='40px' align='left' width='25%' class='font_14'>&nbsp;&nbsp;&nbsp;&nbsp;Total Cost</td><td>&nbsp;</td><td align='center' class='font_14' style='color : #009900' width='35%'><strong>".$total_cost." CRC</strong></td></tr>";
 		         ?>
              </table>
-        <?
+        <?php
         
       
 	}
@@ -295,15 +295,15 @@ class CArmy
 		?>
              <table width="550px">
 				 
-				   <?
+				   <?php
 		             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					 {
 		            ?>
 				 
 				     <tr>
-					 <td width="12%"><img src="./GIf/<? print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
+					 <td width="12%"><img src="./GIf/<?php print $row['tip']; ?>.png" class="img-circle" width="50px"></td>
 					 <td width="75%" class="font_14">
-						 <? 
+						 <?php 
 						     print $row['name']."<br><span class='font_10'>Location : "; 
 						 
 						      if ($row['war_loc_type']=="ID_SEA") 
@@ -318,7 +318,7 @@ class CArmy
 						 ?>
 						 </td>
 					 <td width="15%" class="font_14" align="center">
-					 <?
+					 <?php
 						 $damage=$this->kern->getAmmoDamage($row['tip']);
 						 $total_damage=$total_damage+$damage;
 						 print $damage;
@@ -327,7 +327,7 @@ class CArmy
 					 </tr>
 				     <tr><td colspan="3"><hr></td></tr>
 				 
-				 <?
+				 <?php
 	                 }
 		             
 		             print "<tr><td colspan=4>&nbsp;</td></tr>";
@@ -335,7 +335,7 @@ class CArmy
 		           
 		         ?>
              </table>
-        <?
+        <?php
         
       
 	}

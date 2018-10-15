@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(5);
 	  ?>
       </td>
@@ -61,14 +61,14 @@
         <tbody>
           <tr>
             <td width="204" height="600" align="right" valign="top">
-            <?
+            <?php
 			   $war->showMenu(3);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showHelp("Just like political parties, military units are organizations administered by members. There are only three military units in each country (recruits, advanced and elite unit). Depending on the military influence you will be automatically assigned to a military unit. It is not mandatory to be part of a military unit but you can not participate in wars if you are not a member. Below are displayed country's military units.");
                
 		       // Show units
@@ -78,7 +78,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -94,7 +94,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

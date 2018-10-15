@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -32,7 +32,7 @@
 <body>
 <center>
     
-    <?
+    <?php
 	   $taxes->showAddModal();
 	   
 	   $temp->showNav(7);

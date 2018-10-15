@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -33,7 +33,7 @@
 <center>
 
     
-    <?
+    <?php
 	   $temp->showNav(4);
 	   
 	   if ($_REQUEST['act']=="add_lic")

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -39,7 +39,7 @@
 
 <body background="../../template/GIF/back.png">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -47,7 +47,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -60,7 +60,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(10);
 			   $template->showLeftAds();
 			?>
@@ -68,7 +68,7 @@
             <td width="594" valign="top" align="center">
             
 
-            <?
+            <?php
                 // Help
               $template->showHelp("The packages contain instructions that are executed by each node separately. For any operation you perform in the network, a new data package is created. The blocks represent a collection of the latest packages distributed through the network. Below the last blocks received are displayed. A block can contain up to 250 packages and has the maximum size of 250kb.");
 	  
@@ -79,7 +79,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -93,7 +93,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

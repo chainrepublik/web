@@ -1,4 +1,4 @@
-<?
+<?php
 class CHome
 {
 	function CHome($db, $acc, $template)
@@ -62,17 +62,17 @@ class CHome
               <tr>
                 <td height="220" align="center"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="33%"><img src="<? if ($com_row['adr_pic']=="") print "./GIF/blank_photo.png"; else print base64_decode($com_row['adr_pic']); ?>" width="150" height="150" <? if ($com_row['adr_pic']!="") print "class=\"img img-rounded\""; ?> /></td>
+                    <td width="33%"><img src="<?php if ($com_row['adr_pic']=="") print "./GIF/blank_photo.png"; else print base64_decode($com_row['adr_pic']); ?>" width="150" height="150" <?php if ($com_row['adr_pic']!="") print "class=\"img img-rounded\""; ?> /></td>
                     <td width="67%" align="left" valign="top">
                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                          <td height="30"><span class="inset_blue_inchis_18"><? print base64_decode($com_row['name'])." (".$com_row['symbol'].")"; ?></span></td>
+                          <td height="30"><span class="inset_blue_inchis_18"><?php print base64_decode($com_row['name'])." (".$com_row['symbol'].")"; ?></span></td>
                         </tr>
                         <tr>
-                          <td><span class="simple_gri_14"><? print base64_decode($com_row['description']); ?></span></td>
+                          <td><span class="simple_gri_14"><?php print base64_decode($com_row['description']); ?></span></td>
                         </tr>
                         <tr>
-                          <td height="20" valign="bottom"><span class="font_10">Address : <? print $this->template->formatAdr($com_row['adr'], 10); ?></span></td>
+                          <td height="20" valign="bottom"><span class="font_10">Address : <?php print $this->template->formatAdr($com_row['adr'], 10); ?></span></td>
                         </tr>
                     </table></td>
                   </tr>
@@ -95,20 +95,20 @@ class CHome
                     <td>&nbsp;</td>
                     <td height="40" align="center" valign="bottom" class="bold_shadow_white_32">
 					
-					<? 
+					<?php 
 					   print $expire;
 	  		        ?>
                     
                     </td>
                     <td height="40" align="center" valign="bottom">&nbsp;</td>
                     <td height="40" align="center" valign="bottom">
-                    <span class="bold_shadow_white_32"><? $v=explode(".", round($balance, 4)); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><? if (sizeof($v)==2) print ".".$v[1]; else print ".0000"; ?></span>
+                    <span class="bold_shadow_white_32"><?php $v=explode(".", round($balance, 4)); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><?php if (sizeof($v)==2) print ".".$v[1]; else print ".0000"; ?></span>
                     </td>
                     <td height="40" align="center" valign="bottom">&nbsp;</td>
-                    <td height="40" align="center" valign="bottom"><span class="bold_shadow_white_32"><? print $workplaces; ?></span></td>
+                    <td height="40" align="center" valign="bottom"><span class="bold_shadow_white_32"><?php print $workplaces; ?></span></td>
                     <td height="40" align="center" valign="bottom">&nbsp;</td>
                     <td height="40" align="center" valign="bottom">
-                    <span class="bold_shadow_white_32"><? $v=explode(".", $price); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><? if (sizeof($v)>1) print ".".$v[1]; else print ".00"; ?></span>
+                    <span class="bold_shadow_white_32"><?php $v=explode(".", $price); print "".$v[0]; ?></span><span class="bold_shadow_white_18"><?php if (sizeof($v)>1) print ".".$v[1]; else print ".00"; ?></span>
                     </td>
                     <td>&nbsp;</td>
                   </tr>
@@ -130,7 +130,7 @@ class CHome
         </table>
         <br />
         
-        <?
+        <?php
 	}
 	
 	function showTrustBut()
@@ -149,7 +149,7 @@ class CHome
             </table>
             <br>
 
-        <?
+        <?php
 		}
 	}
 }

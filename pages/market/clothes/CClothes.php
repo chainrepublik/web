@@ -1,4 +1,4 @@
-<?
+<?php
 class CClothes
 {
 	function CClothes($db, $acc, $template)
@@ -20,35 +20,35 @@ class CClothes
 		        <td width="76" align="center">
                 
                 <a href="main.php?trade_prod=ID_SOSETE_Q1">
-                <img src="./GIF/sosete_<? if (strpos($prod, "SOSETE")>0) print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Socks" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/sosete_<?php if (strpos($prod, "SOSETE")>0) print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Socks" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
 		        <td width="76" align="center">
                 
                 <a href="main.php?trade_prod=ID_CAMASA_Q1">
-                <img src="./GIF/camasa_<? if (strpos($prod, "CAMASA")>0) print "on"; else print "off"; ?>.png"  id="img_2" style="cursor:pointer" title="Shirt" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/camasa_<?php if (strpos($prod, "CAMASA")>0) print "on"; else print "off"; ?>.png"  id="img_2" style="cursor:pointer" title="Shirt" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
 		        <td width="76" align="center">
                 
                 <a href="main.php?trade_prod=ID_GHETE_Q1">
-                <img src="./GIF/ghete_<? if (strpos($prod, "GHETE")>0) print "on"; else print "off"; ?>.png"  id="img_3" style="cursor:pointer" title="Boots" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/ghete_<?php if (strpos($prod, "GHETE")>0) print "on"; else print "off"; ?>.png"  id="img_3" style="cursor:pointer" title="Boots" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
 		        <td width="76" align="center">
                 
                 <a href="main.php?trade_prod=ID_PANTALONI_Q1">
-                <img src="./GIF/pantaloni_<? if (strpos($prod, "PANTALONI")>0) print "on"; else print "off"; ?>.png"  id="img_4" style="cursor:pointer" title="Pants" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/pantaloni_<?php if (strpos($prod, "PANTALONI")>0) print "on"; else print "off"; ?>.png"  id="img_4" style="cursor:pointer" title="Pants" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
 		        <td width="76" align="center">
                 
                 <a href="main.php?trade_prod=ID_PULOVER_Q1">
-                <img src="./GIF/pulover_<? if (strpos($prod, "PULOVER")>0) print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Sweater" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/pulover_<?php if (strpos($prod, "PULOVER")>0) print "on"; else print "off"; ?>.png" id="img_5" style="cursor:pointer" title="Sweater" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
@@ -56,7 +56,7 @@ class CClothes
                 <td width="118" align="center">
                 
                 <a href="main.php?trade_prod=ID_PALTON_Q1">
-                <img src="./GIF/palton_<? if (strpos($prod, "PALTON")>0) print "on"; else print "off"; ?>.png" id="img_6" style="cursor:pointer" title="Coat" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/palton_<?php if (strpos($prod, "PALTON")>0) print "on"; else print "off"; ?>.png" id="img_6" style="cursor:pointer" title="Coat" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 
                 </td>
@@ -70,7 +70,7 @@ class CClothes
           
          
         
-        <?
+        <?php
 	}
 	
 	

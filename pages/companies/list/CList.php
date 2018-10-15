@@ -1,4 +1,4 @@
-<?
+<?php
 class CList
 {
 	function CList($db, $acc, $template)
@@ -28,7 +28,7 @@ class CList
                 <select name="dd_com_type" id="dd_com_type" class="form-control" style="width:240px" onChange="change()">
                 <option selected value='ID_ALL'>All</option>
                 
-				<?
+				<?php
 				    $query="SELECT * 
 					          FROM tipuri_companii
 							 WHERE ID>?
@@ -66,7 +66,7 @@ class CList
         </table>
         </form>
         
-        <?
+        <?php
 	}
 	
 	function showCompanies($tip="ID_ALL", $order_by="ID_BALANCE")
@@ -122,7 +122,7 @@ class CList
               <tr>
                 <td width="76%" class="bold_shadow_white_14">Company</td>
                 <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="21%" align="center" class="bold_shadow_white_14"><? print $col; ?></td>
+                <td width="21%" align="center" class="bold_shadow_white_14"><?php print $col; ?></td>
               </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
@@ -131,7 +131,7 @@ class CList
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		  ?>
@@ -140,7 +140,7 @@ class CList
                 <td width="77%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                 <td width="16%"><img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../overview/GIF/prods/big/".$row['pic'].".png";
 					 else
@@ -149,15 +149,15 @@ class CList
                 
                 " width="50" height="50" class="img-rounded" /></td>
                 <td width="86%" align="left">
-                <a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
+                <a href="../overview/main.php?ID=<?php print $row['comID']; ?>" class="font_14"><strong><?php print base64_decode($row['name']); ?></strong></a>
                 <br />
-                <span class="font_10">Symbol : <? print $row['symbol']; ?></span>
+                <span class="font_10">Symbol : <?php print $row['symbol']; ?></span>
                 </td>
                 </tr>
                 </table></td>
                 <td width="23%" align="center">
 				<span class="bold_verde_14">
-				<? 
+				<?php 
 				    switch ($order_by)
 					{
 					   case "ID_BALANCE" : print "".round($row['balance'], 4); 
@@ -171,7 +171,7 @@ class CList
                 <td colspan="2" ><hr></td>
                 </tr>
           
-          <?
+          <?php
 	           }
 		  ?>
           
@@ -179,7 +179,7 @@ class CList
          </div>
          <br><br><br>
         
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 class CEvents
 {
 	function CEvents($db, $comID)
@@ -26,7 +26,7 @@ class CEvents
         
            <table width="90%" border="0" cellspacing="0" cellpadding="5">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
@@ -36,10 +36,10 @@ class CEvents
                 <td width="87%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="2">
                
                 <tr>
-                <td class="font_12"><? print $row['evt']; ?></td>
+                <td class="font_12"><?php print $row['evt']; ?></td>
                 </tr>
                 <tr>
-                <td class="simple_mov_10"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                <td class="simple_mov_10"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                 </tr>
                 </table></td>
                 </tr>
@@ -47,13 +47,13 @@ class CEvents
                 <td colspan="2" ><hr></td>
                 </tr>
             
-            <?
+            <?php
 			  }
 			?>
             
         </table>
         
-        <?
+        <?php
 	}
 }
 ?>

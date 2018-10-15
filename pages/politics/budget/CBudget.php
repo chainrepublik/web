@@ -1,4 +1,4 @@
-<?
+<?php
 class CBudget
 {
 	function CBudget($db, $acc, $template)
@@ -32,23 +32,23 @@ class CBudget
             <div id="div_trans" name="div_trans">
             <table width="90%" border="0" cellspacing="0" cellpadding="0" class="table-responsive">
               <tbody>
-                <?
+                <?php
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					   {
 					?>
                      
                           <tr>
                           <td width="55%" align="left">
-							  <a href="../../explorer/packets/packet.php?hash=<? print $row['hash']; ?>" class="font_14"><strong><? print $country." State Budget"; ?></strong></a><p class="font_10" style="color: #999999"><? print $this->kern->getAbsTime($row['tstamp'])."ago, ".base64_decode($row['expl']); if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
+							  <a href="../../explorer/packets/packet.php?hash=<?php print $row['hash']; ?>" class="font_14"><strong><?php print $country." State Budget"; ?></strong></a><p class="font_10" style="color: #999999"><?php print $this->kern->getAbsTime($row['tstamp'])."ago, ".base64_decode($row['expl']); if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
                           <td width="5%" align="center" class="font_14" style="color:#999999">
-                          <?
+                          <?php
 						      if ($row['mes']!="") 
 							  print "<span id='gly_msg_".rand(100, 10000)."' data-placement='top' class='glyphicon glyphicon-envelope' data-toggle='popover' data-trigger='hover' title='Message' data-content='".base64_decode($row['mes'])."'></span>&nbsp;&nbsp;";
 							
 						  ?>
                           </td>
                           <td width="15%" align="center" class="font_16">
-                          <?
+                          <?php
 						      $confirms=$row['confirmations'];
 							  
 							  if ($confirms=="")
@@ -70,13 +70,13 @@ class CBudget
                          
                           </td>
                           <td width="25%" align="center" class="font_14" style=" 
-						  <? 
+						  <?php 
 						      if ($row['amount']<0) 
 							     print "color:#990000"; 
 							  else 
 							     print "color:#009900"; 
 						  ?>"><strong>
-						  <? 
+						  <?php 
 						     print round($row['amount'], 8)." "; 
 							 
 							 // CRC
@@ -93,7 +93,7 @@ class CBudget
 						  ?>
                           </strong>
                           <p class="font_12">
-						  <? 
+						  <?php 
 						      if ($row['cur']=="CRC")
 							  {
 								  if ($row['amount']<0)
@@ -110,7 +110,7 @@ class CBudget
                           <td colspan="4"><hr></td>
                           </tr>
                     
-                    <?
+                    <?php
 					   }
 					?>
                     
@@ -123,7 +123,7 @@ class CBudget
             <script>
 			$("span[id^='gly_']").popover();
 			</script>
-        <?
+        <?php
 	}
 	
 	function showPanel($cou)
@@ -152,7 +152,7 @@ class CBudget
 		$query="SELECT SUM(amount) AS total
 		          FROM trans
 				 WHERE src=? 
-				   AND amount<? 
+				   AND amount<?php 
 				   AND block>?";
 	    
 		// Result
@@ -196,7 +196,7 @@ class CBudget
                     <table width="400" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                         <td align="center" style="font-size:80px; color:#242b32; font-family:'Times New Roman', Times, serif; ">
-							<? print "".round($this->acc->getTransPoolBalance($adr, "CRC"), 2); ?><span class="font_16">&nbsp;&nbsp;CRC</span>
+							<?php print "".round($this->acc->getTransPoolBalance($adr, "CRC"), 2); ?><span class="font_16">&nbsp;&nbsp;CRC</span>
                         </td>
                       </tr>
                      
@@ -220,14 +220,14 @@ class CBudget
                       </tr>
                       <tr>
                         <td>&nbsp;</td>
-                        <td height="60" align="center" valign="bottom" class="bold_shadow_green_32"><? print "+".round($income24, 2); ?></td>
+                        <td height="60" align="center" valign="bottom" class="bold_shadow_green_32"><?php print "+".round($income24, 2); ?></td>
                         <td align="center" valign="bottom">&nbsp;</td>
                         <td align="center" valign="bottom" class="bold_shadow_red_32">
-						<? print "".round(abs($spent24)); ?></td>
+						<?php print "".round(abs($spent24)); ?></td>
                         <td align="center" valign="bottom">&nbsp;</td>
-                        <td align="center" valign="bottom"><span class="<? if ($income24+$spent24<0) print "bold_shadow_red_32"; else print "bold_shadow_green_32"; ?>">
+                        <td align="center" valign="bottom"><span class="<?php if ($income24+$spent24<0) print "bold_shadow_red_32"; else print "bold_shadow_green_32"; ?>">
 						
-						<? 
+						<?php 
 						
 						    if (($income24+$spent24)<0) 
 							   print "-".round(abs($income24+$spent24), 2); 
@@ -238,7 +238,7 @@ class CBudget
                         </span></td>
                         <td align="center" valign="bottom">&nbsp;</td>
                         <td align="center" valign="bottom" class="bold_shadow_green_32">
-						<? 
+						<?php 
 						    print $trans;
 						?>
                         </td>
@@ -261,7 +261,7 @@ class CBudget
               </tr>
             </table>
         
-        <?
+        <?php
 	}
 	
 	function showBonuses($cou)
@@ -282,20 +282,20 @@ class CBudget
           <table width="540" border="0" cellspacing="0" cellpadding="0" align="center">
           <tbody>
 			
-			<?
+			<?php
 	 	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			    {
 		    ?>
 			  
                    <tr>
-                   <td width="80%" class="font_14"><? print $row['name']." Aquisition Bonus"; ?></td>
-					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><? print $row['amount']." CRC"; ?></strong></td>
+                   <td width="80%" class="font_14"><?php print $row['name']." Aquisition Bonus"; ?></td>
+					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><?php print $row['amount']." CRC"; ?></strong></td>
                    </tr>
                    <tr>
                    <td colspan="2"><hr></td>
                    </tr>
 			  
-			<?
+			<?php
 				}
 		    ?>
 			  
@@ -303,7 +303,7 @@ class CBudget
           </table>
           
         
-        <?
+        <?php
 	}
 	
 	function showTaxes($cou)
@@ -325,20 +325,20 @@ class CBudget
           <table width="540" border="0" cellspacing="0" cellpadding="0" align="center">
           <tbody>
 			
-			<?
+			<?php
 	 	        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			    {
 		    ?>
 			  
                    <tr>
-					   <td width="80%" class="font_14"><? print $this->getTaxName($row['tax'], $row['name']); ?><br><span class="font_10" style='color:#999999'><? print $this->getTaxDesc($row['tax']); ?></span></td>
-					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><? print $row['value']."%"; ?></strong></td>
+					   <td width="80%" class="font_14"><?php print $this->getTaxName($row['tax'], $row['name']); ?><br><span class="font_10" style='color:#999999'><?php print $this->getTaxDesc($row['tax']); ?></span></td>
+					   <td width="20%" class="font_14" style="color: #009900" align="center"><strong><?php print $row['value']."%"; ?></strong></td>
                    </tr>
                    <tr>
                    <td colspan="2"><hr></td>
                    </tr>
 			  
-			<?
+			<?php
 				}
 		    ?>
 			  
@@ -346,7 +346,7 @@ class CBudget
           </table>
           
         
-        <?
+        <?php
 	}
 	
 	function getTaxName($tax, $prod_name)

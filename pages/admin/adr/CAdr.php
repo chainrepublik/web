@@ -1,4 +1,4 @@
-<?
+<?php
 class CAdr
 {
 	function CAdr($db, $acc, $template)
@@ -142,7 +142,7 @@ class CAdr
         </table>
       
            
-        <?
+        <?php
 		$this->template->showModalFooter("Change");
 	}
 	
@@ -164,7 +164,7 @@ class CAdr
              
             <table width="550px">
 				
-				<?
+				<?php
 		           while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 				   {
 					   if (base64_decode($row['description'])=="Official node address")
@@ -176,18 +176,18 @@ class CAdr
 				
 				    <tr>
 					<td width="12%"><img src="../../template/GIF/empty_pic.png" width="50px"></td>
-					<td width="48%" class="font_14"><? print $this->template->formatAdr($row['adr'])."<br><span class='font_10'>".base64_decode($row['description'])."</span>"; ?></td>
-						<td width="20%" align="center" class="font_14"><strong><? if ($row['balance']==0) print "0"; else print $row['balance'];  ?></strong><br><span class="font_10">CRC</span></td>
-						<td width="20%" align="center"><a href="javascript:void(0)" onClick="$('#import_modal').modal(); $('#import_type').val('<? print $type; ?>');" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Replace</a></td>
+					<td width="48%" class="font_14"><?php print $this->template->formatAdr($row['adr'])."<br><span class='font_10'>".base64_decode($row['description'])."</span>"; ?></td>
+						<td width="20%" align="center" class="font_14"><strong><?php if ($row['balance']==0) print "0"; else print $row['balance'];  ?></strong><br><span class="font_10">CRC</span></td>
+						<td width="20%" align="center"><a href="javascript:void(0)" onClick="$('#import_modal').modal(); $('#import_type').val('<?php print $type; ?>');" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Replace</a></td>
 				    </tr>
 				    <tr><td colspan="4"><hr></td></tr>
 				
-				<?
+				<?php
 				   }
 				?>
             </table>
 
-        <?
+        <?php
 	}
 	
 }

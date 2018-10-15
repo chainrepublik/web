@@ -1,4 +1,4 @@
-<?
+<?php
 class CSearch
 {
 	function CSearch($db, $template)
@@ -103,7 +103,7 @@ class CSearch
             
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		 ?>
@@ -114,7 +114,7 @@ class CSearch
               <tr>
                 <td width="16%">
                 <img src="
-						  <? 
+						  <?php 
 				              if ($row['comID']>0)
 							  {
 								  if ($row['pic']=="") 
@@ -139,7 +139,7 @@ class CSearch
                 </td>
                 <td width="84%" align="left">
                 <a href="
-				<? 
+				<?php 
 				    if ($row['comID']>0) 
 						print "../../companies/overview/main.php?ID=".$row['comID']; 
 				    
@@ -171,7 +171,7 @@ class CSearch
 				?>" 
 				target="_blank" class="font_14">
                 <strong>
-					<? 
+					<?php 
 				       if ($row['org_name']=="" && 
 						   $row['cou_name']=="")
 					   {
@@ -193,20 +193,20 @@ class CSearch
 				</strong>
                 </a>
                 <br /><span class="font_10">
-					<? 
+					<?php 
 				         print "Citizenship : ".ucfirst(strtolower($row['country'])); 
 					?>
 			  </span></td>
               </tr>
               </table></td>
               <td width="19%" align="center" class="font_14">
-			  <? 
+			  <?php 
 			     print $row['balance']." CRC";
 			  ?>
               </td>
              
               <td width="16%" align="center" class="simple_green_14"><strong>
-			  <? 
+			  <?php 
 			    print $row['energy'];
 			  ?>
               </strong></td>
@@ -215,13 +215,13 @@ class CSearch
               <td colspan="3" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showArticles($src)
@@ -253,10 +253,10 @@ class CSearch
 		 ?>
          
          <br>
-         <table width="<? if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
+         <table width="<?php if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
          <tbody>
          
-         <?
+         <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($row['hidden']==0)
@@ -280,7 +280,7 @@ class CSearch
                  <tr>
                    <td width="17%" align="center">
                    <img src="
-				   <? 
+				   <?php 
 				  
 				       if ($row['retweet_tweet_ID']>0)
 					   {
@@ -300,8 +300,8 @@ class CSearch
 				    ?>" width="100" height="100" alt="" class="img img-responsive img-rounded"/></td>
                    <td width="3%" valign="top">&nbsp;</td>
                    <td width="80%" valign="top"><strong>
-                   <a href="../press/main.php?target=ID_GLOBAL&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
-				   <? 
+                   <a href="../press/main.php?target=ID_GLOBAL&page=tweet&tweetID=<?php if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
+				   <?php 
 				      $title=base64_decode($row['title']); 
 					 
 					  if ($row['retweet_tweet_ID']>0)
@@ -320,8 +320,8 @@ class CSearch
 					  }
 				   ?>
                    </a></strong>
-                     <p class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>">
-					 <? 
+                     <p class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>">
+					 <?php 
 					    $mes=base64_decode($row['mes']); 
 					  
 					    if ($row['retweet_tweet_ID']>0)
@@ -344,7 +344,7 @@ class CSearch
                  <tr>
                    <td align="center" valign="top">
                    
-                   <?
+                   <?php
 				      if ($row['retweet_tweet_ID']>0)
 					  {
 						  // Payment
@@ -383,7 +383,7 @@ class CSearch
 					  }
 				   ?>
                    
-                   <span style="color:<? if ($pay==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
+                   <span style="color:<?php if ($pay==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
                    
                    
                    </td>
@@ -393,22 +393,22 @@ class CSearch
                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
                      <tbody>
                        <tr>
-                         <td align="left" style="color:#999999" class="<? if ($adr=="all") print "font_12"; else print "font_10"; ?>">
-						 <? 
+                         <td align="left" style="color:#999999" class="<?php if ($adr=="all") print "font_12"; else print "font_10"; ?>">
+						 <?php 
 						    print "Posted by ".$this->template->formatAdr($row['adr'], 10).",  ".$this->kern->timeFromBlock($row['block'])." ago";
 						 ?>
                          </td>
                         
-                         <td width="50" align="center" style="color:<? if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-up <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $upvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-up <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $upvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" style="color:<? if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-down <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $downvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-down <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $downvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<? if ($comments==0) print "#999999"; else print "#304971"; ?>">
-                         <span class="glyphicon glyphicon-bullhorn <? if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $comments; ?></span>
+                         <td width="50" align="center" class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<?php if ($comments==0) print "#999999"; else print "#304971"; ?>">
+                         <span class="glyphicon glyphicon-bullhorn <?php if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $comments; ?></span>
                          </td>
                          </tr>
                      </tbody>
@@ -423,7 +423,7 @@ class CSearch
              <td><hr></td>
            </tr>
            
-           <?
+           <?php
 	}
 			}
 		   ?>
@@ -431,7 +431,7 @@ class CSearch
          </tbody>
        </table>
          
-         <?
+         <?php
 	}
 	
 	
@@ -479,7 +479,7 @@ class CSearch
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		  ?>
@@ -488,7 +488,7 @@ class CSearch
                 <td width="77%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                 <td width="14%"><img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../../companies/overview/GIF/prods/big/".$row['pic'].".png";
 					 else
@@ -497,15 +497,15 @@ class CSearch
                 
                 " width="50" height="50"  class="img-rounded" /></td>
                 <td width="86%" align="left">
-                <a href="../../companies/overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
+                <a href="../../companies/overview/main.php?ID=<?php print $row['comID']; ?>" class="font_14"><strong><?php print base64_decode($row['name']); ?></strong></a>
                 <br />
-                <span class="font_10">Symbol : <? print $row['symbol']; ?></span>
+                <span class="font_10">Symbol : <?php print $row['symbol']; ?></span>
                 </td>
                 </tr>
                 </table></td>
                 <td width="23%" align="center">
 				<span class="bold_verde_14">
-				<? 
+				<?php 
 				     print "".round($row['balance'], 4); 
 					 print " </span><br><span class='simple_green_10'>$".$this->kern->getUSD($row['balance'])."</span>";
 				?>
@@ -515,7 +515,7 @@ class CSearch
                 <td colspan="2" ><hr></td>
                 </tr>
           
-          <?
+          <?php
 	           }
 		  ?>
           
@@ -523,7 +523,7 @@ class CSearch
          </div>
          <br><br><br>
         
-        <?
+        <?php
 	}
 	
 	function showAssets($src)
@@ -557,25 +557,25 @@ class CSearch
                   <br>
                   <table width="550px" border="0" cellspacing="0" cellpadding="0">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
                       
                             <tr>
-                            <td width="3%"><img src="<? if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
+                            <td width="3%"><img src="<?php if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
                             <td width="2%">&nbsp;</td>
                             <td width="70%">
-                            <span class="font_14"><a href="../assets/asset.php?symbol=<? print $row['symbol']; ?>">
-								<? print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
-                            <span class="font_10"><? print "Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
+                            <span class="font_14"><a href="../assets/asset.php?symbol=<?php print $row['symbol']; ?>">
+								<?php print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
+                            <span class="font_10"><?php print "Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
 								
   </tr>
                             <tr>
                             <td colspan="4"><hr></td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                         
@@ -583,7 +583,7 @@ class CSearch
                   
                  
         
-        <?
+        <?php
 	}
 	
 	function showPackets($src)
@@ -610,7 +610,7 @@ class CSearch
              
              <table width="90%" border="0" cellspacing="0" cellpadding="0">
                        
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					 ?>
@@ -620,23 +620,23 @@ class CSearch
                           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tbody>
                             <tr>
-                              <td width="18%" style="padding-right:10px"><img src="../explorer/GIF/<? print $row['packet_type']; ?>.png" class="img-responsive" /></td>
-                              <td width="79%"><a href="../explorer/packet.php?hash=<? print $row['packet_hash']; ?>" class="font_14"><strong>
-                              <?
+                              <td width="18%" style="padding-right:10px"><img src="../explorer/GIF/<?php print $row['packet_type']; ?>.png" class="img-responsive" /></td>
+                              <td width="79%"><a href="../explorer/packet.php?hash=<?php print $row['packet_hash']; ?>" class="font_14"><strong>
+                              <?php
 							    print $this->kern->getPacketName($row['packet_type']);
 							  ?>
-                              </strong></a><br><span class="font_10"><? print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
+                              </strong></a><br><span class="font_10"><?php print "Hash : ".substr($row['packet_hash'], 0, 25)."..."; ?></span></td>
                             </tr>
                           </tbody>
                         </table></td>
-                        <td width="21%" align="center" class="font_14"><strong><? print $row['block']; ?></strong></td>
-                        <td width="16%" align="center" class="font_14"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+                        <td width="21%" align="center" class="font_14"><strong><?php print $row['block']; ?></strong></td>
+                        <td width="16%" align="center" class="font_14"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
                       </tr>
                       <tr>
                         <td colspan="3"><hr></td>
                       </tr>
                     
-                      <?
+                      <?php
 	                      }
 					  ?>
                       
@@ -645,7 +645,7 @@ class CSearch
                   <br><br>
                   
         
-        <?
+        <?php
 	}
 }
 ?>

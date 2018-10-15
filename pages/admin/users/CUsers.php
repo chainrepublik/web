@@ -1,4 +1,4 @@
-<?
+<?php
 class CUsers
 {
 	function CUsers($db, $template)
@@ -48,7 +48,7 @@ class CUsers
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		 ?>
@@ -57,23 +57,23 @@ class CUsers
               <td width="66%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="13%">
-                <img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic']); ?>" width="40" height="41" class="img-circle" />
+                <img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic']); ?>" width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="../../profiles/overview/main.php?adr=<? print $this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? print $row['user']; ?></strong>
+                <a href="../../profiles/overview/main.php?adr=<?php print $this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php print $row['user']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
               </tr>
               </table></td>
-              <td width="14%" align="center" class="font_14" style="color: <? if ($row['sms_confirmed']=="No") print "#999999"; else print "#009900"; ?>">
-			  <? 
+              <td width="14%" align="center" class="font_14" style="color: <?php if ($row['sms_confirmed']=="No") print "#999999"; else print "#009900"; ?>">
+			  <?php 
 			     print $row['sms_confirmed'];		  
 		      ?>
               </td>
              
               <td width="20%" align="center" class="font_14">
-			  <? 
+			  <?php 
 			    print $this->kern->getAbsTime($row['tstamp']);
 			  ?>
               </td>
@@ -82,11 +82,11 @@ class CUsers
               <td colspan="3" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
 
-        <?
+        <?php
 	}
 }

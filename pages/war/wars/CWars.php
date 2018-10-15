@@ -1,4 +1,4 @@
-<?
+<?php
 class CWars
 {
 	function CWars($db, $template, $acc)
@@ -181,16 +181,16 @@ class CWars
 
                 <table width="550px">
 					<tr>
-						<td width="40px"><img src="../../template/GIF/flags/35/<? print $row['attacker']; ?>.gif"></td>
-						<td width="45px"><img src="../../template/GIF/flags/35/<? print $row['defender']; ?>.gif"></td>
-						<td class="font_14" width="45%"><? print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); ?><br><span class="font_10" style="color: #999999"><? print "Status ".$row['attacker_points']."/".$row['defender_points']; ?></span></td>
-						<td class="font_14" width="20%" align="center"><? print $this->kern->timeFromBlock($row['block']+1440); ?></td>
-						<td class="font_14" align="center"><a href="war.php?ID=<? print $row['warID']; ?>" class="btn btn-primary btn-sm" style="width: 80px">Fight</a></td>
+						<td width="40px"><img src="../../template/GIF/flags/35/<?php print $row['attacker']; ?>.gif"></td>
+						<td width="45px"><img src="../../template/GIF/flags/35/<?php print $row['defender']; ?>.gif"></td>
+						<td class="font_14" width="45%"><?php print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); ?><br><span class="font_10" style="color: #999999"><?php print "Status ".$row['attacker_points']."/".$row['defender_points']; ?></span></td>
+						<td class="font_14" width="20%" align="center"><?php print $this->kern->timeFromBlock($row['block']+1440); ?></td>
+						<td class="font_14" align="center"><a href="war.php?ID=<?php print $row['warID']; ?>" class="btn btn-primary btn-sm" style="width: 80px">Fight</a></td>
 					</tr>
 					<tr><td colspan="5"><hr></td></tr>
                 </table>
 
-            <?
+            <?php
 		}
 	}
 	
@@ -225,7 +225,7 @@ class CWars
 		
 		// Attack points
 		$at=$this->kern->getAdrAttack($_REQUEST['ud']['adr']);
-		$de=$this->kern->getAdrDefense($_REQUEST['ud']['adr']);
+		$de=$this->kern->getAdrDefense($_REQUEST['ud']['adr']); 
 		
 		$at=$at*0.6+$de*0.4;
 		$de=$at*0.4+$de*0.6;
@@ -243,7 +243,7 @@ class CWars
 			            </tr>
 			          <tr>
 						  <td align="center" background="GIF/top_panel.png" class="font_14" style="color: #ffffff; text-shadow: 1px 1px #000000"><strong>
-							  <? 
+							  <?php 
 		                           print $this->kern->formatCou($row['at_name'])." vs ".$this->kern->formatCou($row['de_name'])." for ".$this->kern->formatCou($row['ta_name']); 
 							  ?>
 					     </strong></td>
@@ -252,30 +252,30 @@ class CWars
 			            <td height="75" align="center"><table width="500" border="0" cellspacing="0" cellpadding="0">
 			              <tbody>
 			                <tr>
-			                  <td width="44" align="left"><img src="../../template/GIF/flags/35/<? print $row['attacker']; ?>.gif" width="37" height="37" alt=""/></td>
-			                  <td width="90" align="center" background="GIF/points_panel.png" class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><? print $row['attacker_points']; ?></td>
+			                  <td width="44" align="left"><img src="../../template/GIF/flags/35/<?php print $row['attacker']; ?>.gif" width="37" height="37" alt=""/></td>
+			                  <td width="90" align="center" background="GIF/points_panel.png" class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><?php print $row['attacker_points']; ?></td>
 			                  <td width="232" align="center"><table width="90%">
 			                    <tr>
 			                      <td align="left" class="font_10" style="color: #ffffff; text-shadow: 1px 1px #000000" width="50%">
-								  <? 
+								  <?php 
 		                             print $at_p."%"; 
 								  ?>
 								  </td>
 			                      <td width="50%" align="right" class="font_10" style="color: #990000;"><strong>
-								  <? 
+								  <?php 
 		                             print $def_p."%"; 
 								  ?>	  
 								  </strong></td>
 			                      </tr>
 			                    <tr>
 			                      <td colspan="2"><div class="progress" style="width :100%">
-			                        <div class="progress-bar" style="width: <? print $at_p; ?>%;"></div>
-			                        <div class="progress-bar progress-bar-danger" style="width: <? print $def_p; ?>%;"></div>
+			                        <div class="progress-bar" style="width: <?php print $at_p; ?>%;"></div>
+			                        <div class="progress-bar progress-bar-danger" style="width: <?php print $def_p; ?>%;"></div>
 			                        </div></td>
 			                      </tr>
 			                    </table></td>
-			                  <td width="90" align="center" background="GIF/points_panel.png"class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><? print $row['defender_points']; ?></td>
-			                  <td width="44" height="44" align="right"><img src="../../template/GIF/flags/35/<? print $row['defender']; ?>.gif" width="37" height="37" alt=""/></td>
+			                  <td width="90" align="center" background="GIF/points_panel.png"class="font_16" style="color: #ffffff; text-shadow: 1px 1px #000000"><?php print $row['defender_points']; ?></td>
+			                  <td width="44" height="44" align="right"><img src="../../template/GIF/flags/35/<?php print $row['defender']; ?>.gif" width="37" height="37" alt=""/></td>
 			                  </tr>
 			                </tbody>
 			              </table></td>
@@ -288,16 +288,16 @@ class CWars
 			              <tbody>
 			                <tr>
 			                  <td width="147" align="left">
-								  <?
+								  <?php
 		                              if ($row['status']=="ID_ACTIVE")
 									  {
 		                          ?>
 								  
-								        <a href="war.php?ID=<? print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_AT">
+								        <a href="war.php?ID=<?php print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_AT">
 								        <img src="GIF/at_but.png" width="137" height="45" alt=""/>
 								        </a>
 								  
-								  <?
+								  <?php
 									  }
 								  ?>
 								</td>
@@ -306,7 +306,7 @@ class CWars
 								<table width="80" border="0" cellspacing="0" cellpadding="0">
 			                    <tbody>
 			                      <tr>
-									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Attack</span><br><span class="font_14"><strong><? print $at; ?></strong></span></td>
+									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Attack</span><br><span class="font_14"><strong><?php print $at; ?></strong></span></td>
 			                        </tr>
 			                      </tbody>
 			                    </table>
@@ -317,23 +317,23 @@ class CWars
 								<table width="80" border="0" cellspacing="0" cellpadding="0">
 			                    <tbody>
 			                      <tr>
-									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Defense</span><br><span class="font_14"><strong><? print $de; ?></strong></span></td>
+									  <td background="GIF/my_points_panel.png" style="color: #ffffff" align="center"><span class="font_10">My Defense</span><br><span class="font_14"><strong><?php print $de; ?></strong></span></td>
 			                        </tr>
 			                      </tbody>
 			                    </table>
 								  
 								</td>
 			                  <td width="146" align="right">
-								   <?
+								   <?php
 		                              if ($row['status']=="ID_ACTIVE")
 									  {
 		                          ?>
 								  
-								         <a href="war.php?ID=<? print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_DE">
+								         <a href="war.php?ID=<?php print $_REQUEST['ID']; ?>&act=ID_FIGHT&type=ID_DE">
 								         <img src="GIF/def_but.png" width="137" height="45" alt=""/>
 								         </a>
 								  
-								  <?
+								  <?php
 									  }
 								  ?>
 							  </td>
@@ -347,7 +347,7 @@ class CWars
 			    </tbody>
 			  </table>
 
-        <?
+        <?php
 	}
 	
 	function showFighters($warID, $type)
@@ -423,7 +423,7 @@ class CWars
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				
@@ -434,7 +434,7 @@ class CWars
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              if ($row['guv_cou']=="")
 							  {
 				                  if ($row['pic']=="") 
@@ -450,16 +450,16 @@ class CWars
 						  " width="50" height="50" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['guv_cou']!="") print "../../politics/stats/main.php?cou=".$row['guv_cou']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['guv_cou']=="") print $row['name']; else print $this->kern->formatCou($row['guv_country'])." Congress"; ?></strong>
+                <a href="<?php if ($row['guv_cou']!="") print "../../politics/stats/main.php?cou=".$row['guv_cou']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['guv_cou']=="") print $row['name']; else print $this->kern->formatCou($row['guv_country'])." Congress"; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['cit_country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['cit_country'])); ?></span></td>
               </tr>
               </table></td>
               
              
-              <td width="20%" align="center" class="font_14" style="color: <? if ($row['pol_inf']==0) print "#999999"; else print "#009900"; ?>"><strong>
-			  <? 
+              <td width="20%" align="center" class="font_14" style="color: <?php if ($row['pol_inf']==0) print "#999999"; else print "#009900"; ?>"><strong>
+			  <?php 
 			     print $row['total_damage'];
 			  ?>
               </strong></td>
@@ -467,13 +467,13 @@ class CWars
 			  </tr>
 			  <tr><td colspan="3"><hr></td></tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showLastFights($warID)

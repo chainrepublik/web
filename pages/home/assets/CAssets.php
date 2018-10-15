@@ -1,4 +1,4 @@
-<?
+<?php
 class CAssets
 {
 	function CAssets($db, $acc, $template)
@@ -260,30 +260,30 @@ class CAssets
                   <br><br>
 <table width="550px" border="0" cellspacing="0" cellpadding="0">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
                       
                             <tr>
-                            <td width="3%"><img src="<? if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle"/></td>
+                            <td width="3%"><img src="<?php if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle"/></td>
                             <td width="2%">&nbsp;</td>
                             <td width="70%">
-                            <span class="font_14"><a href="asset.php?symbol=<? print $row['symbol']; ?>">
-								<? print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
-                            <span class="font_10"><? print "Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
+                            <span class="font_14"><a href="asset.php?symbol=<?php print $row['symbol']; ?>">
+								<?php print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
+                            <span class="font_10"><?php print "Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
 							
-							 <?
+							 <?php
 							     if ($type=="ID_SHARES")
 								 {
 							 ?>
 								
 						      <td width="15%" class="font_14" align="center">
-							  <? print $row['ask']."<br><span class='font_10'>CRC</span>"; ?></td>
+							  <?php print $row['ask']."<br><span class='font_10'>CRC</span>"; ?></td>
 					          <td width="15%" class="font_14" align="center">
-							  <? print $row['bid']."<br><span class='font_10'>CRC</span>"; ?></td>
+							  <?php print $row['bid']."<br><span class='font_10'>CRC</span>"; ?></td>
 								
-							<?
+							<?php
 								 }
 							?>
 								
@@ -292,7 +292,7 @@ class CAssets
                             <td colspan="4"><hr></td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                         
@@ -300,7 +300,7 @@ class CAssets
                   
                  
         
-        <?
+        <?php
 	}
 	
 	function showIssuedAssets()
@@ -320,24 +320,24 @@ class CAssets
         
           <table width="95%" border="0" cellspacing="0" cellpadding="0">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
                       
                             <tr>
-                            <td width="4%"><img src="<? if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 100, 100); ?>"  class="img-circle img-responsive"/></td>
+                            <td width="4%"><img src="<?php if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 100, 100); ?>"  class="img-circle img-responsive"/></td>
                             <td width="1%">&nbsp;</td>
                             <td width="95%">
-                            <span class="font_16"><a href="asset.php?symbol=<? print $row['symbol']; ?>">
-							<? print $this->kern->noescape(base64_decode($row['title']))." (".$row['symbol'].")"; ?></a>
-                            <p class="font_12"><? print $this->kern->noescape(substr(base64_decode($row['description']), 0, 250))."..."; ?></p></td>
+                            <span class="font_16"><a href="asset.php?symbol=<?php print $row['symbol']; ?>">
+							<?php print $this->kern->noescape(base64_decode($row['title']))." (".$row['symbol'].")"; ?></a>
+                            <p class="font_12"><?php print $this->kern->noescape(substr(base64_decode($row['description']), 0, 250))."..."; ?></p></td>
                             </tr>
                             <tr>
                             <td colspan="4" background="../../template/template/GIF/lp.png">&nbsp;</td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                         
@@ -345,7 +345,7 @@ class CAssets
                   
                  
         
-        <?
+        <?php
 	}
 	
 	
@@ -366,7 +366,7 @@ class CAssets
              <tr><td>&nbsp;</td></tr>
              <tr>
                <td align="center">
-				   <? 
+				   <?php 
 		              $this->template->showReq(0.1, 0.01, "issue_more"); 
 				   ?>
 			   </td>
@@ -393,7 +393,7 @@ class CAssets
 		   $('#txt_issue_more_amount').keyup(function() { $('#req_issue_more_coins').text(parseFloat($('#txt_issue_more_amount').val()*0.0001).toFixed(4)); });
 		   </script>
        
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -411,7 +411,7 @@ class CAssets
             </table>
             
 
-        <?
+        <?php
 		}
 	}
 	
@@ -475,31 +475,31 @@ class CAssets
             <div class="panel-body">
             <table width="100%">
             <tr>
-            <td width="23%" valign="top"><img src="<? if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 150, 150); ?>"  class="img-circle img-responsive"/></td>
+            <td width="23%" valign="top"><img src="<?php if ($row['pic']=="") print "../../template/template/GIF/empty_pic.png"; else print $this->kern->crop($row['pic'], 150, 150); ?>"  class="img-circle img-responsive"/></td>
             <td width="1%">&nbsp;</td>
-            <td width="76%" valign="top"><span class="font_16"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span>
-            <p class="font_14"><? print $this->kern->noescape(base64_decode($row['description'])); ?></p></td>
+            <td width="76%" valign="top"><span class="font_16"><strong><?php print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span>
+            <p class="font_14"><?php print $this->kern->noescape(base64_decode($row['description'])); ?></p></td>
             </tr>
             <tr><td colspan="3"><hr></td></tr>
             <tr><td colspan="3">
     
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-responsive">
              <tr>
-            <td width="30%" align="center"><span class="font_12">Symbol&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['symbol']; ?></strong></span></td>
-            <td width="40%" class="font_12" align="center">Available&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['qty']; ?> units</strong></td>
-            <td width="30%" class="font_12" align="center">Transaction Fee&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $row['trans_fee']."%"; ?></strong></td>
+            <td width="30%" align="center"><span class="font_12">Symbol&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['symbol']; ?></strong></span></td>
+            <td width="40%" class="font_12" align="center">Available&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['qty']; ?> units</strong></td>
+            <td width="30%" class="font_12" align="center">Transaction Fee&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $row['trans_fee']."%"; ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             <tr>
-            <td width="30%" align="center"><span class="font_12">Address</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><? print $this->template->formatAdr($row['adr'], 12); ?></a></strong></td>
-            <td width="40%" class="font_12" align="center">Trusted by&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $trusted. " players"; ?></strong></td>
-            <td width="30%" class="font_12" align="center">Expire&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print "~ ".$this->kern->timeFromBlock($row['expires']); ?></strong></td>
+            <td width="30%" align="center"><span class="font_12">Address</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><?php print $this->template->formatAdr($row['adr'], 12); ?></a></strong></td>
+            <td width="40%" class="font_12" align="center">Trusted by&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $trusted. " players"; ?></strong></td>
+            <td width="30%" class="font_12" align="center">Expire&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print "~ ".$this->kern->timeFromBlock($row['expires']); ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             <tr>
-            <td width="30%" align="center"><span class="font_12">Fee</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><? print $this->template->formatAdr($row['trans_fee_adr'], 12); ?></a></strong></td>
+            <td width="30%" align="center"><span class="font_12">Fee</span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><a class="font_12" href="#"><?php print $this->template->formatAdr($row['trans_fee_adr'], 12); ?></a></strong></td>
             <td width="40%" class="font_12" align="center">Can Issue More&nbsp;&nbsp;&nbsp;YES<strong></strong></td>
-            <td width="30%" class="font_12" align="center">Owners&nbsp;&nbsp;&nbsp;&nbsp;<strong><? print $owners; ?></strong></td>
+            <td width="30%" class="font_12" align="center">Owners&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php print $owners; ?></strong></td>
             </tr>
             <tr><td colspan="5"><hr></td></tr>
             </table>
@@ -519,14 +519,14 @@ class CAssets
             <td width="50%">
             <div class="panel panel-default">
             <div class="panel-heading">
-            <h3 class="panel-title" class="font_14">How to buy <? print $row['symbol']; ?></h3>
+            <h3 class="panel-title" class="font_14">How to buy <?php print $row['symbol']; ?></h3>
             </div>
             <div class="panel-body font_12">
             
             <table width="90%">
             <tr>
             <td width="30%"><img src="GIF/buy.png" class="img img-responsive"></td>
-            <td width="70%"><? print base64_decode($row['how_buy']); ?></td>
+            <td width="70%"><?php print base64_decode($row['how_buy']); ?></td>
             </tr>
             </table>
             
@@ -539,7 +539,7 @@ class CAssets
             <td width="50%">
             <div class="panel panel-default">
             <div class="panel-heading">
-            <h2 class="panel-title">How to sell / redeem <? print $row['symbol']; ?></h2>
+            <h2 class="panel-title">How to sell / redeem <?php print $row['symbol']; ?></h2>
             </div>
             <div class="panel-body font_14">
             
@@ -547,7 +547,7 @@ class CAssets
             <tr>
             <td width="30%"><img src="GIF/redeem.png" class="img img-responsive"></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td width="70%" class="font_12"><? print base64_decode($row['how_sell']); ?></td>
+            <td width="70%" class="font_12"><?php print base64_decode($row['how_sell']); ?></td>
             </tr>
             </table>
             
@@ -559,7 +559,7 @@ class CAssets
             </table>
             
         
-        <?
+        <?php
 	}
 	
 	
@@ -596,7 +596,7 @@ class CAssets
                    <br>
                    <table width="90%" class="table-responsive">
                     
-                    <?
+                    <?php
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					   {
 					?>
@@ -607,19 +607,19 @@ class CAssets
                         <td width="2%">&nbsp;</td>
                         <td width="90%" align="left" class="font_14">
                         <a href="#" class="font_14">
-                        <strong><? print $this->template->formatAdr($row['owner']); ?></strong>
+                        <strong><?php print $this->template->formatAdr($row['owner']); ?></strong>
                         </a>
-                        <p class="font_10"><? print "Citizenship ".ucfirst(strtolower($row['country'])); ?></p>
+                        <p class="font_10"><?php print "Citizenship ".ucfirst(strtolower($row['country'])); ?></p>
                         </td>
                         
                         <td width="11%" align="center" class="font_16">
-                        <span<strong><? print round($row['qty'], 8)."<br><span class='font_10'>".round($row['qty']*100/$qty, 2)."%</span>"; ?></strong></span></td>
+                        <span<strong><?php print round($row['qty'], 8)."<br><span class='font_10'>".round($row['qty']*100/$qty, 2)."%</span>"; ?></strong></span></td>
                         </tr>
                         <tr>
                         <td colspan="4"><hr></td>
                         </tr>
                         
-                      <?
+                      <?php
 					   }
 					  ?>
 </table>
@@ -627,7 +627,7 @@ class CAssets
                        
            
         
-        <?
+        <?php
 	}
 	
 	function showTrans($symbol)
@@ -653,7 +653,7 @@ class CAssets
           <br>
                    <table width="90%" class="table-responsive">
                     
-                    <?
+                    <?php
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					   {
 					?>
@@ -664,26 +664,26 @@ class CAssets
                         <td width="2%">&nbsp;</td>
                         <td width="70%" align="left" class="font_14">
                         <a href="#" class="font_14">
-                        <strong><? print $this->template->formatAdr($row['src']); ?></strong>
+                        <strong><?php print $this->template->formatAdr($row['src']); ?></strong>
                         </a>
-                        <p class="font_10"><? print "Received ~". $this->kern->timeFromBlock($row['block'])." ago"; ?></p>
+                        <p class="font_10"><?php print "Received ~". $this->kern->timeFromBlock($row['block'])." ago"; ?></p>
                         </td>
                         
-                        <td width="25%" align="center" class="font_14" style="color : <? if ($row['amount']<0) print "#990000"; else print "#009900"; ?>">
-                        <span<strong><? print round($row['amount'], 8)." ".$symbol; ?></strong></span></td>
+                        <td width="25%" align="center" class="font_14" style="color : <?php if ($row['amount']<0) print "#990000"; else print "#009900"; ?>">
+                        <span<strong><?php print round($row['amount'], 8)." ".$symbol; ?></strong></span></td>
                         </tr>
                         <tr>
                         <td colspan="4"><hr></td>
                         </tr>
                         
-                      <?
+                      <?php
 					   }
 					  ?>
 </table>
                         <br><br>
            
         
-        <?
+        <?php
 	}
 	
 	function showMyAssets()
@@ -694,7 +694,8 @@ class CAssets
 		// Query
 		$query="SELECT * 
 		          FROM assets 
-				 WHERE adr=?
+				 WHERE adr=? 
+				   AND CHAR_LENGTH(symbol)=6
 			  ORDER BY ID ASC
 			     LIMIT 0,20"; 
 		
@@ -707,20 +708,20 @@ class CAssets
           <br>
           <table width="95%" border="0" cellspacing="0" cellpadding="0" class="table-responsive">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
                       
                             <tr>
-                            <td width="5%"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
+                            <td width="5%"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
                             <td width="0%">&nbsp;</td>
-                            <td width="74%"><span class="font_14"><a href="asset.php?symbol=<? print $row['symbol']; ?>"><? print base64_decode($row['title'])." (".$row['symbol'].")"; ?></a></span>
-                              <p class="font_12"><? print substr(base64_decode($row['description']), 0, 250)."..."; ?></p></td>
+                            <td width="74%"><span class="font_14"><a href="asset.php?symbol=<?php print $row['symbol']; ?>"><?php print base64_decode($row['title'])." (".$row['symbol'].")"; ?></a></span>
+                              <p class="font_12"><?php print substr(base64_decode($row['description']), 0, 250)."..."; ?></p></td>
                             <td width="12%" align="center">
 								
 							
-                             <a href="javascript:void(0)" onClick="$('#renew_modal').modal(); $('#txt_renew_target_type').val('ID_ASSET'); $('#txt_renew_targetID').val('<? print $row['assetID']; ?>');" class="btn btn-primary">Renew</a>
+                             <a href="javascript:void(0)" onClick="$('#renew_modal').modal(); $('#txt_renew_target_type').val('ID_ASSET'); $('#txt_renew_targetID').val('<?php print $row['assetID']; ?>');" class="btn btn-primary">Renew</a>
 								
 							</td>
                             </tr>
@@ -729,7 +730,7 @@ class CAssets
                             <td colspan="4"><hr></td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                         
@@ -737,7 +738,7 @@ class CAssets
                   
                  
         
-        <?
+        <?php
 	 }
 	
 	 
@@ -747,7 +748,7 @@ class CAssets
 		 ?>
             
             <br><br>
-            <form id="form_modal_issue" name="form_modal_issue" method="post" action="main.php?target=<? print $_REQUEST['target']; ?>&sub_target=<? print $_REQUEST['sub_target']; ?>&act=issue">
+            <form id="form_modal_issue" name="form_modal_issue" method="post" action="main.php?target=<?php print $_REQUEST['target']; ?>&sub_target=<?php print $_REQUEST['sub_target']; ?>&act=issue">
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
             <tr>
             <td width="90%" align="center" valign="top">
@@ -858,7 +859,7 @@ class CAssets
 		
 		</script>
         
-        <?
+        <?php
 	}
 	
 	function newMarket($asset_symbol, 
@@ -1013,7 +1014,7 @@ class CAssets
           
            <table class="table-responsive" width="90%">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
@@ -1022,34 +1023,34 @@ class CAssets
                  <td width="10%"><img class="img img-circle" src="../../template/GIF/empty_pic.png" width="50"></td>
                  <td width="0%">&nbsp;</td>
                  <td width="47%" align="left">
-                 <a href="asset.php?symbol=<? print $row['symbol']; ?>" class="font_14"><? print base64_decode($row['name'])."<br>"; ?></a>
-                 <p class="font_10"><? print substr(base64_decode($row['description']), 0, 40)."..."; ?></p>
+                 <a href="asset.php?symbol=<?php print $row['symbol']; ?>" class="font_14"><?php print base64_decode($row['name'])."<br>"; ?></a>
+                 <p class="font_10"><?php print substr(base64_decode($row['description']), 0, 40)."..."; ?></p>
                  </td>
                  <td class="font_14" width="14%" align="center">
-				 <? 
+				 <?php 
 				      print "<strong>".round($row['ask'], 8)."</strong> <br><span class='font_10'>".$row['cur']."</span>"; 
 			     ?>
                  </td>
                  <td width="19%" align="center" class="font_14">
-				 <? 
+				 <?php 
 				      print "<strong>".round($row['bid'], 8)."</strong> <br><span class='font_10'>".$row['cur']."</span>";
 			     ?>
                  </td>
                  <td class="font_16" width="10%">
-                 <a href="market.php?ID=<? print $row['mktID']; ?>" class='btn btn-warning btn-sm' style="color:#000000">Trade</a>
+                 <a href="market.php?ID=<?php print $row['mktID']; ?>" class='btn btn-warning btn-sm' style="color:#000000">Trade</a>
                  </td>
                 
                  
                  </tr>
                  <tr><td colspan="6"><hr></td></tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
            
-        <?
+        <?php
 	}
 	
 	function showMyMarkets()
@@ -1073,7 +1074,7 @@ class CAssets
           
            <table class="table-responsive" width="90%">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
@@ -1082,35 +1083,35 @@ class CAssets
                  <td width="10%"><img class="img img-circle" src="../../template/GIF/empty_pic.png" width="50"></td>
                  <td width="0%">&nbsp;</td>
                  <td width="47%" align="left">
-                 <a href="asset.php?symbol=<? print $row['symbol']; ?>" class="font_14"><? print base64_decode($row['name'])."<br>"; ?></a>
-                 <p class="font_10"><? print substr(base64_decode($row['description']), 0, 40)."..."; ?></p>
+                 <a href="asset.php?symbol=<?php print $row['symbol']; ?>" class="font_14"><?php print base64_decode($row['name'])."<br>"; ?></a>
+                 <p class="font_10"><?php print substr(base64_decode($row['description']), 0, 40)."..."; ?></p>
                  </td>
                  <td class="font_14" width="14%" align="center">
-				 <? 
+				 <?php 
 				      print "<strong>".round($row['ask'], 8)."</strong> <br><span class='font_10'>".$row['cur']."</span>"; 
 			     ?>
                  </td>
                  <td width="19%" align="center" class="font_14">
-				 <? 
+				 <?php 
 				      print "<strong>".round($row['bid'], 8)."</strong> <br><span class='font_10'>".$row['cur']."</span>";
 			     ?>
                  </td>
                  
 				 <td class="font_16" width="10%">
-                 <a href="market.php?ID=<? print $row['mktID']; ?>" class='btn btn-warning btn-sm' style="color:#000000">Renew</a>
+                 <a href="market.php?ID=<?php print $row['mktID']; ?>" class='btn btn-warning btn-sm' style="color:#000000">Renew</a>
                  </td>
                 
                  
                  </tr>
                  <tr><td colspan="6"><hr></td></tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
            
-        <?
+        <?php
 	}
 	
 	function showNewMarketModal()
@@ -1206,7 +1207,7 @@ class CAssets
              </table>
               
               
-        <?
+        <?php
 		$this->template->showModalFooter("New");
 	}
 	

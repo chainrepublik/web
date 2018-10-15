@@ -1,4 +1,4 @@
-<?
+<?php
 class CCode
 {
 	function CCode($kern, $template)

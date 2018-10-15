@@ -1,4 +1,4 @@
-<?
+<?php
 class CWorkplaces
 {
 	function CWorkplaces($db, $acc, $template, $comID)
@@ -355,7 +355,7 @@ class CWorkplaces
               </tr>
               <tr>
                 <td height="50" valign="bottom">
-                <a href="market.php?ID=<? print $_REQUEST['ID']; ?>&mktID=<? print $this->kern->getMarketID($this->kern->getComBuilding($_REQUEST['ID'])); ?>" class="btn btn-danger btn-sm" style="width:150px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Buy Building</a></td>
+                <a href="market.php?ID=<?php print $_REQUEST['ID']; ?>&mktID=<?php print $this->kern->getMarketID($this->kern->getComBuilding($_REQUEST['ID'])); ?>" class="btn btn-danger btn-sm" style="width:150px;"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Buy Building</a></td>
                 <td>&nbsp;</td>
               </tr>
             </table></td>
@@ -363,7 +363,7 @@ class CWorkplaces
         </table>
         <br>
         
-        <?
+        <?php
 	}
 	
 	
@@ -411,7 +411,7 @@ class CWorkplaces
     
         <table width="530" border="0" cellspacing="0" cellpadding="0">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -420,19 +420,19 @@ class CWorkplaces
             <td width="100" colspan="6">
             
             
-            <form id="form_wage_<? print $row['ID']; ?>" method="post" name="form_wage_<? print $row['ID']; ?>" action="workplaces.php?ID=<? print $_REQUEST['ID']; ?>&act=update&tip=ID_WAGE_PROD&wID=<? print $row['ID']; ?>">
+            <form id="form_wage_<?php print $row['ID']; ?>" method="post" name="form_wage_<?php print $row['ID']; ?>" action="workplaces.php?ID=<?php print $_REQUEST['ID']; ?>&act=update&tip=ID_WAGE_PROD&wID=<?php print $row['ID']; ?>">
              <table width="100%" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td width="33%" align="left" class="font_14">&nbsp;
                 
-                <?
+                <?php
 				   print $row['name'];
 				?>
                 
                 </td>
                 <td width="18%" height="0" align="center">
                 
-                <?
+                <?php
 				   switch ($row['status'])
 				   {
 					   case "ID_FREE" : print " <span class=\"font_14\" style=\"color:#009900\"><strong>free</strong></span>"; break;
@@ -448,17 +448,17 @@ class CWorkplaces
                 <td width="14%" align="center">
                 
               <span class="bold_verde_14">
-              <? print "".$row['wage']." CRC"; ?>
+              <?php print "".$row['wage']." CRC"; ?>
               </span><br>
               <span class="simple_green_10">
-              <? print "$".$this->kern->getUSD($row['wage']); ?>
+              <?php print "$".$this->kern->getUSD($row['wage']); ?>
               </span>
                 </td>
                 <td width="18%" align="center">
                   
-                <span class="<? if ($row['expires']-$_REQUEST['sd']['last_block']<14400) print "bold_red_14"; else print "font_14"; ?>">
+                <span class="<?php if ($row['expires']-$_REQUEST['sd']['last_block']<14400) print "bold_red_14"; else print "font_14"; ?>">
                 <strong>
-                <?
+                <?php
 				   if ($_REQUEST['sd']['last_block']<$row['expires']) 
 				     print $this->kern->timeFromBlock($row['expires'], false);
 				   else
@@ -473,19 +473,19 @@ class CWorkplaces
                   <tr>
                     <td align="left">
                     
-                    <a class="btn <? if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="javascript:void(0)" onclick="$('#txt_renew_targetID').val('<? print $row['workplaceID']; ?>'); $('#renew_modal').modal(); " data-toggle="tooltip" data-placement="top" title="Renew Workplace" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
+                    <a class="btn <?php if ($row['expires']-time()<864000) print "btn-danger"; else print "btn-default"; ?> btn-sm" href="javascript:void(0)" onclick="$('#txt_renew_targetID').val('<?php print $row['workplaceID']; ?>'); $('#renew_modal').modal(); " data-toggle="tooltip" data-placement="top" title="Renew Workplace" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
                     </a>
                     
                     </td>
                     <td>&nbsp;</td>
                     <td align="right">
                     
-                    <a class="btn btn-success" href="#" onclick="$('#txt_wage').val('<? print $row['wage']; ?>'); 
-																 $('#dd_prod').val('<? print $row['prod']; ?>'); 
-                                                                 $('#workID').val('<? print $row['workplaceID']; ?>'); 
+                    <a class="btn btn-success" href="#" onclick="$('#txt_wage').val('<?php print $row['wage']; ?>'); 
+																 $('#dd_prod').val('<?php print $row['prod']; ?>'); 
+                                                                 $('#workID').val('<?php print $row['workplaceID']; ?>'); 
                                                             
                                                                  
-                                                                 <?
+                                                                 <?php
                                                                     if ($row['status']!="ID_OCCUPIED")
 																	   print "$('#ID_OCCUPIED').attr('disabled', true);";
                                                                     else
@@ -502,7 +502,7 @@ class CWorkplaces
                                                                  $('#update_modal').modal(); 
                                                                  " 
                                                                  
-                                                         data-toggle="tooltip" data-placement="top" title="Settings" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>
+                                                         data-toggle="tooltip" data-placement="top" title="Settings" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>
                     <span class="glyphicon glyphicon-cog"></span>
                     </a>
                     </td>
@@ -518,7 +518,7 @@ class CWorkplaces
             <td colspan="6" ><hr></td>
           </tr>
           
-          <?
+          <?php
 	         }
 		  ?>
           
@@ -528,11 +528,11 @@ class CWorkplaces
         <table width="560" border="0" cellspacing="0" cellpadding="5">
           <tr>
             <td width="29%" align="left">
-            <a href="#" onclick="javascript:$('#new_modal').modal()" class="btn btn-primary" style="width:150px;" <? if ($this->kern->isLoggedIn()==false || $this->kern->ownedCom($_REQUEST['ID'])==false) print "disabled"; ?>>
+            <a href="#" onclick="javascript:$('#new_modal').modal()" class="btn btn-primary" style="width:150px;" <?php if ($this->kern->isLoggedIn()==false || $this->kern->ownedCom($_REQUEST['ID'])==false) print "disabled"; ?>>
             <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;New Workplace</a></td>
             <td width="38%" align="left">
             
-			<?
+			<?php
 			   $query="SELECT * 
 			             FROM workplaces 
 						WHERE comID='".$this->ID."' 
@@ -545,7 +545,7 @@ class CWorkplaces
             
             </td>
             <td width="33%" align="left">
-			<?
+			<?php
 			   $query="SELECT * 
 			             FROM workplaces 
 						WHERE comID='".$this->ID."'";
@@ -557,7 +557,7 @@ class CWorkplaces
           </tr>
         </table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -609,14 +609,14 @@ class CWorkplaces
            <td width="120" align="center">
            <table>
            <tr><td align="center" class="font_10">Used</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print $used; ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><?php print $used; ?></td></tr>
            <tr><td align="center" class="font_10">days</td></tr>
            </table>
            
            <td width="157" align="center">
            <table>
            <tr><td align="center" class="font_10">Used (%)</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print $used_per; ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><?php print $used_per; ?></td></tr>
            <tr><td align="center" class="font_10">percent</td></tr>
            </table>
            </td>
@@ -624,7 +624,7 @@ class CWorkplaces
            <td width="81" align="center">
            <table>
            <tr><td align="center" class="font_10">Remaining</td></tr>
-           <tr><td align="center" class="font_30" height="70px"><? print $expire; ?></td></tr>
+           <tr><td align="center" class="font_30" height="70px"><?php print $expire; ?></td></tr>
            <tr><td align="center" class="font_10">days</td></tr>
            </table>
            </td>
@@ -636,7 +636,7 @@ class CWorkplaces
            
            
             
-          <?
+          <?php
 	  
 	}
 	
@@ -655,42 +655,42 @@ class CWorkplaces
                 <td align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="1" checked="checked" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;1 month</td>
                 <td align="center" bgcolor="#FFFFFF" class="font_14"><strong>
-					<? print round($_REQUEST['sd']['work_fee']*30, 2)." CRC"; ?>
+					<?php print round($_REQUEST['sd']['work_fee']*30, 2)." CRC"; ?>
 				</strong></td>
               </tr>
               <tr>
                 <td width="8%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" /></td>
                 <td width="60%" height="40" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
                 <td width="32%" align="center" bgcolor="#FFFFFF" class="font_14"><strong>
-				<? print round($_REQUEST['sd']['work_fee']*90, 2)." CRC"; ?>
+				<?php print round($_REQUEST['sd']['work_fee']*90, 2)." CRC"; ?>
 				</strong></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="6" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;6 months </span></td>
                 <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
-				<? print round($_REQUEST['sd']['work_fee']*180, 2)." CRC"; ?>	
+				<?php print round($_REQUEST['sd']['work_fee']*180, 2)." CRC"; ?>	
 				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="9" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;9 months</span></td>
                 <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
-				<? print round($_REQUEST['sd']['work_fee']*270, 2)." CRC"; ?>	
+				<?php print round($_REQUEST['sd']['work_fee']*270, 2)." CRC"; ?>	
 				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="12" /></td>
                 <td height="40" align="left" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;12 months</span></td>
                 <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
-				<? print round($_REQUEST['sd']['work_fee']*365, 2)." CRC"; ?>	
+				<?php print round($_REQUEST['sd']['work_fee']*365, 2)." CRC"; ?>	
 				</strong></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="24" /></td>
                 <td height="40" bgcolor="#FFFFFF"><span class="font_14">&nbsp;&nbsp;24 months</span></td>
                 <td align="center" bgcolor="#FFFFFF"><span class="font_14"><strong>
-				<? print round($_REQUEST['sd']['work_fee']*730, 2)." CRC"; ?>
+				<?php print round($_REQUEST['sd']['work_fee']*730, 2)." CRC"; ?>
 				</strong></span></td>
               </tr>
             </table></td>
@@ -698,7 +698,7 @@ class CWorkplaces
           </table>
         
          
-        <?
+        <?php
 			$this->template->showModalFooter("Rent");
 	}
 	
@@ -728,7 +728,7 @@ class CWorkplaces
               <tr>
                 <td>
                 
-                <?
+                <?php
 				     // Address
 					 $adr=$this->kern->getComAdr($_REQUEST['ID']);
 					 
@@ -753,7 +753,7 @@ class CWorkplaces
 				?>
                 
                 <select name="dd_prod" id="dd_prod" class="form-control"  onchange="$('#form_wage').submit()">
-                  <?   
+                  <?php   
 					  while ($res_row = mysqli_fetch_array($res, MYSQLI_ASSOC))
 						 if ($this->kern->hasProdLic($adr, $res_row['prod']))
 						   print  "<option value='".$res_row['prod']."' id='".$res_row['prod']."'>".$res_row['name']."</option>"; 
@@ -800,7 +800,7 @@ class CWorkplaces
         
          
            
-        <?
+        <?php
 		$this->template->showModalFooter("Update");
 	}
 	
@@ -844,7 +844,7 @@ class CWorkplaces
         
          
            
-        <?
+        <?php
 		$this->template->showModalFooter("Cancel", "Send");
 	}
 	

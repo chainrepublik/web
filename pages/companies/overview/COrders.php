@@ -1,4 +1,4 @@
-<?
+<?php
 class COrders
 {
 	function COrders($db, $template)
@@ -33,26 +33,26 @@ class COrders
 					 </tr>
 				 </thead>
 				 
-				 <?
+				 <?php
 	          	    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 				    {
 		         ?>
 				 
 				        <tr>
-					    <td class="font_14"><? print $row['user']; ?></td>
-					    <td class="font_14" style="color: <? if ($row['type']=="ID_BUY") print "#009900"; else print "#990000"; ?>"><strong><? if ($row['type']=="ID_BUY") print "BUY"; else print "SELL"; ?></strong></td>
-					    <td class="font_14"><? print $row['amount']; ?></td>
-							<td class="font_14" style="color: <? if ($row['type']=="ID_BUY") print "#009900"; else print "#990000"; ?>"><strong><? print "$".$row['price']; ?></strong></td>
-					    <td class="font_14" height="50"><? print $this->kern->getAbsTime($row['tstamp']); ?></td>
+					    <td class="font_14"><?php print $row['user']; ?></td>
+					    <td class="font_14" style="color: <?php if ($row['type']=="ID_BUY") print "#009900"; else print "#990000"; ?>"><strong><?php if ($row['type']=="ID_BUY") print "BUY"; else print "SELL"; ?></strong></td>
+					    <td class="font_14"><?php print $row['amount']; ?></td>
+							<td class="font_14" style="color: <?php if ($row['type']=="ID_BUY") print "#009900"; else print "#990000"; ?>"><strong><?php print "$".$row['price']; ?></strong></td>
+					    <td class="font_14" height="50"><?php print $this->kern->getAbsTime($row['tstamp']); ?></td>
 				        </tr>
 				 
-				 <?
+				 <?php
 					}
 		         ?>
 				 
              </table>
 
-        <?
+        <?php
 	}
 }
 ?>

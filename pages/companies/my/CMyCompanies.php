@@ -1,4 +1,4 @@
-<?
+<?php
 class CMyCompanies
 {
 	function CMyCompanies($db, $acc, $template)
@@ -48,7 +48,7 @@ class CMyCompanies
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
            
-           <?
+           <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
@@ -56,7 +56,7 @@ class CMyCompanies
                  <tr>
                  <td width="11%" class="simple_blue_14">
                  <img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../overview/GIF/prods/big/".$row['pic'].".png";
 					 else
@@ -64,24 +64,24 @@ class CMyCompanies
 				 ?>
                 
                 " width="50" height="50" class="img-rounded" /></td>
-					 <td width="38%" class="font_14"><a href="#" class=""><strong><? print base64_decode($row['name']); ?> </strong></a><br />
-                 <span class="font_10"><? print $row['tip_name'].", ".ucfirst(strtolower($row['country'])); ?></span></td>
-                 <td width="16%" align="center" class="font_14"><? print $row['symbol']; ?></td>
-                 <td width="16%" align="center"><span class="bold_green_14"><? print "".round($row['balance'], 4)." CRC"; ?></span><br><span class="font_10"><strong><? print "$".$this->kern->toUSD($row['balance']); ?></strong></span></td>
-                 <td width="19%" align="center" class="bold_verde_14"><a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="btn btn-primary" style="width:80px" >Manage</a></td>
+					 <td width="38%" class="font_14"><a href="#" class=""><strong><?php print base64_decode($row['name']); ?> </strong></a><br />
+                 <span class="font_10"><?php print $row['tip_name'].", ".ucfirst(strtolower($row['country'])); ?></span></td>
+                 <td width="16%" align="center" class="font_14"><?php print $row['symbol']; ?></td>
+                 <td width="16%" align="center"><span class="bold_green_14"><?php print "".round($row['balance'], 4)." CRC"; ?></span><br><span class="font_10"><strong><?php print "$".$this->kern->toUSD($row['balance']); ?></strong></span></td>
+                 <td width="19%" align="center" class="bold_verde_14"><a href="../overview/main.php?ID=<?php print $row['comID']; ?>" class="btn btn-primary" style="width:80px" >Manage</a></td>
                  </tr>
                  <tr>
                  <td colspan="5" ><hr></td>
                  </tr>
       
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
            <br><br><bR>
         
-        <?
+        <?php
 	}
 }
 ?>

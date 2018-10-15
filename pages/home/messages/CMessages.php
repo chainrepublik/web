@@ -1,4 +1,4 @@
-<?
+<?php
 class CMessages
 {
 	function CMessages($db, $acc, $template)
@@ -162,7 +162,7 @@ class CMessages
                       <tr>
                         <td width="194" height="30" align="right" bgcolor="#f0f0f0" class="font_14">From Address</td>
                         <td width="883" height="35" align="left" bgcolor="#f0f0f0">&nbsp;&nbsp;<a href="#" class="font_14"><strong>
-						<? 
+						<?php 
 						    print $this->template->formatAdr($row['from_adr']); 
 					    ?>
                         </strong></a></td>
@@ -170,7 +170,7 @@ class CMessages
                       <tr>
                         <td height="30" align="right" bgcolor="#f0f0f0" class="font_14">To address</td>
                         <td height="35" align="left" bgcolor="#f0f0f0">&nbsp;&nbsp;<a href="#" class="font_14"><strong>
-                        <? 
+                        <?php 
 						    print $this->template->formatAdr($row['to_adr']); 
 					    ?>
                         </strong></a></td>
@@ -178,7 +178,7 @@ class CMessages
                       <tr>
                         <td height="30" align="right" bgcolor="#f0f0f0" class="font_14">Subject</td>
                         <td height="35" align="left" bgcolor="#f0f0f0" class="font_14">&nbsp;&nbsp;<strong>
-                        <? 
+                        <?php 
 						    print $this->kern->noEscape(base64_decode($row['subject'])); 
 					    ?>
                         </strong></td>
@@ -187,14 +187,14 @@ class CMessages
                         <td height="10" colspan="2" align="left" valign="top" class="font_14">&nbsp;</td>
                       </tr>
                       <tr>
-                        <td height="100" colspan="2" align="left" valign="top" class="font_14"><? print $this->kern->noEscape(base64_decode($row['mes'])); ?></td>
+                        <td height="100" colspan="2" align="left" valign="top" class="font_14"><?php print $this->kern->noEscape(base64_decode($row['mes'])); ?></td>
                       </tr>
                       <tr>
                         <td colspan="2" background="../../template/template/GIF/lp.png">&nbsp;</td>
                         </tr>
                       <tr>
                         <td>&nbsp;</td>
-                        <td align="right"><a href="javascript:void(0)" onclick="$('#txt_rec').val('<? print $this->kern->nameFromAdr($row['from_adr']); ?>'); $('#txt_subject').val('<? print "Re:".base64_decode($row['subject']); ?>'); $('#send_mes_modal').modal();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Reply</a></td>
+                        <td align="right"><a href="javascript:void(0)" onclick="$('#txt_rec').val('<?php print $this->kern->nameFromAdr($row['from_adr']); ?>'); $('#txt_subject').val('<?php print "Re:".base64_decode($row['subject']); ?>'); $('#send_mes_modal').modal();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Reply</a></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -205,7 +205,7 @@ class CMessages
               </tbody>
             </table>
         
-        <?
+        <?php
 	}
 	
 	
@@ -234,7 +234,7 @@ class CMessages
            <br>
            <table width="90%" border="0" cellspacing="0" cellpadding="0">
              
-                        <?
+                        <?php
 						   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						   {
 						?>
@@ -243,8 +243,8 @@ class CMessages
                                <td width="5%" align="left" class="font_18"><span class="glyphicon glyphicon-envelope"></span></td>
                              <td width="25%" align="left">
                             
-                             <a href="main.php?act=show_mes&mesID=<? print $row['ID']; ?>" class="font_14">
-							 <? 
+                             <a href="main.php?act=show_mes&mesID=<?php print $row['ID']; ?>" class="font_14">
+							 <?php 
 							    if ($row['readed']==0) 
 								   print "<strong>".$this->template->formatAdr($row['from_adr'], 14, false)."</strong>"; 
 							    else
@@ -257,8 +257,8 @@ class CMessages
                              
                              
                              <td width="40%" align="left" >
-                             <a href="main.php?act=show_mes&mesID=<? print $row['ID']; ?>" class="font_14">
-							 <? 
+                             <a href="main.php?act=show_mes&mesID=<?php print $row['ID']; ?>" class="font_14">
+							 <?php 
 							    if ($row['readed']==0) 
 								   print "<strong>".base64_decode($row['subject'])."</strong>"; 
 							    else
@@ -269,8 +269,8 @@ class CMessages
                              </td>
                              <td width="15%" align="center">
 							 
-                             <a href="main.php?act=show_mes&mesID=<? print $row['ID']; ?>" class="font_14">
-                             <? 
+                             <a href="main.php?act=show_mes&mesID=<?php print $row['ID']; ?>" class="font_14">
+                             <?php 
 							    if ($row['readed']==0) 
 								   print "<strong>".$this->kern->getAbsTime($row['tstamp'])."</strong>"; 
 							    else
@@ -283,7 +283,7 @@ class CMessages
                              <td width="13%" align="center" class="font_14">
                   
                              <div class="dropdown" align="right">
-                             <a class="btn btn-sm btn-danger" href="javascript:$('#confirm_modal').modal(); $('#par_1').val('<? print $row['ID']; ?>');">Delete</a></li>
+                             <a class="btn btn-sm btn-danger" href="javascript:$('#confirm_modal').modal(); $('#par_1').val('<?php print $row['ID']; ?>');">Delete</a></li>
                            
                              </div>
                   
@@ -292,7 +292,7 @@ class CMessages
                             <td colspan="6"><hr></td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                           
@@ -300,7 +300,7 @@ class CMessages
                   <br><br><br>
                  
         
-        <?
+        <?php
 	}
 	
 	function showComposeBut()
@@ -311,7 +311,7 @@ class CMessages
 			 <tr><td align="right"><a href="javascript:void(0)" onClick="$('#send_mes_modal').modal()" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send Message</a></td></tr>
          </table>
 
-        <?
+        <?php
 	}
 }
 ?>

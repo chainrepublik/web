@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(2);
 	  ?>
       </td>
@@ -60,14 +60,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $porto->showMenu(1);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-            <?
+            <?php
 			   $template->showHelp("In this page there is a list of your belongings. Since some of them do have an <strong>expiration date</strong>, you might want to check this page regularly so that you always have the maximum energy possible. Keep in mind that all your virtual items like clothes or jewelry can be <strong>rented to other players</strong> for a daily fee. Use this method to <strong>maximize</strong> your virtual assets income. Assets can also be <strong>donated</strong> but you <strong>can't resell them.</strong>");
 			      
 				  // Action
@@ -175,7 +175,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -191,7 +191,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -32,7 +32,7 @@
 <body>
 <center>
     
-    <?
+    <?php
 	   $temp->showNav(9);
 	   $temp->showSearch();
 	   $temp->showNewBut("inv_codes.php?act=generate", "Generate 25 New Codes");

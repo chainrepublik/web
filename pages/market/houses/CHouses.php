@@ -1,4 +1,4 @@
-<?
+<?php
 class CHouses
 {
     function CHouses($db, $acc, $template)
@@ -20,19 +20,19 @@ class CHouses
               
 		        <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_HOUSE_Q1">
-                <img src="./GIF/ID_HOUSE_Q1_<? if ($prod=="ID_HOUSE_Q1") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Low Quality Houses" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/ID_HOUSE_Q1_<?php if ($prod=="ID_HOUSE_Q1") print "on"; else print "off"; ?>.png" id="img_1" style="cursor:pointer" title="Low Quality Houses" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_HOUSE_Q2">
-                <img src="./GIF/ID_HOUSE_Q2_<? if ($prod=="ID_HOUSE_Q2") print "on"; else print "off"; ?>.png" id="img_2" style="cursor:pointer" title="Medium Quality Houses" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/ID_HOUSE_Q2_<?php if ($prod=="ID_HOUSE_Q2") print "on"; else print "off"; ?>.png" id="img_2" style="cursor:pointer" title="Medium Quality Houses" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		        
                 <td width="85" align="center">
                 <a href="main.php?trade_prod=ID_HOUSE_Q3">
-                <img src="./GIF/ID_HOUSE_Q3_<? if ($prod=="ID_HOUSE_Q3") print "on"; else print "off"; ?>.png" id="img_3" style="cursor:pointer" title="High Quality Houses" data-toggle="tooltip" data-placement="top"/>
+                <img src="./GIF/ID_HOUSE_Q3_<?php if ($prod=="ID_HOUSE_Q3") print "on"; else print "off"; ?>.png" id="img_3" style="cursor:pointer" title="High Quality Houses" data-toggle="tooltip" data-placement="top"/>
                 </a>
                 </td>
 		      
@@ -84,7 +84,7 @@ class CHouses
 
 		  </script>
         
-        <?
+        <?php
 	}
 }
 ?>

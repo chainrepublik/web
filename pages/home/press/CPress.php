@@ -1,4 +1,4 @@
-<?
+<?php
 class CPress
 {
 	function CPress($db, $acc, $template, $mes)
@@ -174,8 +174,8 @@ class CPress
 								'ID_NEW_TWEET',
 								$_REQUEST['ud']['adr'], 
 								$_REQUEST['ud']['adr'], 
-								$title, 
-								$mes,
+								base64_encode($title), 
+								base64_encode($mes),
 								$categ,
 								$cou,
 								$pic, 
@@ -546,10 +546,10 @@ class CPress
 		
 		 ?>
          
-         <table width="<? if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
+         <table width="<?php if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
          <tbody>
          
-         <?
+         <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($row['hidden']==0)
@@ -573,7 +573,7 @@ class CPress
                  <tr>
                    <td width="17%" align="center">
                    <img src="
-				   <? 
+				   <?php 
 				  
 				       if ($row['retweet_tweet_ID']>0)
 					   {
@@ -593,8 +593,8 @@ class CPress
 				    ?>" width="100" height="100" alt="" class="img img-responsive img-rounded"/></td>
                    <td width="3%" valign="top">&nbsp;</td>
                    <td width="80%" valign="top"><strong>
-                   <a href="../../home/press/main.php?target=<? print $_REQUEST['target']; ?>&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
-				   <? 
+                   <a href="../../home/press/main.php?target=<?php print $_REQUEST['target']; ?>&page=tweet&tweetID=<?php if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
+				   <?php 
 				      $title=base64_decode($row['title']); 
 					 
 					  if ($row['retweet_tweet_ID']>0)
@@ -613,8 +613,8 @@ class CPress
 					  }
 				   ?>
                    </a></strong>
-                     <p class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>">
-					 <? 
+                     <p class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>">
+					 <?php 
 					    $mes=base64_decode($row['mes']); 
 					  
 					    if ($row['retweet_tweet_ID']>0)
@@ -637,7 +637,7 @@ class CPress
                  <tr>
                    <td align="center" valign="top">
                    
-                   <?
+                   <?php
 				      if ($row['retweet_tweet_ID']>0)
 					  {
 						  // Payment
@@ -676,7 +676,7 @@ class CPress
 					  }
 				   ?>
                    
-                   <span style="color:<? if ($pay==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
+                   <span style="color:<?php if ($pay==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
                    
                    
                    </td>
@@ -686,22 +686,22 @@ class CPress
                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
                      <tbody>
                        <tr>
-                         <td align="left" style="color:#999999" class="<? if ($adr=="all") print "font_12"; else print "font_10"; ?>">
-						 <? 
+                         <td align="left" style="color:#999999" class="<?php if ($adr=="all") print "font_12"; else print "font_10"; ?>">
+						 <?php 
 						    print "Posted by ".$this->template->formatAdr($row['adr'], 10, true).",  ".$this->kern->timeFromBlock($row['block'])." ago";
 						 ?>
                          </td>
                         
-                         <td width="50" align="center" style="color:<? if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-up <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $upvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-up <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $upvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" style="color:<? if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-down <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $downvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-down <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $downvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<? if ($comments==0) print "#999999"; else print "#304971"; ?>">
-                         <span class="glyphicon glyphicon-bullhorn <? if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $comments; ?></span>
+                         <td width="50" align="center" class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<?php if ($comments==0) print "#999999"; else print "#304971"; ?>">
+                         <span class="glyphicon glyphicon-bullhorn <?php if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $comments; ?></span>
                          </td>
                          </tr>
                      </tbody>
@@ -716,7 +716,7 @@ class CPress
              <td><hr></td>
            </tr>
            
-           <?
+           <?php
 	}
 			}
 		   ?>
@@ -724,7 +724,7 @@ class CPress
          </tbody>
        </table>
          
-         <?
+         <?php
 	}
 	
 	function showReport()
@@ -775,7 +775,7 @@ class CPress
 		</script>
      
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -794,7 +794,7 @@ class CPress
              </tr>
              <tr><td>&nbsp;</td></tr>
              <tr>
-               <td align="center"><? $this->template->showReq(0.1, 0.003); ?></td>
+               <td align="center"><?php $this->template->showReq(0.1, 0.003); ?></td>
              </tr>
            </table></td>
            <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="5">
@@ -815,7 +815,7 @@ class CPress
       
      
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -826,7 +826,7 @@ class CPress
 		$this->template->showModalHeader("unfollow_modal", "Unfollow", "act", "unfollow", "adr", $unfollow_adr);
 		?>
           
-          <input name="unfollow_adr" id="unfollow_adr" value="<? print $unfollow_adr; ?>" type="hidden">
+          <input name="unfollow_adr" id="unfollow_adr" value="<?php print $unfollow_adr; ?>" type="hidden">
           <table width="700" border="0" cellspacing="0" cellpadding="0">
           <tr>
            <td width="130" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
@@ -835,7 +835,7 @@ class CPress
              </tr>
              <tr><td>&nbsp;</td></tr>
              <tr>
-               <td align="center"><? $this->template->showReq(0.1, 0.0001); ?></td>
+               <td align="center"><?php $this->template->showReq(0.1, 0.0001); ?></td>
              </tr>
            </table></td>
            <td width="400" align="center" valign="top">&nbsp;</td>
@@ -843,7 +843,7 @@ class CPress
      </table>
      
         
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -861,7 +861,7 @@ class CPress
              </tr>
              <tr><td>&nbsp;</td></tr>
              <tr>
-               <td align="center"><? $this->template->showReq(0.1, 0.0090); ?></td>
+               <td align="center"><?php $this->template->showReq(0.1, 0.0090); ?></td>
              </tr>
            </table></td>
            <td width="400" align="center" valign="top"><table width="90%" border="0" cellspacing="0" cellpadding="5">
@@ -893,7 +893,7 @@ class CPress
 		   </script>
         
        
-        <?
+        <?php
 		$this->template->showModalFooter("Send");
 		
 	}
@@ -907,7 +907,7 @@ class CPress
 		?>
            
            <br>
-           <form id="form_new_tweet_modal" name="form_new_tweet_modal" action="main.php?target=write&act=new_tweet&pol_party=<? print $_REQUEST['pol_party']; ?>&mil_unit=<? print $_REQUEST['mil_unit']; ?>" method="post">
+           <form id="form_new_tweet_modal" name="form_new_tweet_modal" action="main.php?target=write&act=new_tweet&pol_party=<?php print $_REQUEST['pol_party']; ?>&mil_unit=<?php print $_REQUEST['mil_unit']; ?>" method="post">
            <input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple style="display:none">
            <input type="hidden" id="tweet_adr" name="tweet_adr" value="">
            <input type="hidden" id="h_img_0" name="h_img_0" value="">
@@ -938,7 +938,7 @@ class CPress
              <tr>
                <td align="center">
 			    
-			   <? $this->template->showReq(5, 0.0030); ?>
+			   <?php $this->template->showReq(5, 0.0030); ?>
 				 
 			   </td>
              </tr>
@@ -1028,7 +1028,7 @@ class CPress
                      <td width="48%">
                      <select name="dd_cou" id="dd_cou" class="form-control">
                      <option value="EN" selected>International Press</option>
-                     <option value="<? print $_REQUEST['ud']['loc']; ?>" <? if ($_REQUEST['pol_party']>0 || $_REQUEST['mil_unit']>0) print "selected"; ?>>Local Press</option>
+                     <option value="<?php print $_REQUEST['ud']['loc']; ?>" <?php if ($_REQUEST['pol_party']>0 || $_REQUEST['mil_unit']>0) print "selected"; ?>>Local Press</option>
                      </select>
                      </td>
                    </tr>
@@ -1130,7 +1130,7 @@ class CPress
 		   }
 		</script>
        
-        <?
+        <?php
 		
 	}
 	
@@ -1154,7 +1154,7 @@ class CPress
            <td><hr></td>
            </tr>
                 
-           <?
+           <?php
 		      $a=0;
 			  
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
@@ -1163,14 +1163,14 @@ class CPress
 		   ?>
            
                 <tr>
-                <td><a href="../search/index.php?term=<? print urlencode($row['term']); ?>" class="font_16"><? print $a.". ".$row['term']; ?></a></td>
+                <td><a href="../search/index.php?term=<?php print urlencode($row['term']); ?>" class="font_16"><?php print $a.". ".$row['term']; ?></a></td>
                 </tr>
                 <tr>
                 <td><hr></td>
                 </tr>
                 
            
-           <?
+           <?php
 			  }
 		   ?>
            
@@ -1210,7 +1210,7 @@ class CPress
         </div>
         </div>
         
-        <?
+        <?php
 	}
 	
 	 function showPost($ID)
@@ -1250,7 +1250,7 @@ class CPress
           <td width="22%" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tbody>
            <tr>
-             <td align="center"><img src="<? if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=100&h=100"; ?>" width="125" height="125" class="img img-responsive img-rounded" id="post_img" name="post_img" onError="$('#post_img').attr('src', '../../template/GIF/empty_pic.png');"/></td>
+             <td align="center"><img src="<?php if ($row['pic']=="") print "../../template/GIF/empty_pic.png"; else print "../../../crop.php?src=".$this->kern->noescape(base64_decode($row['pic']))."&w=100&h=100"; ?>" width="125" height="125" class="img img-responsive img-rounded" id="post_img" name="post_img" onError="$('#post_img').attr('src', '../../template/GIF/empty_pic.png');"/></td>
            </tr>
            <tr>
              <td>&nbsp;</td>
@@ -1258,7 +1258,7 @@ class CPress
          </tbody>
        </table>
        
-       <?
+       <?php
 	       if ($_REQUEST['ud']['ID']>0)
 		   {
 	   ?>
@@ -1269,16 +1269,16 @@ class CPress
                   <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tbody>
                       <tr>
-                        <td width="75%" align="center"><a href="javascript:void(0)" title="Upvote" data-toggle="tooltip" data-placement="top" onclick="$('#vote_modal').modal(); $('#vote_target_type').val('ID_TWEET'); $('#vote_targetID').val('<? print $_REQUEST['tweetID']?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['publish_block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['publish_block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>'); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', './GIF/like.png');" class="btn btn-success" style="width:100%"> <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;Vote </a></td>
+                        <td width="75%" align="center"><a href="javascript:void(0)" title="Upvote" data-toggle="tooltip" data-placement="top" onclick="$('#vote_modal').modal(); $('#vote_target_type').val('ID_TWEET'); $('#vote_targetID').val('<?php print $_REQUEST['tweetID']?>'); $('#vote_published').html('<?php print $_REQUEST['sd']['last_block']-$row['publish_block']." blocks ago"; ?>'); $('#vote_energy').html('<?php print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<?php print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['publish_block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>'); $('#vote_type').val('ID_UP'); $('#vote_img').attr('src', './GIF/like.png');" class="btn btn-success" style="width:100%"> <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;Vote </a></td>
                         <td>&nbsp;&nbsp;</td>
-                        <td width="26%" align="center"><a href="javascript:void(0)" title="Downvote" data-toggle="tooltip" data-placement="top" onclick="$('#vote_modal').modal(); $('#vote_target_type').val('ID_TWEET'); $('#vote_targetID').val('<? print $_REQUEST['tweetID']?>'); $('#vote_published').html('<? print $_REQUEST['sd']['last_block']-$row['publish_block']." blocks ago"; ?>'); $('#vote_energy').html('<? print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<? print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['publish_block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>'); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', './GIF/down.png');" class="btn btn-danger" style="width:100%; height:38px"> <span class="glyphicon glyphicon-thumbs-down"></span> </a></td>
+                        <td width="26%" align="center"><a href="javascript:void(0)" title="Downvote" data-toggle="tooltip" data-placement="top" onclick="$('#vote_modal').modal(); $('#vote_target_type').val('ID_TWEET'); $('#vote_targetID').val('<?php print $_REQUEST['tweetID']?>'); $('#vote_published').html('<?php print $_REQUEST['sd']['last_block']-$row['publish_block']." blocks ago"; ?>'); $('#vote_energy').html('<?php print round($_REQUEST['ud']['energy'], 2)." points"; ?>'); $('#vote_power').html('<?php print round($_REQUEST['ud']['energy']-(($_REQUEST['sd']['last_block']-$row['publish_block'])*0.069)*$_REQUEST['ud']['energy']/100, 2)." points"; ?>'); $('#vote_type').val('ID_DOWN'); $('#vote_img').attr('src', './GIF/down.png');" class="btn btn-danger" style="width:100%; height:38px"> <span class="glyphicon glyphicon-thumbs-down"></span> </a></td>
                       </tr>
                     </tbody>
                   </table></td>
                 </tr>
                 <tr>
                   <td height="60" align="center">
-                  <?
+                  <?php
 				     // Already following
 					 $query="SELECT * 
 					           FROM tweets_follow 
@@ -1303,7 +1303,7 @@ class CPress
                        <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;&nbsp;&nbsp;Unfollow
                        </a>
                   
-                  <?
+                  <?php
 					 }
 					 else
 					 {
@@ -1313,19 +1313,19 @@ class CPress
                           <span class="glyphicon glyphicon-random"></span>&nbsp;&nbsp;&nbsp;&nbsp;Follow 
                           </a>
                          
-                         <?
+                         <?php
 					 }
 				  ?>
                   
                   </td>
                 </tr>
                 <tr>
-                  <td height="50" align="center"><a href="javascript:void(0)" onclick="$('#send_mes_modal').modal(); $('#txt_rec').val('<? print $this->kern->nameFromAdr($row['adr']); ?>')" title="Message Author" data-toggle="tooltip" data-placement="top" class="btn btn-default" style="width:100%"> <span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;&nbsp;Message  </a></td>
+                  <td height="50" align="center"><a href="javascript:void(0)" onclick="$('#send_mes_modal').modal(); $('#txt_rec').val('<?php print $this->kern->nameFromAdr($row['adr']); ?>')" title="Message Author" data-toggle="tooltip" data-placement="top" class="btn btn-default" style="width:100%"> <span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;&nbsp;Message  </a></td>
                 </tr>
               </tbody>
             </table>
             
-            <?
+            <?php
 		   }
 			?>
             
@@ -1337,19 +1337,19 @@ class CPress
                 <tr>
                   <td align="center"><div class="panel panel-default">
                     <div class="panel-heading font_14">Income Today</div>
-                    <div class="panel-body font_20"> <strong style="color:<? if ($row['pay']==0) print "#aaaaaa"; else print "#009900"; ?>"><? print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 20, 14); ?></div>
+                    <div class="panel-body font_20"> <strong style="color:<?php if ($row['pay']==0) print "#aaaaaa"; else print "#009900"; ?>"><?php print "$".$this->kern->split($row['pay']*$_REQUEST['sd']['coin_price'], 2, 20, 14); ?></div>
                   </div></td>
                 </tr>
                 <tr>
                   <td align="center"><div class="panel panel-default">
                     <div class="panel-heading font_14">Upvotes Today</div>
-                    <div class="panel-body"><a href="../../explorer/voters/index.php?tab=upvoters_24&target_type=ID_POST&targetID=<? print $_REQUEST['ID']; ?>" style="color:<? if ($row['upvotes_24']==0) print "#aaaaaa"; ?>"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<strong><? if ($row['upvotes_24']=="") print "0"; else print $row['upvotes_24']; ?></strong></a></div>
+                    <div class="panel-body"><a href="../../explorer/voters/index.php?tab=upvoters_24&target_type=ID_POST&targetID=<?php print $_REQUEST['ID']; ?>" style="color:<?php if ($row['upvotes_24']==0) print "#aaaaaa"; ?>"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<strong><?php if ($row['upvotes_24']=="") print "0"; else print $row['upvotes_24']; ?></strong></a></div>
                   </div></td>
                 </tr>
                 <tr>
                   <td align="center"><div class="panel panel-default">
                     <div class="panel-heading font_14">Downvotes Today</div>
-                    <div class="panel-body"><a style="color:<? if ($row['downvotes_24']==0) print "#aaaaaa"; else print "#990000"; ?>" href="../../explorer/voters/index.php?tab=downvoters_24&target_type=ID_POST&targetID=<? print $_REQUEST['ID']; ?>"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;<strong><? if ($row['downvotes_24']=="") print "0"; else print $row['downvotes_24']; ?></strong></a></div>
+                    <div class="panel-body"><a style="color:<?php if ($row['downvotes_24']==0) print "#aaaaaa"; else print "#990000"; ?>" href="../../explorer/voters/index.php?tab=downvoters_24&target_type=ID_POST&targetID=<?php print $_REQUEST['ID']; ?>"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;<strong><?php if ($row['downvotes_24']=="") print "0"; else print $row['downvotes_24']; ?></strong></a></div>
                   </div></td>
                 </tr>
                 <tr>
@@ -1360,14 +1360,14 @@ class CPress
        <td width="78%" align="right" valign="top"><table width="95%" border="0" cellpadding="0" cellspacing="0">
          <tbody>
            <tr>
-             <td><span class="font_18"><strong><? print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span><br><span class="font_12"><? print "Posted by ".$this->template->formatAdr($row['adr'], 12, true)." ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></p></td>
+             <td><span class="font_18"><strong><?php print $this->kern->noescape(base64_decode($row['title'])); ?></strong></span><br><span class="font_12"><?php print "Posted by ".$this->template->formatAdr($row['adr'], 12, true)." ~".$this->kern->timeFromBlock($row['block'])." ago"; ?></p></td>
            </tr>
            <tr>
              <td><hr></td>
            </tr>
            <tr>
              <td class="font_14">
-		    <? 
+		    <?php 
 		           print nl2br($this->template->makeLinks($this->kern->bb_parse($this->kern->noescape(base64_decode($row['mes']))))); 
 			?></td>
            </tr>
@@ -1386,7 +1386,7 @@ class CPress
    </tbody>
  </table>
         
-        <?
+        <?php
 		
 		$this->showNewCommentBut($ID);
 		
@@ -1400,11 +1400,11 @@ class CPress
 		?>
         
         <table width="90%">
-        <tr><td align="right"><a href="javascript:void()" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_TWEET'); $('#com_targetID').val('<? print $ID; ?>'); " class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;New Comment</a></td></tr>
+        <tr><td align="right"><a href="javascript:void()" onClick="$('#new_comment_modal').modal(); $('#com_target_type').val('ID_TWEET'); $('#com_targetID').val('<?php print $ID; ?>'); " class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;New Comment</a></td></tr>
         </table>
         <br>
         
-        <?
+        <?php
 	}
 	
 	
@@ -1432,7 +1432,7 @@ class CPress
                      <div class="panel panel-default" style="width:150px">
                      <div class="panel-heading font_14">Votes 24 Hours</div>
                      <div class="panel-body">
-                     <? print $votes; ?>
+                     <?php print $votes; ?>
                      </div>
                      </div>
                      
@@ -1443,7 +1443,7 @@ class CPress
                      <div class="panel panel-default" style="width:150px">
                      <div class="panel-heading font_14">Voting Power</div>
                      <div class="panel-body" style="color:#009900">
-                     <? 
+                     <?php 
 					    print "+".$power; 
 				     ?>
                      </div>
@@ -1454,7 +1454,7 @@ class CPress
                  </tbody>
                </table>
         
-        <?
+        <?php
 	}
 	
 	

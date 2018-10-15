@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -33,7 +33,7 @@
 <body>
 <center>    
     
-	<?
+	<?php
 	  $query="SELECT * 
 	            FROM tipuri_produse 
 			   WHERE prod LIKE '%BUILD_COM%'";

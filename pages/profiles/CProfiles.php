@@ -1,4 +1,4 @@
-<?
+<?php
 class CProfiles
 {
 	function CProfiles($db, $acc, $template)
@@ -14,16 +14,16 @@ class CProfiles
         
             <table width="200" border="0" cellspacing="0" cellpadding="0">
             <tr>
-            <td height="81" align="center" <? if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+            <td height="81" align="center" <?php if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
             
-            <a href="../overview/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <a href="../overview/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_home">
               <tr>
-                <td width="43%" align="center"><img src="../GIF/ico_home_<? if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
+                <td width="43%" align="center"><img src="../GIF/ico_home_<?php if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
                 <td width="57%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Home </span><br />
-                      <span class="<? if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Pics and profile overview</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Home </span><br />
+                      <span class="<?php if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Pics and profile overview</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -38,16 +38,16 @@ class CProfiles
           </tr>
           
             <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==2) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==2) print "on"; else print "off"; ?>.png">
             
-            <a href="../inventory/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <a href="../inventory/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_press">
               <tr>
-                <td width="45%" align="center"><img src="../GIF/ico_inventory_<? if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
+                <td width="45%" align="center"><img src="../GIF/ico_inventory_<?php if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
                 <td width="55%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Inventory </span><br />
-                      <span class="<? if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Inventory and other assets</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Inventory </span><br />
+                      <span class="<?php if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Inventory and other assets</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -61,21 +61,21 @@ class CProfiles
           </tr>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==3) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==3) print "on"; else print "off"; ?>.png">
            
            
-            <a href="../accounting/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <a href="../accounting/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_mes">
               <tr>
-                <td width="45%" align="center"><img src="../GIF/ico_trans_<? if ($sel==3) print "on"; else print "off"; ?>.png"  /></td>
+                <td width="45%" align="center"><img src="../GIF/ico_trans_<?php if ($sel==3) print "on"; else print "off"; ?>.png"  /></td>
                 <td width="55%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td><span class="<? if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting</span></td>
+                        <td><span class="<?php if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting</span></td>
                       </tr>
                       <tr>
-                        <td width="57%"><span class="<? if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last financial transactions</span></td>
+                        <td width="57%"><span class="<?php if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last financial transactions</span></td>
                       </tr>
                     </table></td>
                     <td width="14%">&nbsp;</td>
@@ -92,16 +92,16 @@ class CProfiles
           </tr>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==4) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==4) print "on"; else print "off"; ?>.png">
             
-            <a href="../refs/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <a href="../refs/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_players">
               <tr>
-                <td width="45%" align="center"><img src="../GIF/ico_ref_<? if ($sel==4) print "on"; else print "off"; ?>.png" /></td>
+                <td width="45%" align="center"><img src="../GIF/ico_ref_<?php if ($sel==4) print "on"; else print "off"; ?>.png" /></td>
                 <td width="55%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Affiliates </span><br />
-                      <span class="<? if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check player's affiliates</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Affiliates </span><br />
+                      <span class="<?php if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check player's affiliates</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -118,16 +118,16 @@ class CProfiles
          
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==5) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==5) print "on"; else print "off"; ?>.png">
             
-            <a href="../shares/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <a href="../shares/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_partners">
               <tr>
-                <td width="46%" align="center"><img src="../GIF/ico_shares_<? if ($sel==5) print "on"; else print "off"; ?>.png" /></td>
+                <td width="46%" align="center"><img src="../GIF/ico_shares_<?php if ($sel==5) print "on"; else print "off"; ?>.png" /></td>
                 <td width="54%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Shares </span><br />
-                      <span class="<? if ($sel==5) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check player's owned shares</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Shares </span><br />
+                      <span class="<?php if ($sel==5) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check player's owned shares</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -144,15 +144,15 @@ class CProfiles
           
 		  
 				 <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==6) print "on"; else print "off"; ?>.png">
-            <a href="../press/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==6) print "on"; else print "off"; ?>.png">
+            <a href="../press/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_settings">
               <tr>
-                <td width="45%" align="center"><img src="../GIF/press_<? if ($sel==6) print "on"; else print "off"; ?>.png" width="65px" /></td>
+                <td width="45%" align="center"><img src="../GIF/press_<?php if ($sel==6) print "on"; else print "off"; ?>.png" width="65px" /></td>
                 <td width="55%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Press</span><br />
-                      <span class="<? if ($sel==6) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last blog posts & comments &amp; reports</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Press</span><br />
+                      <span class="<?php if ($sel==6) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last blog posts & comments &amp; reports</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -168,15 +168,15 @@ class CProfiles
 				
 				
 				 <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==7) print "on"; else print "off"; ?>.png">
-            <a href="../rewards/main.php?adr=<? print $_REQUEST['adr']; ?>">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==7) print "on"; else print "off"; ?>.png">
+            <a href="../rewards/main.php?adr=<?php print $_REQUEST['adr']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_settings">
               <tr>
-                <td width="45%" align="center"><img src="../GIF/rewards_<? if ($sel==7) print "on"; else print "off"; ?>.png" width="65px" /></td>
+                <td width="45%" align="center"><img src="../GIF/rewards_<?php if ($sel==7) print "on"; else print "off"; ?>.png" width="65px" /></td>
                 <td width="55%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Rewards</span><br />
-                      <span class="<? if ($sel==7) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last rewards &amp; reports</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Rewards</span><br />
+                      <span class="<?php if ($sel==7) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last rewards &amp; reports</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -194,7 +194,7 @@ class CProfiles
         
        
         
-        <?
+        <?php
 	}
 	
 	function showSelectMenu()
@@ -252,7 +252,7 @@ class CProfiles
 		   $('#img_5').click(function () { hit(5); });
 		  </script>
         
-        <?
+        <?php
 	}
 }
 ?>

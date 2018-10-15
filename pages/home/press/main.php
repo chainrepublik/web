@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -41,7 +41,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -49,7 +49,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -62,7 +62,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(1);
 			   $template->showLeftAds();
 			?>
@@ -70,7 +70,7 @@
             <td width="594" align="center" valign="top">
             
            
-			<?
+			<?php
 			   $template->showHelp("Publishing articles is one of the easiest ways to <strong>make money</strong> in chainrepublik. Every 24 hours, the network <strong>rewards content creators</strong> depending on the votes they receive. And not only those who write articles are rewarded, but also those who <strong>voted</strong> for articles or those who comment or vote on comments. You can approach any subject you want. Publishing an article costs 0.003 CRC and 5 points of energy. Below are listed top articles.");
 			   
 			   									   
@@ -214,7 +214,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -228,7 +228,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

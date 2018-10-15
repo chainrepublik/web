@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -34,7 +34,7 @@
 <center>
 
     
-    <?
+    <?php
 	   $temp->showNav(5);
 	   
 	   if ($_REQUEST['act']=="update")

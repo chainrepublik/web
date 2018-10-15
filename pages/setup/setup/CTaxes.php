@@ -1,4 +1,4 @@
-<?
+<?php
 class CTaxes
 {
 	function CTaxes($db, $utils)
@@ -38,7 +38,7 @@ class CTaxes
            </table>
            <br><br>
         
-        <?
+        <?php
 	}
 	
 	function showTaxes($com_type)
@@ -50,23 +50,23 @@ class CTaxes
         
          <table border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:700px">
            
-           <?
+           <?php
 		      while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="598"><? print $row['title']; ?><br><span class='simple_gri_10'><? print $row['tax']; ?></span></td>
-                <td width="25" align="center"><a href="del.php?tab=taxes&ID=<? print $row['ID']; ?>&com=<? print $_REQUEST['com']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
+                <td width="598"><?php print $row['title']; ?><br><span class='simple_gri_10'><?php print $row['tax']; ?></span></td>
+                <td width="25" align="center"><a href="del.php?tab=taxes&ID=<?php print $row['ID']; ?>&com=<?php print $_REQUEST['com']; ?>" class="btn btn-danger" style="width:60px">Delete</a></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showAddModal()
@@ -95,12 +95,12 @@ class CTaxes
               <tr>
                 <td width="30%" height="50" align="right" valign="middle" class="bold_gri_14">Company&nbsp;&nbsp;</td>
                 <td width="70%" height="40" align="left" valign="middle" id="td_prod">
-				<? $this->utils->showComTypesDD("dd_com_type", $_REQUEST['com']); ?>
+				<?php $this->utils->showComTypesDD("dd_com_type", $_REQUEST['com']); ?>
                 </td>
               </tr>
               <tr>
                 <td height="50" align="right"><span class="bold_gri_14">Product&nbsp;&nbsp;</span></td>
-                <td><? $this->utils->showProdTypesDD("dd_prod"); ?></td>
+                <td><?php $this->utils->showProdTypesDD("dd_prod"); ?></td>
               </tr>
               <tr>
                 <td height="50" align="right"><span class="bold_gri_14">Tax&nbsp;&nbsp;</span></td>
@@ -143,7 +143,7 @@ class CTaxes
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

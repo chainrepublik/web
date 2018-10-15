@@ -1,4 +1,4 @@
-<?
+<?php
 class CLogin
 {
 	function CLogin($db, $template, $acc)
@@ -19,7 +19,7 @@ class CLogin
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
             <tbody>
             <tr><td>
-            <?
+            <?php
 		       if ($_REQUEST['act']=="login")
 		       $this->doLogin($_REQUEST['txt_user'], 
 		               $_REQUEST['txt_pass']);
@@ -55,7 +55,7 @@ class CLogin
      </div>
      </div>
         
-        <?
+        <?php
 	}
 	
 	

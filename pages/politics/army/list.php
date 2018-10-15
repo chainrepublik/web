@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(8);
 	  ?>
       </td>
@@ -59,7 +59,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(8);
 			   $template->showLeftAds();
 			?>
@@ -67,7 +67,7 @@
             <td width="594" valign="top" align="center">
             
           
-         <?
+         <?php
 		       $template->showHelp("Heavy military equipment such as marine destroyers or aircrafts can be moved only through a <strong>congressional decision</strong>. The movement does not take place immediately and can take up to <strong>4 days</strong> depending on the distance. It also involves a cost of 0.0001 CRC / km. Below is the list of the equipment to be moved along with the required time and the associated costs.");
 			
 			   // Show list
@@ -83,7 +83,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -97,7 +97,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

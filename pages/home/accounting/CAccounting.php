@@ -1,4 +1,4 @@
-<?
+<?php
 class CAccounting
 {
 	function CAccounting($db, $acc, $template)
@@ -137,11 +137,11 @@ class CAccounting
 		?>
 
             <table width="550px">
-				<tr><td align="right"><a href="escrowed.php" class="btn btn-danger"><span class="glyphicon glyphicon-random">&nbsp;</span><? print mysqli_num_rows($result); ?> Escrowed Transactions</a></td></tr>
+				<tr><td align="right"><a href="escrowed.php" class="btn btn-danger"><span class="glyphicon glyphicon-random">&nbsp;</span><?php print mysqli_num_rows($result); ?> Escrowed Transactions</a></td></tr>
             </table>
             <br>
 
-        <?
+        <?php
 	}
 	
 	function showEscrowed()
@@ -170,16 +170,16 @@ class CAccounting
 
             <table width="550px">
 				
-				<?
+				<?php
 		            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			        {
 		        ?>
 				
 				       <tr>
-					   <td width="23%" class="font_14" align="left"><? print $this->template->formatAdr($row['sender_adr']); ?></td>
-					   <td width="23%" align="center" class="font_14"><? print $this->template->formatAdr($row['rec_adr']); ?></td>
-					   <td width="23%" align="center" class="font_14"><? print $this->template->formatAdr($row['escrower']); ?></td>
-						   <td width="23%" align="center" class="font_14" style="color: #009900"><strong><? print $row['amount']." ".$row['cur']; ?></strong></td>
+					   <td width="23%" class="font_14" align="left"><?php print $this->template->formatAdr($row['sender_adr']); ?></td>
+					   <td width="23%" align="center" class="font_14"><?php print $this->template->formatAdr($row['rec_adr']); ?></td>
+					   <td width="23%" align="center" class="font_14"><?php print $this->template->formatAdr($row['escrower']); ?></td>
+						   <td width="23%" align="center" class="font_14" style="color: #009900"><strong><?php print $row['amount']." ".$row['cur']; ?></strong></td>
 					   <td width="30%" class="font_14" align="right">
 						   
 					
@@ -187,7 +187,7 @@ class CAccounting
                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span><span class="caret"></span></button>
                        <ul class="dropdown-menu">
 					   
-					   <?
+					   <?php
 						    if ($row['sender_adr']==$_REQUEST['ud']['adr'] || 
 								$row['escrower']==$_REQUEST['ud']['adr'])
                             print "<li><a href=\"javascript:void(0)\" onClick=\"$('#par_1').val('".$row['trans_hash']."'); $('#par_2').val('ID_RELEASE'); $('#confirm_modal').modal()\">Release funds</a></li>";
@@ -203,13 +203,13 @@ class CAccounting
 				       </tr>
 				       <tr><td colspan="5"><hr></td></tr>
 				
-				<?
+				<?php
 					}
 				?>
 				
             </table>
 
-        <?
+        <?php
 	}
 	
 	function viewed()

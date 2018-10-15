@@ -1,4 +1,4 @@
-<?
+<?php
 class CSignup
 {
 	function CSignup($db, $template, $acc)
@@ -137,7 +137,7 @@ class CSignup
 		if ($IP=="::1")
 			$IP="127.0.0.1";
 		
-		if ($IP!="109.166.132.14" && $IP!="127.0.0.1")
+		if ($IP!="109.166.134.101" && $IP!="127.0.0.1")
 		{
 		    // Same password
 		    $query="SELECT * 
@@ -309,7 +309,7 @@ class CSignup
          <div class="panel panel-default" style="width:600px">
      <div class="panel-body">
        
-		 <?
+		 <?php
 		     // Signup ?
 		    if ($_REQUEST['act']=="signup")
 		        $this->signup($_REQUEST['txt_user'], 
@@ -373,9 +373,9 @@ class CSignup
        
      </div>
      </div>
-      <div align="center" class="font_12" style="width:500px; color:#999999">You were refered to chainrepublik by <a href="#"><? print $row['user']; ?></a></div>
+      <div align="center" class="font_12" style="width:500px; color:#999999">You were refered to chainrepublik by <a href="#"><?php print $row['user']; ?></a></div>
         
-        <?
+        <?php
 	}
 	
 	

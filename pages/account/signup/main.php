@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -50,7 +50,7 @@
             </td>
             <td width="61%" align="right">
             
-			<?
+			<?php
 			    $index->showTopMenu(false);
 			?>
             
@@ -69,7 +69,7 @@
       <br /><br />
       
       
-     <?
+     <?php
 	    $signup->showForm();
 	 ?>
       
@@ -80,7 +80,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
 class CRewards
 {
 	function CRewards($db, $template, $acc)
@@ -258,30 +258,30 @@ class CRewards
             <tbody>
             
 			
-			<?
+			<?php
 		       while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		       {
 		    ?>
 				
 			      <tr>
-                  <td class="font_14" width="47%" style="color: #999999"><? print $name; ?></td>
+                  <td class="font_14" width="47%" style="color: #999999"><?php print $name; ?></td>
                   
-					  <td class="font_14" width="19%" style="color: #999999" align="center">~<? print $this->kern->timeFromBlock($row['block']); ?><br><span class="font_10">block <? print $row['block']; ?></span></td>
-					  <td class="font_14" width="17%" style="color: #999999" align="center"><? print $row['par_f']; ?><br><span class="font_10">points</span></td>
-				  <td class="font_14" style="color: #009900" width="17%" align="center"><strong><? print $row['amount']; ?><br><span class="font_10">CRC</span></strong></td>
+					  <td class="font_14" width="19%" style="color: #999999" align="center">~<?php print $this->kern->timeFromBlock($row['block']); ?><br><span class="font_10">block <?php print $row['block']; ?></span></td>
+					  <td class="font_14" width="17%" style="color: #999999" align="center"><?php print $row['par_f']; ?><br><span class="font_10">points</span></td>
+				  <td class="font_14" style="color: #009900" width="17%" align="center"><strong><?php print $row['amount']; ?><br><span class="font_10">CRC</span></strong></td>
                   </tr>
                   <tr>
                   <td colspan="4"><hr></td>
                   </tr>
 				
-			<?
+			<?php
 			   }
 		    ?>
 				
             </tbody>
             </table>
 
-        <?
+        <?php
 	}
 }
 ?>

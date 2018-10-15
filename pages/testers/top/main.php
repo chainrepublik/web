@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -37,7 +37,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -45,7 +45,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -58,14 +58,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $testers->showMenu(1);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" align="center" valign="top">
             
-            <?
+            <?php
 			   $template->showHelp("When the game will launch (July 2018), <strong>100.000 coins</strong> will be distributed to testers <strong>depending on their test coins balance</strong>. After this event, the testnet will be shut down and test coins will held no value. If you don't have money to invest in the upcoming ICO, you can get <strong>serious coins</strong> just by testing ChainRepublik. All you have to do is <strong>play and get as many coins as you can</strong>, until the real net is launched. Below is the list of top testers. If you want to advance <strong>faster</strong>, you can <strong>buy test coins from developers</strong>. Keep in mind that the test net was launch containing <strong>1.000.000 test coins held by the team</strong>, and every day ~2000 new coins are distributed by network to players.");
 			   
 			    // Top
@@ -84,7 +84,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -103,7 +103,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

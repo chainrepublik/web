@@ -1,4 +1,4 @@
-<?
+<?php
 class CCompanies
 {
 	function CCompanies($db, $acc, $template)
@@ -17,15 +17,15 @@ class CCompanies
                
                
                 <tr>
-                  <td height="80" align="right" <? if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="right" <?php if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../companies/list/main.php">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="42%" align="left"><img src="../GIF/list_<? if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
-                        <td width="49%" valign="middle"><span class="<? if ($sel==1) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">Browse</span><br />
-                        <span class="<? if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Browse top companies</span></td>
-                        <td width="9%"><? if ($sel==1) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="42%" align="left"><img src="../GIF/list_<?php if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
+                        <td width="49%" valign="middle"><span class="<?php if ($sel==1) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">Browse</span><br />
+                        <span class="<?php if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Browse top companies</span></td>
+                        <td width="9%"><?php if ($sel==1) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -37,21 +37,21 @@ class CCompanies
                 </tr>
                 
                 
-				<?
+				<?php
 		            if ($_REQUEST['ud']['ID']>0)
 					{
 		        ?>
 				  
                 <tr>
-                  <td height="80" align="right" <? if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="right" <?php if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../companies/open/main.php">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="41%" align="left"><img src="../GIF/open_<? if ($sel==2) print "on"; else print "off"; ?>.png"  alt=""/></td>
-                        <td width="50%" valign="middle"><span class="<? if ($sel==2) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">Open</span><br />
-                          <span class="<? if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Launch your own company</span></td>
-                        <td width="9%"><? if ($sel==2) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="41%" align="left"><img src="../GIF/open_<?php if ($sel==2) print "on"; else print "off"; ?>.png"  alt=""/></td>
+                        <td width="50%" valign="middle"><span class="<?php if ($sel==2) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">Open</span><br />
+                          <span class="<?php if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Launch your own company</span></td>
+                        <td width="9%"><?php if ($sel==2) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -65,15 +65,15 @@ class CCompanies
                 </tr>
                 
                  <tr>
-                  <td height="80" align="right" <? if ($sel==3) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+                  <td height="80" align="right" <?php if ($sel==3) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
                   <a href="../../companies/my/main.php">
                   <table width="95%" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td width="41%" align="left"><img src="../GIF/my_<? if ($sel==3) print "on"; else print "off"; ?>.png"  alt=""/></td>
-                        <td width="50%" valign="middle"><span class="<? if ($sel==3) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">My Companies</span><br />
-                          <span class="<? if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Manage your companies</span></td>
-                        <td width="9%"><? if ($sel==3) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
+                        <td width="41%" align="left"><img src="../GIF/my_<?php if ($sel==3) print "on"; else print "off"; ?>.png"  alt=""/></td>
+                        <td width="50%" valign="middle"><span class="<?php if ($sel==3) print "bold_shadow_white_14"; else print "inset_blue_inchis_menu_14"; ?>">My Companies</span><br />
+                          <span class="<?php if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Manage your companies</span></td>
+                        <td width="9%"><?php if ($sel==3) print "<img src=\"../../template/GIF/white_arrow.png\" width=\"16\" height=\"29\" />"; ?></td>
                       </tr>
                     </tbody>
                   </table>
@@ -84,14 +84,14 @@ class CCompanies
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
                
-               <?
+               <?php
 					}
 			   ?>
                
               </tbody>
             </table>
         
-        <?
+        <?php
 	}
 	
 	function showCompanyMenu($sel=1)
@@ -134,16 +134,16 @@ class CCompanies
         
            <table width="200" border="0" cellspacing="0" cellpadding="0">
            <tr>
-            <td height="81" align="center" <? if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+            <td height="81" align="center" <?php if ($sel==1) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
             
-            <a href="main.php?ID=<? print $_REQUEST['ID']; ?>">
+            <a href="main.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_home">
               <tr>
-                <td width="41%" align="left"><img src="./GIF/ico_home_<? if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
+                <td width="41%" align="left"><img src="./GIF/ico_home_<?php if ($sel==1) print "on"; else print "off"; ?>.png" /></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="87%" align="left"><span class="<? if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Home </span><br />
-                      <span class="<? if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">General data about comapny</span></td>
+                    <td width="87%" align="left"><span class="<?php if ($sel==1) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Home </span><br />
+                      <span class="<?php if ($sel==1) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">General data about comapny</span></td>
                     <td width="13%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -157,23 +157,23 @@ class CCompanies
                   <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
                 </tr>
           
-         <?
+         <?php
 		    if ($this->kern->isAgent($_REQUEST['ID'])==false)
 			{
 		 ?>
           
           <tr>
-            <td height="80" align="right" <? if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
+            <td height="80" align="right" <?php if ($sel==2) print "background=\"../../template/GIF/darck_menu_label.png\"";  ?>>
             
-            <a href="production.php?ID=<? print $_REQUEST['ID']; ?>">
+            <a href="production.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_production">
               <tr>
-                <td width="43%" align="center"><img src="./GIF/workplaces_<? if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
+                <td width="43%" align="center"><img src="./GIF/workplaces_<?php if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
                 <td width="57%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Production </span>
+                    <td width="86%" align="left"><span class="<?php if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Production </span>
                     <br />
-                      <span class="<? if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Production status and other info</span></td>
+                      <span class="<?php if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Production status and other info</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -188,16 +188,16 @@ class CCompanies
           </tr>
         
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==3) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==3) print "on"; else print "off"; ?>.png">
             
-             <a href="workplaces.php?ID=<? print $_REQUEST['ID']; ?>">      
+             <a href="workplaces.php?ID=<?php print $_REQUEST['ID']; ?>">      
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_workplaces">
               <tr>
-                <td width="44%" align="center"><img src="./GIF/ico_workplaces_<? if ($sel==3) print "on"; else print "off"; ?>.png" /></td>
+                <td width="44%" align="center"><img src="./GIF/ico_workplaces_<?php if ($sel==3) print "on"; else print "off"; ?>.png" /></td>
                 <td width="56%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Workplaces </span><br />
-                      <span class="<? if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Workplaces management</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Workplaces </span><br />
+                      <span class="<?php if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Workplaces management</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -212,16 +212,16 @@ class CCompanies
           </tr>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==4) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==4) print "on"; else print "off"; ?>.png">
             
-             <a href="licences.php?ID=<? print $_REQUEST['ID']; ?>">         
+             <a href="licences.php?ID=<?php print $_REQUEST['ID']; ?>">         
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_licence">
               <tr>
-                <td width="44%" align="center"><img src="./GIF/ico_licences_<? if ($sel==4) print "on"; else print "off"; ?>.png" /></td>
+                <td width="44%" align="center"><img src="./GIF/ico_licences_<?php if ($sel==4) print "on"; else print "off"; ?>.png" /></td>
                 <td width="56%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Licences </span><br />
-                      <span class="<? if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Company's licences</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Licences </span><br />
+                      <span class="<?php if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Company's licences</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -235,7 +235,7 @@ class CCompanies
           <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
           </tr>
           
-         <?
+         <?php
 			}
 		
 		 else
@@ -243,17 +243,17 @@ class CCompanies
 		  ?>
 			   
 			   <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==2) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==2) print "on"; else print "off"; ?>.png">
             
-             <a href="code.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="code.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_admin">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/code_<? if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
+                <td width="41%" align="center"><img src="./GIF/code_<?php if ($sel==2) print "on"; else print "off"; ?>.png" /></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left">
-                     <span class="<? if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Source Code </span><br />
-                      <span class="<? if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the source code</span></td>
+                     <span class="<?php if ($sel==2) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Source Code </span><br />
+                      <span class="<?php if ($sel==2) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the source code</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -269,17 +269,17 @@ class CCompanies
           </tr>
 			   
 			    <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==3) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==3) print "on"; else print "off"; ?>.png">
             
-             <a href="storage.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="storage.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_admin">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/storage_<? if ($sel==3) print "on"; else print "off"; ?>.png" height="65px"/></td>
+                <td width="41%" align="center"><img src="./GIF/storage_<?php if ($sel==3) print "on"; else print "off"; ?>.png" height="65px"/></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left">
-                     <span class="<? if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Storage</span><br />
-                      <span class="<? if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the company's storage</span></td>
+                     <span class="<?php if ($sel==3) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Storage</span><br />
+                      <span class="<?php if ($sel==3) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the company's storage</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -296,17 +296,17 @@ class CCompanies
 			   
 			   
 			    <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==4) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==4) print "on"; else print "off"; ?>.png">
             
-             <a href="run_log.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="run_log.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_admin">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/run_log_<? if ($sel==4) print "on"; else print "off"; ?>.png" height="55px"/></td>
+                <td width="41%" align="center"><img src="./GIF/run_log_<?php if ($sel==4) print "on"; else print "off"; ?>.png" height="55px"/></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left">
-                     <span class="<? if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Run Log</span><br />
-                      <span class="<? if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the execution log</span></td>
+                     <span class="<?php if ($sel==4) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Run Log</span><br />
+                      <span class="<?php if ($sel==4) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Check the execution log</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -322,22 +322,22 @@ class CCompanies
           </tr>
 			   
 			   
-		  <?
+		  <?php
 			 }
 		 
 	     ?>
 			   
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==5) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==5) print "on"; else print "off"; ?>.png">
             
-             <a href="shares.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="shares.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_shares">
               <tr>
-                <td width="44%" align="center"><img src="./GIF/shares_<? if ($sel==5) print "on"; else print "off"; ?>.png" /></td>
+                <td width="44%" align="center"><img src="./GIF/shares_<?php if ($sel==5) print "on"; else print "off"; ?>.png" /></td>
                 <td width="56%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Shares </span><br />
-                      <span class="<? if ($sel==5) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Trade company shares</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==5) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Shares </span><br />
+                      <span class="<?php if ($sel==5) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Trade company shares</span></td>
                     <td width="14%">&nbsp;</td>
                   </tr>
                 </table></td>
@@ -352,16 +352,16 @@ class CCompanies
           </tr>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==6) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==6) print "on"; else print "off"; ?>.png">
             
-             <a href="accounting.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="accounting.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_accounting">
               <tr>
-                <td width="44%" align="center"><img src="./GIF/icon_trans_<? if ($sel==6) print "on"; else print "off"; ?>.png" /></td>
+                <td width="44%" align="center"><img src="./GIF/icon_trans_<?php if ($sel==6) print "on"; else print "off"; ?>.png" /></td>
                 <td width="56%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting  </span><br />
-                      <span class="<? if ($sel==6) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company's transactions</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==6) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Accounting  </span><br />
+                      <span class="<?php if ($sel==6) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company's transactions</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -375,23 +375,23 @@ class CCompanies
           <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
           </tr>
           
-          <?
+          <?php
 		     if ($this->kern->ownedCom($_REQUEST['ID']))
 			 {
 		  ?>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==7) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==7) print "on"; else print "off"; ?>.png">
             
-             <a href="admin.php?ID=<? print $_REQUEST['ID']; ?>">
+             <a href="admin.php?ID=<?php print $_REQUEST['ID']; ?>">
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_admin">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/ico_settings_<? if ($sel==7) print "on"; else print "off"; ?>.png" /></td>
+                <td width="41%" align="center"><img src="./GIF/ico_settings_<?php if ($sel==7) print "on"; else print "off"; ?>.png" /></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left">
-                     <span class="<? if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Admin </span><br />
-                      <span class="<? if ($sel==7) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Reserved for company's manager</span></td>
+                     <span class="<?php if ($sel==7) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Admin </span><br />
+                      <span class="<?php if ($sel==7) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Reserved for company's manager</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -406,22 +406,22 @@ class CCompanies
           <td><img src="../../template/GIF/sep_bar_left.png" width="200" height="3" alt=""/></td>
           </tr>
           
-          <?
+          <?php
 	         }
 			 
 		    ?>
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==8) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==8) print "on"; else print "off"; ?>.png">
             
-             <a href="market.php?ID=<? print $_REQUEST['ID']; ?>">  
+             <a href="market.php?ID=<?php print $_REQUEST['ID']; ?>">  
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_market">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/market_<? if ($sel==8) print "on"; else print "off"; ?>.png" /></td>
+                <td width="41%" align="center"><img src="./GIF/market_<?php if ($sel==8) print "on"; else print "off"; ?>.png" /></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td width="86%" align="left"><span class="<? if ($sel==8) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Market </span><br />
-                      <span class="<? if ($sel==8) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Industrial marketplace</span></td>
+                    <td width="86%" align="left"><span class="<?php if ($sel==8) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>"> Market </span><br />
+                      <span class="<?php if ($sel==8) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Industrial marketplace</span></td>
                     <td width="14%">&nbsp;</td>
                     </tr>
                   </table></td>
@@ -438,22 +438,22 @@ class CCompanies
        
           
           <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==9) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==9) print "on"; else print "off"; ?>.png">
             
-             <a href="events.php?ID=<? print $_REQUEST['ID']; ?>"> 
+             <a href="events.php?ID=<?php print $_REQUEST['ID']; ?>"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_events">
               <tr>
-                <td width="41%" align="center"><img src="./GIF/events_<? if ($sel==9) print "on"; else print "off"; ?>.png" /></td>
+                <td width="41%" align="center"><img src="./GIF/events_<?php if ($sel==9) print "on"; else print "off"; ?>.png" /></td>
                 <td width="59%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td width="65"><span class="<? if ($sel==9) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Events</span></td>
+                        <td width="65"><span class="<?php if ($sel==9) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Events</span></td>
                         <td width="36" height="20"><br /></td>
                       </tr>
                       <tr>
-                        <td><span class="<? if ($sel==9) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company events</span></td>
-                        <td><? $this->template->showBubble($evts); ?></td>
+                        <td><span class="<?php if ($sel==9) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company events</span></td>
+                        <td><?php $this->template->showBubble($evts); ?></td>
                       </tr>
                     </table></td>
                     <td width="14%">&nbsp;</td>
@@ -471,21 +471,21 @@ class CCompanies
           </tr>
 			   
 			    <tr>
-            <td height="80" align="right" background="../../template/GIF/label_back_<? if ($sel==9) print "on"; else print "off"; ?>.png">
+            <td height="80" align="right" background="../../template/GIF/label_back_<?php if ($sel==9) print "on"; else print "off"; ?>.png">
             
-             <a href="dividends.php?ID=<? print $_REQUEST['ID']; ?>"> 
+             <a href="dividends.php?ID=<?php print $_REQUEST['ID']; ?>"> 
             <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="tab_events">
               <tr>
-                <td width="42%" align="center"><img src="./GIF/dividends_<? if ($sel==10) print "on"; else print "off"; ?>.png" width="65"/></td>
+                <td width="42%" align="center"><img src="./GIF/dividends_<?php if ($sel==10) print "on"; else print "off"; ?>.png" width="65"/></td>
                 <td width="58%">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="86%" align="left"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td width="65" height="20"><span class="<? if ($sel==10) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Dividends</span></td>
+                        <td width="65" height="20"><span class="<?php if ($sel==10) print "bold_shadow_white_18"; else print "inset_blue_inchis_menu_18"; ?>">Dividends</span></td>
                       </tr>
                       <tr>
-                        <td><span class="<? if ($sel==10) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company events</span></td>
+                        <td><span class="<?php if ($sel==10) print "bold_shadow_white_12"; else print "inset_blue_inchis_menu_12"; ?>">Last company events</span></td>
                       </tr>
                     </table></td>
                     <td width="14%">&nbsp;</td>
@@ -512,7 +512,7 @@ class CCompanies
           
           
         
-        <?
+        <?php
 	}
 	
 	

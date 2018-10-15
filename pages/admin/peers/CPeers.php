@@ -1,4 +1,4 @@
-<?
+<?php
   class CPeers
   {
 	 function CPeers($db, $template)
@@ -91,7 +91,7 @@
         </table>
       
         
-        <?
+        <?php
 		$this->template->showModalFooter("Add");
 	 }
 	 
@@ -106,16 +106,16 @@
              <br><br>
              <table width="90%" border="0" cellspacing="0" cellpadding="0">
              
-                   <?
+                   <?php
 				      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					  {
 				   ?>
                    
                         <tr>
-                        <td width="20%" align="left" class="font_14"><strong><? print $row['peer']; ?></strong></td>
-                        <td width="20%" align="left" class="font_14"><strong><? print $row['port']; ?></strong></td>
+                        <td width="20%" align="left" class="font_14"><strong><?php print $row['peer']; ?></strong></td>
+                        <td width="20%" align="left" class="font_14"><strong><?php print $row['port']; ?></strong></td>
                         <td width="10%" align="center" class="font_14" style="color:#009900"><strong>
-						<? 
+						<?php 
 						   if ($row['in_traffic']<1024000) 
 						     print round($row['in_traffic']/1024)." Kb";
 						   else
@@ -123,16 +123,16 @@
 						?>
                         </strong></td>
                         <td width="10%" align="center" class="font_14" style="color:#990000"><strong>
-						<? 
+						<?php 
 						   if ($row['out_traffic']<1024000) 
 						     print round($row['out_traffic']/1024)." Kb";
 						   else
 						     print round($row['out_traffic']/1024000, 2)." MB";
 						?>
                         </strong></td>
-                        <td width="20%" align="center" class="font_14"><strong><? print $this->kern->getAbsTime($row['last_seen']); ?></strong></td>
+                        <td width="20%" align="center" class="font_14"><strong><?php print $this->kern->getAbsTime($row['last_seen']); ?></strong></td>
                         <td width="20%" align="center" class="font_14">
-                        <?
+                        <?php
 						    if ($_REQUEST['ud']['user']=="root")
 						      print "<a href='main.php?act=remove&peer=".$row['peer']."' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-remove'></span>&nbsp;&nbsp;Remove</a>";
                         ?>
@@ -142,14 +142,14 @@
                         <td colspan="6"><hr></td>
                         </tr>
                   
-                  <?
+                  <?php
 					  }
 				  ?>
                   
                   </table>
                
          
-         <?
+         <?php
 	 }
 	 
 	 function showAddBut()
@@ -170,7 +170,7 @@
               </tbody>
             </table>
          
-         <?
+         <?php
 	 }
   }
 ?>

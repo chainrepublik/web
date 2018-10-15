@@ -1,4 +1,4 @@
-<?
+<?php
 class CShares
 {
 	function CShares($db, $acc, $template)
@@ -41,27 +41,27 @@ class CShares
                   <br><br>
                   <table width="550px" border="0" cellspacing="0" cellpadding="0">
                       
-                      <?
+                      <?php
 					     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 						 {
 					  ?>
                       
                             <tr>
-                            <td width="3%"><img src="<? if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
+                            <td width="3%"><img src="<?php if ($row['pic']=="") print "../../template/GIF/asset.png"; else print $this->kern->crop($row['pic'], 50, 50); ?>"  class="img-circle" width="50"/></td>
                             <td width="2%">&nbsp;</td>
                             <td width="60%">
-                            <span class="font_14"><a href="../../home/assets/asset.php?symbol=<? print $row['symbol']; ?>">
-								<? print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
-                            <span class="font_10"><? print "Trans Fee : <strong>".$row['trans_fee']."%</strong>, Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
+                            <span class="font_14"><a href="../../home/assets/asset.php?symbol=<?php print $row['symbol']; ?>">
+								<?php print "<strong>".$this->kern->noescape(base64_decode($row['title']))."</strong> (".$row['symbol'].")"; ?></a></span><br>
+                            <span class="font_10"><?php print "Trans Fee : <strong>".$row['trans_fee']."%</strong>, Issuer : ".$this->template->formatAdr($row['adr']); ?></span></td>
 							
 								<td width="25%" class="font_14" align="center">
-									<strong><? print $this->acc->getTransPoolBalance($adr, $row['symbol']); ?></strong><br><span class="font_10"><? print round($row['qty']*100/$row['total_qty'], 2)."%"; ?></span></td>
+									<strong><?php print $this->acc->getTransPoolBalance($adr, $row['symbol']); ?></strong><br><span class="font_10"><?php print round($row['qty']*100/$row['total_qty'], 2)."%"; ?></span></td>
 							</tr>
                             <tr>
                             <td colspan="5"><hr></td>
                             </tr>
                       
-                      <?
+                      <?php
 	                      }
 					  ?>
                         
@@ -69,7 +69,7 @@ class CShares
                   
                  
         
-        <?
+        <?php
 	}
 }
 ?>

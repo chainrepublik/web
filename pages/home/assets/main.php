@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -57,14 +57,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(6);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 		        $template->showHelp("User issued assets are a type of <strong>custom token</strong> which users can hold and trade. Unlike ChainRepublik Coins, those tokens can be <strong>issued by regular users</strong> like you. They could represent a virtual share, a proof of membership, a real world currency or anything else. Below are listed top network assets.");
 				
 				// Modals
@@ -184,7 +184,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -198,7 +198,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

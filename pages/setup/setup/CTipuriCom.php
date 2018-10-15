@@ -1,4 +1,4 @@
-<?
+<?php
 class CTipuriCom
 {
 	function CTipuriCom($db, $utils)
@@ -42,26 +42,26 @@ class CTipuriCom
            <br><br>
            <table border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
            
-           <?
+           <?php
 		   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 		   {
 		   ?>
            
               <tr>
-              <td width="375" align="left"><? print $row['name']; ?></td>
+              <td width="375" align="left"><?php print $row['name']; ?></td>
               <td width="80" align="center">
-              <a href="edit_com.php?com=<? print $row['tip']; ?>" class="btn btn-success">Edit<a/>
+              <a href="edit_com.php?com=<?php print $row['tip']; ?>" class="btn btn-success">Edit<a/>
               </td>
               
               </tr>
            
-           <?
+           <?php
 	        }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function showPanel($com)
@@ -76,27 +76,27 @@ class CTipuriCom
 	  
 		?>
         
-           <form id="form_update" name="form_update" action="edit_com.php?act=update&com=<? print $_REQUEST['com']; ?>" method="post">
+           <form id="form_update" name="form_update" action="edit_com.php?act=update&com=<?php print $_REQUEST['com']; ?>" method="post">
            <table width="700" border="0" cellspacing="0" cellpadding="0" class="table table-striped table-hover" style="width:700px">
       <tr>
         <td width="158" align="right">Company</td>
-        <td width="542" class="bold_mov_14"><? print $row['tip_name']; ?></td>
+        <td width="542" class="bold_mov_14"><?php print $row['tip_name']; ?></td>
       </tr>
       <tr>
         <td align="right">Name</td>
-        <td><input id="txt_name" name="txt_name"  value="<? print $row['name']; ?>" class="form-control"/></td>
+        <td><input id="txt_name" name="txt_name"  value="<?php print $row['name']; ?>" class="form-control"/></td>
       </tr>
       <tr>
         <td align="right">Utilaje</td>
-        <td><input id="txt_utilaje" name="txt_utilaje" value="<? print $row['utilaje']; ?>" class="form-control"/></td>
+        <td><input id="txt_utilaje" name="txt_utilaje" value="<?php print $row['utilaje']; ?>" class="form-control"/></td>
       </tr>
       <tr>
         <td align="right">Cladire</td>
-        <td><input id="txt_cladire" name="txt_cladire" value="<? print $row['cladire']; ?>" class="form-control"/></td>
+        <td><input id="txt_cladire" name="txt_cladire" value="<?php print $row['cladire']; ?>" class="form-control"/></td>
       </tr>
       <tr>
         <td align="right">Pic</td>
-        <td><input id="txt_pic" name="txt_pic" value="<? print $row['pic']; ?>" class="form-control"/></td>
+        <td><input id="txt_pic" name="txt_pic" value="<?php print $row['pic']; ?>" class="form-control"/></td>
       </tr>
            </table>
  
@@ -110,7 +110,7 @@ class CTipuriCom
   </form>
   <br /><br />
         
-        <?
+        <?php
 	}
 }
 ?>

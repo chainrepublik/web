@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(8);
 	  ?>
       </td>
@@ -59,7 +59,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(8);
 			   $template->showLeftAds();
 			?>
@@ -67,7 +67,7 @@
             <td width="594" valign="top" align="center">
             
           
-         <?
+         <?php
 		   $template->showHelp("Congress can <strong>buy and use</strong> military equipment like war ships, aircrfats or balistic missiles. Military equipment can be <strong>deployed</strong>to conflict areas. Sometime moving military equipment is <strong>required</strong> by weapon's range. For example a soil to soil balisitc missile have a <strong>1000 km range</strong>. Attacking a country 5000 km away can be achieved obly if you <strong>deploy</strong> the missile on a navy destroyer and move the destroyer in a gulf less than 1000 km from the target. Below are <strong>listed</strong> country's army military equipment and their position by category. Congress can buy / use weapons by voting.");
 				
 		   // Country
@@ -129,7 +129,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -143,7 +143,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

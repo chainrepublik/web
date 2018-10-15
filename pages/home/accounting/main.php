@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -59,7 +59,7 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(7);
 			   $template->showLeftAds();
 			?>
@@ -68,7 +68,7 @@
             
            
         
-        <?
+        <?php
 		   $template->showHelp("Below are displayed your last transactions. Citizens can send / receive coins, products, shares or other user issued assets. Transactions using user issued assets could be taxed depending on issuer settings. Keep in mind that you can receive user issued assets only if you trust the asset. If you want to trust an asset go to asset's overview page and click trust.");
 		   
 		   // No page ?
@@ -122,7 +122,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -136,7 +136,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

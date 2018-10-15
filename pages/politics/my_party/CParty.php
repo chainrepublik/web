@@ -1,4 +1,4 @@
-<?
+<?php
 class CParty
 {
 	function CParty($db, $acc, $template)
@@ -621,7 +621,7 @@ class CParty
            <table width="95%">
 					<tr>
 						<td width="78%" align="left">
-							<? 
+							<?php 
 							    $this->template->showSmallMenu($sel, 
 															   "Memebers", $_SERVER['PHP_SELF']."?page=members&orgID=".$orgID,
 															   "Proposals", $_SERVER['PHP_SELF']."?page=proposals&orgID=".$orgID, 
@@ -630,14 +630,14 @@ class CParty
 						    ?>
 						</td>
 						
-						<?
+						<?php
 		                     if (($_REQUEST['ud']['pol_party']==0 || 
 								 $_REQUEST['ud']['pol_party']!=$orgID) && $sel==1)
 							 {
 		                ?>
-						          <td width="40%" valign="bottom" align="right"><a class="btn btn-primary" href="<? print $_SERVER['PHP_SELF']; ?>?act=join_party&orgID=<? print $orgID; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Join Party</a></td>
+						          <td width="40%" valign="bottom" align="right"><a class="btn btn-primary" href="<?php print $_SERVER['PHP_SELF']; ?>?act=join_party&orgID=<?php print $orgID; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Join Party</a></td>
 						
-						<?
+						<?php
 							 }
 		                     
 		                     if ($_REQUEST['ud']['pol_party']==$orgID && $sel==1)
@@ -646,16 +646,16 @@ class CParty
 						         
 						         <td width="22%" valign="bottom" align="right"><a class="btn btn-danger" href="javascript:void(0)" onClick="$('#confirm_modal').modal()"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Leave Party</a></td>
 						         
-						         <?
+						         <?php
 							 }
 		
 		                     if ($sel==3)
 							 {
 								 ?>
 						         
-						         <td width="22%" valign="bottom" align="right"><a class="btn btn-primary" href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<? print $adr; ?>')"><span class="glyphicon glyphicon-gift"></span>&nbsp;&nbsp;Donate</a></td>
+						         <td width="22%" valign="bottom" align="right"><a class="btn btn-primary" href="javascript:void(0)" onClick="$('#send_coins_modal').modal(); $('#txt_to').val('<?php print $adr; ?>')"><span class="glyphicon glyphicon-gift"></span>&nbsp;&nbsp;Donate</a></td>
 						         
-						         <?
+						         <?php
 							 }
 		
 		                     if ($sel==2)
@@ -664,22 +664,22 @@ class CParty
 						         
 						         <td width="22%" valign="bottom" align="right"><a class="btn btn-primary" href="javascript:void(0)" onClick="$('#new_prop_modal').modal()"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Propose</a></td>
 						         
-						         <?
+						         <?php
 							 }
 		
 		                     if ($sel==4)
 							 {
 								 ?>
 						         
-						         <td width="22%" valign="bottom" align="right"><a class="btn btn-primary" href="http://localhost/chainrepublik/pages/home/press/main.php?target=ID_WRITE&pol_party=<? print $orgID; ?>"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Write</a></td>
+						         <td width="22%" valign="bottom" align="right"><a class="btn btn-primary" href="http://localhost/chainrepublik/pages/home/press/main.php?target=ID_WRITE&pol_party=<?php print $orgID; ?>"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Write</a></td>
 						         
-						         <?
+						         <?php
 							 }
 						?>
 					</tr>
 				</table>
 
-        <?
+        <?php
 	}
 	
 	function showPartyTop($orgID)
@@ -697,13 +697,13 @@ class CParty
 
             <table width="90%">
 				<tr>
-					<td width="10%"><img src="../../politics/parties/GIF/avatars/<? print $row['orgID']; ?>.png" class="img img-circle" width="60"></td>
-					<td width="90%" class="font_20"><strong>&nbsp;&nbsp;<? print base64_decode($row['name']); ?></strong><br><span class="font_12">&nbsp;&nbsp;&nbsp;<? print base64_decode($row['description']); ?></span></td>
+					<td width="10%"><img src="../../politics/parties/GIF/avatars/<?php print $row['orgID']; ?>.png" class="img img-circle" width="60"></td>
+					<td width="90%" class="font_20"><strong>&nbsp;&nbsp;<?php print base64_decode($row['name']); ?></strong><br><span class="font_12">&nbsp;&nbsp;&nbsp;<?php print base64_decode($row['description']); ?></span></td>
 				</tr>
 			
             </table>
 
-		<?
+		<?php
 	}
 	
 	function showPartyStats($orgID)
@@ -768,8 +768,8 @@ class CParty
                
              <table width="90%">
 				<tr>
-					<td width="10%"><img src="../../politics/GIF/avatars/<? print $orgID; ?>.png" class="img img-circle" width="60"></td>
-					<td width="90%" class="font_20"><strong>&nbsp;&nbsp;<? print base64_decode($name); ?></strong><br><span class="font_12">&nbsp;&nbsp;&nbsp;<? print base64_decode($desc); ?></span></td>
+					<td width="10%"><img src="../../politics/GIF/avatars/<?php print $orgID; ?>.png" class="img img-circle" width="60"></td>
+					<td width="90%" class="font_20"><strong>&nbsp;&nbsp;<?php print base64_decode($name); ?></strong><br><span class="font_12">&nbsp;&nbsp;&nbsp;<?php print base64_decode($desc); ?></span></td>
 				</tr>
 			
             </table>
@@ -784,7 +784,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Total Memebrs</td>
-					  <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print $total_members; ?></strong></td>
+					  <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print $total_members; ?></strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -793,7 +793,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Total Political Influence</td>
-                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print $total_pol_inf; ?></strong></td>
+                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print $total_pol_inf; ?></strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -808,7 +808,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Average Political Influence</td>
-                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print $avg_pol_inf; ?></strong></td>
+                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print $avg_pol_inf; ?></strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -817,7 +817,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Balance</td>
-                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print round($this->acc->getNetBalance($adr, "CRC"), 4); ?> CRC</strong></td>
+                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print round($this->acc->getNetBalance($adr, "CRC"), 4); ?> CRC</strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -832,7 +832,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Party President</td>
-                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print $pres; ?></strong></td>
+                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print $pres; ?></strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -841,7 +841,7 @@ class CParty
                 <tbody>
                   <tr>
                     <td width="70%" align="left" class="font_14" style="color: #999999">Average Endorsement</td>
-                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><? print $avg_pol_end; ?></strong></td>
+                    <td width="30%" align="right" class="font_14" style="color: #555555"><strong><?php print $avg_pol_end; ?></strong></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -853,7 +853,7 @@ class CParty
         </table>
 
 
-        <?
+        <?php
 	}
 	
 	function showMembers($orgID)
@@ -892,7 +892,7 @@ class CParty
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 				
@@ -903,7 +903,7 @@ class CParty
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              
 				                  if ($row['pic']=="") 
 								     print "../../template/GIF/empty_pic.png"; 
@@ -915,16 +915,16 @@ class CParty
 						  " width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
+                <a href="<?php if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
               </tr>
               </table></td>
               
              
-              <td width="20%" align="center" class="font_14" style="color: <? if ($row['pol_inf']==0) print "#999999"; else print "#009900"; ?>"><strong>
-			  <? 
+              <td width="20%" align="center" class="font_14" style="color: <?php if ($row['pol_inf']==0) print "#999999"; else print "#009900"; ?>"><strong>
+			  <?php 
 			     print $row['pol_inf'];
 			  ?>
               </strong></td>
@@ -932,13 +932,13 @@ class CParty
 			  </tr>
 			  <tr><td colspan="3"><hr></td></tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showAccPanel($orgID)
@@ -963,14 +963,14 @@ class CParty
              <table width="90%">
 				 <tr>
 					 <td bgcolor="#f0f0f0" width="75%" style="border-radius: 5px; padding: 10px">
-						 <table><tr><td class="font_10" style="color: #999999">All political parties have an address associated that where they receive bonuses or donations. Spending funds from this address can be made only by members by voting. Below is displayed the party offical address.</td></tr><tr><td height="60px"><input class="form-control" style="width: 97%" value="<? print $adr; ?>"></td></tr></table>
+						 <table><tr><td class="font_10" style="color: #999999">All political parties have an address associated that where they receive bonuses or donations. Spending funds from this address can be made only by members by voting. Below is displayed the party offical address.</td></tr><tr><td height="60px"><input class="form-control" style="width: 97%" value="<?php print $adr; ?>"></td></tr></table>
 					 </td>
 					 <td width="2%">&nbsp;</td>
-					 <td bgcolor="#f0f0f0" width="23%" style="border-radius: 5px" align="center"><span class="font_12">Balance</span><br><span class="font_26"><strong><? print $this->kern->split($this->acc->getTransPoolBalance($adr, "CRC"), 2, 28, 14); ?></strong></span><br><span class="font_12">CRC</span></td>
+					 <td bgcolor="#f0f0f0" width="23%" style="border-radius: 5px" align="center"><span class="font_12">Balance</span><br><span class="font_26"><strong><?php print $this->kern->split($this->acc->getTransPoolBalance($adr, "CRC"), 2, 28, 14); ?></strong></span><br><span class="font_12">CRC</span></td>
 				 </tr>
              </table>
 
-        <?
+        <?php
 		
 		$this->showTrans($orgID);
 	}
@@ -1008,18 +1008,18 @@ class CParty
             <div id="div_trans" name="div_trans">
             <table width="90%" border="0" cellspacing="0" cellpadding="0" class="table-responsive">
               <tbody>
-                <?
+                <?php
 					   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 					   {
 					?>
                      
                           <tr>
-						  <td width="10%"><img src="../GIF/avatars/<? print $orgID; ?>.png" width="50px" class="img-circle"></td>
+						  <td width="10%"><img src="../GIF/avatars/<?php print $orgID; ?>.png" width="50px" class="img-circle"></td>
                           <td width="45%" align="left">
-							  <a href="../../explorer/packets/packet.php?hash=<? print $row['hash']; ?>" class="font_14"><strong><? print $name; ?></strong></a><p class="font_10" style="color: #999999"><? print $this->kern->getAbsTime($row['tstamp'])."ago, ".base64_decode($row['expl']); if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
+							  <a href="../../explorer/packets/packet.php?hash=<?php print $row['hash']; ?>" class="font_14"><strong><?php print $name; ?></strong></a><p class="font_10" style="color: #999999"><?php print $this->kern->getAbsTime($row['tstamp'])."ago, ".base64_decode($row['expl']); if ($row['escrower']!="") print "&nbsp;&nbsp;<span class='label label-warning'>escrowed</span>"; ?></p></td>
                           <td width="15%" align="center" class="font_16">
                          
-						  <?
+						  <?php
 						      $confirms=$row['confirmations'];
 							  
 							  if ($confirms=="")
@@ -1041,13 +1041,13 @@ class CParty
                          
                           </td>
                           <td width="15%" align="center" class="font_14" style=" 
-						  <? 
+						  <?php 
 						      if ($row['amount']<0) 
 							     print "color:#990000"; 
 							  else 
 							     print "color:#009900"; 
 						  ?>"><strong>
-						  <? 
+						  <?php 
 						     print round($row['amount'], 8)." "; 
 							 
 							 // CRC
@@ -1064,7 +1064,7 @@ class CParty
 						  ?>
                           </strong>
                           <p class="font_12">
-						  <? 
+						  <?php 
 						      if ($row['cur']=="CRC")
 							  {
 								  if ($row['amount']<0)
@@ -1081,7 +1081,7 @@ class CParty
                           <td colspan="4"><hr></td>
                           </tr>
                     
-                    <?
+                    <?php
 					   }
 					?>
                     
@@ -1094,7 +1094,7 @@ class CParty
             <script>
 			$("span[id^='gly_']").popover();
 			</script>
-        <?
+        <?php
 	}
 	
 	function showNewPropModal($orgID)
@@ -1136,7 +1136,7 @@ class CParty
               </tr>
               <tr>
                 <td height="30" valign="top" class="font_14">
-					<? 
+					<?php 
 		               // Donation panel
 		               $this->showDonationPanel(); 
 		
@@ -1188,7 +1188,7 @@ class CParty
         </script>
 
            
-        <?
+        <?php
 		$this->template->showModalFooter("Propose");
 	}
 	
@@ -1204,7 +1204,7 @@ class CParty
 				 <tr><td><input class="form-control" placeholder="0.01" id="txt_donate_amount" name="txt_donate_amount" style="width: 100px" type="number" step="0.0001"></td></tr>
              </table>
 
-        <?
+        <?php
 	}
 	
 	function showChangeDescPanel($orgID)
@@ -1225,11 +1225,11 @@ class CParty
              <table width="100%" id="tab_chg_desc" name="tab_chg_desc" style="display: none;">
 				 <tr><td align="left" class="font_16" height="30px"><strong>New Description</strong></td></tr>
 				 <tr><td align="left">
-				 <textarea class="form-control" id="txt_chg_desc" name="txt_chg_desc" rows="3" style="width: 100%"><? print base64_decode($row['description']); ?></textarea></td></tr>
+				 <textarea class="form-control" id="txt_chg_desc" name="txt_chg_desc" rows="3" style="width: 100%"><?php print base64_decode($row['description']); ?></textarea></td></tr>
 				 
 			</table>
 
-        <?
+        <?php
 	}
 	
 	function showSetArtPanel()
@@ -1244,7 +1244,7 @@ class CParty
 				
 			</table>
 
-        <?
+        <?php
 	}
 	
 	function showProps($orgID, $status)
@@ -1289,7 +1289,7 @@ class CParty
           </table>
         <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -1297,9 +1297,9 @@ class CParty
           <tr>
             <td width="41%" align="left" class="font_14"><table width="96%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="22%"><? $this->template->citPic($row['pic']); ?></td>
+                <td width="22%"><?php $this->template->citPic($row['pic']); ?></td>
                 <td width="78%" align="left" class="font_14">
-				<? 
+				<?php 
 				   switch ($row['prop_type']) 
 				   {
 					   case "ID_DONATE" : print "Donation Proposal"; 
@@ -1313,15 +1313,15 @@ class CParty
 					}
 				?>
                  <br />
-                <span class="simple_blue_10">Proposed by <strong><? print $row['adr_name'].", ".$this->kern->timeFromBlock($row['block']); ?> ago</strong></span></td>
+                <span class="simple_blue_10">Proposed by <strong><?php print $row['adr_name'].", ".$this->kern->timeFromBlock($row['block']); ?> ago</strong></span></td>
               </tr>
             </table></td>
           
-		   <td width="12%" align="center" class="font_14" style="color: #009900"><? print $row['yes']; ?></td>
-           <td width="14%" align="center" class="font_14"  style="color: #990000"><? print $row['no']; ?></td>
+		   <td width="12%" align="center" class="font_14" style="color: #009900"><?php print $row['yes']; ?></td>
+           <td width="14%" align="center" class="font_14"  style="color: #990000"><?php print $row['no']; ?></td>
              
 			<td width="16%" align="center" class="font_14" style="color: 
-	        <?
+	        <?php
 				    switch ($row['status'])
 					{
 						case "ID_VOTING" : print "#aaaaaa"; 
@@ -1335,7 +1335,7 @@ class CParty
 					}
 			    ?>
 			">
-				<?
+				<?php
 				    switch ($row['status'])
 					{
 						case "ID_VOTING" : print "voting"; 
@@ -1349,7 +1349,7 @@ class CParty
 					}
 			    ?>
 			</td>
-            <td width="17%" align="center" class="bold_verde_14"><a href="../my_party/prop.php?ID=<? print $row['propID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
+            <td width="17%" align="center" class="bold_verde_14"><a href="../my_party/prop.php?ID=<?php print $row['propID']; ?>" class="btn btn-primary btn-sm">Details</a></td>
 			 
           </tr>
 		
@@ -1357,14 +1357,14 @@ class CParty
             <td colspan="5" ><hr></td>
             </tr>
             
-            <?
+            <?php
 			 }
 			?>
             
         </table>
         </div>
         
-        <?
+        <?php
 	}
 	
 	function getVotes($propID, $type)
@@ -1418,7 +1418,7 @@ class CParty
            <tr>
              <td height="520" align="center" valign="top" background="GIF/vote_back.png"><table width="530" border="0" cellspacing="0" cellpadding="0">
                <tr>
-                 <td height="75" align="center" valign="bottom" style="font-size:40px; color:#242b32; font-family:'Times New Roman', Times, serif; text-shadow: 1px 1px 0px #777777;"><? print "Party Proposal"; ?></td>
+                 <td height="75" align="center" valign="bottom" style="font-size:40px; color:#242b32; font-family:'Times New Roman', Times, serif; text-shadow: 1px 1px 0px #777777;"><?php print "Party Proposal"; ?></td>
                </tr>
                <tr>
                  <td height="55" align="center">&nbsp;</td>
@@ -1430,7 +1430,7 @@ class CParty
 					 
                        <span class="simple_gri_16">
 					   
-					   <?
+					   <?php
 		                   // Add or remove premium citizens
 		                   if ($row['prop_type']=="ID_SET_ART_OFFICIAL")
 						     print "<strong>".$row['name']."</strong> is proposing to make the following <a target='_blank' href='../../home/press/main.php?target=ID_LOCAL&page=tweet&tweetID=".base64_decode($row['par_1'])."'>article</a> an offical party declaration. Do you agree ?";
@@ -1455,15 +1455,15 @@ class CParty
                      <td width="12%" align="left">
                      
                      
-					 <?
+					 <?php
 		                 if ($row['status']=="ID_VOTING")
 						 {
 		             ?>
-						      <a href="prop.php?act=vote_prop&vote=ID_YES&ID=<? print $_REQUEST['ID']; ?>">
+						      <a href="prop.php?act=vote_prop&vote=ID_YES&ID=<?php print $_REQUEST['ID']; ?>">
 						      <img src="./GIF/vote_yes_off.png" width="66" height="66" data-toggle="tooltip" data-placement="top" title="Vote YES" id="img_com" border="0" />
 							  </a>
 						 
-					<?
+					<?php
 						 }
 		            ?>
 						 
@@ -1473,7 +1473,7 @@ class CParty
                        <tr>
                          <td width="185" height="30" align="center" class="bold_verde_10">
                          
-                         <?
+                         <?php
 						    $total=$row['yes']+$row['no'];
 						    
 							if ($total==0)
@@ -1488,7 +1488,7 @@ class CParty
                          <td width="185" align="center">
                          <span class="bold_red_10">
                          
-                         <?
+                         <?php
 						    if ($total==0)
 							   $p=0; 
 							else   
@@ -1515,8 +1515,8 @@ class CParty
                        <tr>
                          <td height="30" colspan="2" align="center" valign="bottom">
 						 <div class="progress" style="width :90%">
-						 <div class="progress-bar" style="width: <? print $p_yes; ?>%;"></div>
-                         <div class="progress-bar progress-bar-danger" style="width: <? print $p_no; ?>%;"></div>
+						 <div class="progress-bar" style="width: <?php print $p_yes; ?>%;"></div>
+                         <div class="progress-bar progress-bar-danger" style="width: <?php print $p_no; ?>%;"></div>
 						 </div>
 							 
 						 </td>
@@ -1524,16 +1524,16 @@ class CParty
                      </table></td>
                      <td width="9%">
 						
-					 <?
+					 <?php
 		                 if ($row['status']=="ID_VOTING")
 						 {
 		             ?>
 						 
-                           <a href="prop.php?act=vote_prop&vote=ID_NO&ID=<? print $_REQUEST['ID']; ?>">
+                           <a href="prop.php?act=vote_prop&vote=ID_NO&ID=<?php print $_REQUEST['ID']; ?>">
                            <img src="GIF/vote_no_off.png" width="66" height="66" data-toggle="tooltip" data-placement="top" title="Vote NO" id="img_com" border="0" />
                            </a>
 						 
-					<?
+					<?php
 						 }
 		            ?>
 						 
@@ -1556,13 +1556,13 @@ class CParty
                      <td width="100" align="center"><span style="font-family: Verdana, Geneva, sans-serif; font-size: 12px; color: #6c757e">NO Points</span></td>
                    </tr>
                    <tr>
-                     <td height="55" align="center" valign="bottom" class="bold_shadow_green_32"><? print $votes_yes; ?></td>
+                     <td height="55" align="center" valign="bottom" class="bold_shadow_green_32"><?php print $votes_yes; ?></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_green_32"><? print $row['yes']; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_green_32"><?php print $row['yes']; ?></span></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><? print $votes_no; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><?php print $votes_no; ?></span></td>
                      <td align="center" valign="bottom">&nbsp;</td>
-                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><? print $row['no']; ?></span></td>
+                     <td align="center" valign="bottom"><span class="bold_shadow_red_32"><?php print $row['no']; ?></span></td>
                    </tr>
                  </table></td>
                </tr>
@@ -1570,7 +1570,7 @@ class CParty
                  <td height="60" align="center" valign="bottom">
                  <span class="bold_shadow_white_28">
 				 
-				 <?
+				 <?php
 				     print $this->kern->timeFromBlock($row['block']+1440)." left";
 				 ?>
                  
@@ -1584,12 +1584,12 @@ class CParty
           
           <table width="550" border="0" cellspacing="0" cellpadding="0">
            <tr>
-             <td width="74" height="80" bgcolor="#fafafa" align="center"><? $this->template->citPic($row['pic']); ?></td>
-             <td width="486" align="left" valign="middle" bgcolor="#fafafa"><span class="font_12"><? print "&quot;".base64_decode($row['expl'])."&quot;"; ?></span></td>
+             <td width="74" height="80" bgcolor="#fafafa" align="center"><?php $this->template->citPic($row['pic']); ?></td>
+             <td width="486" align="left" valign="middle" bgcolor="#fafafa"><span class="font_12"><?php print "&quot;".base64_decode($row['expl'])."&quot;"; ?></span></td>
            </tr>
          </table>
         
-        <?
+        <?php
 	}
 	
 	function showVotes($propID, $tip)
@@ -1632,7 +1632,7 @@ class CParty
           
           <table width="90%" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
@@ -1641,24 +1641,24 @@ class CParty
                <td width="64%" class="font_14">
                <table width="90%" border="0" cellspacing="0" cellpadding="0">
                <tr>
-               <td width="15%" align="left"><? $this->template->citPic($row['pic']); ?></td>
-               <td width="85%" align="left"><a href="../../profiles/overview/main.php?adr=<? print $row['adr']; ?>" class="font_16"><strong><? print $row['name']; ?></strong></a><br /><span class="font_10"><? print base64_decode($row['org_name']); ?></span></td>
+               <td width="15%" align="left"><?php $this->template->citPic($row['pic']); ?></td>
+               <td width="85%" align="left"><a href="../../profiles/overview/main.php?adr=<?php print $row['adr']; ?>" class="font_16"><strong><?php print $row['name']; ?></strong></a><br /><span class="font_10"><?php print base64_decode($row['org_name']); ?></span></td>
                </tr>
                </table></td>
-               <td width="21%" align="center" class="font_14"><? print $this->kern->timeFromBlock($row['block'])." ago"; ?></td>
-               <td width="15%" align="center" class="bold_verde_14"><? print "+".$row['power']; ?></td>
+               <td width="21%" align="center" class="font_14"><?php print $this->kern->timeFromBlock($row['block'])." ago"; ?></td>
+               <td width="15%" align="center" class="bold_verde_14"><?php print "+".$row['power']; ?></td>
                </tr>
                <tr>
                <td colspan="3" ><hr></td>
                </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
           
           </table>
         
-        <?
+        <?php
 
 	}
 	
@@ -1741,10 +1741,10 @@ class CParty
 		
 		 ?>
          
-         <table width="<? if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
+         <table width="<?php if ($adr=="all") print "100%"; else print "90%"; ?>" border="0" cellpadding="0" cellspacing="0">
          <tbody>
          
-         <?
+         <?php
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
 				if ($row['hidden']==0)
@@ -1768,7 +1768,7 @@ class CParty
                  <tr>
                    <td width="17%" align="center">
                    <img src="
-				   <? 
+				   <?php 
 				  
 				       if ($row['retweet_tweet_ID']>0)
 					   {
@@ -1788,8 +1788,8 @@ class CParty
 				    ?>" width="100" height="100" alt="" class="img img-responsive img-rounded"/></td>
                    <td width="3%" valign="top">&nbsp;</td>
                    <td width="80%" valign="top"><strong>
-                   <a href="../../home/press/main.php?target=ID_LOCAL&page=tweet&tweetID=<? if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
-				   <? 
+                   <a href="../../home/press/main.php?target=ID_LOCAL&page=tweet&tweetID=<?php if ($row['retweet_tweet_ID']>0) print $retweet_row['tweetID']; else print $row['tweetID']; ?>" class="font_16">
+				   <?php 
 				      $title=base64_decode($row['title']); 
 					 
 					  if ($row['retweet_tweet_ID']>0)
@@ -1808,8 +1808,8 @@ class CParty
 					  }
 				   ?>
                    </a></strong>
-                     <p class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>">
-					 <? 
+                     <p class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>">
+					 <?php 
 					    $mes=base64_decode($row['mes']); 
 					  
 					    if ($row['retweet_tweet_ID']>0)
@@ -1832,7 +1832,7 @@ class CParty
                  <tr>
                    <td align="center" valign="top">
                    
-                   <?
+                   <?php
 				      if ($row['retweet_tweet_ID']>0)
 					  {
 						  // Payment
@@ -1871,7 +1871,7 @@ class CParty
 					  }
 				   ?>
                    
-                   <span style="color:<? if ($pay==0) print "#999999"; else print "#009900"; ?>"><? print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
+                   <span style="color:<?php if ($pay==0) print "#999999"; else print "#009900"; ?>"><?php print "$".$this->kern->split($pay, 2, 20, 12); ?></span>
                    
                    
                    </td>
@@ -1881,22 +1881,22 @@ class CParty
                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
                      <tbody>
                        <tr>
-                         <td align="left" style="color:#999999" class="<? if ($adr=="all") print "font_12"; else print "font_10"; ?>">
-						 <? 
+                         <td align="left" style="color:#999999" class="<?php if ($adr=="all") print "font_12"; else print "font_10"; ?>">
+						 <?php 
 						    print "Posted by ".$this->template->formatAdr($row['adr'], 10).",  ".$this->kern->timeFromBlock($row['block'])." ago";
 						 ?>
                          </td>
                         
-                         <td width="50" align="center" style="color:<? if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-up <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $upvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($upvotes_24==0) print "#999999"; else print "#009900"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-up <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $upvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" style="color:<? if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
-                         <span class="glyphicon glyphicon-thumbs-down <? if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $downvotes_24; ?></span>
+                         <td width="50" align="center" style="color:<?php if ($downvotes_24==0) print "#999999"; else print "#990000"; ?>">
+                         <span class="glyphicon glyphicon-thumbs-down <?php if ($adr=="all") print "font_16"; else print "font_14"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $downvotes_24; ?></span>
                          </td>
                          
-                         <td width="50" align="center" class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<? if ($comments==0) print "#999999"; else print "#304971"; ?>">
-                         <span class="glyphicon glyphicon-bullhorn <? if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<? if ($adr=="all") print "font_14"; else print "font_12"; ?>"><? print $comments; ?></span>
+                         <td width="50" align="center" class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>" style="color:<?php if ($comments==0) print "#999999"; else print "#304971"; ?>">
+                         <span class="glyphicon glyphicon-bullhorn <?php if ($adr=="all") print "font_16"; else print "font_16"; ?>"></span>&nbsp;&nbsp;<span class="<?php if ($adr=="all") print "font_14"; else print "font_12"; ?>"><?php print $comments; ?></span>
                          </td>
                          </tr>
                      </tbody>
@@ -1911,7 +1911,7 @@ class CParty
              <td><hr></td>
            </tr>
            
-           <?
+           <?php
 	}
 			}
 		   ?>
@@ -1919,7 +1919,7 @@ class CParty
          </tbody>
        </table>
          
-         <?
+         <?php
 	}
 	
 	function showWriteComButton($propID)
@@ -1932,7 +1932,7 @@ class CParty
 				<tr><td align="right"><a href="javascript:void(0)" onClick="$('#new_comment_modal').modal()" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;New Comment</a></td></tr>
             </table>
 
-        <?
+        <?php
 	}
 }
 ?>

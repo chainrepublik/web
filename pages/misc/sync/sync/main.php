@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../../kernel/db.php";
@@ -73,7 +73,7 @@
             <td align="left">
 				
 			<div class="progress">
-            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="<? print $p; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <? print $p; ?>%;"></div>
+            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="<?php print $p; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php print $p; ?>%;"></div>
             </div>
 			  
 		  </td>
@@ -83,12 +83,12 @@
               <tbody>
                 <tr>
                   <td width="33%" align="left"><span class="font_12" style="color: #ffffff">
-				  <? 
+				  <?php 
 					  print "Block ".$last_block." / ".$row['sync_target'];  
 				  ?>
 			      </span></td>
                   <td width="33%" align="center">&nbsp;</td>
-                  <td width="33%" align="right"><strong><? print $p."%"; ?></strong></td>
+                  <td width="33%" align="right"><strong><?php print $p."%"; ?></strong></td>
                 </tr>
               </tbody>
             </table></td>

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
   
   include "../../../kernel/db.php";
@@ -40,7 +40,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -48,7 +48,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(4);
 	  ?>
       </td>
@@ -61,14 +61,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $market->showMenu(4);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 			    $template->showHelp("Below are displayed the available wine offerts. Wine is a special product because the energy received from a wine bottle is <strong>increasing</strong> in time. A bottle of wine will give you <strong>10 points</strong> of energy if you drink it in the first day. Each day you store the wine the energy <strong>increases 0.14</strong>, so if you drink the same wine bottle after <strong>10 days</strong>, you will receive <strong>11.4 point</strong> of energy.", 70, 70);
 				
 				// Product
@@ -83,7 +83,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -97,7 +97,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

@@ -1,4 +1,4 @@
-<?
+<?php
 class CMarketsTypes
 {
 	function CMarketsTypes($db, $utils)
@@ -18,7 +18,7 @@ class CMarketsTypes
            </table>
            <br><br>
         
-        <?
+        <?php
 	}
 	
 	function showMarkets($search="")
@@ -33,24 +33,24 @@ class CMarketsTypes
         
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" class="table table-hover table-striped" style="width:600px">
            
-           <?
+           <?php
 		      while ( $row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		   ?>
            
                 <tr>
-                <td width="498"><? print $row['title']; ?><br><span class='simple_gri_10'><? print $row['symbol']; ?></span></td>
+                <td width="498"><?php print $row['title']; ?><br><span class='simple_gri_10'><?php print $row['symbol']; ?></span></td>
                 <td width="77" align="center">
-                <a href="markets_types.php?act=edit&ID=<? print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
+                <a href="markets_types.php?act=edit&ID=<?php print $row['ID']; ?>" class="btn btn-success" style="width:60px">Edit</a></td>
                 </tr>
            
-           <?
+           <?php
 			  }
 		   ?>
            
            </table>
         
-        <?
+        <?php
 	}
 	
 	function editProd($ID)
@@ -61,31 +61,31 @@ class CMarketsTypes
 	
 		?>
         
-        <form id="form_update" name="form_update" action="markets_types.php?act=update&ID=<? print $ID; ?>" method="post">
+        <form id="form_update" name="form_update" action="markets_types.php?act=update&ID=<?php print $ID; ?>" method="post">
         <table width="600" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="145" height="50" align="right">Title&nbsp;&nbsp;</td>
-        <td width="455" align="left"><input type="text" name="txt_title" id="txt_title" class="form-control" value="<? print $row['title']; ?>"/></td>
+        <td width="455" align="left"><input type="text" name="txt_title" id="txt_title" class="form-control" value="<?php print $row['title']; ?>"/></td>
       </tr>
       <tr>
         <td height="50" align="right">Description&nbsp;&nbsp;</td>
         <td align="left">
-        <textarea id="txt_desc" name="txt_desc" class="form-control"><? print $row['description']; ?>
+        <textarea id="txt_desc" name="txt_desc" class="form-control"><?php print $row['description']; ?>
         </textarea>
         </td>
       </tr>
       <tr>
         <td height="50" align="right">Symbol&nbsp;&nbsp;</td>
         <td align="left">
-		<input type="text" name="txt_symbol" id="txt_symbol" class="form-control" value="<? print $row['symbol']; ?>"/>
+		<input type="text" name="txt_symbol" id="txt_symbol" class="form-control" value="<?php print $row['symbol']; ?>"/>
         </td>
       </tr>
       <tr>
         <td height="50" align="right">Allow Buyers&nbsp;&nbsp;</td>
         <td align="left">
         <select class="form-control" id="dd_allow_buyers" name="dd_allow_buyers">
-        <option value="Y" <? if ($row['allow_buyers']=="Y") print "selected"; ?>>Yes</option>
-        <option value="N" <? if ($row['allow_buyers']=="N") print "selected"; ?>>No</option>
+        <option value="Y" <?php if ($row['allow_buyers']=="Y") print "selected"; ?>>Yes</option>
+        <option value="N" <?php if ($row['allow_buyers']=="N") print "selected"; ?>>No</option>
         </select>
         </td>
       </tr>
@@ -93,21 +93,21 @@ class CMarketsTypes
         <td height="50" align="right">Allow Sellers&nbsp;&nbsp;</td>
         <td align="left">
 		 <select class="form-control" id="dd_allow_sellers" name="dd_allow_sellers">
-         <option value="Y" <? if ($row['allow_sellers']=="Y") print "selected"; ?>>Yes</option>
-         <option value="N" <? if ($row['allow_sellers']=="N") print "selected"; ?>>No</option>
+         <option value="Y" <?php if ($row['allow_sellers']=="Y") print "selected"; ?>>Yes</option>
+         <option value="N" <?php if ($row['allow_sellers']=="N") print "selected"; ?>>No</option>
          </select>
         </td>
       </tr>
       <tr>
         <td height="50" align="right">Min Qty&nbsp;&nbsp;</td>
         <td align="left">
-        <input type="text" name="txt_min_qty" id="txt_min_qty" class="form-control" value="<? print $row['min_qty']; ?>"/>
+        <input type="text" name="txt_min_qty" id="txt_min_qty" class="form-control" value="<?php print $row['min_qty']; ?>"/>
         </td>
       </tr>
       <tr>
         <td height="50" align="right">Decimals&nbsp;&nbsp;</td>
         <td align="left">
-		<input type="text" name="txt_decimals" id="txt_decimals" class="form-control" value="<? print $row['decimals']; ?>" style="width:100px"/>
+		<input type="text" name="txt_decimals" id="txt_decimals" class="form-control" value="<?php print $row['decimals']; ?>" style="width:100px"/>
         </td>
       </tr>
       <tr>
@@ -115,8 +115,8 @@ class CMarketsTypes
         <td align="left">
         
         <select class="form-control" id="dd_symbol_type" name="dd_symbol_type">>
-         <option value="ID_PROD" <? if ($row['symbol_type']=="ID_PROD") print "selected"; ?>>Product</option>
-         <option value="ID_SHARES" <? if ($row['symbol_type']=="ID_SHARES") print "selected"; ?>>Shares</option>
+         <option value="ID_PROD" <?php if ($row['symbol_type']=="ID_PROD") print "selected"; ?>>Product</option>
+         <option value="ID_SHARES" <?php if ($row['symbol_type']=="ID_SHARES") print "selected"; ?>>Shares</option>
          </select>
         </td>
       </tr>
@@ -133,7 +133,7 @@ class CMarketsTypes
     </table>
     </form>
         
-        <?
+        <?php
 	}
 	
 	
@@ -229,7 +229,7 @@ class CMarketsTypes
           </tr>
         </table>
            
-        <?
+        <?php
 		
 		$this->utils->showModalFooter("Cancel", "Add");
 	}

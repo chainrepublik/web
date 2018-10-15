@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<?
+<?php
    include "CEmail.php";
    
    $email=new CEmail();

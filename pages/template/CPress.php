@@ -1,4 +1,4 @@
-<?
+<?php
 class CPress
 {
 	function COverview($db, $acc, $template)

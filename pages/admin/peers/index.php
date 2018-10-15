@@ -1,4 +1,4 @@
-<?
+<?php
     session_start();
     
    include "../../../kernel/db.php";
@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><? print $_REQUEST['sd']['website_name']; ?></title>
+<title><?php print $_REQUEST['sd']['website_name']; ?></title>
 <script src="../../../flat/js/vendor/jquery.min.js"></script>
 <script src="../../../flat/js/flat-ui.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -32,7 +32,7 @@
 
 <body>
 
-<?
+<?php
    $template->showBalanceBar();
 ?>
 
@@ -41,14 +41,14 @@
     <tr>
       <td width="15%" align="left" bgcolor="#4c505d" valign="top">
       
-      <?
+      <?php
 	     $template->showLeftMenu("peers");
 	  ?>
       
       </td>
       <td width="55%" align="center" valign="top">
 	  
-	 <?
+	 <?php
      // Location
      $template->showLocation("../../explorer/packets/index.php", "Admin", "", "Peers");
 	 
@@ -71,7 +71,7 @@
  </td>
       <td width="15%" align="center" valign="top" bgcolor="#4c505d">
       
-      <?
+      <?php
 	     $template->showAds();
 	  ?>
       
@@ -83,7 +83,7 @@
 
  
  
- <?
+ <?php
     $template->showBottomMenu();
  ?>
  

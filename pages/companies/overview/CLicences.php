@@ -1,4 +1,4 @@
-<?
+<?php
 class CLicences
 {
 	function CLicences($db, $acc, $template)
@@ -146,7 +146,7 @@ class CLicences
 		          FROM stocuri 
 				 WHERE adr=?
 				   AND tip LIKE '%_LIC_%'
-				   AND expires<?";
+				   AND expires<?php";
 		
 		// Result   
 		$result=$this->kern->execute($query, 
@@ -176,7 +176,7 @@ class CLicences
             </table>
             <br><br>
         
-        <?
+        <?php
 	}
 	
 	function showActive()
@@ -227,16 +227,16 @@ class CLicences
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		  ?>
           
               <tr>
-              <td width="64%" class="font_14"><? print $row['name']; ?></td>
-              <td width="22%" align="center" class="<? if ($row['expires']-$_REQUEST['sd']['last_block']<11400) print "simple_red_14"; else print "font_14"; ?>"><strong><? if ($row['expires']-$_REQUEST['sd']['last_block']<0) print "expired"; else print $this->kern->timeFromBlock($row['expires']); ?></strong></td>
+              <td width="64%" class="font_14"><?php print $row['name']; ?></td>
+              <td width="22%" align="center" class="<?php if ($row['expires']-$_REQUEST['sd']['last_block']<11400) print "simple_red_14"; else print "font_14"; ?>"><strong><?php if ($row['expires']-$_REQUEST['sd']['last_block']<0) print "expired"; else print $this->kern->timeFromBlock($row['expires']); ?></strong></td>
               <td width="14%" align="center" class="font_14">
-             <a href="#" onclick="javascript:  $('#txt_renew_targetID').val('<? print $row['stocID']; ?>'); $('#renew_modal').modal();" class="btn btn-primary btn-sm">Renew</a>
+             <a href="#" onclick="javascript:  $('#txt_renew_targetID').val('<?php print $row['stocID']; ?>'); $('#renew_modal').modal();" class="btn btn-primary btn-sm">Renew</a>
                                    
                                    
               
@@ -246,7 +246,7 @@ class CLicences
               <td colspan="3" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	         }
 		  ?>
           
@@ -254,7 +254,7 @@ class CLicences
         <br /><br />
         
         
-        <?
+        <?php
 	}
 	
 	function hasLic($comID, $tip)
@@ -309,7 +309,7 @@ class CLicences
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		 
 		    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			{
@@ -340,7 +340,7 @@ class CLicences
                <table width="90%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td width="13%"><img src="
-				  <? 
+				  <?php 
 				     if (strpos($prod, "TOOLS_PROD")>0)
 					      print "../../companies/overview/GIF/prods/big/ID_TOOLS.png";
 					  else 
@@ -348,7 +348,7 @@ class CLicences
 				  ?>
                   " width="40" height="39" class="img-circle" /></td>
                   <td width="87%">
-				  <? 
+				  <?php 
 				      print "<a href='#' class='maro_14'>";
 						 
 					  print $row['name'];
@@ -361,16 +361,16 @@ class CLicences
                
                </td>
                <td width="20%" align="center" class="font_14">
-               <a href="#" onclick="javascript:$('#licence').val('<? print $row['tip']; ?>'); 
-                                               $('#symbol').val('<? print $row['prod']; ?>'); 
-                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px" <? if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Rent</a>
+               <a href="#" onclick="javascript:$('#licence').val('<?php print $row['tip']; ?>'); 
+                                               $('#symbol').val('<?php print $row['prod']; ?>'); 
+                                               $('#prod_renew_rent_modal').modal()" class="btn btn-primary btn-sm" style="width:90px" <?php if (!$this->kern->ownedCom($_REQUEST['ID'])) print "disabled"; ?>>Rent</a>
                </td>
                </tr>
                <tr>
                <td colspan="2" ><hr></td>
                </tr>
           
-		  <?
+		  <?php
 				}
 	         }
 		  ?>
@@ -378,7 +378,7 @@ class CLicences
         </table>
         
         
-        <?
+        <?php
 	}
 	
 	
@@ -402,36 +402,36 @@ class CLicences
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="1" checked="checked" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;1 month</td>
-                <td align="center" bgcolor="#FFFFFF" class="font_14" id="td_1_months_price"><? print round($_REQUEST['sd']['lic_fee']*30, 2)." CRC"; ?></td>
+                <td align="center" bgcolor="#FFFFFF" class="font_14" id="td_1_months_price"><?php print round($_REQUEST['sd']['lic_fee']*30, 2)." CRC"; ?></td>
               </tr>
               <tr>
                 <td width="7%" align="center" bgcolor="#FFFFFF"><input name="period" type="radio" id="period" value="3" /></td>
                 <td width="67%" height="35" align="left" bgcolor="#FFFFFF" class="font_14">&nbsp;&nbsp;3 months</td>
-                <td width="26%" align="center" bgcolor="#FFFFFF" class="font_14" id="td_3_months_price"><? print round($_REQUEST['sd']['lic_fee']*90, 2)." CRC"; ?></td>
+                <td width="26%" align="center" bgcolor="#FFFFFF" class="font_14" id="td_3_months_price"><?php print round($_REQUEST['sd']['lic_fee']*90, 2)." CRC"; ?></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="6" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;6 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_6_months_price"><? print round($_REQUEST['sd']['lic_fee']*180, 2)." CRC"; ?></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_6_months_price"><?php print round($_REQUEST['sd']['lic_fee']*180, 2)." CRC"; ?></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="9" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;9 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_9_months_price"><? print round($_REQUEST['sd']['lic_fee']*270, 2)." CRC"; ?></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_9_months_price"><?php print round($_REQUEST['sd']['lic_fee']*270, 2)." CRC"; ?></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="12" /></td>
                 <td height="35" align="left" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;12 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_12_months_price"><? print round($_REQUEST['sd']['lic_fee']*365, 2)." CRC"; ?></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_12_months_price"><?php print round($_REQUEST['sd']['lic_fee']*365, 2)." CRC"; ?></span></td>
               </tr>
               <tr>
                 <td align="center" bgcolor="#FFFFFF"><input type="radio" name="period" id="period" value="24" /></td>
                 <td height="35" bgcolor="#FFFFFF">
                 <span class="font_14">&nbsp;&nbsp;24 months</span></td>
-                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_24_months_price"><? print round($_REQUEST['sd']['lic_fee']*730, 2)." CRC"; ?></span></td>
+                <td align="center" bgcolor="#FFFFFF"><span class="font_14" id="td_24_months_price"><?php print round($_REQUEST['sd']['lic_fee']*730, 2)." CRC"; ?></span></td>
               </tr>
             </table>
             
@@ -439,7 +439,7 @@ class CLicences
           </tr>
           </table>
         
-        <?
+        <?php
 		$this->template->showModalFooter("Rent");
 	}
 	

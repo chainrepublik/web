@@ -1,4 +1,4 @@
-<?
+<?php
 class CWine
 {
 	function CWine($db, $acc, $template, $market)
@@ -174,7 +174,7 @@ class CWine
           }
 	   </script>
        
-        <?
+        <?php
 	}
 	
 	function showMarket($min, $max, $visible=false)
@@ -210,9 +210,9 @@ class CWine
 		$result=$this->kern->execute($query);	
 		?>
         
-            <div id="div_<? print $min; ?>" style="display:<? if ($visible==true) print "block"; else print "none"; ?>">
+            <div id="div_<?php print $min; ?>" style="display:<?php if ($visible==true) print "block"; else print "none"; ?>">
             
-			<?
+			<?php
 			   // Empty
 		       if (mysqli_num_rows($result)==0)
 		       {
@@ -224,7 +224,7 @@ class CWine
 			?>
             
             <br />
-            <?
+            <?php
 			   $this->market->showBonusPanel("ID_WINE");
 			?>
             <table width="560" border="0" cellspacing="0" cellpadding="0">
@@ -236,7 +236,7 @@ class CWine
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="11%" align="center" class="bold_shadow_white_14">
                 
-				<?
+				<?php
 				     if ($max==0) 
 				    print "Qty";
 			     else
@@ -258,7 +258,7 @@ class CWine
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		     
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
@@ -270,7 +270,7 @@ class CWine
               <table width="90%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="25%"><img src="
-                <?
+                <?php
 				   if ($row['owner_type']=="ID_CIT")
 				   {
 					   if ($row['pic_1_aproved']==0)
@@ -288,31 +288,31 @@ class CWine
 				?>
                 " width="40" height="40" class="img-circle"/></td>
                 <td width="75%" align="left"><a href="
-                <? 
+                <?php 
 				    if ($row['owner_type']=="ID_COM")
 				       print "../../companies/overview/main.php?ID".$row['ownerID']; 
 					else
 					   print "../../profiles/overview/main.php?ID".$row['ownerID']; 
 			    ?>
                 " target="_blank" class="blue_14">
-				<? 
+				<?php 
 				    if ($row['owner_type']=="ID_COM")
 				       print $row['name']; 
 					else
 					   print $row['user'];
 			    ?>
-                </a><br /><span class="font_10">Owner : <a class="maro_10" href="#" target="_blank"><? print $row['user']; ?></a></span></td>
+                </a><br /><span class="font_10">Owner : <a class="maro_10" href="#" target="_blank"><?php print $row['user']; ?></a></span></td>
               </tr>
               </table></td>
               <td width="13%" align="center"><span class="font_14">
-			  <? 
+			  <?php 
 			     if ($max==0) 
 				    print $row['qty'];
 			     else
 				    print $old; 
 			  ?>
               </span><br /><span class="simple_blue_10">
-               <? 
+               <?php 
 			     if ($max==0) 
 				    print "bottles";
 			     else
@@ -320,20 +320,20 @@ class CWine
 			  ?>
               
               </span></td>
-              <td width="17%" align="center"><span class="font_14"><? if ($max>0) print "+".round($old, 2); else print "0"; ?></span><br /><span class="simple_mov_10">energy</span></td>
+              <td width="17%" align="center"><span class="font_14"><?php if ($max>0) print "+".round($old, 2); else print "0"; ?></span><br /><span class="simple_mov_10">energy</span></td>
               <td width="17%" align="center"><span class="bold_verde_14">
 			  
-			  <? 
+			  <?php 
 			      if ($max==0) 
 				     print "".round($row['price'], 2); 
 				   else 
 				     print "".round($row['sale_price'], 2);  
 			  ?>
               
-              </span><br /><span class="simple_mov_10"><strong><? print "".round(($row['sale_price']/$old), 2); ?> / point</span></strong></td>
+              </span><br /><span class="simple_mov_10"><strong><?php print "".round(($row['sale_price']/$old), 2); ?> / point</span></strong></td>
               <td width="15%" align="center" class="bold_verde_14"><a href="
               
-              <?
+              <?php
 			     if ($row['owner_type']=="ID_COM")
 				   print "main.php?act=buy&itemID=".$row['ID'];
 				  else
@@ -347,14 +347,14 @@ class CWine
               <td colspan="5" ><hr></td>
               </tr>
           
-          <?
+          <?php
 			 }
 		  ?>
           
         </table>
         </div>
         
-        <?
+        <?php
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); include "../../../kernel/db.php";
   include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
@@ -36,7 +36,7 @@
 
 <body style="background-color:#000000; background-image:url(./GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -44,7 +44,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(1);
 	  ?>
       </td>
@@ -57,14 +57,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $home->showMenu(6);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 				$template->showHelp("In this page you can check your received messages, compose new messages to send to other players and see what messages you already sent. Advertising other games / websites or services is forbidden. Please report any spam or harassing messages. Keep in mind that you can send up to 25 messages / day. If you need to increase this limit get in touch with our support team.");
 				
 				// Trust modal
@@ -120,7 +120,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -134,7 +134,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

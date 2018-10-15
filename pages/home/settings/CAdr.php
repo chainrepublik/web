@@ -1,4 +1,4 @@
-<?
+<?php
 class CAdr
 {
     function CAdr($db, $acc, $template)
@@ -234,7 +234,7 @@ class CAdr
                 </tr>
                 <tr>
                   <td width="346" height="0" align="left" class="font_14">Address Expire </td>
-                  <td width="99" align="center" class="font_14"><strong><? print $this->kern->timeFromBlock($_REQUEST['ud']['expires']); ?></strong></td>
+                  <td width="99" align="center" class="font_14"><strong><?php print $this->kern->timeFromBlock($_REQUEST['ud']['expires']); ?></strong></td>
                   <td width="99" align="center" class="font_16"><a href="javascript:void(0)" onClick="$('#renew_modal').modal(); $('#txt_renew_target_type').val('ID_ADR'); $('#txt_renew_target_ID').val('0');" class="btn btn-primary btn-sm" style="width: 95%"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Renew</a></td>
                 </tr>
                 <tr>
@@ -274,7 +274,7 @@ class CAdr
                 </tr>
               </tbody>
             </table>
-        <?
+        <?php
 	}
 	
 	function showResetModal()
@@ -328,7 +328,7 @@ class CAdr
 </table>
     
            
-        <?
+        <?php
 		$this->template->showModalFooter("Transfer");
 	}
 	
@@ -357,7 +357,7 @@ class CAdr
               </tr>
               <tr>
                 <td><span class="font_14">
-                  <textarea style="width:100%" class="form-control" rows="5" id="txt_pub" name="txt_pub"><? print $_REQUEST['ud']['adr']; ?></textarea>
+                  <textarea style="width:100%" class="form-control" rows="5" id="txt_pub" name="txt_pub"><?php print $_REQUEST['ud']['adr']; ?></textarea>
                 </span></td>
               </tr>
               <tr>
@@ -380,7 +380,7 @@ class CAdr
 		   }
          </script>
            
-        <?
+        <?php
 		$this->template->showModalFooter("Cancel", "Change");
 	}
 	
@@ -451,7 +451,7 @@ class CAdr
 		   }
          </script>
            
-        <?
+        <?php
 		$this->template->showModalFooter("Cancel", "Change");
 	}
 }

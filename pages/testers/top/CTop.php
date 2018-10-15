@@ -1,4 +1,4 @@
-<?
+<?php
 class CTop
 {
     function CTop($db, $acc, $template)
@@ -46,28 +46,28 @@ class CTop
              <table width="540" border="0" cellspacing="0" cellpadding="0">
              <tbody>
              
-			 <?
+			 <?php
 		        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 				{
 		     ?>
 				 
 		           <tr>
-                   <td class="font_14" width="50%"><? print $this->template->formatAdr($row['adr']); ?></td>
-                   <td class="font_14" align="center" width="25%"><? print round($row['balance'], 2)."<br><span class='font_10'> test coins</span>"; ?></td>
-                   <td class="font_14" align="center" width="25%"><? print "<strong style='color:#009900'>".round($row['balance']*$this->per_coin, 2)."</strong><br><span class='font_10'>CRC</span>"; ?></td>
+                   <td class="font_14" width="50%"><?php print $this->template->formatAdr($row['adr']); ?></td>
+                   <td class="font_14" align="center" width="25%"><?php print round($row['balance'], 2)."<br><span class='font_10'> test coins</span>"; ?></td>
+                   <td class="font_14" align="center" width="25%"><?php print "<strong style='color:#009900'>".round($row['balance']*$this->per_coin, 2)."</strong><br><span class='font_10'>CRC</span>"; ?></td>
                    </tr>
                    <tr>
                    <td colspan="3"><hr></td>
                    </tr>
              
-			 <?
+			 <?php
 				}
 			 ?>
 				 
 			 </tbody>
              </table>
         
-        <?
+        <?php
 	}
 	
 	function showPanels()
@@ -83,7 +83,7 @@ class CTop
                  <div class="panel-body">
 				   <table width="100%">
 						 <tr><td align="center" class="font_12">Total</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print round($this->total); ?></strong></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print round($this->total); ?></strong></td></tr>
 						 <tr><td align="center" class="font_12">test coins</td></tr>
 				   </table>
 			     </div>
@@ -96,7 +96,7 @@ class CTop
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">Reward / coin</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print $this->per_coin; ?></strong></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print $this->per_coin; ?></strong></td></tr>
 						 <tr><td align="center" class="font_12">CRC / test coins</td></tr>
 					 </table>
 			     </div>
@@ -109,7 +109,7 @@ class CTop
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">Your Balance</td></tr>
-						 <tr><td align="center" class="font_22"><strong><? print round($_REQUEST['ud']['balance'], 2); ?></strong></td></tr>
+						 <tr><td align="center" class="font_22"><strong><?php print round($_REQUEST['ud']['balance'], 2); ?></strong></td></tr>
 						 <tr><td align="center" class="font_12">test coins</td></tr>
 					 </table>
 			     </div>
@@ -123,7 +123,7 @@ class CTop
                  <div class="panel-body">
 					 <table width="100%">
 						 <tr><td align="center" class="font_12">Your Reward</td></tr>
-						 <tr><td align="center" class="font_22" style="color: #009900"><strong><? print round($_REQUEST['ud']['balance']*$this->per_coin, 2); ?></strong></td></tr>
+						 <tr><td align="center" class="font_22" style="color: #009900"><strong><?php print round($_REQUEST['ud']['balance']*$this->per_coin, 2); ?></strong></td></tr>
 						 <tr><td align="center" class="font_12">CRC</td></tr>
 					 </table>
 			     </div>
@@ -134,7 +134,7 @@ class CTop
             </tbody>
             </table>         
           
-        <?
+        <?php
 	}
 	
 	function showBuyBut()
@@ -150,7 +150,7 @@ class CTop
             </table>
             <br>
 
-        <?
+        <?php
 	}
 	
 	function showTop()

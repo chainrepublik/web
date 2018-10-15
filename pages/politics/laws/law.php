@@ -1,4 +1,4 @@
-<?
+<?php
   session_start(); 
 
   include "../../../kernel/db.php";
@@ -38,7 +38,7 @@
 
 <body style="background-color:#000000; background-image:url(../GIF/back.jpg); background-repeat:no-repeat; background-position:top">
 
-<?
+<?php
    $template->showTop();
 ?>
 
@@ -46,7 +46,7 @@
   <tbody>
     <tr>
       <td align="center">
-      <?
+      <?php
 	     $template->showMainMenu(7);
 	  ?>
       </td>
@@ -59,14 +59,14 @@
         <tbody>
           <tr>
             <td width="204" align="right" valign="top">
-            <?
+            <?php
 			   $pol->showMenu(2);
 			   $template->showLeftAds();
 			?>
             </td>
             <td width="594" valign="top" align="center">
             
-            <?
+            <?php
 		        $template->showHelp("Below are displayed details about this law. After proposal, the laws can be voted for <strong>24 hours</strong>. Only members of congress can vote a law. The law is aproved if <strong>minimum 51% of vote points</strong> aprove it. Not all congressmen votes are equal. The vote points are calculated based on <strong>political endorsment</strong>. A law can also be aproved / rejected in less than 24 hour if receives <strong>at least 50%</strong> of total voting power. Let's say the total political endorsement of congressmen is 100.000 points. Any law will be <strong>instantly</strong> aproved / rejected if it receives more than 50.000 aproval / disaproval points.");		   
 		   
 		        // Vote
@@ -80,7 +80,7 @@
             </td>
             <td width="206" align="center" valign="top">
             
-			<?
+			<?php
 			   $template->showRightPanel();
 			   $template->showAds();
 			?>
@@ -94,7 +94,7 @@
               <td height="300" align="center" valign="top" bgcolor="#3b424b">
               <br />
               
-			  <?
+			  <?php
 			     $template->showBottomMenu(false);
 			  ?>
               

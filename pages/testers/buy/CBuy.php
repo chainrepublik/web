@@ -1,4 +1,4 @@
-<?
+<?php
 class CBuy
 {
 	function CBuy($db, $template)
@@ -48,7 +48,7 @@ class CBuy
 		        </tbody>
 			    </table>
 
-        <?
+        <?php
 	}
 	
 	function showConfirmModal()
@@ -115,7 +115,7 @@ class CBuy
 
     
            
-        <?
+        <?php
 		$this->template->showModalFooter("Renew");
 	}
 	
@@ -134,7 +134,7 @@ class CBuy
             </tbody>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showPrice()
@@ -145,7 +145,7 @@ class CBuy
 				 <div class="panel-body font_14" align="left">Test Coin Price - <strong style="color: #009900">$0.25</strong></div>
              </div><br>
 
-        <?
+        <?php
 	}
 }
 ?>

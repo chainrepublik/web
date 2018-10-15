@@ -1,4 +1,4 @@
-<?
+<?php
 class CStats
 {
 	function CStats($db, $acc, $template)
@@ -70,7 +70,10 @@ class CStats
         $no=$row['total'];
         
         // Price
-        $price=50*no;
+        $price=50*no; 
+		
+		// Min price
+		if ($price<50) $price=50; 
         
         // Funds ?
         if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$price)
@@ -152,7 +155,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Citizens</td>
-						  <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['users']; ?></strong></td>
+						  <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['users']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -161,7 +164,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Companies</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['companies']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['companies']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -176,7 +179,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Workplaces</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['workplaces']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['workplaces']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -185,7 +188,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Total Energy</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['total_energy']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['total_energy']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -200,7 +203,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Average Energy</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['avg_energy']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['avg_energy']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -209,7 +212,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Total Political Influence</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['total_pol_inf']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['total_pol_inf']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -224,7 +227,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999"><span class="font_14" style="color: #999999">Average Political Influence</span></td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['avg_pol_inf']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['avg_pol_inf']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -233,7 +236,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999">Total Military Points</td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['total_war_points']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['total_war_points']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -248,7 +251,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999"><span class="font_14" style="color: #999999">Average Military Points</span></td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['avg_war_points']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['avg_war_points']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -257,7 +260,7 @@ class CStats
                     <tbody>
                       <tr>
                         <td width="77%" align="left" class="font_14" style="color: #999999"><span class="font_14" style="color: #999999">New Citizens Today</span></td>
-                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><? print $row['signups_24h']; ?></strong></td>
+                        <td width="23%" align="right" class="font_14" style="color: #555555"><strong><?php print $row['signups_24h']; ?></strong></td>
                       </tr>
                     </tbody>
                   </table></td>
@@ -268,7 +271,7 @@ class CStats
               </tbody>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showRanks($tip)
@@ -402,10 +405,10 @@ class CStats
               <tr>
                 <td width="52%" class="bold_shadow_white_14">Player</td>
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="19%" class="bold_shadow_white_14" align="center"><? if ($tip=="rank") print "Rank"; ?></td>
+                <td width="19%" class="bold_shadow_white_14" align="center"><?php if ($tip=="rank") print "Rank"; ?></td>
                 <td width="3%"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
                 <td width="23%" align="center" class="bold_shadow_white_14">
-				<?
+				<?php
 				   switch ($tip)
 				   {
 					   // Balance
@@ -442,7 +445,7 @@ class CStats
          
           <table width="540" border="0" cellspacing="0" cellpadding="5">
          
-          <?
+          <?php
 		     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			 {
 		 ?>
@@ -452,7 +455,7 @@ class CStats
               <tr>
                 <td width="13%">
                 <img src="
-						  <? 
+						  <?php 
 				              if ($row['comID']>0)
 							  {
 								  if ($row['pic']=="") 
@@ -472,14 +475,14 @@ class CStats
 						  " width="40" height="41" class="img-circle" />
                 </td>
                 <td width="70%" align="left">
-                <a href="<? if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
-                <strong><? if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
+                <a href="<?php if ($row['comID']>0) print "../../companies/overview/main.php?ID=".$row['comID']; else print "../../profiles/overview/main.php?adr=".$this->kern->encode($row['adr']); ?>" target="_blank" class="font_14">
+                <strong><?php if ($row['comID']>0) print base64_decode($row['com_name']); else print $row['name']; ?></strong>
                 </a>
-                <br /><span class="font_10"><? print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
+                <br /><span class="font_10"><?php print "Citizenship : ".ucfirst(strtolower($row['country'])); ?></span></td>
               </tr>
               </table></td>
               <td width="22%" align="center" class="font_12">
-			  <? 
+			  <?php 
 			     if ($tip=="rank") 
 				   if ($row['war_points']>1000) 
 				      print "<img src='".$this->kern->getRank($row['war_points'], "img")."' height='30px'><br>".$this->kern->getRank($row['war_points']); 
@@ -487,7 +490,7 @@ class CStats
               </td>
              
               <td width="23%" align="center" class="simple_green_14"><strong>
-			  <? 
+			  <?php 
 			     switch ($tip)
 				   {
 					   // Balance
@@ -521,13 +524,13 @@ class CStats
               <td colspan="3" ><hr></td>
               </tr>
           
-          <?
+          <?php
 	          }
 		  ?>
           </table>
          
         
-        <?
+        <?php
 	}
 	
 	function showCompanies($tip="ID_BALANCE")
@@ -595,7 +598,7 @@ class CStats
               <tr>
                 <td width="76%" class="bold_shadow_white_14">Company</td>
                 <td width="3%" align="center"><img src="../../template/GIF/menu_bar_sep.png" width="15" height="48" /></td>
-                <td width="21%" align="center" class="bold_shadow_white_14"><? print $col; ?></td>
+                <td width="21%" align="center" class="bold_shadow_white_14"><?php print $col; ?></td>
               </tr>
             </table></td>
             <td width="3%"><img src="../../template/GIF/menu_bar_right.png" width="14" height="48" /></td>
@@ -604,7 +607,7 @@ class CStats
           
           <table width="540" border="0" cellspacing="0" cellpadding="5">
           
-          <?
+          <?php
 		      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 			  {
 		  ?>
@@ -613,7 +616,7 @@ class CStats
                 <td width="77%" align="left" class="font_14"><table width="90%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                 <td width="14%"><img src="
-				<? 
+				<?php 
 				     if ($row['adr_pic']=="") 
 					    print "../../companies/overview/GIF/prods/big/".$row['pic'].".png";
 					 else
@@ -622,15 +625,15 @@ class CStats
                 
                 " width="50"  class="img-rounded" /></td>
                 <td width="86%" align="left">
-                <a href="../overview/main.php?ID=<? print $row['comID']; ?>" class="font_14"><strong><? print base64_decode($row['name']); ?></strong></a>
+                <a href="../overview/main.php?ID=<?php print $row['comID']; ?>" class="font_14"><strong><?php print base64_decode($row['name']); ?></strong></a>
                 <br />
-                <span class="font_10">Symbol : <? print $row['symbol']; ?></span>
+                <span class="font_10">Symbol : <?php print $row['symbol']; ?></span>
                 </td>
                 </tr>
                 </table></td>
                 <td width="23%" align="center">
 				<span class="bold_verde_14">
-				<? 
+				<?php 
 				    switch ($tip)
 					{
 					   case "ID_BALANCE" : print round($row['balance'], 4)." CRC"; 
@@ -646,7 +649,7 @@ class CStats
                 <td colspan="2" ><hr></td>
                 </tr>
           
-          <?
+          <?php
 	           }
 		  ?>
           
@@ -654,32 +657,40 @@ class CStats
          </div>
          <br><br><br>
         
-        <?
+        <?php
 	}
 	
 	function showPrivateStatus($cou)
 	{
-		// Active ?
-		if (!$this->kern->isPrivate($cou))
-			return true;
+		// Private ?
+		$row=$this->kern->getRows("SELECT * 
+		                              FROM countries 
+									 WHERE code=?", 
+								   "s", 
+								   $cou); 
+		
+		// Bought ?
+		if ($row['owner']!="default" ||
+			$row['private']=="NO")
+			return;
 		
 		?>
 
            <div class="panel panel-default" style="width: 90%">
            <div class="panel-body">
 			   <table width="100%">
-				   <tr><td><table width="100%"><tr><td width="35%" align="left" valign="top"><img width="140" src="./GIF/private.png"></td><td width="65%" align="left" class="font_12">This is a private country. Private countries have <strong>no political parties or congress</strong>strong> and all decisions are taken by country ruler, who <strong>has full control</strong>strong> the state budget, taxes, bonuses and all other details. Private countries can be bought from network for a variable fee. The fee increases <strong>50 CRC</strong>strong> after each sold country.</td></tr></table></td></tr>
+				   <tr><td><table width="100%"><tr><td width="35%" align="left" valign="top"><img width="140" src="./GIF/private.png"></td><td width="65%" align="left" class="font_12">This is a private country. Private countries have <strong>no political parties or congress</strong> and all decisions are taken by country ruler, who <strong>has full control</strong> the state budget, taxes, bonuses and all other details. Private countries can be bought from network for a variable fee. The fee increases <strong>50 CRC</strong> after each sold country.</td></tr></table></td></tr>
 				   
-				   <?
+				   <?php
 		               if ($this->kern->isCouForSale($cou))
 					   {
 						  
 	            	?>
 				   
 				          <tr><td colspan="2"><hr></td></tr>
-				          <tr><td align="right"><a href="main.php?act=buy&cou=<? print $_REQUEST['cou']; ?>" class="btn btn-primary">Buy Country (<? print $this->kern->getPvtCouPrice(); ?> CRC)</a></td></tr>
+				          <tr><td align="right"><a href="main.php?act=buy&cou=<?php print $_REQUEST['cou']; ?>" class="btn btn-primary">Buy Country (<?php print $this->kern->getPvtCouPrice(); ?> CRC)</a></td></tr>
 				   
-				   <?
+				   <?php
 					   }
 				   ?>
 			   </table>
@@ -687,7 +698,7 @@ class CStats
            </div>
            <br>
 
-        <?
+        <?php
 	}
 }
 ?>

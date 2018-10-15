@@ -1,4 +1,4 @@
-<?
+<?php
 class CMarket
 {
 	function CMarket($db, $acc, $template, $comID)
@@ -114,7 +114,7 @@ class CMarket
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         
-        <?
+        <?php
 		   $i=0;
 		
 		   // Loop
@@ -139,7 +139,7 @@ class CMarket
           </tr>
         </table><br>
         
-        <?
+        <?php
 		
 		return $prod;
 	}

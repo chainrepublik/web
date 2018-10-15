@@ -1,4 +1,4 @@
-<?
+<?php
 class CGuns
 {
     function CGuns($db, $acc, $template)
@@ -25,7 +25,7 @@ class CGuns
 			</td></tr>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showJetsDD()
@@ -45,7 +45,7 @@ class CGuns
 			</td></tr>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showTanksDD()
@@ -65,7 +65,7 @@ class CGuns
 			</td></tr>
             </table>
 
-        <?
+        <?php
 	}
 	
 	function showBalisitcDD()
@@ -87,7 +87,7 @@ class CGuns
 			</td></tr>
             </table>
 
-        <?
+        <?php
 	}
 }
 ?>

@@ -72,7 +72,10 @@ class CUnregistered
 			return false;
 		}
 		
-		
+		// Same as node adr ?
+		if ($_REQUEST['ud']['adr']==$_REQUEST['sd']['node_adr'])
+			$_REQUEST['sd']['node_adr']="MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE5QJZYCQz+/vegCpTenLEyNtlBTx2xyLaFqsGestQp5iE/jl2JJ0Rq7YQ2OtyPREHXboiqFxTOu51kEyMi8f1hg==";
+			
 		try
 	    {
 			 // Begin

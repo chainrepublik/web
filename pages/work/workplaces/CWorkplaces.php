@@ -193,7 +193,7 @@ class CWorkplaces
 				  JOIN countries AS cou ON cou.code=adr.cou
 				  JOIN tipuri_companii AS tc ON tc.tip=com.tip 
 				 WHERE wp.status=? 
-				   AND wp.work_ends<?php
+				   AND wp.work_ends<?
 				   AND com.comID=?
 			  ORDER BY wp.wage DESC, wp.ID ASC 
 			     LIMIT 0,20";

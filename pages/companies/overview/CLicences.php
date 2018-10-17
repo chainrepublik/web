@@ -146,7 +146,7 @@ class CLicences
 		          FROM stocuri 
 				 WHERE adr=?
 				   AND tip LIKE '%_LIC_%'
-				   AND expires<?php";
+				   AND expires<?";
 		
 		// Result   
 		$result=$this->kern->execute($query, 

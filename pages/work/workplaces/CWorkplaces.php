@@ -169,7 +169,7 @@ class CWorkplaces
 				 WHERE wp.status=? 
 				   AND wp.work_ends<?
 			  ORDER BY wp.wage DESC, wp.ID ASC 
-			     LIMIT 0,20";
+			     LIMIT 0,50";
 			
 			// Result	  
 		    $result=$this->kern->execute($query, 
@@ -196,7 +196,7 @@ class CWorkplaces
 				   AND wp.work_ends<?
 				   AND com.comID=?
 			  ORDER BY wp.wage DESC, wp.ID ASC 
-			     LIMIT 0,20";
+			     LIMIT 0,50";
 		
 			// Result	  
 		    $result=$this->kern->execute($query, 

@@ -68,7 +68,7 @@ class CSignup
 			$this->template->showErr("Invalid email", 510);
 			return false;
 		}
-
+		
 		// Email used ?
 		$query="SELECT * 
 		          FROM web_users 
@@ -137,7 +137,7 @@ class CSignup
 		if ($IP=="::1")
 			$IP="127.0.0.1";
 		
-		if ($IP!="109.166.134.101" && $IP!="127.0.0.1")
+		if ($IP!="109.166.128.158" && $IP!="127.0.0.1")
 		{
 		    // Same password
 		    $query="SELECT * 
@@ -170,7 +170,7 @@ class CSignup
 		    // IP already used
 		    if (mysqli_num_rows($result)>0)
 		    {
-			    $this->template->showErr("You already have an account on this server", 510);
+			    $this->template->showErr("You already have an account on this server.", 510);
 			    return false;
 		    }
 		
@@ -193,6 +193,16 @@ class CSignup
 			    $this->template->showErr("You already have an account on this server", 510);
 			    return false;
 		    }
+		}
+		
+		// IP intel
+		$status=file_get_contents("http://check.getipintel.net/check.php?ip=".$IP."&contact=vcris444@gmail.com");
+		
+		// check
+		if ($status>0.7 || $status<0)
+		{
+			$this->template->showErr("Your IP is considered high risk. Signup refused - ".$IP, 510);
+			return false;
 		}
 		
 		try

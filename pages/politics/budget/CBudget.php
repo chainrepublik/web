@@ -152,7 +152,7 @@ class CBudget
 		$query="SELECT SUM(amount) AS total
 		          FROM trans
 				 WHERE src=? 
-				   AND amount<?php 
+				   AND amount<?
 				   AND block>?";
 	    
 		// Result

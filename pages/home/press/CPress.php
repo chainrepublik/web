@@ -1368,7 +1368,7 @@ class CPress
            <tr>
              <td class="font_14">
 		    <?php 
-		           print nl2br($this->template->makeLinks($this->kern->bb_parse($this->kern->noescape(base64_decode($row['mes']))))); 
+		           print nl2br($this->kern->bb_parse($this->kern->noescape(base64_decode($row['mes'])))); 
 			?></td>
            </tr>
            <tr>

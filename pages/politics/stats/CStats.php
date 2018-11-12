@@ -301,7 +301,7 @@ class CStats
 									   AND adr.name<>'' 
 									   AND balance>0
 								  ORDER BY adr.balance DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 							 
 		   // Energy
@@ -318,7 +318,7 @@ class CStats
 									   AND adr.name<>''
 									   AND adr.energy>0
 								  ORDER BY adr.energy DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 							 
 		   // Political Influence
@@ -335,7 +335,7 @@ class CStats
 									   AND adr.name<>''
 									   AND adr.pol_inf>0
 								  ORDER BY adr.pol_inf DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 				
 		    // Political Endorsement
@@ -352,7 +352,7 @@ class CStats
 									   AND adr.name<>''
 									   AND adr.pol_endorsed>0
 								  ORDER BY adr.pol_endorsed DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 							 
 		   // Military Rank
@@ -369,7 +369,7 @@ class CStats
 									   AND adr.name<>''
 									   AND adr.war_points>0
 								  ORDER BY adr.war_points DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 							 
 		   // Registered
@@ -386,7 +386,7 @@ class CStats
 									   AND adr.name<>''
 									   AND adr.created>0
 								  ORDER BY adr.created DESC 
-								     LIMIT 0,20"; 
+								     LIMIT 0,100"; 
 							 break;	
 		}
 		

@@ -685,7 +685,7 @@ class CTemplate
 		}
 		
 		// Check link
-		if (strlen($link)<10 || strlen($link)>100)
+		if (strlen($link)<10 || strlen($link)>250)
 		{
 			$this->showErr("Invalid link length (10-100 characters)");
 			return false;
@@ -4208,7 +4208,7 @@ olark.identify('2174-513-10-8410');/*]]>*/</script><noscript><a href="https://ww
 		 }
 		
 		 // Funds
-		 if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC"))
+		 if ($this->acc->getTransPoolBalance($_REQUEST['ud']['adr'], "CRC")<$fee)
 		 {
 			$this->showErr("Insuficient funds");
 			return false; 

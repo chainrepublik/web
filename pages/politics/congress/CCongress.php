@@ -63,7 +63,7 @@ class CCongress
 				   AND adr.pol_party>?
 				   AND adr.pol_endorsed>?
 			  ORDER BY adr.pol_endorsed DESC, adr.energy DESC
-			     LIMIT 0, 30"; 
+			     LIMIT 0, 50"; 
 				
 		$result=$this->kern->execute($query, 
 		                            "ssii", 

@@ -865,7 +865,7 @@ class CParty
 				  JOIN countries AS cou ON cou.code=adr.cou
 			     WHERE adr.pol_party=?
 			  ORDER BY adr.pol_inf DESC, adr.energy DESC
-			     LIMIT 0, 30"; 
+			     LIMIT 0, 100"; 
 				
 		$result=$this->kern->execute($query, 
 		                             "i", 

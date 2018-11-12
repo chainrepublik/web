@@ -92,6 +92,10 @@
 								  "Articles", "main.php?adr=".$_REQUEST['adr']."&page=ID_ART", 
 								  "Comments", "main.php?adr=".$_REQUEST['adr']."&page=ID_COM");
 				
+		   // Address name ?
+		   if (strlen($_REQUEST['adr'])<30)
+			   $_REQUEST['adr']=$db->adrFromName($_REQUEST['adr']);
+				
 		   // Data
 		   switch ($sel)
 		   {

@@ -29,13 +29,13 @@
             <td width="68%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tbody>
                 <tr>
-					<td align="left" class="font_20" style="color: #990000"><strong>Banned Account</strong></td>
+					<td align="left" class="font_20" style="color: #990000"><strong>Frozen Account</strong></td>
                 </tr>
                 <tr>
                   <td align="left"><hr></td>
                 </tr>
                 <tr>
-                  <td align="left" class="font_14">This account has been banned from chainrepublik.com for breaking the TOS. After a thorough analysis of your activity, we came to the conclusion that you are using multiple accounts. Network nodes operators have the right to impose their own rules. Players who use chainrepublik.com have the right to a single account. Using multiple accounts is strictly prohibited and any account that violates this rule will be banned. We have re. </td>
+                  <td align="left" class="font_14">This account has been <strong>frozen for 45 days</strong> on chainrepublik.com for breaking the TOS. After a thorough analysis of your activity, we came to the conclusion that you are using <strong>multiple accounts</strong>. Network nodes operators have the right to impose their own rules. Players who use chainrepublik.com have the right to use a single account / computer. Using multiple accounts is <strong>strictly prohibited</strong> and any account that violates this rule will be frozen for <strong>45 days. </strong>A <strong>5 CRC / clone</strong> fine will also be deducted from mother account / clones.</td>
                 </tr>
                 <tr>
                   <td align="left">&nbsp;</td>

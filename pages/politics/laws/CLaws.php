@@ -973,7 +973,7 @@ class CLaws
 		}
 		
 		// Congress active ?
-		if (!$this->kern->isCongressActive($_REQUEST['ud']['adr']))
+		if (!$this->kern->isCongressActive($_REQUEST['ud']['cou']))
 		{
 			$this->template->showErr("Congress is not active");
 			return false;

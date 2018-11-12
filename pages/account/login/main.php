@@ -2,7 +2,6 @@
   session_start(); 
   
   include "../../../kernel/db.php";
-  include "../../../kernel/CUserData.php";
   include "../../../kernel/CGameData.php";
   include "../../../kernel/CAccountant.php";
   include "../../template/CTemplate.php";
@@ -11,7 +10,6 @@
   
   $db=new db();
   $gd=new CGameData($db);
-  $ud=new CUserData($db, false);
   $template=new CTemplate();
   $acc=new CAccountant($db, $template);
   $index=new CIndex($db, $template);

@@ -840,7 +840,7 @@ class COpenCompany
                 <td align="left" class="">Heavy Weapons Factory<span class="bold_green_14"> -  6 CRC / month</span></td>
               </tr>
               <tr>
-                <td align="left" class="font_12">Small factories produce weapons for personal use like knifes or pistols. You will need oil, electricity, natural gas, iron, wood and plastic as raw materials.</td>
+                <td align="left" class="font_12">Heavy Weapons Factory produce large defensive and attack weapons. Big weapons can be bought / used only by governments.You will need electricity, oil, natural gas, plastic, glass, gunpowder, wood and iron to produce weapons. Weapons production take a lot of time and work to produce.  </td>
               </tr>
             </table></td>
             <td align="center" valign="top" ><a href="#" onclick="javascript:$('#td_name').text('Heavy Weapons Factory'); 
